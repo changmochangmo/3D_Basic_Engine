@@ -1,0 +1,7 @@
+Reference/
+Bin/
+Log/
+.vs/
+ipch/
+*.db
+SR_BaseEngine.VC.VC.opendb
