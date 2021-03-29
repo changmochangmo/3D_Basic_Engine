@@ -2,7 +2,7 @@
 #define TEXTURECOMPONENT_H
 
 BEGIN(Engine)
-class ENGINE_DLL CTextureComponent final : public CSubComponent
+class ENGINE_DLL CTextureComponent final : public CComponent
 {
 public:
 	explicit						CTextureComponent	(void);

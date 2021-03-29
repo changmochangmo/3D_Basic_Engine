@@ -3,53 +3,52 @@
 
 
 BEGIN(Engine)
-class ENGINE_DLL CGameObject final  
+class ENGINE_DLL CGameObject abstract  
 {
 	SMART_DELETER_REGISTER
 
 protected:
 	explicit							CGameObject			(void);
 	explicit							CGameObject			(const CGameObject& other);
-									   ~CGameObject			(void);
+	virtual							   ~CGameObject			(void);
 
 public:
-	static			SHARED(CGameObject) Create				(std::wstring layerKey = L"",
-															 std::wstring objectKey = L"",
-															 _bool isStatic = false);
-					SHARED(CGameObject)	MakeClone			(void);
+	virtual			SHARED(CGameObject)	MakeClone			(void) PURE;
 		
-					void				Awake				(void);
-					void				Start				(void);
+	virtual			void				Awake				(void) PURE;
+	virtual			void				Start				(void) PURE;
+	
+	virtual			_uint				FixedUpdate			(void) PURE;
+	virtual			_uint				Update				(void) PURE;
+	virtual			_uint				LateUpdate			(void) PURE;
+	
+	virtual			void				OnDestroy			(void) PURE;
+	
+	virtual			void				OnEnable			(void) PURE;
+	virtual			void				OnDisable			(void) PURE;
 
-					_uint				FixedUpdate			(void);
-					_uint				Update				(void);
-					_uint				LateUpdate			(void);
-
-					void				OnDestroy			(void);
-
-					void				OnEnable			(void);
-					void				OnDisable			(void);
+protected:
+					void				InitClone			(SHARED(CGameObject) spClone);
 
 protected:
 	typedef std::unordered_map<_uint, SHARED(CComponent)> _COMPONENTS;
 
 	GETTOR			(_COMPONENTS,			m_mComponents,		{},				Components)
-	GETTOR_SETTOR	(SHARED(CComponent),	m_pMainComponent,	nullptr,		MainComponent)
 
 	GETTOR_SETTOR	(_bool,					m_isClone,			false,			IsClone)
+
 	GETTOR_SETTOR	(_bool,					m_isStatic,			false,			IsStatic)
 	GETTOR_SETTOR	(_bool,					m_isAwaked,			false,			IsAwaked)
 	GETTOR_SETTOR	(_bool,					m_isStarted,		false,			IsStarted)
+
 	GETTOR_SETTOR	(_bool,					m_isEnabled,		true,			IsEnabled)
-	GETTOR_SETTOR	(_bool,					m_isNeedToBeDeleted,false,			IsNeedToBeDeleted)
+	GETTOR_SETTOR	(_bool,					m_deleteThis,		false,			DeleteThis)
 
-
-	GETTOR_SETTOR	(std::wstring,			m_layerKey,			L"",			LayerKey)
+	GETTOR_SETTOR	(_int,					m_dataID,			-1,				DataID)						
+	GETTOR_SETTOR	(_int,					m_layerID,			-1,				LayerID)
 	GETTOR_SETTOR	(std::wstring,			m_objectKey,		L"",			ObjectKey)
+
 	GETTOR_SETTOR	(std::wstring,			m_name,				L"",			Name)
-
-
-
 
 public:
 	//오브젝트에서 컴포넌트 가져오는 함수
@@ -72,13 +71,6 @@ public:
 		if ((pNewComponent = GetComponent<ComponentType>()) == nullptr)
 		{
 			pNewComponent.reset(new ComponentType);
-			if (pNewComponent->GetIsMain())
-			{
-				if (m_pMainComponent == nullptr)
-					m_pMainComponent = pNewComponent;
-				else
-					return nullptr;
-			}
 			pNewComponent->SetOwner(this);
 			pNewComponent->Awake();
 			m_mComponents[pNewComponent->GetComponentID()] = pNewComponent;
@@ -86,7 +78,10 @@ public:
 			return pNewComponent;
 		}
 		else
-			MSG_BOX(__FILE__, (pNewComponent->GetName() + L" is already in " + this->GetName()).c_str());
+		{
+			MSG_BOX(__FILE__, (pNewComponent->GetName() + L" is already in " + m_objectKey).c_str());
+			abort();
+		}
 
 		return nullptr;
 	}

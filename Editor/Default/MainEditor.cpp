@@ -8,7 +8,7 @@
 #include "GameObject.h"
 #include "ShaderManager.h"
 #include "EditorScene.h"
-#include "FontManager.h"
+#include "TextManager.h"
 
 CMainEditor::CMainEditor()
 {
@@ -34,7 +34,7 @@ void CMainEditor::Awake(void)
 	Engine::CInputManager::GetInstance()->Awake();
 	Engine::CSceneManager::GetInstance()->Awake();
 	Engine::CShaderManager::GetInstance()->Awake();
-	Engine::CFontManager::GetInstance()->Awake();
+	Engine::CTextManager::GetInstance()->Awake();
 }
 
 void CMainEditor::Start(void)
@@ -45,7 +45,7 @@ void CMainEditor::Start(void)
 	Engine::CSceneManager::GetInstance()->Start();
 	Engine::CSceneManager::GetInstance()->SceneChange(CEditorScene::Create());
 	Engine::CShaderManager::GetInstance()->Start();
-	Engine::CFontManager::GetInstance()->Start();
+	Engine::CTextManager::GetInstance()->Start();
 
 	int i = 10;
 	float f = 20.1f;
@@ -100,7 +100,7 @@ _uint CMainEditor::Render(void)
 {
 	_uint event = NO_EVENT;
 	if (event = Engine::CGraphicsManager::GetInstance()->Render())	return event;
-	if (event = Engine::CFontManager::GetInstance()->Render())		return event;
+	if (event = Engine::CTextManager::GetInstance()->Render())		return event;
 	return event;
 }
 

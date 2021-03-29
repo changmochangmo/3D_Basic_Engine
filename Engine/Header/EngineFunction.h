@@ -83,27 +83,6 @@ namespace Engine
 		return fileName.substr(0, lastindex);
 	}
 
-	inline constexpr unsigned int HashCode(const char* str)
-	{
-		return str[0] ? static_cast<unsigned int>(str[0]) + 0xEDB8832Full * HashCode(str + 1) : 8603;
-		// https://m.blog.naver.com/PostView.nhn?blogId=devmachine&logNo=220952781191&proxyReferer=https:%2F%2Fwww.google.com%2F
-	}
-
-	inline float MathfMax(float _value_1, float _value_2)
-	{
-		if (_value_1 > _value_2)
-			return _value_1;
-		else
-			return _value_2;
-	}
-
-	inline float MathfMin(float _value_1, float _value_2)
-	{
-		if (_value_1 > _value_2)
-			return _value_2;
-		else
-			return _value_1;
-	}
 
 
 	//현재 파일 이름 따오는 함수
@@ -137,16 +116,6 @@ namespace Engine
 		ssZ >> float3.z;
 
 		return in;
-	}
-
-	inline _float Distance(_float3 & thisPosition, _float3 targetPosition)
-	{
-		_float x = thisPosition.x - targetPosition.x;    // 선 a의 길이
-		_float y = thisPosition.y - targetPosition.y;    // 선 b의 길이
-		_float z = thisPosition.z - targetPosition.z;    // 선 b의 길이
-
-		_float c = sqrt((x * x) + (y * y) + (z * z));
-		return c;
 	}
 }
 

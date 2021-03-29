@@ -17,9 +17,8 @@ public:
 			void						OnEnable			(void);
 			void						OnDisable			(void);
 
-			HRESULT						AddPrototype		(SHARED(CGameObject) pPrototype);
-			SHARED(CGameObject)			AddClone			(const std::wstring& layerKey,
-															 const std::wstring& protoObjectKey,
+			HRESULT						AddPrototype		(SHARED(CGameObject) pPrototype, _bool isStatic);
+			SHARED(CGameObject)			AddClone			(const std::wstring& protoObjectKey,
 															 _bool isStatic = false);
 
 			void						ClearCurPrototype	(void);

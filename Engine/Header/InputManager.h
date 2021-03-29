@@ -24,8 +24,10 @@ public:
 					bool					KeyUp				(DWORD key);
 					bool					KeyDown				(DWORD key);
 					bool					KeyPress			(DWORD key);
-					CGameObject*			MousePicking		(std::wstring layerKey, _float3& intersection);
-					CGameObject*			RayCast				(_float3 origin, _float3 direction, _float maxDistance, std::wstring layerKey);
+
+					CGameObject*			MousePicking		(_int layerID, _float3& intersection);
+					CGameObject*			RayCast				(_float3 origin, _float3 direction, 
+																 _float maxDistance, _int layerID);
 private:
 					void					KeyUpdate			(void);
 					void					MouseUpdate			(void);

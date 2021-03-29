@@ -22,6 +22,7 @@ private:
 															 std::wstring fileName);
 
 private:
+	std::wstring name = L"MeshStore";
 	typedef std::unordered_map<std::wstring, SHARED(_MeshData)>	_MeshDataMap;
 					_MeshDataMap		m_mCurSceneMeshData;
 					_MeshDataMap		m_mStaticMeshData;

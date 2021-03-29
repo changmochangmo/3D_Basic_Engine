@@ -32,6 +32,11 @@
 
 #include "Engine.h"
 
+
+/*
+	윈도우 관리 해주려고 만든 클래스.
+*/
+
 BEGIN(Engine)
 class ENGINE_DLL CWndApp final : public CEngine
 {

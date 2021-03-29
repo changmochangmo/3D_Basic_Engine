@@ -24,8 +24,8 @@ private:
 					//_float				SqDistFromPoint		(_float3 point);
 					//_float3				ClosestFromPoint	(_float3 point);
 protected:
-	GETTOR_SETTOR	(_float3,			m_offset,			FLOAT3_ZERO,		Offset)
-	GETTOR_SETTOR	(_float3,			m_direction,		FLOAT3_ZERO,		Direction)
+	GETTOR_SETTOR	(_float3,			m_offset,			ZERO_VECTOR,		Offset)
+	GETTOR_SETTOR	(_float3,			m_direction,		ZERO_VECTOR,		Direction)
 	GETTOR_SETTOR	(_float,			m_size,				FLT_MAX,			Size)
 };
 END

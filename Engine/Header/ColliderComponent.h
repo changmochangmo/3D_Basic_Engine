@@ -4,7 +4,7 @@
 
 BEGIN(Engine)
 class CCollider;
-class ENGINE_DLL CColliderComponent final : public CSubComponent
+class ENGINE_DLL CColliderComponent final : public CComponent
 {
 public:
 	explicit CColliderComponent(void);
@@ -38,7 +38,7 @@ protected:
 	GETTOR			(_COLLIDERS,					m_vColliders,	{},				Colliders)
 	GETTOR_SETTOR	(_int,							m_colliderID,	0,				ColliderID)
 	
-	GETTOR			(_float3,						m_offsetBS,		FLOAT3_ZERO,	OffsetBS)
+	GETTOR			(_float3,						m_offsetBS,		ZERO_VECTOR,	OffsetBS)
 	GETTOR			(_float,						m_radiusBS,		0,				RadiusBS)
 
 	GETTOR			(SHARED(CTransformComponent),	m_pTransform,	nullptr,		Transform)

@@ -100,9 +100,14 @@ bool CColliderManager::OnColliderEnter(SHARED(CColliderComponent) pColliderCompo
 		{			
 
 			if (pColliderComponent->GetTransform() == nullptr)
-				return false;
+			{
+				MSG_BOX(__FILE__, L"콜라이더 컴포넌트에 트랜스폼이 없다 시1발");
+				abort();
+			}
 
 
+			// BoundingSphere || BoundingAABB 
+			// 아래꺼는 BoundingSphere
 			_float3 myPos = pColliderComponent->GetTransform()->GetPosition() + pColliderComponent->GetOffsetBS();
 			_float myRadius = pColliderComponent->GetRadiusBS();
 
@@ -115,11 +120,15 @@ bool CColliderManager::OnColliderEnter(SHARED(CColliderComponent) pColliderCompo
 			if(sqDist > (myRadius + checkerRadius) * (myRadius + checkerRadius))
 				continue;;
 
+
+
+
 			isItCollided = false; 
 			for (auto& checkCollider : ccIt->GetColliders())
 			{
 				for (auto& myCollider : pColliderComponent->GetColliders())
 				{
+					//CType == CollisionType
 					_int myCType = myCollider->GetColliderType();
 					_int checkCType = checkCollider->GetColliderType();
 					if (isItCollided = (m_fpCollisionChecker[myCType][checkCType])(myCollider, checkCollider))
@@ -196,5 +205,6 @@ void CColliderManager::InitCollisionMap(void)
 			m_vCollisionMap[i].push_back(checkLayer);
 		}
 	}
+	int a = 0;
 	return;
 }

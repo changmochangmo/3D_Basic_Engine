@@ -13,9 +13,9 @@ public:
 
 	void		OnDestroy(void);
 public:
-	void StartSound(TCHAR* pSoundKey, CHANNELID eID);
+	void StartSound(TCHAR* pSoundKey, EChannelID eID);
 	void PlayBGM(TCHAR* pSoundKey);
-	void StopSound(CHANNELID eID);
+	void StopSound(EChannelID eID);
 	void StopAll();
 
 private:
@@ -25,7 +25,7 @@ private:
 	// 사운드 리소스 정보를 갖는 객체 
 	std::unordered_map<TCHAR*, FMOD_SOUND*> m_mapSound;
 	// FMOD_CHANNEL : 재생하고 있는 사운드를 관리할 객체 
-	FMOD_CHANNEL* m_pChannelArr[MAXCHANNEL]; 
+	FMOD_CHANNEL* m_pChannelArr[(_uint)EChannelID::NumOfChannelID]; 
 	// 사운드 ,채널 객체 및 장치를 관리하는 객체 
 	FMOD_SYSTEM* m_pSystem; 
 

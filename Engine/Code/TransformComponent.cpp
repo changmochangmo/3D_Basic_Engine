@@ -2,6 +2,7 @@
 #include "TransformComponent.h"
 #include "GameObject.h"
 #include "DataStore.h"
+#include "FRC.h"
 
 USING(Engine)
 CTransformComponent::CTransformComponent(void)  
@@ -30,14 +31,14 @@ SHARED(CComponent) CTransformComponent::MakeClone(CGameObject* pObject)
 void CTransformComponent::Awake(void)
 {
 	__super::Awake();
-	m_componentID = (int)m_s_componentID;
+	m_componentID = (_int)m_s_componentID;
 }
 
 void CTransformComponent::Start(SHARED(CComponent) spThis)
 {
 	__super::Start(spThis);
 	_bool isStatic = m_pOwner->GetIsStatic();
-	std::wstring layerKey = m_pOwner->GetLayerKey();
+	_int ownerDataID = m_pOwner->GetDataID();
 	std::wstring objectKey = m_pOwner->GetObjectKey();
 
 	//GET_VALUE(isStatic, layerKey, objectKey, L"m_position", m_position);
@@ -91,7 +92,7 @@ void CTransformComponent::Lerp(_float3& thisPosition, _float3 targetPosition, _f
 	_float3 dir = targetPosition - thisPosition;
 	D3DXVec3Normalize(&dir, &dir);
 	
-	if (Engine::Distance(targetPosition, thisPosition) >= 0.01f)
+	if (D3DXVec3Length(&(targetPosition - thisPosition)) >= 0.01f)
 	{
 		thisPosition += dir * speed * GET_DT;
 	}

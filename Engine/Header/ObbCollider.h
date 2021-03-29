@@ -26,9 +26,9 @@ public:
 private:
 				void				MakeBS				(void) override;
 protected:
-	GETTOR_SETTOR	(_float3,		m_offset,		FLOAT3_ZERO,	Offset)
-	GETTOR_SETTOR	(_float3,		m_halfSize,		FLOAT3_ONE,		HalfSize)
-	GETTOR_SETTOR	(_float3,		m_size,			FLOAT3_ONE,		Size)
+	GETTOR_SETTOR	(_float3,		m_offset,		ZERO_VECTOR,	Offset)
+	GETTOR_SETTOR	(_float3,		m_halfSize,		ONE_VECTOR,		HalfSize)
+	GETTOR_SETTOR	(_float3,		m_size,			ONE_VECTOR,		Size)
 
 	GETTOR_SETTOR	(_float3,		m_orientedX,	_float3(1, 0, 0), OrientedX)
 	GETTOR_SETTOR	(_float3,		m_orientedY,	_float3(0, 1, 0), OrientedY)

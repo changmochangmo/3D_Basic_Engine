@@ -28,6 +28,7 @@ static _bool CollisionTypeSorting(CCollider* pC1, CCollider* pC2,
 	return false;
 }
 
+
 static bool PointPoint(CCollider* pC1, CCollider* pC2)
 {
 	SHARED(CTransformComponent) spTransform1 = pC1->GetOwner()->GetTransform();

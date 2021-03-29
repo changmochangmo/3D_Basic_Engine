@@ -36,6 +36,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 #pragma region SubEnginesAwake
 	Engine::CDataStore::GetInstance()->Awake();
+	Engine::CDataStore::GetInstance()->InitDataMap((_uint)EDataID::NumOfDataID);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
+
 	Engine::CFRC::GetInstance()->Awake();
 	Engine::CWndApp::GetInstance()->Awake();
 	Engine::CDeviceManager::GetInstance()->Awake();

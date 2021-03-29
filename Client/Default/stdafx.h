@@ -38,8 +38,6 @@
 #include "ClientMacro.h"
 #include "ClientStructure.h"
 
-#include "ClientComponent.h"
-
 // »ç¿îµå
 #include <io.h>
 #include "fmod.h"

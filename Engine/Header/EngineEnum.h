@@ -16,7 +16,6 @@ namespace Engine
 		Alpha,
 		UI,
 		WireFrame,
-		Last,
 		NumOfRenderID
 	};
 
@@ -32,6 +31,7 @@ namespace Engine
 
 	enum class EComponentID
 	{
+		Undefined,
 		Transform,
 		Graphics,
 		Mesh,
@@ -45,7 +45,7 @@ namespace Engine
 		NumOfEngineComponentID
 	};
 
-	enum CHANNELID
+	enum class EChannelID
 	{
 		BGM,
 		PLAYER,
@@ -53,8 +53,15 @@ namespace Engine
 		BOX,
 		HAT,
 		UI,
-		MAXCHANNEL,
-		LAND
+		LAND,
+		NumOfChannelID
+	};
+
+	enum class EDataID
+	{
+		Engine,
+		Component,
+		NumOfEngineDataID
 	};
 }
 #endif // !ENGINEENUM_H

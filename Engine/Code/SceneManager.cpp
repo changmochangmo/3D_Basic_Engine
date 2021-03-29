@@ -7,6 +7,7 @@
 #include "DataStore.h"
 #include "GameObject.h"
 #include "WndApp.h"
+#include "FRC.h"
 
 USING(Engine)
 IMPLEMENT_SINGLETON(CSceneManager)
@@ -33,13 +34,11 @@ _uint CSceneManager::FixedUpdate(void)
 _uint CSceneManager::Update(void)
 {
 	_uint event = NO_EVENT;
-	TIME_MEASURE_START;
 	if (m_pCurScene != nullptr && m_pCurScene->GetEnable())
 	{
 		if (event = m_pCurScene->Update())
 			return event;
 	}
-	_float time = GET_ELAPSED_TIME;
 	return event;
 }
 
@@ -59,9 +58,10 @@ _uint CSceneManager::LateUpdate(void)
 void CSceneManager::OnDestroy(void)
 {
 	while (m_sScene.size() != 0)
+	{
+		m_sScene.top()->Free();
 		m_sScene.pop();
-	
-	m_vUnitInfo.clear();
+	}
 }
 
 void CSceneManager::OnEnable(void)
@@ -73,36 +73,29 @@ void CSceneManager::OnDisable(void)
 }
 
 
-void CSceneManager::SceneChange(SHARED(CScene) pScene, bool needToBeCleaned/* = true */)
+void CSceneManager::SceneChange(CScene* pScene, _bool deleteCurScene/* = true */)
 {
-	m_needToBeCleaned = needToBeCleaned;
-	m_pNextScene = pScene;
-
-	OrganizeScene();
-}
-
-void CSceneManager::OrganizeScene(void)
-{
-	if (m_needToBeCleaned)
+	if (m_pCurScene && deleteCurScene)
 	{
-		while (m_sScene.size() != 0)
-		{
-			m_sScene.top().reset();
-			CObjectFactory::GetInstance()->ClearCurPrototype();
-			CMeshStore::GetInstance()->ClearCurResource();
-			CTextureStore::GetInstance()->ClearCurResource();
-			CDataStore::GetInstance()->ClearCurResource();
-			m_sScene.pop();
-		}
-		m_needToBeCleaned = false;
+		m_sScene.top()->Free();
+		CObjectFactory::GetInstance()->ClearCurPrototype();
+		CMeshStore::GetInstance()->ClearCurResource();
+		CTextureStore::GetInstance()->ClearCurResource();
+		CDataStore::GetInstance()->ClearCurResource();
+		m_sScene.pop();
 	}
 	else if (m_pCurScene)
+	{
 		m_pCurScene->SetEnable(false);
+		m_pPrevScene = m_pCurScene;
+	}
 
-	m_sScene.push(m_pNextScene);
-	m_pCurScene = m_pNextScene;
-	m_pCurScene->Awake();
+	m_sScene.push(pScene);
+	m_pCurScene = pScene;
 	m_pCurScene->Start();
+}
 
-	m_pNextScene.reset();
+void CSceneManager::OrganizeScene(_bool deleteCurScene)
+{
+	
 }

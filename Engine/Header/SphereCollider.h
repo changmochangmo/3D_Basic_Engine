@@ -25,7 +25,7 @@ private:
 					void				MakeBS		(void) override;
 protected:
 	GETTOR_SETTOR	(_float,		m_radius,			0.f,			Radius)
-	GETTOR_SETTOR	(_float3,		m_offset,			FLOAT3_ZERO,	Offset)
+	GETTOR_SETTOR	(_float3,		m_offset,			ZERO_VECTOR,	Offset)
 };
 END
 

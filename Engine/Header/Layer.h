@@ -4,16 +4,16 @@
 BEGIN(Engine)
 
 class CGameObject;
+class CScene;
 class ENGINE_DLL CLayer final  
 {
-	SMART_DELETER_REGISTER;
-
 protected:
 	explicit					CLayer			(void);
 							   ~CLayer			(void);
 
 public:
-	static		SHARED(CLayer)	Create			(std::wstring name);
+	static		CLayer*			Create			(_int layerID, CScene* pOwner);
+				void			Free			(void);
 
 				void			Awake			(void);
 				void			Start			(void);
@@ -29,9 +29,10 @@ public:
 
 protected:
 	typedef std::vector<SHARED(CGameObject)> _GAMEOBJECTS;
-	GETTOR			(_GAMEOBJECTS,		m_vGameObjects, {},			GameObjects)
+	GETTOR			(_GAMEOBJECTS,	m_vGameObjects,		{},			GameObjects)
 
-	GETTOR_SETTOR	(std::wstring,		m_name,			L"",		Name)
+	GETTOR_SETTOR	(CScene*,		m_pOwner,			nullptr,	Owner)
+	GETTOR_SETTOR	(_int,			m_layerID,			-1,			LayerID)
 };
 END
 

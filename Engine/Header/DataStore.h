@@ -15,10 +15,15 @@ public:
 				void					ClearCurResource	(void) override;
 
 				void					InitDataForScene	(std::wstring curScene);
+				void					InitDataMap			(_uint numOfDataID);
+
+				void					AddDataSection		(std::wstring sectionKey, _uint ID);
 private:
 				void					InitResource		(std::wstring sourcePath) override;
 				void					ParsingData			(std::wstring filePath, 
 															 std::wstring fileName);
+
+				_int					GetIndex			(std::wstring sectionKey);
 
 				std::wstring			GetLayerKey			(const std::wstring& fullPath);
 				std::wstring			GetObjectKey		(const std::wstring& fullPath);
@@ -30,36 +35,40 @@ private:
 private:
 	//VariableKey, KeyValue
 	typedef std::unordered_map<std::wstring, std::wstring>	_VarKeyMap;
-	//ObjectKey
-	typedef std::unordered_map<std::wstring, _VarKeyMap>	_ObjectKeyMap;
+	//FileNameKey
+	typedef std::unordered_map<std::wstring, _VarKeyMap>	_FileKeyMap;
 	//DataKey
-	typedef std::unordered_map<std::wstring, _ObjectKeyMap> _DataKeyMap;
-					_DataKeyMap		m_mCurDataMap;
-					_DataKeyMap		m_mStaticDataMap;
+	_FileKeyMap*	m_mpCurDataMap;
+	_FileKeyMap*	m_mpStaticDataMap;
+	
+	std::vector<std::wstring> m_vHashKey;
 
 public:
 	template <typename T>
-	bool GetValue(_bool isStatic, std::wstring sectionKey, 
+	bool GetValue(_bool isStatic, _int sectionKey, 
 				  std::wstring objectKey, std::wstring varKey, T& result)
 	{
-		_DataKeyMap* pDataMap = nullptr;
+		_FileKeyMap** ppDataMap = nullptr;
 		if (isStatic)
-			pDataMap = &m_mStaticDataMap;
+			ppDataMap = &m_mpStaticDataMap;
 		else
-			pDataMap = &m_mCurDataMap;
+			ppDataMap = &m_mpCurDataMap;
 
-		auto& iter_section = pDataMap->find(sectionKey);
-		if (iter_section == pDataMap->end())
+		if ((_uint)sectionKey >= (*ppDataMap)->size())
 		{
-			MSG_BOX(__FILE__, (L"sectionKey [" + sectionKey + L"] is missing in GetValue").c_str());
-			return false;
+			MSG_BOX(__FILE__, std::wstring(L"sectionKey is out of range").c_str());
+			abort();
 		}
+		
+		_FileKeyMap a = m_mpStaticDataMap[0];
+		_FileKeyMap b = m_mpStaticDataMap[1];
+		_FileKeyMap c = m_mpStaticDataMap[2];
 
-		auto& iter_object = iter_section->second.find(objectKey);
-		if (iter_object == iter_section->second.end())
+		auto& iter_object = (*ppDataMap)[sectionKey].find(objectKey);
+		if (iter_object == (*ppDataMap)[sectionKey].end())
 		{
 			MSG_BOX(__FILE__, (L"objectKey [" + objectKey + L"] is missing in GetValue").c_str());
-			return false;
+			abort();
 		}
 
 		auto& iter_var = iter_object->second.find(varKey);
@@ -68,14 +77,20 @@ public:
 			MSG_BOX(__FILE__,
 					(L"object : ["	+ objectKey + 
 					 L"] var: ["	+ varKey	 + L"] Missing varKey in GetValue").c_str());
-			return false;
+			abort();
 		}
 
+		//stringstream이라는 라이브러리가 있는데
+		//여기에 스트링 값을 넣고
 		std::wstringstream ss(iter_var->second);
 
+		//bool type을 쓰기위한 함수
 		ss << std::boolalpha;
-		ss >> result;
 
+		//이렇게 다른 타입의 변수로 넣어주면, 스트링을 알아서 그 타입에
+		//맞는 값으로 변환해서 넣어줌.
+		ss >> result;
+		
 		return true;
 	}
 };

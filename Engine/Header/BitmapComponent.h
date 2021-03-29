@@ -2,7 +2,7 @@
 #define BITMAPCOMPONENT_H
 
 BEGIN(Engine)
-class ENGINE_DLL CBitmapComponent final : public CSubComponent
+class ENGINE_DLL CBitmapComponent final : public CComponent
 {
 public:
 	explicit					CBitmapComponent	(void);

@@ -6,7 +6,7 @@ class CMeshComponent;
 class CTextureComponent;
 class CTransformComponent;
 class CBitmapComponent;
-class ENGINE_DLL CGraphicsComponent final : public CSubComponent
+class ENGINE_DLL CGraphicsComponent final : public CComponent
 {
 public:
 	explicit	CGraphicsComponent	(void);

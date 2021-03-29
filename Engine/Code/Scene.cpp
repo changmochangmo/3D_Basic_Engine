@@ -17,16 +17,16 @@ CScene::~CScene(void)
 {
 }
 
-void CScene::Awake(void)
+void CScene::Awake(_int numOfLayers)
 {
-	if (!m_isAwaked)
-	{
-		m_isAwaked = true;
-		m_name = GetCurClassName(this);
-		CDataStore::GetInstance()->InitDataForScene(m_name);
-		CMeshStore::GetInstance()->InitMeshForScene(m_name);
-		CTextureStore::GetInstance()->InitTextureForScene(m_name);
-	}
+	m_isAwaked = true;
+
+	InitLayers(numOfLayers);
+
+	std::wstring className = GetCurClassName(this);
+	CDataStore::GetInstance()->InitDataForScene(className);
+	CMeshStore::GetInstance()->InitMeshForScene(className);
+	CTextureStore::GetInstance()->InitTextureForScene(className);
 }
 
 void CScene::Start(void)
@@ -36,11 +36,11 @@ void CScene::Start(void)
 
 _uint CScene::FixedUpdate(void)
 {
-	_uint event = 0;
+	_uint event = NO_EVENT;
 
-	for (auto& layer : m_mLayers)
+	for (auto& layer : m_vLayers)
 	{
-		if (event = layer.second->FixedUpdate())
+		if (event = layer->FixedUpdate())
 			return event;
 	}
 	return event;
@@ -48,14 +48,11 @@ _uint CScene::FixedUpdate(void)
 
 _uint CScene::Update(void)
 {
-	_uint event = 0;	
+	_uint event = NO_EVENT;
 
-	for (auto& layer : m_mLayers)
+	for (auto& layer : m_vLayers)
 	{
-		if (m_mLayers.empty())
-			return event;
-
-		if (event = layer.second->Update())
+		if (event = layer->Update())
 			return event;
 	}
 	return event;
@@ -63,11 +60,11 @@ _uint CScene::Update(void)
 
 _uint CScene::LateUpdate(void)
 {
-	_uint event = 0;
+	_uint event = NO_EVENT;
 
-	for (auto& layer : m_mLayers)
+	for (auto& layer : m_vLayers)
 	{
-		if (event = layer.second->LateUpdate())
+		if (event = layer->LateUpdate())
 			return event;
 	}
 	return event;
@@ -75,7 +72,8 @@ _uint CScene::LateUpdate(void)
 
 void CScene::OnDestroy(void)
 {
-	m_mLayers.clear();
+	for (auto& layer : m_vLayers)
+		layer->Free();
 }
 
 void CScene::OnEnable(void)
@@ -88,9 +86,9 @@ void CScene::OnDisable(void)
 
 SHARED(CGameObject) CScene::FindObjectByName(std::wstring name)
 {
-	for (auto& layer : m_mLayers)
+	for (auto& layer : m_vLayers)
 	{
-		for (auto& gameObject : layer.second->GetGameObjects())
+		for (auto& gameObject : layer->GetGameObjects())
 		{
 			if (gameObject->GetName() == name)
 				return gameObject;
@@ -101,9 +99,9 @@ SHARED(CGameObject) CScene::FindObjectByName(std::wstring name)
 
 SHARED(CGameObject) CScene::FindObjectWithKey(std::wstring objectKey)
 {
-	for (auto& layer : m_mLayers)
+	for (auto& layer : m_vLayers)
 	{
-		for (auto& gameObject : layer.second->GetGameObjects())
+		for (auto& gameObject : layer->GetGameObjects())
 		{
 			if (gameObject->GetObjectKey() == objectKey)
 				return gameObject;
@@ -114,9 +112,9 @@ SHARED(CGameObject) CScene::FindObjectWithKey(std::wstring objectKey)
 
 _uint CScene::FindObjectsWithKey(std::wstring objectKey, std::vector<SHARED(CGameObject)>& gameObjects)
 {
-	for (auto& layer : m_mLayers)
+	for (auto& layer : m_vLayers)
 	{
-		for (auto& gameObject : layer.second->GetGameObjects())
+		for (auto& gameObject : layer->GetGameObjects())
 		{
 			if (gameObject->GetObjectKey() == objectKey)
 				gameObjects.push_back(gameObject);
@@ -125,8 +123,12 @@ _uint CScene::FindObjectsWithKey(std::wstring objectKey, std::vector<SHARED(CGam
 	return gameObjects.size();
 }
 
-void CScene::AddLayer(std::wstring layerName)
+void CScene::InitLayers(_int numOfLayers)
 {
-	m_mLayers[layerName] = CLayer::Create(layerName);
-}
+	m_vLayers.reserve(numOfLayers);
 
+	for (_int i = 0; i < numOfLayers; ++i)
+		m_vLayers.emplace_back(CLayer::Create(i, this));
+
+	return;
+}

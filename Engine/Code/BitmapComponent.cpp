@@ -27,7 +27,7 @@ SHARED(CComponent) CBitmapComponent::MakeClone(CGameObject * pObject)
 void CBitmapComponent::Awake(void)
 {
 	__super::Awake();
-	m_componentID = (_int)m_s_componentID;
+	m_componentID = (_int)(_int)m_s_componentID;;
 	if (m_s_pVertexBuffer == nullptr)
 		InitVertexBuffer();
 	if (m_s_pIndexBuffer == nullptr)

@@ -29,7 +29,7 @@ void CSoundManager::OnDestroy(void)
 
 
 
-void CSoundManager::StartSound(TCHAR * pSoundKey, CHANNELID eID)
+void CSoundManager::StartSound(TCHAR * pSoundKey, EChannelID eID)
 {
 	std::unordered_map<TCHAR*, FMOD_SOUND*>::iterator iter;
 
@@ -42,9 +42,9 @@ void CSoundManager::StartSound(TCHAR * pSoundKey, CHANNELID eID)
 		return;
 
 	FMOD_BOOL bPlay = FALSE; 
-	if (FMOD_Channel_IsPlaying(m_pChannelArr[eID], &bPlay))
+	if (FMOD_Channel_IsPlaying(m_pChannelArr[(_uint)eID], &bPlay))
 	{
-		FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[eID]);
+		FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[(_uint)eID]);
 	}
 	FMOD_System_Update(m_pSystem);
 }
@@ -61,19 +61,19 @@ void CSoundManager::PlayBGM(TCHAR * pSoundKey)
 	if (iter == m_mapSound.end())
 		return;
 
-	FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[BGM]);
-	FMOD_Channel_SetMode(m_pChannelArr[BGM], FMOD_LOOP_NORMAL);
+	FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[(_uint)EChannelID::BGM]);
+	FMOD_Channel_SetMode(m_pChannelArr[(_uint)EChannelID::BGM], FMOD_LOOP_NORMAL);
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundManager::StopSound(CHANNELID eID)
+void CSoundManager::StopSound(EChannelID eID)
 {
-	FMOD_Channel_Stop(m_pChannelArr[eID]);
+	FMOD_Channel_Stop(m_pChannelArr[(_uint)eID]);
 }
 
 void CSoundManager::StopAll()
 {
-	for (int i = 0 ; i < MAXCHANNEL ; ++i)
+	for (int i = 0 ; i < (_uint)EChannelID::NumOfChannelID ; ++i)
 		FMOD_Channel_Stop(m_pChannelArr[i]);
 }
 

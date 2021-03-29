@@ -16,30 +16,33 @@ if((something) != nullptr)															\
 (something) = nullptr;
 
 //MessageBox 간편화
-//#ifdef _DEBUG
+#ifdef _DEBUG_MSG
 #define MSG_BOX(file, message) MessageBox(0, message, Engine::GetCurFileName(file).c_str(), MB_OK)
-//#else
-//#define MSG_BOX(caption, message) 0
-//#endif
+#define ABORT abort()
+#else
+#define MSG_BOX(caption, message) 0
+#define ABORT 0
+#endif
 
 
 
-/**************************Namespace Setting************************/
+
+//namespace setting
 #define BEGIN(Name) namespace Name {
 #define END }
 #define USING(Name) using namespace Name;
-/*******************************************************************/
 
-/**************************Smart Pointer****************************/
+
+//SmartPointers
 #define SHARED(typeName) std::shared_ptr<typeName>
 #define UNIQUE(typeName) std::unique_ptr<typeName>
 #define WEAK(typeName) std::weak_ptr<typeName>
 
 #define SMART_DELETER_REGISTER														\
 template<typename T> friend void Engine::SmartDeleter(T* something);
-/*******************************************************************/
 
-/**************************Gettor / Settor**************************/
+
+//Gettor, Settor
 #define GETTOR_SETTOR(varType, varName, varInitValue, funcName)						\
 protected:																			\
 	varType varName = varInitValue; 												\
@@ -52,12 +55,12 @@ protected: 																			\
 	varType varName = varInitValue; 												\
 public: 																			\
 	virtual inline varType& Get##funcName(void) { return varName; }
-/*******************************************************************/
 
 
 
 
-/**************************Singleton Macro**************************/
+
+//Singleton Macro
 //카피 생성자를 막아용
 #define NO_COPY(ClassName)															\
 private:																			\
@@ -113,7 +116,7 @@ void ClassName::DestroyInstance(void)												\
 		m_s_pInstance = nullptr;													\
 	}																				\
 }
-/*******************************************************************/
+
 
 //InputManager Macro
 #define IMKEY_DOWN(key) CInputManager::GetInstance()->KeyDown(key)
@@ -124,7 +127,6 @@ void ClassName::DestroyInstance(void)												\
 
 //SceneMangager Macro
 #define GET_CUR_SCENE CSceneManager::GetInstance()->GetCurScene()
-#define GET_MAIN_CAM CSceneManager::GetInstance()->GetCurScene()->GetMainCamera()
 
 //WndApp Macro
 #define GET_HANDLE CWndApp::GetInstance()->GetHWnd()
@@ -149,23 +151,16 @@ CDataStore::GetInstance()->GetValue(isStatic, sectionKey, objectKey, varKey, res
 
 
 //ObjectFactory Macro
-#define ADD_CLONE(layerKey, objectKey, isStatic)									\
-CObjectFactory::GetInstance()->AddClone(layerKey, objectKey, isStatic)
+#define ADD_CLONE(objectKey, isStatic)									\
+CObjectFactory::GetInstance()->AddClone(objectKey, isStatic)
 
 //FontManager Macro
-#define ADD_TEXT(key, text, position, color) CFontManager::GetInstance()->AddText(key, text, position, color)
-#define REWRITE_TEXT(key, text) CFontManager::GetInstance()->RewriteText(key, text)
-#define DELETE_TEXT(key) CFontManager::GetInstance()->DeleteText(key)
+#define ADD_TEXT(key, text, position, color) CTextManager::GetInstance()->AddText(key, text, position, color)
+#define REWRITE_TEXT(key, text) CTextManager::GetInstance()->RewriteText(key, text)
+#define DELETE_TEXT(key) CTextManager::GetInstance()->DeleteText(key)
 
-//ObjectFactory Macro
-//#define ADD_CLONE_2_ARGS(layerKey, objectKey)			CObjectFactory::GetInstance()->AddClone(layerKey, objectKey, false)
-//#define Add_CLONE_3_ARGS(layerKey, objectKey, isStatic) CObjectFactory::GetInstance()->AddClone(layerKey, objectKey, isStatic)
-//#define GET_4TH_ARG(arg1, arg2, arg3, arg4, ...) arg4
-//#define PRINT_STRING_MACRO_CHOOSER(...) \
-//    GET_4TH_ARG(__VA_ARGS__, PRINT_STRING_3_ARGS, \
-//                PRINT_STRING_2_ARGS, PRINT_STRING_1_ARGS, )
-//
-//#define PRINT_STRING(...) PRINT_STRING_MACRO_CHOOSER(__VA_ARGS__)(__VA_ARGS__)
+//CameraManager Macro
+#define GET_MAIN_CAM CCameraManager::GetInstance()->GetMainCamera()
 #endif // ! MACRO_H	
 
 

@@ -2,7 +2,7 @@
 #define  RIGIDBODYCOMPONENT_H
 
 BEGIN(Engine)
-class ENGINE_DLL CRigidBodyComponent : public CSubComponent
+class ENGINE_DLL CRigidBodyComponent : public CComponent
 {
 public:
 	explicit	CRigidBodyComponent(void);
@@ -45,7 +45,7 @@ protected:
 	GETTOR_SETTOR(_BOOL3, m_freezeRotation, _BOOL3(false, false, false), FreezeRotation) 
 	GETTOR_SETTOR(_bool, m_groundCheck, false, GroundCheck)
 	GETTOR_SETTOR(_float3, m_velocity, GRAVITY, Velocity) 
-	GETTOR_SETTOR(_float3, m_netForce, FLOAT3_ZERO, NetForce)
+	GETTOR_SETTOR(_float3, m_netForce, ZERO_VECTOR, NetForce)
 
 	_float m_damping = 2.999f;	
 	_float3 m_separatingVelocity; 

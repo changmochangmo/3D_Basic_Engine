@@ -8,6 +8,8 @@
 #define EDITOR_MODE
 #endif
 
+//MSG_BOX && ABORT
+#define _DEBUG_MSG
 
 //Update Event Define
 #define NO_EVENT		0
@@ -16,33 +18,33 @@
 #define OUT_OF_RANGE	3
 
 
-#define KEY_LEFT	1
-#define KEY_RIGHT	2
-#define KEY_UP		4
-#define KEY_DOWN	8
-#define KEY_SPACE	16
-#define KEY_RETURN	32
-#define MOUSE_LEFT	64
-#define MOUSE_RIGHT	128
-#define KEY_F1		256
-#define KEY_F2		512
-#define KEY_F3		1024
-#define KEY_F4		2048
-#define KEY_F5		4096
-#define KEY_W		8192
-#define KEY_A		16384
-#define KEY_S		32768
-#define KEY_D		65536
-#define KEY_SHIFT	131072
-#define KEY_RBUTTON	262144
-#define KEY_1       524288
-#define KEY_2       1048576
-#define KEY_3		2097152
-#define KEY_4		4194304
-#define KEY_TAB		8388608
-#define KEY_DELETE	16777216
-#define KEY_Z		33554432
-#define KEY_X		67108864
+#define KEY_LEFT	0x00000001
+#define KEY_RIGHT	0x00000002
+#define KEY_UP		0x00000004
+#define KEY_DOWN	0x00000008
+#define KEY_SPACE	0x00000010
+#define KEY_RETURN	0x00000020
+#define MOUSE_LEFT	0x00000040
+#define MOUSE_RIGHT	0x00000080
+#define KEY_F1		0x00000100
+#define KEY_F2		0x00000200
+#define KEY_F3		0x00000400
+#define KEY_F4		0x00000800
+#define KEY_F5		0x00001000
+#define KEY_W		0x00002000
+#define KEY_A		0x00004000
+#define KEY_S		0x00008000
+#define KEY_D		0x00010000
+#define KEY_SHIFT	0x00020000
+#define KEY_RBUTTON	0x00040000
+#define KEY_1       0x00080000
+#define KEY_2       0x00100000
+#define KEY_3		0x00200000
+#define KEY_4		0x00400000
+#define KEY_TAB		0x00800000
+#define KEY_DELETE	0x01000000
+#define KEY_Z		0x02000000
+#define KEY_X		0x04000000
 
 #define _CRTDBG_MAP_ALLOC
 #ifdef _DEBUG
@@ -51,14 +53,14 @@
 
 #define GRAVITY			_float3(0,  -9.807f, 0)
 
-#define FLOAT3_ZERO		_float3(0,  0,  0)
-#define FLOAT3_ONE		_float3(1,  1,  1)
-#define FLOAT3_RIGHT	_float3(1,  0,  0)
-#define FLOAT3_LEFT		_float3(-1, 0,  0)
-#define FLOAT3_UP		_float3(0,  1,  0)
-#define FLOAT3_DOWN		_float3(0,  -1, 0)
-#define FLOAT3_FORWARD	_float3(0,  0,  1)
-#define FLOAT3_BACK		_float3(0,  0, -1)
+#define ZERO_VECTOR		_float3(0,  0,  0)
+#define ONE_VECTOR		_float3(1,  1,  1)
+#define RIGHT_VECTOR	_float3(1,  0,  0)
+#define LEFT_VECTOR		_float3(-1, 0,  0)
+#define UP_VECTOR		_float3(0,  1,  0)
+#define DOWN_VECTOR		_float3(0,  -1, 0)
+#define FORWARD_VECTOR	_float3(0,  0,  1)
+#define BACK_VECTOR		_float3(0,  0, -1)
 
 #define PLAYER_RAY_DISTANCE 0.7f
 

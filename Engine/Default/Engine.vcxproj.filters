@@ -55,12 +55,6 @@
     <Filter Include="01.Structure\04.Component">
       <UniqueIdentifier>{d4dcb60f-dae3-45e2-a99a-6ec302fd00ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Structure\04.Component\00.MainComponent">
-      <UniqueIdentifier>{85df78cd-3ef6-4074-8781-e1d123340964}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Structure\04.Component\01.SubComponent">
-      <UniqueIdentifier>{ec0ef200-0ca2-4380-a6f1-2a920feadc0b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Components">
       <UniqueIdentifier>{0950a984-14a0-4620-8b54-76f9cf28443e}</UniqueIdentifier>
     </Filter>
@@ -85,35 +79,11 @@
     <Filter Include="02.Components\02.PhysicsComponent\01.Collider">
       <UniqueIdentifier>{445b6595-61a6-4d9f-bb3d-b331677c55b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Components\03.CameraComponent">
-      <UniqueIdentifier>{80a3d8bc-ec4b-46cc-827f-6d65d77a1550}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Engine\02.Physics\01.Collision">
       <UniqueIdentifier>{b7cc312e-82d4-4fa3-982e-1ef3086f1f4f}</UniqueIdentifier>
     </Filter>
     <Filter Include="00.Engine\02.Physics\01.Collision\00.Collider">
       <UniqueIdentifier>{a4208006-5598-41dd-ad6a-1afac1fe0d28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Engine\01.Graphics\02.Shader">
-      <UniqueIdentifier>{d1f5fb5a-1789-46d5-824c-49583b576f89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Engine\01.Graphics\02.Shader\00.Manager">
-      <UniqueIdentifier>{6e9675cb-7740-4525-a2bc-f133f86ddfb3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Engine\01.Graphics\02.Shader\01.Shaders">
-      <UniqueIdentifier>{b9565737-14ca-429e-9ff1-2ed78b31b529}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Engine\01.Graphics\02.Shader\01.Shaders\TextureShader">
-      <UniqueIdentifier>{8f56f804-e02f-4b85-8daa-8b16fc41fe5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Engine\01.Graphics\01.UIManager">
-      <UniqueIdentifier>{e9957ad9-55c5-462c-986c-0e833ede79de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Engine\01.Graphics\00.GraphicsManager">
-      <UniqueIdentifier>{a817bcad-cf26-4e3b-9b0c-0a55f18aa60c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\01.GraphicsComponent\03.UI">
-      <UniqueIdentifier>{55969aeb-1697-484b-9712-178d57f035cf}</UniqueIdentifier>
     </Filter>
     <Filter Include="00.Engine\06.FontManager">
       <UniqueIdentifier>{bf242712-4848-4d8b-a162-1028edb58c52}</UniqueIdentifier>
@@ -139,14 +109,38 @@
     <Filter Include="00.Engine\02.Physics\01.Collision\02.CollisionHelper">
       <UniqueIdentifier>{0cc52ac8-bf2a-48e1-b67c-ab9b08c1a0c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.Engine\03.DeviceManager">
-      <UniqueIdentifier>{24387e55-fa5c-41b1-9198-7ffb7925e8f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Engine\10.SoundManager">
       <UniqueIdentifier>{16634f5c-b59c-4359-9e0d-c0898ba0f223}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.Components\01.GraphicsComponent\02.Bitmap">
       <UniqueIdentifier>{7157f715-fca2-4c5e-bcc4-6b6ff0b96dd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\01.Graphics\00.DeviceManager">
+      <UniqueIdentifier>{24387e55-fa5c-41b1-9198-7ffb7925e8f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\01.Graphics\01.GraphicsManager">
+      <UniqueIdentifier>{a817bcad-cf26-4e3b-9b0c-0a55f18aa60c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\01.Graphics\02.Shader">
+      <UniqueIdentifier>{d1f5fb5a-1789-46d5-824c-49583b576f89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\01.Graphics\02.Shader\00.Manager">
+      <UniqueIdentifier>{6e9675cb-7740-4525-a2bc-f133f86ddfb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\01.Graphics\02.Shader\01.Shaders">
+      <UniqueIdentifier>{b9565737-14ca-429e-9ff1-2ed78b31b529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\01.Graphics\02.Shader\01.Shaders\TextureShader">
+      <UniqueIdentifier>{8f56f804-e02f-4b85-8daa-8b16fc41fe5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\01.Graphics\03.Camera">
+      <UniqueIdentifier>{e333171a-547e-45c0-8e24-64c9d5bf6d1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\01.Graphics\03.Camera\00.Manager">
+      <UniqueIdentifier>{0ab24251-082e-4e90-b0c3-6f063d86bdd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\01.Graphics\03.Camera\01.Frustum">
+      <UniqueIdentifier>{70d3f97e-37f0-4a95-aa8c-e44b9d93eeb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -204,12 +198,6 @@
     <ClCompile Include="..\Code\FRC.cpp">
       <Filter>00.Engine\07.FrameRateController</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MainComponent.cpp">
-      <Filter>01.Structure\04.Component\00.MainComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\SubComponent.cpp">
-      <Filter>01.Structure\04.Component\01.SubComponent</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\DataStore.cpp">
       <Filter>00.Engine\09.ResourceStore\02.DataStore</Filter>
     </ClCompile>
@@ -217,13 +205,10 @@
       <Filter>00.Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DeviceManager.cpp">
-      <Filter>00.Engine\03.DeviceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CameraComponent.cpp">
-      <Filter>02.Components\03.CameraComponent</Filter>
+      <Filter>00.Engine\01.Graphics\00.DeviceManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\GraphicsManager.cpp">
-      <Filter>00.Engine\01.Graphics\00.GraphicsManager</Filter>
+      <Filter>00.Engine\01.Graphics\01.GraphicsManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ShaderManager.cpp">
       <Filter>00.Engine\01.Graphics\02.Shader\00.Manager</Filter>
@@ -242,15 +227,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\ShaderManager.cpp">
       <Filter>00.Engine\01.Graphics\01.Shader\00.Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\FontManager.cpp">
-      <Filter>00.Engine\06.FontManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\UIManager.cpp">
-      <Filter>00.Engine\01.Graphics\01.UIManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\UIComponent.cpp">
-      <Filter>02.Components\01.GraphicsComponent\03.UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SoundManager.cpp">
       <Filter>00.Engine\10.SoundManager</Filter>
@@ -284,6 +260,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\BitmapComponent.cpp">
       <Filter>02.Components\01.GraphicsComponent\02.Bitmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TextManager.cpp">
+      <Filter>00.Engine\06.FontManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CameraManager.cpp">
+      <Filter>00.Engine\01.Graphics\03.Camera\00.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Frustum.cpp">
+      <Filter>00.Engine\01.Graphics\03.Camera\01.Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Camera.cpp">
+      <Filter>00.Engine\01.Graphics\03.Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -362,12 +350,6 @@
     <ClInclude Include="..\Header\FRC.h">
       <Filter>00.Engine\07.FrameRateController</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\MainComponent.h">
-      <Filter>01.Structure\04.Component\00.MainComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\SubComponent.h">
-      <Filter>01.Structure\04.Component\01.SubComponent</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\DataStore.h">
       <Filter>00.Engine\09.ResourceStore\02.DataStore</Filter>
     </ClInclude>
@@ -375,13 +357,10 @@
       <Filter>00.Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DeviceManager.h">
-      <Filter>00.Engine\03.DeviceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CameraComponent.h">
-      <Filter>02.Components\03.CameraComponent</Filter>
+      <Filter>00.Engine\01.Graphics\00.DeviceManager</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\GraphicsManager.h">
-      <Filter>00.Engine\01.Graphics\00.GraphicsManager</Filter>
+      <Filter>00.Engine\01.Graphics\01.GraphicsManager</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ShaderManager.h">
       <Filter>00.Engine\01.Graphics\02.Shader\00.Manager</Filter>
@@ -403,15 +382,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\EngineExtern.h">
       <Filter>99.Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FontManager.h">
-      <Filter>00.Engine\06.FontManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\UIManager.h">
-      <Filter>00.Engine\01.Graphics\01.UIManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\UIComponent.h">
-      <Filter>02.Components\01.GraphicsComponent\03.UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\SoundManager.h">
       <Filter>00.Engine\10.SoundManager</Filter>
@@ -445,6 +415,21 @@
     </ClInclude>
     <ClInclude Include="..\Header\BitmapComponent.h">
       <Filter>02.Components\01.GraphicsComponent\02.Bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TextManager.h">
+      <Filter>00.Engine\06.FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EngineMath.h">
+      <Filter>99.Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CameraManager.h">
+      <Filter>00.Engine\01.Graphics\03.Camera\00.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Frustum.h">
+      <Filter>00.Engine\01.Graphics\03.Camera\01.Frustum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Camera.h">
+      <Filter>00.Engine\01.Graphics\03.Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

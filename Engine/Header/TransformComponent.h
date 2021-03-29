@@ -2,7 +2,7 @@
 #define TRANSFORMCOMPONENT_H
 
 BEGIN(Engine)
-class ENGINE_DLL CTransformComponent final : public CSubComponent
+class ENGINE_DLL CTransformComponent final : public CComponent
 {
 public:
 	explicit	CTransformComponent	(void);
@@ -30,10 +30,10 @@ public:
 					void				SetPositionY		(_float y) { m_position.y = y; }
 					void				SetPositionZ		(_float z) { m_position.z = z; }
 
-					void				AddPosition(_float3 xyz) { m_position += xyz; }
-					void				AddPositionX(_float x) { m_position.x += x; }
-					void				AddPositionY(_float y) { m_position.y += y; }
-					void				AddPositionZ(_float z) { m_position.z += z; }
+					void				AddPosition			(_float3 xyz) { m_position += xyz; }
+					void				AddPositionX		(_float x) { m_position.x += x; }
+					void				AddPositionY		(_float y) { m_position.y += y; }
+					void				AddPositionZ		(_float z) { m_position.z += z; }
 
 					void				SetRotationX		(_float x) { m_rotation.x = x; }
 					void				SetRotationY		(_float y) { m_rotation.y = y; }
@@ -50,7 +50,7 @@ public:
 
 protected:
 	GETTOR			(_mat,				m_worldMat,		{},					WorldMatrix)
-	GETTOR_SETTOR	(_float3,			m_position,		_float3(0,0,0),		Position)
+	GETTOR_SETTOR	(_float3,			m_position,		_float3(0,0,0),		Position) // GetfuncName
 	GETTOR_SETTOR	(_float3,			m_rotation,		_float3(0,0,0),		Rotation)
 	GETTOR_SETTOR	(_float3,			m_scale,		_float3(1,1,1),		Scale)
 

@@ -4,7 +4,7 @@
 #pragma warning(disable : 4251)
 #pragma warning(disable : 4503)
 
-/**************프로젝트 외부 참조문서**************/
+//프로젝트 외부 참조문서
 //For C, window 
 #include <Windows.h>
 #include <stdlib.h>
@@ -45,10 +45,9 @@
 
 #include "d3dx9.h"
 #pragma comment(lib, "d3dx9.lib")
-/**************************************************/
 
 
-/**************프로젝트 내의 참조문서**************/
+//프로젝트 내의 참조문서
 #include "EngineTypedef.h"
 #include "EngineDefine.h"
 #include "EngineEnum.h"
@@ -57,10 +56,8 @@
 #include "EngineMacro.h"
 #include "EngineStructure.h"
 #include "EngineComponents.h"
-
-#include "FRC.h"
-
-/**************************************************/
+#include "EngineMath.h"
+//
 
 // 사운드
 #include <io.h>

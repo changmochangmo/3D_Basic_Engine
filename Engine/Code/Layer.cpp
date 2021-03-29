@@ -11,16 +11,22 @@ CLayer::CLayer(void)
 
 CLayer::~CLayer(void)
 {
-	OnDestroy();
 }
 
-SHARED(CLayer) CLayer::Create(std::wstring name)
+CLayer* CLayer::Create(_int layerID, CScene* pOwner)
 {
-	SHARED(CLayer) pLayer(new CLayer, SmartDeleter<CLayer>);
-	pLayer->SetName(name);
-	pLayer->Awake();
+	CLayer* pNewLayer = new CLayer;
+	pNewLayer->SetLayerID(layerID);
+	pNewLayer->SetOwner(pOwner);
+	pNewLayer->Awake();
 
-	return pLayer;
+	return pNewLayer;
+}
+
+void CLayer::Free(void)
+{
+	OnDestroy();
+	delete this;
 }
 
 void CLayer::Awake(void)
@@ -50,11 +56,6 @@ _uint CLayer::FixedUpdate(void)
 _uint CLayer::Update(void)
 {
 	_uint event = NO_EVENT;	
-
-	if (m_name == L"EventBlock")
-	{
-		int i = 0;
-	}
 	
 
 	for (auto& it = m_vGameObjects.begin(); it != m_vGameObjects.end();)
@@ -63,7 +64,7 @@ _uint CLayer::Update(void)
 		std::cout << (*it)->GetComponent<Engine::CTransformComponent>()->GetPosition().y << ", ";
 		std::cout << (*it)->GetComponent<Engine::CTransformComponent>()->GetPosition().z << std::endl;*/
 
-		if ((*it)->GetIsNeedToBeDeleted())
+		if ((*it)->GetDeleteThis())
 		{
 			it->reset();			
 			it = m_vGameObjects.erase(it);

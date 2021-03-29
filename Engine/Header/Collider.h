@@ -25,7 +25,7 @@ protected:
 	GETTOR_SETTOR	(_int,					m_colliderType,		-1,			ColliderType)
 	GETTOR_SETTOR	(CColliderComponent*,	m_pOwner,			nullptr,	Owner)
 
-	GETTOR_SETTOR	(_float3,				m_offsetBS,			FLOAT3_ZERO,	OffsetBS)
+	GETTOR_SETTOR	(_float3,				m_offsetBS,			ZERO_VECTOR,	OffsetBS)
 	GETTOR_SETTOR	(_float,				m_radiusBS,			0,				RadiusBS)
 
 };

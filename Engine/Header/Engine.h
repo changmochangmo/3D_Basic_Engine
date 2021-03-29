@@ -12,8 +12,8 @@ public:
 	virtual		void	Awake		(void) PURE;
 
 protected:
-	GETTOR		(std::wstring,		m_sectionKey,		L"",		SectionKey);
-	GETTOR		(std::wstring,		m_objectKey,		L"",		ObjectKey);
+	GETTOR		(_int,			m_sectionKey,	(_int)EDataID::Engine,	SectionKey)
+	GETTOR		(std::wstring,	m_objectKey,	L"",					ObjectKey)
 };
 END
 #endif

@@ -30,9 +30,7 @@ public:
 				void				OnDisable				(void);
 
 private:
-	void ClientSetting();
 				void				InitStaticPrototype		(void);
-				void BlockPrototype();
 };
 
 #endif

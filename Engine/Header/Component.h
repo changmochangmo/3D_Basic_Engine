@@ -6,7 +6,7 @@ class CGameObject;
 class ENGINE_DLL CComponent abstract  
 {
 public:
-	explicit	CComponent		(_bool isMain);
+	explicit	CComponent		(void);
 	virtual	   ~CComponent		(void);
 
 public:
@@ -25,18 +25,17 @@ public:
 	virtual		void				OnDisable	(void)							PURE;
 
 protected:
-	GETTOR_SETTOR	(CGameObject*,	m_pOwner,		nullptr,	Owner)
-	GETTOR_SETTOR	(std::wstring,  m_name,			L"",		Name)
+	GETTOR_SETTOR	(CGameObject*,	m_pOwner,		nullptr,					Owner)
 	
-	GETTOR			(const _bool,	m_isMain,		false,		IsMain)
-	GETTOR_SETTOR	(_bool,			m_isAwaked,		false,		IsAwaked)
-	GETTOR_SETTOR	(_bool,			m_isStarted,	false,		IsStarted)
-	GETTOR_SETTOR	(_bool,			m_isEnabled,	true,		IsEnabled)
+	
+	GETTOR_SETTOR	(_bool,			m_isAwaked,		false,						IsAwaked)
+	GETTOR_SETTOR	(_bool,			m_isStarted,	false,						IsStarted)
+	GETTOR_SETTOR	(_bool,			m_isEnabled,	true,						IsEnabled)
 
-	GETTOR_SETTOR(std::wstring, m_sectionKey, {}, SectionKey)
-	GETTOR_SETTOR(std::wstring, m_objectKey, {}, ObjectKey)
+	GETTOR_SETTOR	(_int,			m_dataID,		(_int)EDataID::Component,	DataID)
+	GETTOR_SETTOR	(std::wstring,  m_name,			L"",						Name)
 
-	GETTOR			(_int,			m_componentID,	-1,			ComponentID)
+	GETTOR			(_int,			m_componentID,	-1,							ComponentID)
 };
 END
 

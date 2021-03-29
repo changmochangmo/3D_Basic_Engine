@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 USING(Engine)
-CComponent::CComponent(_bool isMain) : m_isMain(isMain)
+CComponent::CComponent(void)
 {
 }
 CComponent::~CComponent(void)

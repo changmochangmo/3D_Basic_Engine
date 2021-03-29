@@ -31,110 +31,11 @@
     <Filter Include="01.Scene\05.Changmo">
       <UniqueIdentifier>{b5ddb26e-4a5e-42e9-a402-6ccf5eefef78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Scene\06.Dongil">
-      <UniqueIdentifier>{9931492b-b9a1-46e1-9796-cc4f82fe4982}</UniqueIdentifier>
+    <Filter Include="02.Objects">
+      <UniqueIdentifier>{50f5935f-2a42-4e51-81e7-19417db711ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Scene\08.Jiyong">
-      <UniqueIdentifier>{6ba203f1-3cbd-4c79-976a-c0836f20a64b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\07.Mr_Woo">
-      <UniqueIdentifier>{9f929607-216b-44cb-9588-9561a04b72a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components">
-      <UniqueIdentifier>{b14eed87-0db9-451d-a09b-da76ce5f363a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents">
-      <UniqueIdentifier>{0c43192c-6f13-465a-bc65-294cf5c0b66e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\01.SubComponents">
-      <UniqueIdentifier>{7967f329-7e0b-4fcb-93a0-d252667b4042}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\00.Player">
-      <UniqueIdentifier>{4907eec0-7929-458f-9c20-060aebf927dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block">
-      <UniqueIdentifier>{265ca4c6-bbc8-4662-bd57-c239e05ada2a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\01.EventBlock">
-      <UniqueIdentifier>{5829ec45-309c-442a-82a5-f521ddeb22d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\01.EventBlock\01.BlueBlock">
-      <UniqueIdentifier>{23ccfd30-b122-4006-83b6-5e0c049ed944}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\01.EventBlock\02.RedBlock">
-      <UniqueIdentifier>{d266a9fc-7e3a-44e5-9ad3-d89c0f9092bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\01.EventBlock\03.YellowBlock">
-      <UniqueIdentifier>{5da16da6-0d8c-4ed5-b5c1-b8dc5124546b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\01.EventBlock\05.ArrowBlock">
-      <UniqueIdentifier>{54cfda97-5958-414f-9ff6-dece56d641c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\01.EventBlock\07.ReplayBlock">
-      <UniqueIdentifier>{8d8d2528-8626-4d4b-8208-5cf4b00479d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\01.EventBlock\09.GravityBlock">
-      <UniqueIdentifier>{bb919680-e44f-4dab-8060-694cce621456}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\00.NormalBlock">
-      <UniqueIdentifier>{86ff4e36-a921-4742-8b9b-ce5249505908}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\00.NormalBlock\00.WhiteBlock">
-      <UniqueIdentifier>{65dc65eb-f5cd-47e2-8f4b-c25e116dd8bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\00.NormalBlock\01.GreenBlock">
-      <UniqueIdentifier>{87d5bf79-caee-43e6-b0f3-d20cbe81e94d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\02.Ball">
-      <UniqueIdentifier>{fcef8826-8427-4dbd-85d6-4b2e5f1211ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\03.Gate">
-      <UniqueIdentifier>{283abcb1-309d-4f9c-b556-2c98885c9b63}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\00.NormalBlock\06.GenerateBlock">
-      <UniqueIdentifier>{fefd0d45-a095-4d36-b84a-7daf878ea2a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\00.NormalBlock\04.LockBlock">
-      <UniqueIdentifier>{6e847ab6-162f-440a-89a6-6af9b0eefce8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\00.NormalBlock\08.TranslateBlock">
-      <UniqueIdentifier>{d438f145-9167-4d40-93b5-cb11c5f0d0be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\01.EventBlock\04.GreenBlock">
-      <UniqueIdentifier>{697624b3-157e-4e6d-8de7-d8d94689ef53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\04.Door">
-      <UniqueIdentifier>{16fd1182-3dd6-4ad8-95c1-b721127f1170}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\05.Elevator">
-      <UniqueIdentifier>{7e0f9ef3-0a32-4bed-ad10-742809932669}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\06.StairsComponent">
-      <UniqueIdentifier>{afbd9549-d724-463c-aa98-93e624b023c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\03.Stage\Stage1">
-      <UniqueIdentifier>{67de061e-ab2c-4092-b686-d7f2e27e3648}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\03.Stage\Stage2">
-      <UniqueIdentifier>{861d6f3b-dd88-406f-b5af-2f9ca2314302}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\03.Stage\Stage3">
-      <UniqueIdentifier>{778f7d70-c149-4481-a200-0a88c994491e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\07.NextPointComponent">
-      <UniqueIdentifier>{4c03dd78-2671-4dca-892d-59f5bc610da1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\03.Stage\EventStage">
-      <UniqueIdentifier>{1e8197c2-67c1-4686-8411-633dcd093d7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\01.EventBlock\10.RhythmBlock">
-      <UniqueIdentifier>{0ca77554-9648-4718-afea-971c2552d03c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\01.Block\01.EventBlock\08.MoveBlock">
-      <UniqueIdentifier>{e43d7e00-7351-41b5-9ab2-b2ef822e5c84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Components\00.MainComponents\08.Enemy">
-      <UniqueIdentifier>{8a817dd0-1d39-41dc-b728-3ee63d67ba4c}</UniqueIdentifier>
+    <Filter Include="02.Objects\00.Player">
+      <UniqueIdentifier>{fb136d06-05de-4244-9b21-c4b8608835ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,11 +54,8 @@
     <ClInclude Include="..\Header\MainApp.h">
       <Filter>00.MainApp</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\LogoScene.h">
-      <Filter>01.Scene\00.Logo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MainMenuScene.h">
-      <Filter>01.Scene\02.MainMenu</Filter>
+    <ClInclude Include="..\Header\ChangmoScene.h">
+      <Filter>01.Scene\05.Changmo</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ClientEnum.h">
       <Filter>98.Include</Filter>
@@ -168,92 +66,14 @@
     <ClInclude Include="..\Header\ClientStructure.h">
       <Filter>98.Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ClientDefine.h">
-      <Filter>98.Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\LoadingScene.h">
-      <Filter>01.Scene\01.Loading</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\ClientTypedef.h">
       <Filter>98.Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ClientComponent.h">
+    <ClInclude Include="..\Header\ClientDefine.h">
       <Filter>98.Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ChangmoScene.h">
-      <Filter>01.Scene\05.Changmo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\DongilScene.h">
-      <Filter>01.Scene\06.Dongil</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\WooHyeongScene.h">
-      <Filter>01.Scene\07.Mr_Woo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\JiyongScene.h">
-      <Filter>01.Scene\08.Jiyong</Filter>
-    </ClInclude>
-    <ClInclude Include="..\header\PlayerComponent.h">
-      <Filter>02.Components\00.MainComponents\00.Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\EventBlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\BlueBlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\01.BlueBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\NormalBlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block\00.NormalBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\BlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\StairsComponent.h">
-      <Filter>02.Components\00.MainComponents\06.StairsComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Door.h">
-      <Filter>02.Components\00.MainComponents\04.Door</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Elevator.h">
-      <Filter>02.Components\00.MainComponents\05.Elevator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\YellowBlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\03.YellowBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\GreenBlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\04.GreenBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Stage1Scene.h">
-      <Filter>01.Scene\03.Stage\Stage1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Stage2Scene.h">
-      <Filter>01.Scene\03.Stage\Stage2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Stage3Scene.h">
-      <Filter>01.Scene\03.Stage\Stage3</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\RedBlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\02.RedBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\RedBlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\02.RedBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\NextPointComponent.h">
-      <Filter>02.Components\00.MainComponents\07.NextPointComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\EventScene.h">
-      <Filter>01.Scene\03.Stage\EventStage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\RhythmBlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\10.RhythmBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\WhiteBlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block\00.NormalBlock\00.WhiteBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MoveBlockComponent.h">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\08.MoveBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\EnemyComponent.h">
-      <Filter>02.Components\00.MainComponents\08.Enemy</Filter>
+    <ClInclude Include="..\Header\Player.h">
+      <Filter>02.Objects\00.Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -266,86 +86,11 @@
     <ClCompile Include="..\Code\MainApp.cpp">
       <Filter>00.MainApp</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\LogoScene.cpp">
-      <Filter>01.Scene\00.Logo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MainMenuScene.cpp">
-      <Filter>01.Scene\02.MainMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\LoadingScene.cpp">
-      <Filter>01.Scene\01.Loading</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\ChangmoScene.cpp">
       <Filter>01.Scene\05.Changmo</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\DongilScene.cpp">
-      <Filter>01.Scene\06.Dongil</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\WooHyeongScene.cpp">
-      <Filter>01.Scene\07.Mr_Woo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\JiyongScene.cpp">
-      <Filter>01.Scene\08.Jiyong</Filter>
-    </ClCompile>
-    <ClCompile Include="..\code\PlayerComponent.cpp">
-      <Filter>02.Components\00.MainComponents\00.Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\EventBlockComponent.cpp">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\BlueBlockComponent.cpp">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\01.BlueBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\NormalBlockComponent.cpp">
-      <Filter>02.Components\00.MainComponents\01.Block\00.NormalBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\BlockComponent.cpp">
-      <Filter>02.Components\00.MainComponents\01.Block</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Door.cpp">
-      <Filter>02.Components\00.MainComponents\04.Door</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Elevator.cpp">
-      <Filter>02.Components\00.MainComponents\05.Elevator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\StairsComponent.cpp">
-      <Filter>02.Components\00.MainComponents\06.StairsComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\RedBlockComponent.cpp">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\02.RedBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\YellowBlockComponent.cpp">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\03.YellowBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\GreenBlockComponent.cpp">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\04.GreenBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Stage1Scene.cpp">
-      <Filter>01.Scene\03.Stage\Stage1</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Stage2Scene.cpp">
-      <Filter>01.Scene\03.Stage\Stage2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Stage3Scene.cpp">
-      <Filter>01.Scene\03.Stage\Stage3</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\NextPointComponent.cpp">
-      <Filter>02.Components\00.MainComponents\07.NextPointComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\EventScene.cpp">
-      <Filter>01.Scene\03.Stage\EventStage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\RhythmBlockComponent.cpp">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\10.RhythmBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\WhiteBlockComponent.cpp">
-      <Filter>02.Components\00.MainComponents\01.Block\00.NormalBlock\00.WhiteBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MoveBlockComponent.cpp">
-      <Filter>02.Components\00.MainComponents\01.Block\01.EventBlock\08.MoveBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\EnemyComponent.cpp">
-      <Filter>02.Components\00.MainComponents\08.Enemy</Filter>
+    <ClCompile Include="..\Code\Player.cpp">
+      <Filter>02.Objects\00.Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

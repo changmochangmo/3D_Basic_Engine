@@ -33,7 +33,7 @@ SHARED(CComponent) CColliderComponent::MakeClone(CGameObject* pObject)
 void CColliderComponent::Awake(void)
 {
 	__super::Awake();
-	m_componentID = (int)m_s_componentID;
+	m_componentID = (_int)m_s_componentID;;
 }
 
 void CColliderComponent::Start(SHARED(CComponent) spThis)
@@ -42,15 +42,14 @@ void CColliderComponent::Start(SHARED(CComponent) spThis)
 
 	m_pTransform = m_pOwner->GetComponent<CTransformComponent>();
 
-	if (m_pOwner->GetMainComponent() != nullptr)
-	{
-		_bool isStatic = m_pOwner->GetIsStatic();
-		std::wstring layerKey = m_pOwner->GetLayerKey();
-		std::wstring objectKey = m_pOwner->GetObjectKey();
 
-		if(m_colliderID == 0)
-			GET_VALUE(isStatic, layerKey, objectKey, L"m_colliderID", m_colliderID);
-	}
+	_bool isStatic = m_pOwner->GetIsStatic();
+	_int ownerDataID = m_pOwner->GetDataID();
+	std::wstring objectKey = m_pOwner->GetObjectKey();
+
+	if (m_colliderID == 0)
+		GET_VALUE(isStatic, ownerDataID, objectKey, L"m_colliderID", m_colliderID);
+
 	CColliderManager::GetInstance()->AddColliderToManager(std::dynamic_pointer_cast<CColliderComponent>(spThis));
 
 	CalculateBS();

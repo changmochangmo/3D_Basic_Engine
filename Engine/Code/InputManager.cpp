@@ -4,6 +4,10 @@
 #include "GameObject.h"
 #include "SceneManager.h"
 #include "Layer.h"
+#include "CameraManager.h"
+#include "Camera.h"
+
+
 USING(Engine)
 IMPLEMENT_SINGLETON(CInputManager)
 
@@ -144,15 +148,15 @@ void CInputManager::MouseUpdate(void)
 		m_key |= MOUSE_RIGHT;
 }
 
-CGameObject * CInputManager::MousePicking(std::wstring layerKey, _float3& intersection)
+CGameObject * CInputManager::MousePicking(_int layerID, _float3& intersection)
 {
-	_float3 rayStartPos = GET_MAIN_CAM->GetOwner()->GetComponent<CTransformComponent>()->GetPosition(); // 원점
+	_float3 rayStartPos = GET_MAIN_CAM->GetPosition(); // 원점
 	_float3 rayDir = GetPickingDirection(); // 방향
 
 	_float t = FLT_MAX;
 	CGameObject* pGameObject = nullptr;
 
-	CLayer* pLayer = GET_CUR_SCENE->GetLayers()[layerKey].get();
+	CLayer* pLayer = GET_CUR_SCENE->GetLayers()[layerID];
 
 	for (auto& object : pLayer->GetGameObjects())
 	{
@@ -191,64 +195,6 @@ CGameObject * CInputManager::MousePicking(std::wstring layerKey, _float3& inters
 	intersection = rayStartPos + t * rayDir;
 	return pGameObject;
 }
-
-// 원점(origin) , 방향(direction) , 거리(maxDistance) , 레이어(layerKey)
-CGameObject * CInputManager::RayCast(_float3 origin, _float3 direction, _float maxDistance, std::wstring layerKey)
-{
-	_float t = FLT_MAX;
-	CGameObject* pGameObject = nullptr;
-
-	CLayer* pLayer = GET_CUR_SCENE->GetLayers()[layerKey].get();
-
-	for (auto& object : pLayer->GetGameObjects())
-	{
-		if (object->GetComponent<CTransformComponent>()->GetPosition() == origin)
-			continue;
-
-		_float tMin = 0;
-		_float tMax = maxDistance;
-
-		auto& pTransform = object->GetComponent<CTransformComponent>();
-
-		_float3 minPos = _float3(-0.5f, -0.5f, -0.5f);
-		_float3 maxPos = _float3(0.5f, 0.5f, 0.5f);
-
-		D3DXVec3TransformCoord(&minPos, &minPos, &pTransform->GetWorldMatrix());
-		D3DXVec3TransformCoord(&maxPos, &maxPos, &pTransform->GetWorldMatrix());
-		
-		for (int i = 0; i < 3; ++i)
-		{
-			if (minPos[i] > maxPos[i])
-			{
-				_float temp = minPos[i];
-				minPos[i] = maxPos[i];
-				maxPos[i] = temp;
-			}
-		}
-
-		if (!RayIntersectCheck(direction.x, origin.x,
-			minPos.x, maxPos.x,
-			tMin, tMax))
-			continue;
-		if (!RayIntersectCheck(direction.y, origin.y,
-			minPos.y, maxPos.y,
-			tMin, tMax))
-			continue;
-		if (!RayIntersectCheck(direction.z, origin.z,
-			minPos.z, maxPos.z,
-			tMin, tMax))
-			continue;
-
-		if (tMin < t)
-		{
-			t = tMin;
-			pGameObject = object.get();
-		}
-	}
-
-	return pGameObject;
-}
-
 
 
 _float3 CInputManager::GetPickingDirection(void)

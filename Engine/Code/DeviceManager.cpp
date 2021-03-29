@@ -38,7 +38,7 @@ void CDeviceManager::InitDevice(void)
 	if (FAILED(m_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &DeviceCap)))
 	{
 		MSG_BOX(__FILE__, L"Direct3D creation failed in InitDevice");
-		return;
+		abort();
 	}
 
 	DWORD vp = 0;
@@ -70,8 +70,8 @@ void CDeviceManager::InitDevice(void)
 								   vp, 
 								   &m_d3dpParm, &m_pDevice)))
 	{
-    MSG_BOX(__FILE__, L"Device creation failed in InitDevice");
-		return;
+		MSG_BOX(__FILE__, L"Device creation failed in InitDevice");
+		abort();
 	}
 	GET_DEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	GET_DEVICE->SetRenderState(D3DRS_LIGHTING, FALSE);

@@ -4,6 +4,9 @@
 #include "Scene.h"
 #include "DeviceManager.h"
 #include "GameObject.h"
+#include "CameraManager.h"
+#include "Camera.h"
+#include "Frustum.h"
 
 USING(Engine)
 IMPLEMENT_SINGLETON(CGraphicsManager)
@@ -83,7 +86,8 @@ _uint CGraphicsManager::Render(void)
 		{
 			if (pGC->GetOwner() != nullptr)
 			{
-				if (GET_CUR_SCENE->GetMainCamera()->IsInFrustum(pGC->GetOwner()->GetComponent<CTransformComponent>()->GetPosition()))
+				if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(), 
+														  pGC->GetTransform()->GetScale() / 2.f))
 				{
 					if (event = pGC->PreRender()) return event;
 					if (event = pGC->Render()) return event;

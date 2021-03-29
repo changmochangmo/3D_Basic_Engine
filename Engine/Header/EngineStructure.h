@@ -83,13 +83,10 @@ namespace Engine
 		bool			m_isVisible;
 	}TEXT;
 
-	typedef struct _tagUnitInfo
+	typedef struct _FRUSTUM
 	{
-		std::wstring wsObjectKey;
-		_float3 vPos;
-		_float3 vRot;
-		_float3 vScale;
-	}UNITINFO;
+		D3DXPLANE plane[6];
+	}FRUSTUM;
 }
 #endif // !ENGINESTRUCTURE_H
 

@@ -31,27 +31,34 @@ void CObjectFactory::OnDisable(void)
 {
 }
 
-HRESULT CObjectFactory::AddPrototype(SHARED(CGameObject) pPrototype)
+HRESULT CObjectFactory::AddPrototype(SHARED(CGameObject) pPrototype, _bool isStatic)
 {
 	if (pPrototype == nullptr)
 		return E_FAIL;
 
 	_PROTOTYPES* pCurPrototypes = nullptr;
 
-	if (pPrototype->GetIsStatic())
+	if (isStatic)
 		pCurPrototypes = &m_mStaticPrototypes;
 	else
 		pCurPrototypes = &m_mCurPrototypes;
 
 	auto& it = pCurPrototypes->find(pPrototype->GetObjectKey());
 	if (it == pCurPrototypes->end())
+	{
 		(*pCurPrototypes)[pPrototype->GetObjectKey()] = pPrototype;
+		pPrototype->SetIsStatic(isStatic);
+	}
+	else
+	{
+		MSG_BOX(__FILE__, (pPrototype->GetObjectKey() + L" is already in _PROTOTYPES").c_str());
+		abort();
+	}
 
 	return S_OK;
 }
 
-SHARED(CGameObject) CObjectFactory::AddClone(const std::wstring & layerKey,
-											 const std::wstring & protoObjectKey,								    
+SHARED(CGameObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,								    
 											 _bool isStatic)
 {
 	_PROTOTYPES* pCurPrototypes = nullptr;
@@ -66,23 +73,24 @@ SHARED(CGameObject) CObjectFactory::AddClone(const std::wstring & layerKey,
 	if (pCurPrototypes->end() == iter_find_prototype)
 	{
 		MSG_BOX(__FILE__, (protoObjectKey + L" is not found in AddClone").c_str());
-		return nullptr;
+		abort();
 	}
 
 	SHARED(CGameObject) pClone = iter_find_prototype->second->MakeClone();
 	if (pClone == nullptr)
 	{
 		MSG_BOX(__FILE__, (protoObjectKey + L" failed to make clone in AddClone").c_str());
-		return nullptr;
+		abort();
 	}
 	
-	auto iter_find_layer = GET_CUR_SCENE->GetLayers().find(layerKey);
-	if (iter_find_layer == GET_CUR_SCENE->GetLayers().end())
+	_int layerID = pClone->GetLayerID();
+	std::vector<CLayer*>* pLayers = &GET_CUR_SCENE->GetLayers();
+	if (layerID < 0 && (_uint)layerID >= pLayers->size())
 	{
-		MSG_BOX(__FILE__, (protoObjectKey + L" failed to find layer in AddClone").c_str());
-		return nullptr;
+		MSG_BOX(__FILE__, std::wstring(L"LayerID is out of range").c_str());
+		abort();
 	}
-	GET_CUR_SCENE->GetLayers()[layerKey]->GetGameObjects().push_back(pClone);
+	(*pLayers)[layerID]->GetGameObjects().push_back(pClone);
 	
 	return pClone;
 }

@@ -20,18 +20,43 @@ void CDataStore::Start(void)
 
 void CDataStore::OnDestroy(void)
 {
-	m_mStaticDataMap.clear();
-	m_mCurDataMap.clear();
+	//m_mpStaticDataMap.clear();
+	//m_mpCurDataMap.clear();
 }
 
 void CDataStore::ClearCurResource(void)
 {
-	m_mCurDataMap.clear();
+	//m_mpCurDataMap.clear();
 }
 
 void CDataStore::InitDataForScene(std::wstring curScene)
 {
 	InitResource(m_resourcePath + L"\\" + curScene);
+}
+
+void CDataStore::InitDataMap(_uint numOfDataID)
+{
+	if (numOfDataID < (_uint)EDataID::NumOfEngineDataID)
+	{
+		MSG_BOX(__FILE__, L"numOfDataID is too small");
+		abort();
+	}
+
+	m_mpCurDataMap = new _FileKeyMap[numOfDataID];
+	m_mpStaticDataMap = new _FileKeyMap[numOfDataID];
+
+	m_vHashKey.resize(numOfDataID);
+
+	AddDataSection(L"Engine", (_uint)EDataID::Engine);
+	AddDataSection(L"Component", (_uint)EDataID::Component);
+	
+
+	
+}
+
+void CDataStore::AddDataSection(std::wstring sectionKey, _uint ID)
+{
+	m_vHashKey[ID] = sectionKey;
 }
 
 void CDataStore::InitResource(std::wstring sourcePath)
@@ -45,14 +70,14 @@ void CDataStore::ParsingData(std::wstring filePath, std::wstring fileName)
 	std::wstring fullPath = filePath + L"\\" + fileName;
 	readFile.open(fullPath.c_str());
 
+
 	if (readFile.is_open())
 	{
 		std::wstring line;
-		std::wstring layerKey = GetLayerKey(fullPath);
+		std::wstring sectionKey = GetLayerKey(fullPath);
 		std::wstring objectKey = GetObjectKey(fullPath);
 		std::wstring variableKey;
 		std::wstring keyValue;
-
 
 
 		while (!readFile.eof() && std::getline(readFile, line))
@@ -61,11 +86,22 @@ void CDataStore::ParsingData(std::wstring filePath, std::wstring fileName)
 			keyValue = GetKeyValue(line);
 
 			if(m_isStatic)
-				m_mStaticDataMap[layerKey][objectKey][variableKey] = keyValue;
+				m_mpStaticDataMap[GetIndex(sectionKey)][objectKey][variableKey] = keyValue;
 			else
-				m_mCurDataMap[layerKey][objectKey][variableKey] = keyValue;
+				m_mpCurDataMap[GetIndex(sectionKey)][objectKey][variableKey] = keyValue;
 		}
 	}
+}
+
+_int CDataStore::GetIndex(std::wstring sectionKey)
+{
+	for (_uint i = 0; i < m_vHashKey.size(); ++i)
+	{
+		if (m_vHashKey[i] == sectionKey)
+			return i;
+	}
+
+	return -1;
 }
 
 std::wstring CDataStore::GetLayerKey(const std::wstring & fullPath)

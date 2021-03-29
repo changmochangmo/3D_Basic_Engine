@@ -2,17 +2,13 @@
 #define ENGINECOMPONENT_H
 
 #include "Component.h"
-#include "MainComponent.h"
-#include "SubComponent.h"
 
 #include "TransformComponent.h"
 
 // Graphics-----------------------------------------
 #include "GraphicsComponent.h"
-#include "CameraComponent.h"
 #include "TextureComponent.h"
 #include "MeshComponent.h"
-#include "UIComponent.h"
 //--------------------------------------------------
 
 // Physics------------------------------------------

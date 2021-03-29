@@ -3,6 +3,8 @@
 #include "DeviceManager.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "CameraManager.h"
+#include "Camera.h"
 
 USING(Engine)
 CTextureShader::CTextureShader()
@@ -37,8 +39,8 @@ void CTextureShader::Start(void)
 void CTextureShader::PreRender(CGraphicsComponent* pGC)
 {
 	m_pShader->SetMatrix("WorldMatrix", &pGC->GetTransform()->GetWorldMatrix());
-	m_pShader->SetMatrix("ViewMatrix", &GET_CUR_SCENE->GetMainCamera()->GetViewMatrix());
-	m_pShader->SetMatrix("ProjMatrix", &GET_CUR_SCENE->GetMainCamera()->GetProjMatrix());
+	m_pShader->SetMatrix("ViewMatrix", &GET_MAIN_CAM->GetViewMatrix());
+	m_pShader->SetMatrix("ProjMatrix", &GET_MAIN_CAM->GetProjMatrix());
 
 	D3DXVECTOR4 a = pGC->GetTexture()->GetColor();
 	m_pShader->SetVector("Colorr", &pGC->GetTexture()->GetColor());

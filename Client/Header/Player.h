@@ -1,33 +1,37 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "MainComponent.h"
+#include "GameObject.h"
 
-class Engine::CGameObject;
-class CPlayer final : public Engine::CMainComponent
+class CPlayer final : public Engine::CGameObject
 {
-public:
-	explicit	CPlayer		(void);
-			   ~CPlayer		(void);
-
-public:
-	SHARED(Engine::CComponent)	MakeClone		(Engine::CGameObject * pObject);
-	
-	void						Awake			(void) override;
-	void						Start			(SHARED(CComponent) spThis) override;
-	
-	_uint						FixedUpdate		(SHARED(CComponent) spThis) override;
-	_uint						Update			(SHARED(Engine::CComponent) spSelf) override;
-	_uint						LateUpdate		(SHARED(Engine::CComponent) spSelf) override;
-	
-	void						OnDestroy		(void) override;
-	void						OnEnable		(void) override;
-	void						OnDisable		(void) override;
-private:
-	void Move();
-
+	SMART_DELETER_REGISTER
 protected:
+	explicit				CPlayer			(void);
+						   ~CPlayer			(void);
 
+public:
+	static			SHARED(CPlayer)					Create				(void);
+
+					SHARED(Engine::CGameObject)		MakeClone			(void) override;
+		
+					void							Awake				(void) override;
+					void							Start				(void) override;
+		
+					_uint							FixedUpdate			(void) override;
+					_uint							Update				(void) override;
+					_uint							LateUpdate			(void) override;
+		
+					void							OnDestroy			(void) override;
+		
+					void							OnEnable			(void) override;
+					void							OnDisable			(void) override;
+
+private:
+					SHARED(Engine::CTransformComponent) m_spTransform;
+					SHARED(Engine::CMeshComponent)		m_spMesh;
+					SHARED(Engine::CTextureComponent)	m_spTexture;
+					SHARED(Engine::CGraphicsComponent)	m_spGraphics;
 };
 
 #endif

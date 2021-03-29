@@ -18,6 +18,7 @@ void CWndApp::Start(HINSTANCE hInstance, int nCmdShow)
 	GET_VALUE(true, m_sectionKey, m_objectKey, L"m_wndWidth", m_wndWidth);
 	GET_VALUE(true, m_sectionKey, m_objectKey, L"m_wndHeight", m_wndHeight);
 
+
 	RegisterWndClass(hInstance);
 	CreateWndHandle(hInstance, nCmdShow);
 }

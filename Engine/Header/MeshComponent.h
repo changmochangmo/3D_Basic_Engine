@@ -2,7 +2,7 @@
 #define MESH_H
 
 BEGIN(Engine)
-class ENGINE_DLL CMeshComponent final : public CSubComponent
+class ENGINE_DLL CMeshComponent final : public CComponent
 {
 public:
 	explicit					CMeshComponent		(void);

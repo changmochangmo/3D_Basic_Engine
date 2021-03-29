@@ -33,17 +33,17 @@ SHARED(CComponent) CMeshComponent::MakeClone(CGameObject* pObject)
 void CMeshComponent::Awake(void)
 {
 	__super::Awake();
-	m_componentID = (int)m_s_componentID;
+	m_componentID = (_int)m_s_componentID;;
 }
 
 void CMeshComponent::Start(SHARED(CComponent) spThis)
 {
 	__super::Start(spThis);
 	_bool isStatic = m_pOwner->GetIsStatic();
-	std::wstring layeKey = m_pOwner->GetLayerKey();
+	_int ownerDataID = m_pOwner->GetDataID();
 	std::wstring objectKey = m_pOwner->GetObjectKey();
 
-	if (m_meshKey == L"" && (GET_VALUE(isStatic, layeKey, objectKey, L"m_meshKey", m_meshKey) == false))
+	if (m_meshKey == L"" && (GET_VALUE(isStatic, ownerDataID, objectKey, L"m_meshKey", m_meshKey) == false))
 		m_meshKey = L"Cube";
 
 	m_pMeshData = CMeshStore::GetInstance()->GetMeshData(m_meshKey);

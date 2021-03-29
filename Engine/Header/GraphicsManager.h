@@ -9,7 +9,7 @@ class ENGINE_DLL CGraphicsManager final : public CEngine
 	DECLARE_SINGLETON(CGraphicsManager)
 
 public:
-			void					Awake				(void);
+			void					Awake				(void) override;
 			void					Start				(void);
 
 			_uint					FixedUpdate			(void);

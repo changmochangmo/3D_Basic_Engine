@@ -9,9 +9,7 @@ CGameObject::CGameObject(void)
 }
 
 CGameObject::CGameObject(const CGameObject & other)
-	: m_isClone(true)
 {
-	OnDestroy();
 }
 
 CGameObject::~CGameObject(void)
@@ -19,40 +17,13 @@ CGameObject::~CGameObject(void)
 	OnDestroy();
 }
 
-SHARED(CGameObject) CGameObject::Create(std::wstring layerKey, 
-										std::wstring objectKey, 
-										_bool isStatic)
-{
-	SHARED(CGameObject) pGameObject(new CGameObject, SmartDeleter<CGameObject>);
-	pGameObject->SetLayerKey(layerKey);
-	pGameObject->SetObjectKey(objectKey);
-	pGameObject->SetIsStatic(isStatic);
-	pGameObject->Awake();
-
-	return pGameObject;
-}
-
-
-SHARED(CGameObject) CGameObject::MakeClone(void)
-{
-	SHARED(CGameObject) pGameObject(Create(m_layerKey, m_objectKey, m_isStatic));
-	pGameObject->SetIsClone(true);
-	pGameObject->SetName(m_name);
-	pGameObject->Awake();
-
-	for (auto& component : m_mComponents)
-	{
-		pGameObject->AddComponentToClone(component.second);
-	}
-
-	return pGameObject;
-}
 
 
 
 void CGameObject::Awake(void)
 {
 	m_isAwaked = true;
+	m_objectKey = GetCurClassName(this);
 }
 
 void CGameObject::Start(void)
@@ -129,4 +100,21 @@ void CGameObject::OnEnable(void)
 
 void CGameObject::OnDisable(void)
 {
+}
+
+void CGameObject::InitClone(SHARED(CGameObject) spClone)
+{
+	spClone->SetIsClone(true);
+	spClone->SetIsStatic(m_isStatic);
+
+	spClone->SetIsAwaked(m_isAwaked);
+	
+	spClone->SetObjectKey(m_objectKey);
+	spClone->SetDataID(m_dataID);
+	spClone->SetLayerID(m_layerID);
+	
+	for (auto& component : m_mComponents)
+	{
+		spClone->AddComponentToClone(component.second);
+	}
 }

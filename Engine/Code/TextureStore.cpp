@@ -40,7 +40,7 @@ SHARED(_TexData) CTextureStore::GetTextureData(std::wstring textureKey)
 		return iter_find_cur->second;
 
 	MSG_BOX(__FILE__, (L"There is no textureKey : [" + textureKey + L"] in GetTextureData").c_str());
-	return nullptr;
+	abort();
 }
 
 void CTextureStore::InitTextureForScene(std::wstring curScene)
@@ -69,8 +69,11 @@ void CTextureStore::ParsingTexture(std::wstring filePath, std::wstring fileName)
 
 	if (pCurMap->end() == iter_Find)
 	{
-		if(FAILED(D3DXGetImageInfoFromFile(fullPath.c_str(), &pNewTex->imageInfo)))
+		if (FAILED(D3DXGetImageInfoFromFile(fullPath.c_str(), &pNewTex->imageInfo)))
+		{
 			MSG_BOX(__FILE__, (L"TexKey : [" + texKey + L"] get image info failed in ParsingTexture").c_str());
+			abort();
+		}
 		if(FAILED(D3DXCreateTextureFromFileEx(GET_DEVICE,
 											  fullPath.c_str(),
 											  pNewTex->imageInfo.Width,
@@ -85,10 +88,16 @@ void CTextureStore::ParsingTexture(std::wstring filePath, std::wstring fileName)
 											  nullptr,
 											  nullptr,
 											  &pNewTex->pTexture)))
+		{
 			MSG_BOX(__FILE__, (L"TexKey : [" + texKey + L"] create texture failed in ParsingTexture").c_str());
+			abort();
+			}
 
 		(*pCurMap)[texKey] = pNewTex;
 	}
 	else
+	{
 		MSG_BOX(__FILE__, (L"TexKey : [" + texKey + L"] is already there").c_str());
+		abort();
+	}
 }

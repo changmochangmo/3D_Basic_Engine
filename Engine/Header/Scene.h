@@ -7,11 +7,12 @@ class CGameObject;
 class ENGINE_DLL CScene abstract  
 {
 protected:
-	explicit						CScene				(void);
-	virtual						   ~CScene				(void);
+	explicit							CScene				(void);
+	virtual							   ~CScene				(void);
 
 public:
-	virtual		void					Awake				(void) PURE;
+	virtual		void					Free				(void) PURE;
+	virtual		void					Awake				(_int numOfLayers) PURE;
 	virtual		void					Start				(void) PURE;
 																   
 	virtual		_uint					FixedUpdate			(void) PURE;
@@ -30,22 +31,20 @@ public:
 
 
 protected:												   
-	virtual		void					InitLayers			(void) PURE;
+				void					InitLayers			(_int numOfLayers);
 	virtual		void					InitPrototypes		(void) PURE;
-				void					AddLayer			(std::wstring layerName);
 
 	
 protected:
-	typedef std::unordered_map<std::wstring, SHARED(CLayer)> _LAYERS;
-	GETTOR			(_LAYERS,					m_mLayers,			{},				Layers)
+	typedef std::vector<CLayer*> _LAYERS;
+	GETTOR			(_LAYERS,					m_vLayers,			{},				Layers)
 
-	GETTOR_SETTOR	(SHARED(CCameraComponent),	m_pMainCamera,		nullptr,		MainCamera)
+	GETTOR			(_int,						m_sceneID,			-1,				SceneID)
 
-	GETTOR			(std::wstring,				m_name,				L"",			Name)
 	GETTOR			(_bool,						m_isAwaked,			false,			IsAwaked)
-	GETTOR			(bool,						m_isStarted,		false,			IsStarted)
-	GETTOR_SETTOR	(bool,						m_enable,			true,			Enable)
-	GETTOR_SETTOR	(bool,						m_SceneEvent,		false,			SceneEvent)
+	GETTOR			(_bool,						m_isStarted,		false,			IsStarted)
+	GETTOR_SETTOR	(_bool,						m_enable,			true,			Enable)
+	GETTOR_SETTOR	(_bool,						m_SceneEvent,		false,			SceneEvent)
 
 };
 END

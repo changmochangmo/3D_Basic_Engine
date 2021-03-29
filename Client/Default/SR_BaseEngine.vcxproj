@@ -178,74 +178,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Header\BlockComponent.h" />
-    <ClInclude Include="..\Header\BlueBlockComponent.h" />
     <ClInclude Include="..\Header\ChangmoScene.h" />
-    <ClInclude Include="..\Header\ClientComponent.h" />
     <ClInclude Include="..\Header\ClientDefine.h" />
     <ClInclude Include="..\Header\ClientEnum.h" />
     <ClInclude Include="..\Header\ClientMacro.h" />
     <ClInclude Include="..\Header\ClientStructure.h" />
     <ClInclude Include="..\Header\ClientTypedef.h" />
-    <ClInclude Include="..\Header\DongilScene.h" />
-    <ClInclude Include="..\Header\Door.h" />
-    <ClInclude Include="..\Header\Elevator.h" />
-    <ClInclude Include="..\Header\EnemyComponent.h" />
-    <ClInclude Include="..\Header\EventBlockComponent.h" />
-    <ClInclude Include="..\Header\EventScene.h" />
-    <ClInclude Include="..\Header\GreenBlockComponent.h" />
-    <ClInclude Include="..\Header\JiyongScene.h" />
-    <ClInclude Include="..\Header\LoadingScene.h" />
-    <ClInclude Include="..\Header\LogoScene.h" />
     <ClInclude Include="..\Header\MainApp.h" />
-    <ClInclude Include="..\Header\MainMenuScene.h" />
-    <ClInclude Include="..\Header\MoveBlockComponent.h" />
-    <ClInclude Include="..\Header\NextPointComponent.h" />
-    <ClInclude Include="..\Header\NormalBlockComponent.h" />
-    <ClInclude Include="..\header\PlayerComponent.h" />
-    <ClInclude Include="..\Header\RedBlockComponent.h" />
-    <ClInclude Include="..\Header\RhythmBlockComponent.h" />
-    <ClInclude Include="..\Header\StairsComponent.h" />
-    <ClInclude Include="..\Header\Stage1Scene.h" />
-    <ClInclude Include="..\Header\Stage2Scene.h" />
-    <ClInclude Include="..\Header\Stage3Scene.h" />
-    <ClInclude Include="..\Header\WhiteBlockComponent.h" />
-    <ClInclude Include="..\Header\WooHyeongScene.h" />
-    <ClInclude Include="..\Header\YellowBlockComponent.h" />
+    <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Code\BlockComponent.cpp" />
-    <ClCompile Include="..\Code\BlueBlockComponent.cpp" />
     <ClCompile Include="..\Code\ChangmoScene.cpp" />
-    <ClCompile Include="..\Code\DongilScene.cpp" />
-    <ClCompile Include="..\Code\Door.cpp" />
-    <ClCompile Include="..\Code\Elevator.cpp" />
-    <ClCompile Include="..\Code\EnemyComponent.cpp" />
-    <ClCompile Include="..\Code\EventBlockComponent.cpp" />
-    <ClCompile Include="..\Code\EventScene.cpp" />
-    <ClCompile Include="..\Code\GreenBlockComponent.cpp" />
-    <ClCompile Include="..\Code\JiyongScene.cpp" />
-    <ClCompile Include="..\Code\LoadingScene.cpp" />
-    <ClCompile Include="..\Code\LogoScene.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
-    <ClCompile Include="..\Code\MainMenuScene.cpp" />
-    <ClCompile Include="..\Code\MoveBlockComponent.cpp" />
-    <ClCompile Include="..\Code\NextPointComponent.cpp" />
-    <ClCompile Include="..\Code\NormalBlockComponent.cpp" />
-    <ClCompile Include="..\code\PlayerComponent.cpp" />
-    <ClCompile Include="..\Code\RhythmBlockComponent.cpp" />
-    <ClCompile Include="..\Code\StairsComponent.cpp" />
-    <ClCompile Include="..\Code\RedBlockComponent.cpp" />
-    <ClCompile Include="..\Code\Stage1Scene.cpp" />
-    <ClCompile Include="..\Code\Stage2Scene.cpp" />
-    <ClCompile Include="..\Code\Stage3Scene.cpp" />
-    <ClCompile Include="..\Code\WhiteBlockComponent.cpp" />
-    <ClCompile Include="..\Code\WooHyeongScene.cpp" />
-    <ClCompile Include="..\Code\YellowBlockComponent.cpp" />
+    <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

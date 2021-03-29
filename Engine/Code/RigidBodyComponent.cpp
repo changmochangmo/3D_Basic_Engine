@@ -1,6 +1,7 @@
 #include "EngineStdafx.h"
 #include "GameObject.h"
 #include "ColliderManager.h"
+#include "FRC.h"
 
 USING(Engine)
 CRigidBodyComponent::CRigidBodyComponent(void)
@@ -34,17 +35,17 @@ SHARED(CComponent) CRigidBodyComponent::MakeClone(CGameObject * pObject)
 void CRigidBodyComponent::Awake()
 {
 	__super::Awake();
-	m_componentID = (int)m_s_componentID;
+	m_componentID = (_int)m_s_componentID;
 }
 
 void CRigidBodyComponent::Start(SHARED(CComponent) spThis)
 {
 	__super::Start(spThis);
 	m_pTransform = m_pOwner->GetComponent<CTransformComponent>().get();
-	m_mass = MathfMin(m_mass, 100);
+	m_mass = Math::Min(m_mass, 100);
 	m_mass /= 100;
-	m_bounciness = MathfMin(m_bounciness, 1);
-	m_separatingVelocity = FLOAT3_ZERO;
+	m_bounciness = Math::Min(m_bounciness, 1);
+	m_separatingVelocity = ZERO_VECTOR;
 }
 
 _uint CRigidBodyComponent::FixedUpdate(SHARED(CComponent) spThis)
@@ -74,7 +75,7 @@ _uint CRigidBodyComponent::FixedUpdate(SHARED(CComponent) spThis)
 		m_separatingVelocity = m_pTransform->GetPosition() - m_separatingVelocity;
 	}
 
-	m_netForce = FLOAT3_ZERO;
+	m_netForce = ZERO_VECTOR;
 	return _uint();
 }
 
@@ -217,25 +218,25 @@ void CRigidBodyComponent::ElasticCollision(std::vector<CGameObject*>& obj)
 
 void CRigidBodyComponent::DecelerationFunction(std::vector<CGameObject*>& col)
 {
-	if (m_separatingVelocity != FLOAT3_ZERO)
+	if (m_separatingVelocity != ZERO_VECTOR)
 	{
 		if (m_separatingVelocity.y >= -0.1f && m_separatingVelocity.y < 0)
 			m_separatingVelocity.y = 0;
 
 		m_pTransform->SetPosition(m_pTransform->GetPosition() - (m_separatingVelocity));
-		m_separatingVelocity = FLOAT3_ZERO;
+		m_separatingVelocity = ZERO_VECTOR;
 	}
 
-	if (m_velocity != FLOAT3_ZERO)
+	if (m_velocity != ZERO_VECTOR)
 	{
 		if(m_velocity.z > 0)
-			m_velocity.z = MathfMax(m_velocity.z - (GET_DT * m_damping), 0);
+			m_velocity.z = Math::Max(m_velocity.z - (GET_DT * m_damping), 0);
 		else if (m_velocity.z < 0)
-			m_velocity.z = MathfMin(m_velocity.z + (GET_DT * m_damping), 0);
+			m_velocity.z = Math::Min(m_velocity.z + (GET_DT * m_damping), 0);
 
 		if (m_velocity.x > 0)
-			m_velocity.x = MathfMax(m_velocity.x - (GET_DT * m_damping), 0);
+			m_velocity.x = Math::Max(m_velocity.x - (GET_DT * m_damping), 0);
 		else if (m_velocity.x < 0)
-			m_velocity.x = MathfMin(m_velocity.x + (GET_DT * m_damping), 0);
+			m_velocity.x = Math::Min(m_velocity.x + (GET_DT * m_damping), 0);
 	}
 }
