@@ -17,17 +17,16 @@ CColliderComponent::~CColliderComponent(void)
 
 SHARED(CComponent) CColliderComponent::MakeClone(CGameObject* pObject)
 {
-	SHARED(CColliderComponent) pClone(new CColliderComponent);
-	pClone->SetOwner(pObject);
-	pClone->SetName(m_name);
-	pClone->SetIsAwaked(m_isAwaked);
-	pClone->SetColliderID(m_colliderID);
+	SHARED(CColliderComponent) spClone(new CColliderComponent);
+	__super::InitClone(spClone, pObject);
+
+	spClone->SetColliderID(m_colliderID);
 
 	for (auto& collider : m_vColliders)
-		pClone->AddCollider(collider->MakeClone(pClone.get()));
+		spClone->AddCollider(collider->MakeClone(spClone.get()));
 
 
-	return pClone;
+	return spClone;
 }
 
 void CColliderComponent::Awake(void)
@@ -48,7 +47,7 @@ void CColliderComponent::Start(SHARED(CComponent) spThis)
 	std::wstring objectKey = m_pOwner->GetObjectKey();
 
 	if (m_colliderID == 0)
-		GET_VALUE(isStatic, ownerDataID, objectKey, L"m_colliderID", m_colliderID);
+		GET_VALUE(isStatic, ownerDataID, objectKey, L"colliderID", m_colliderID);
 
 	CColliderManager::GetInstance()->AddColliderToManager(std::dynamic_pointer_cast<CColliderComponent>(spThis));
 

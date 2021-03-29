@@ -11,12 +11,12 @@ namespace Engine
 
 	enum class ERenderID
 	{
-		Base,
-		NonAlpha,
-		Alpha,
-		UI,
-		WireFrame,
-		NumOfRenderID
+		Base			= 0,
+		NonAlpha		= 1,
+		Alpha			= 2,
+		UI				= 3,
+		WireFrame		= 4,
+		NumOfRenderID	
 	};
 
 	enum class EColliderType

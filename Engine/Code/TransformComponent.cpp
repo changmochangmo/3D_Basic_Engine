@@ -15,17 +15,15 @@ CTransformComponent::~CTransformComponent(void)
 
 SHARED(CComponent) CTransformComponent::MakeClone(CGameObject* pObject)
 {
-	SHARED(CTransformComponent) pClone(new CTransformComponent);
-	pClone->SetOwner(pObject);
-	pClone->SetName(m_name);
+	SHARED(CTransformComponent) spClone(new CTransformComponent);
+	__super::InitClone(spClone, pObject);
 
-	pClone->SetIsAwaked(m_isAwaked);
+	spClone->SetPosition(m_position);
+	spClone->SetRotation(m_rotation);
+	spClone->SetScale(m_scale);
+	spClone->SetWorldMatrix(m_worldMat);
 
-	pClone->SetPosition(m_position);
-	pClone->SetRotation(m_rotation);
-	pClone->SetScale(m_scale);
-
-	return pClone;
+	return spClone;
 }
 
 void CTransformComponent::Awake(void)
@@ -74,35 +72,6 @@ void CTransformComponent::OnDisable(void)
 {
 }
 
-void CTransformComponent::Translate(_float3 translation)
-{
-	_mat rotate;
-	
-	D3DXMatrixRotationYawPitchRoll(&rotate, D3DXToRadian(m_rotation.y), D3DXToRadian(m_rotation.x), D3DXToRadian(m_rotation.z));
-	D3DXVec3TransformCoord(&translation, &translation, &rotate);
-	m_position += translation * GET_DT;
-}
-
-void CTransformComponent::MoveTowards(_float3& thisPosition, _float3 targetPosition, _float speed)
-{
-}
-
-void CTransformComponent::Lerp(_float3& thisPosition, _float3 targetPosition, _float speed)
-{
-	_float3 dir = targetPosition - thisPosition;
-	D3DXVec3Normalize(&dir, &dir);
-	
-	if (D3DXVec3Length(&(targetPosition - thisPosition)) >= 0.01f)
-	{
-		thisPosition += dir * speed * GET_DT;
-	}
-	else
-	{
-		thisPosition = targetPosition;
-	}
-
-}
-
 
 
 
@@ -115,12 +84,12 @@ void CTransformComponent::UpdateWorldmMatrix(void)
     D3DXMatrixRotationX(&rotateX, m_rotation.x);
     
     D3DXMatrixScaling(&scale, m_scale.x, 
-                               m_scale.y,
-                               m_scale.z);
+                              m_scale.y,
+                              m_scale.z);
     
     D3DXMatrixTranslation(&translation, m_position.x, 
-                                          m_position.y,
-                                          m_position.z);
+                                        m_position.y,
+                                        m_position.z);
 
 	m_worldMat = scale * rotateX * rotateY * rotateZ * translation;
 }

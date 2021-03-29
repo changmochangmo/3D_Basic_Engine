@@ -17,17 +17,13 @@ CMeshComponent::~CMeshComponent(void)
 
 SHARED(CComponent) CMeshComponent::MakeClone(CGameObject* pObject)
 {
-	SHARED(CMeshComponent) pClone(new CMeshComponent);
-	pClone->SetOwner(pObject);
-	pClone->SetName(m_name);
+	SHARED(CMeshComponent) spClone(new CMeshComponent);
+	__super::InitClone(spClone, pObject);
 
-	pClone->SetIsAwaked(m_isAwaked);
+	spClone->SetMeshKey(m_meshKey);
+	spClone->SetMeshData(m_pMeshData);
 
-	pClone->SetMeshKey(m_meshKey);
-	pClone->SetMeshData(m_pMeshData);
-
-	
-	return pClone;
+	return spClone;
 }
 
 void CMeshComponent::Awake(void)
@@ -43,7 +39,7 @@ void CMeshComponent::Start(SHARED(CComponent) spThis)
 	_int ownerDataID = m_pOwner->GetDataID();
 	std::wstring objectKey = m_pOwner->GetObjectKey();
 
-	if (m_meshKey == L"" && (GET_VALUE(isStatic, ownerDataID, objectKey, L"m_meshKey", m_meshKey) == false))
+	if (m_meshKey == L"" && (GET_VALUE(isStatic, ownerDataID, objectKey, L"meshKey", m_meshKey) == false))
 		m_meshKey = L"Cube";
 
 	m_pMeshData = CMeshStore::GetInstance()->GetMeshData(m_meshKey);

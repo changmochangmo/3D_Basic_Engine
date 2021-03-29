@@ -25,8 +25,8 @@ public:
 			void					OnEnable			(void);
 			void					OnDisable			(void);
 
-			_uint					AddToRenderList		(ERenderID renderID, 
-														SHARED(CGraphicsComponent) pGC);
+			void					AddToRenderList		(_int renderID, 
+														 SHARED(CGraphicsComponent) pGC);
 
 
 private:

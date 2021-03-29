@@ -21,6 +21,6 @@
 #include "SphereCollider.h"
 #include "AabbCollider.h"
 #include "ObbCollider.h"
-#include "BitmapComponent.h"
+//#include "BitmapComponent.h"
 //--------------------------------------------------
 #endif

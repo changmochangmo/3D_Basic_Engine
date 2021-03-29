@@ -38,8 +38,8 @@ protected:
 	GETTOR			(SHARED(CMeshComponent),		m_pMesh,		nullptr,			Mesh)
 	GETTOR			(SHARED(CTextureComponent),		m_pTexture,		nullptr,			Texture)
 	GETTOR			(SHARED(CTransformComponent),	m_pTransform,	nullptr,			Transform)
-	GETTOR			(SHARED(CBitmapComponent),		m_pBitmap,		nullptr,			Bitmap)
-	GETTOR_SETTOR	(ERenderID,						m_renderID,		ERenderID::Base,	RenderID)
+	//GETTOR			(SHARED(CBitmapComponent),		m_pBitmap,		nullptr,			Bitmap)
+	GETTOR_SETTOR	(_int,							m_renderID,		-1,					RenderID)
 
 	
 };

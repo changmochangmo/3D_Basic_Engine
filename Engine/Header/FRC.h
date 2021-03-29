@@ -21,6 +21,7 @@ public:
 					void				TimerStart			(void);
 					_float				GetElapsedTime		(void);
 private:
+
 					//cpu의 초당 진동수
 					LARGE_INTEGER		m_cpuTick			= {};
 					//측정 시작했을때의 진동수
@@ -29,13 +30,13 @@ private:
 					LARGE_INTEGER		m_endTime			= {};
 					//한 프레임의 속도 리미트. second per frame limit.
 					_float				m_spfLimit			= 0.f;
-					//1초에 몇 프레임이 흘러가는지.
-					_float				m_fps				= 0.f;
 
 					LONGLONG			m_timer				= {};
 					
 
 	GETTOR			(_float,			m_deltaTime,		0.f,		DeltaTime)
+	GETTOR			(_float,			m_FPS,				0.f,		FPS)
+
 };
 END
 #endif

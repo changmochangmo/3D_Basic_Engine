@@ -146,8 +146,8 @@ void ClassName::DestroyInstance(void)												\
 #define GET_ELAPSED_TIME CFRC::GetInstance()->GetElapsedTime()
 
 //DataStore Macro
-#define GET_VALUE(isStatic, sectionKey, objectKey, varKey, result)					\
-CDataStore::GetInstance()->GetValue(isStatic, sectionKey, objectKey, varKey, result)
+#define GET_VALUE(isStatic, dataID, objectKey, varKey, result)					\
+CDataStore::GetInstance()->GetValue(isStatic, dataID, objectKey, varKey, result)
 
 
 //ObjectFactory Macro
@@ -161,13 +161,16 @@ CObjectFactory::GetInstance()->AddClone(objectKey, isStatic)
 
 //CameraManager Macro
 #define GET_MAIN_CAM CCameraManager::GetInstance()->GetMainCamera()
+
+//MathHelper Macro
+#define GET_MATH CMath::CMathHelper::GetInstance()
 #endif // ! MACRO_H	
 
 
 
 
 
-
+   
 
 
 

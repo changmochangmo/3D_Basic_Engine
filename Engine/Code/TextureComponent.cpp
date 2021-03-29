@@ -16,16 +16,14 @@ CTextureComponent::~CTextureComponent(void)
 
 SHARED(CComponent) CTextureComponent::MakeClone(CGameObject* pObject)
 {
-	SHARED(CTextureComponent) pClone(new CTextureComponent);
-	pClone->SetOwner(pObject);
-	pClone->SetName(m_name);
+	SHARED(CTextureComponent) spClone(new CTextureComponent);
+	__super::InitClone(spClone, pObject);
 
-	pClone->SetIsAwaked(m_isAwaked);
+	spClone->SetTextureKey(m_textureKey);
+	spClone->SetTexData(m_pTexData);
+	spClone->SetColor(m_color);
 
-	pClone->SetTextureKey(m_textureKey);
-	pClone->SetTexData(m_pTexData);
-	pClone->SetColor(D3DXVECTOR4(1.f, 1.f, 1.f, 1.f));
-	return pClone;
+	return spClone;
 }
 
 void CTextureComponent::Awake(void)
@@ -45,7 +43,7 @@ void CTextureComponent::Start(SHARED(CComponent) spThis)
 	_int ownerDataID = m_pOwner->GetDataID();
 	std::wstring objectKey = m_pOwner->GetObjectKey();
 
-	GET_VALUE(isStatic, ownerDataID, objectKey, L"m_textureKey", m_textureKey);
+	GET_VALUE(isStatic, ownerDataID, objectKey, L"textureKey", m_textureKey);
 
 
 	if ((m_pTexData = CTextureStore::GetInstance()->GetTextureData(m_textureKey)) == nullptr)

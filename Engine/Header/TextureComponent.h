@@ -26,9 +26,9 @@ public:
 public:
 	static const	EComponentID		m_s_componentID = EComponentID::Texture;
 private:
-	GETTOR_SETTOR	(std::wstring,		m_textureKey,	L"",		TextureKey)
-	GETTOR_SETTOR	(SHARED(_TexData),	m_pTexData,		nullptr,	TexData)
-	GETTOR_SETTOR	(D3DXVECTOR4,		m_color,		D3DXVECTOR4(1.f, 1.f, 1.f, 1.f), Color)
+	GETTOR_SETTOR	(std::wstring,		m_textureKey,	L"",								TextureKey)
+	GETTOR_SETTOR	(_TexData*,			m_pTexData,		nullptr,							TexData)
+	GETTOR_SETTOR	(D3DXVECTOR4,		m_color,		D3DXVECTOR4(1.f, 1.f, 1.f, 1.f),	Color)
 	
 };
 END

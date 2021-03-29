@@ -14,22 +14,20 @@ CRigidBodyComponent::~CRigidBodyComponent(void)
 
 SHARED(CComponent) CRigidBodyComponent::MakeClone(CGameObject * pObject)
 {
-	SHARED(CRigidBodyComponent) pClone(new CRigidBodyComponent);
-	pClone->SetOwner(pObject);
-	pClone->SetName(m_name);
+	SHARED(CRigidBodyComponent) spClone(new CRigidBodyComponent);
+	__super::InitClone(spClone, pObject);
 
-	pClone->SetMass(m_mass);
-	pClone->SetDrag(m_drag);
-	pClone->SetUseGravity(m_useGravity);
-	pClone->SetFreezePosition(m_freezePosition);
-	pClone->SetFreezeRotation(m_freezeRotation);
-	pClone->SetGroundCheck(m_groundCheck);
-	pClone->SetVelocity(m_velocity);
-	pClone->SetBounciness(m_bounciness);
+	spClone->SetMass(m_mass);
+	spClone->SetDrag(m_drag);
+	spClone->SetUseGravity(m_useGravity);
+	spClone->SetFreezePosition(m_freezePosition);
+	spClone->SetFreezeRotation(m_freezeRotation);
+	spClone->SetGroundCheck(m_groundCheck);
+	spClone->SetVelocity(m_velocity);
+	spClone->SetBounciness(m_bounciness);
 
-	pClone->SetIsAwaked(m_isAwaked);
 
-	return pClone;
+	return spClone;
 }
 
 void CRigidBodyComponent::Awake()
@@ -42,9 +40,9 @@ void CRigidBodyComponent::Start(SHARED(CComponent) spThis)
 {
 	__super::Start(spThis);
 	m_pTransform = m_pOwner->GetComponent<CTransformComponent>().get();
-	m_mass = Math::Min(m_mass, 100);
+	m_mass = GET_MATH->Min(m_mass, 100);
 	m_mass /= 100;
-	m_bounciness = Math::Min(m_bounciness, 1);
+	m_bounciness = GET_MATH->Min(m_bounciness, 1);
 	m_separatingVelocity = ZERO_VECTOR;
 }
 
@@ -230,13 +228,13 @@ void CRigidBodyComponent::DecelerationFunction(std::vector<CGameObject*>& col)
 	if (m_velocity != ZERO_VECTOR)
 	{
 		if(m_velocity.z > 0)
-			m_velocity.z = Math::Max(m_velocity.z - (GET_DT * m_damping), 0);
+			m_velocity.z = GET_MATH->Max(m_velocity.z - (GET_DT * m_damping), 0);
 		else if (m_velocity.z < 0)
-			m_velocity.z = Math::Min(m_velocity.z + (GET_DT * m_damping), 0);
+			m_velocity.z = GET_MATH->Min(m_velocity.z + (GET_DT * m_damping), 0);
 
 		if (m_velocity.x > 0)
-			m_velocity.x = Math::Max(m_velocity.x - (GET_DT * m_damping), 0);
+			m_velocity.x = GET_MATH->Max(m_velocity.x - (GET_DT * m_damping), 0);
 		else if (m_velocity.x < 0)
-			m_velocity.x = Math::Min(m_velocity.x + (GET_DT * m_damping), 0);
+			m_velocity.x = GET_MATH->Min(m_velocity.x + (GET_DT * m_damping), 0);
 	}
 }

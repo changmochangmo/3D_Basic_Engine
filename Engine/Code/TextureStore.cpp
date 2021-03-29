@@ -29,7 +29,7 @@ void CTextureStore::ClearCurResource(void)
 	m_mCurSceneTextureData.clear();
 }
 
-SHARED(_TexData) CTextureStore::GetTextureData(std::wstring textureKey)
+_TexData* CTextureStore::GetTextureData(std::wstring textureKey)
 {
 	auto iter_find_static = m_mStaticTextureData.find(textureKey);
 	if (iter_find_static != m_mStaticTextureData.end())
@@ -55,7 +55,7 @@ void CTextureStore::InitResource(std::wstring sourcePath)
 
 void CTextureStore::ParsingTexture(std::wstring filePath, std::wstring fileName)
 {
-	SHARED(_TexData) pNewTex(new _TexData);
+	_TexData* pNewTex = new _TexData;
 	std::wstring texKey = RemoveExtension(fileName);
 	std::wstring fullPath = filePath + L"\\" + fileName;
 
@@ -91,7 +91,7 @@ void CTextureStore::ParsingTexture(std::wstring filePath, std::wstring fileName)
 		{
 			MSG_BOX(__FILE__, (L"TexKey : [" + texKey + L"] create texture failed in ParsingTexture").c_str());
 			abort();
-			}
+		}
 
 		(*pCurMap)[texKey] = pNewTex;
 	}

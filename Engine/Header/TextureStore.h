@@ -15,7 +15,7 @@ public:
 
 			void				ClearCurResource		(void) override;
 
-			SHARED(_TexData)	GetTextureData			(std::wstring textureKey);
+			_TexData*			GetTextureData			(std::wstring textureKey);
 			void				InitTextureForScene		(std::wstring curScene);
 
 private:
@@ -24,7 +24,7 @@ private:
 														 std::wstring fileName);
 
 private:
-	typedef std::unordered_map<std::wstring, SHARED(_TexData)>	_TexDataMap;
+	typedef std::unordered_map<std::wstring, _TexData*>	_TexDataMap;
 			_TexDataMap			m_mCurSceneTextureData;
 			_TexDataMap			m_mStaticTextureData;
 };

@@ -10,7 +10,9 @@ public:
 	virtual	   ~CComponent		(void);
 
 public:
+
 	virtual		SHARED(CComponent)	MakeClone	(CGameObject* pObject)			PURE;
+				void				InitClone	(SHARED(CComponent) spClone, CGameObject* pOwner);
 
 	virtual		void				Awake		(void)							PURE;
 	virtual		void				Start		(SHARED(CComponent) spThis)		PURE;
@@ -35,7 +37,7 @@ protected:
 	GETTOR_SETTOR	(_int,			m_dataID,		(_int)EDataID::Component,	DataID)
 	GETTOR_SETTOR	(std::wstring,  m_name,			L"",						Name)
 
-	GETTOR			(_int,			m_componentID,	-1,							ComponentID)
+	GETTOR_SETTOR	(_int,			m_componentID,	-1,							ComponentID)
 };
 END
 

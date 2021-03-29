@@ -56,7 +56,8 @@
 #include "EngineMacro.h"
 #include "EngineStructure.h"
 #include "EngineComponents.h"
-#include "EngineMath.h"
+
+#include "MathHelper.h"
 //
 
 // »ç¿îµå

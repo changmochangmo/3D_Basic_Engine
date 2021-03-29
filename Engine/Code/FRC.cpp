@@ -16,7 +16,7 @@ void CFRC::Awake(void)
 
 void CFRC::Start(void)
 {
-	GET_VALUE(true, m_sectionKey, m_objectKey, L"m_fps", m_fps);
+	GET_VALUE(true, m_sectionKey, m_objectKey, L"FPS", m_FPS);
 }
 
 void CFRC::OnDestroy(void)
@@ -38,7 +38,7 @@ bool CFRC::FrameLock(void)
 
 	m_beginTime.QuadPart = m_endTime.QuadPart;
 
-	if ((1.f / m_fps) < m_spfLimit)
+	if ((1.f / m_FPS) < m_spfLimit)
 	{
 		m_deltaTime = m_spfLimit;
 		m_spfLimit = 0.f;

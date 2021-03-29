@@ -10,6 +10,14 @@ CComponent::~CComponent(void)
 {
 }
 
+void CComponent::InitClone(SHARED(CComponent) spClone, CGameObject * pOwner)
+{
+	spClone->SetOwner(pOwner);
+	spClone->SetName(m_name);
+	spClone->SetIsAwaked(m_isAwaked);
+	spClone->SetComponentID(m_componentID);
+}
+
 void CComponent::Awake(void)
 {
 	m_isAwaked = true;

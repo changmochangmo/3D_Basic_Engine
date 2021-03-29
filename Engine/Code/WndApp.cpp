@@ -13,10 +13,10 @@ void CWndApp::Awake(void)
 
 void CWndApp::Start(HINSTANCE hInstance, int nCmdShow)
 {
-	GET_VALUE(true, m_sectionKey, m_objectKey, L"m_className", m_className);
-	GET_VALUE(true, m_sectionKey, m_objectKey, L"m_windowName", m_windowName);
-	GET_VALUE(true, m_sectionKey, m_objectKey, L"m_wndWidth", m_wndWidth);
-	GET_VALUE(true, m_sectionKey, m_objectKey, L"m_wndHeight", m_wndHeight);
+	GET_VALUE(true, m_sectionKey, m_objectKey, L"className", m_className);
+	GET_VALUE(true, m_sectionKey, m_objectKey, L"windowName", m_windowName);
+	GET_VALUE(true, m_sectionKey, m_objectKey, L"wndWidth", m_wndWidth);
+	GET_VALUE(true, m_sectionKey, m_objectKey, L"wndHeight", m_wndHeight);
 
 
 	RegisterWndClass(hInstance);

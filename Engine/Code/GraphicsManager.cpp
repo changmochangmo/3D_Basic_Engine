@@ -132,15 +132,19 @@ void CGraphicsManager::OnDisable(void)
 {
 }
 
-_uint CGraphicsManager::AddToRenderList(ERenderID renderID, SHARED(CGraphicsComponent) pGC)
+void CGraphicsManager::AddToRenderList(_int renderID, SHARED(CGraphicsComponent) pGC)
 {
 	if (pGC == nullptr)
-		return NULL_PARAMETER;
+	{
+		MSG_BOX(__FILE__, L"GraphicComponent is null in AddToRenderList");
+		abort();
+	}
 
-	if (ERenderID::NumOfRenderID <= renderID)
-		return OUT_OF_RANGE;
+	if ((_int)ERenderID::NumOfRenderID <= renderID || renderID < 0)
+	{
+		MSG_BOX(__FILE__, L"renderID is out of range in AddToRenderList");
+		abort();
+	}
 
 	m_vRenderList[(_uint)renderID].push_back(pGC);
-
-	return NO_EVENT;
 }
