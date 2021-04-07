@@ -37,7 +37,7 @@ namespace Engine
 	std::wstring GetCurClassName(void)
 	{
 		std::wstring className = StrToWStr(typeid(T).name());
-		_uint nameStartPos = className.find_last_of(':');
+		size_t nameStartPos = className.find_last_of(':');
 		if (nameStartPos == std::string::npos)
 			className.erase(0, 7);
 		else
@@ -50,8 +50,8 @@ namespace Engine
 	std::wstring GetCurClassName(T* something)
 	{
 		std::wstring className = StrToWStr(typeid(*something).name());
-		_uint nameStartPos = className.find_last_of(':');
-		if (nameStartPos == std::string::npos)
+		size_t nameStartPos = className.find_last_of(':');
+		if (nameStartPos == std::wstring::npos)
 			className.erase(0, 7);
 		else
 			className.erase(0, nameStartPos + 2);

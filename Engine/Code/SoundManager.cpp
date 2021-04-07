@@ -7,10 +7,18 @@ IMPLEMENT_SINGLETON(CSoundManager)
 
 void CSoundManager::Awake(void)
 {
-	FMOD_System_Create(&m_pSystem);
+	if (FMOD_System_Create(&m_pSystem) != FMOD_OK)
+	{
+		MSG_BOX(__FILE__, L"FMOD_SYSTEM_CREATE FAILED");
+		abort();
+	}
 
 	// 1. 시스템 포인터, 2. 사용할 가상채널 수 , 초기화 방식) 
-	FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
+	if (FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL) != FMOD_OK)
+	{
+		MSG_BOX(__FILE__, L"FMOD_SYSTEM_INIT FAILED");
+		abort();
+	}
 
 	LoadSoundFile();
 }
@@ -19,7 +27,6 @@ void CSoundManager::OnDestroy(void)
 {
 	for (auto& Mypair : m_mapSound)
 	{
-		delete[] Mypair.first;
 		FMOD_Sound_Release(Mypair.second);
 	}
 	m_mapSound.clear();
@@ -29,13 +36,13 @@ void CSoundManager::OnDestroy(void)
 
 
 
-void CSoundManager::StartSound(TCHAR * pSoundKey, EChannelID eID)
+void CSoundManager::StartSound(std::wstring soundKey, EChannelID eID)
 {
-	std::unordered_map<TCHAR*, FMOD_SOUND*>::iterator iter;
+	std::unordered_map<std::wstring, FMOD_SOUND*>::iterator iter;
 
 	iter = find_if(m_mapSound.begin(), m_mapSound.end(), [&](auto& iter) 
 	{
-		return !lstrcmp(pSoundKey, iter.first);
+		return (soundKey == iter.first);
 	});
 
 	if (iter == m_mapSound.end())
@@ -49,13 +56,13 @@ void CSoundManager::StartSound(TCHAR * pSoundKey, EChannelID eID)
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundManager::PlayBGM(TCHAR * pSoundKey)
+void CSoundManager::PlayBGM(std::wstring soundKey)
 {
-	std::unordered_map<TCHAR*, FMOD_SOUND*>::iterator iter;
+	std::unordered_map<std::wstring, FMOD_SOUND*>::iterator iter;
 
 	iter = find_if(m_mapSound.begin(), m_mapSound.end(), [&](auto& iter)
 	{
-		return !lstrcmp(pSoundKey, iter.first);
+		return (soundKey == iter.first);
 	});
 
 	if (iter == m_mapSound.end())
@@ -79,40 +86,39 @@ void CSoundManager::StopAll()
 
 void CSoundManager::LoadSoundFile()
 {
-	_finddata_t fd; 
+	WIN32_FIND_DATA fd;
+	std::wstring curDir = L"..\\..\\Resource\\Sound";
+	std::wstring fullFilePath, curFile;
 
-	long handle = _findfirst("../../Resource/Sound/*.*", &fd);
+	HANDLE handle = FindFirstFile((curDir + L"\\*").c_str(), &fd);
 
-	if (handle == 0)
-		return; 
-
-	int iResult = 0; 
-
-	char szCurPath[128] = "../../Resource/Sound/";
-	char szFullPath[128] = ""; 
-
-	while (iResult != -1)
+	if (handle == INVALID_HANDLE_VALUE)
 	{
-		strcpy_s(szFullPath, szCurPath); 
-		strcat_s(szFullPath, fd.name);
-		FMOD_SOUND* pSound = nullptr; 
+		MSG_BOX(__FILE__, L"Given path is wrong during getting handle in SoundManager");
+		abort();
+	}
 
-		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_HARDWARE, 0, &pSound);
+	do
+	{
+		curFile = fd.cFileName;
+		fullFilePath = curDir + L"\\" + curFile;
+
+		if (curFile[0] == '.')
+			continue;
+
+		FMOD_SOUND* pSound = nullptr;
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, 
+												   WStrToStr(fullFilePath).c_str(), 
+												   FMOD_HARDWARE, 0, &pSound);
 
 		if (eRes == FMOD_OK)
 		{
-			int iLength = strlen(fd.name) + 1; 
-
-			TCHAR* pSoundKey = new TCHAR[iLength];
-			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
-			MultiByteToWideChar(CP_ACP, 0, fd.name, iLength, pSoundKey, iLength);
-
-			m_mapSound.emplace(pSoundKey, pSound);
+			m_mapSound.emplace(fd.cFileName, pSound);
 		}
-		iResult = _findnext(handle, &fd);
-	}
+		
+	} while (FindNextFile(handle, &fd));
+
 	FMOD_System_Update(m_pSystem);
-	_findclose(handle);
 }
 
 
