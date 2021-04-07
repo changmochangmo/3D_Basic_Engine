@@ -25,7 +25,7 @@ CRayCollider * CRayCollider::Create(_float3 offset, _float3 direction)
 	return pRay;
 }
 
-CCollider * CRayCollider::MakeClone(CColliderComponent * pCC)
+CCollider * CRayCollider::MakeClone(CCollisionC * pCC)
 {
 	CRayCollider* pRC = CRayCollider::Create(m_offset, m_direction);
 	pRC->SetOwner(pCC);

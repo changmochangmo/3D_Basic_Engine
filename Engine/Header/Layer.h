@@ -27,8 +27,11 @@ public:
 				void			OnEnable		(void);
 				void			OnDisable		(void);
 
+//Interface
+public:
+				void			AddGameObject	(SP(CGameObject) spGameObject);
 protected:
-	typedef std::vector<SHARED(CGameObject)> _GAMEOBJECTS;
+	typedef std::vector<SP(CGameObject)> _GAMEOBJECTS;
 	GETTOR			(_GAMEOBJECTS,	m_vGameObjects,		{},			GameObjects)
 
 	GETTOR_SETTOR	(CScene*,		m_pOwner,			nullptr,	Owner)

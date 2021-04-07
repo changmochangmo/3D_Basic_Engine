@@ -6,6 +6,7 @@
 
 //프로젝트 외부 참조문서
 //For C, window 
+#define NOMINMAX
 #include <Windows.h>
 #include <stdlib.h>
 #include <malloc.h>
@@ -38,6 +39,9 @@
 
 //For function pointers
 #include <functional>
+
+//For Algorithm
+#include <algorithm>
 
 //For Graphics
 #include "d3d9.h"

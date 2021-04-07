@@ -4,17 +4,17 @@
 #include "FRC.h"
 
 USING(Engine)
-CRigidBodyComponent::CRigidBodyComponent(void)
+CRigidBodyC::CRigidBodyC(void)
 {
 }
 
-CRigidBodyComponent::~CRigidBodyComponent(void)
+CRigidBodyC::~CRigidBodyC(void)
 {
 }
 
-SHARED(CComponent) CRigidBodyComponent::MakeClone(CGameObject * pObject)
+SP(CComponent) CRigidBodyC::MakeClone(CGameObject * pObject)
 {
-	SHARED(CRigidBodyComponent) spClone(new CRigidBodyComponent);
+	SP(CRigidBodyC) spClone(new CRigidBodyC);
 	__super::InitClone(spClone, pObject);
 
 	spClone->SetMass(m_mass);
@@ -30,26 +30,26 @@ SHARED(CComponent) CRigidBodyComponent::MakeClone(CGameObject * pObject)
 	return spClone;
 }
 
-void CRigidBodyComponent::Awake()
+void CRigidBodyC::Awake()
 {
 	__super::Awake();
 	m_componentID = (_int)m_s_componentID;
 }
 
-void CRigidBodyComponent::Start(SHARED(CComponent) spThis)
+void CRigidBodyC::Start(SP(CComponent) spThis)
 {
 	__super::Start(spThis);
-	m_pTransform = m_pOwner->GetComponent<CTransformComponent>().get();
+	m_pTransform = m_pOwner->GetComponent<CTransformC>().get();
 	m_mass = GET_MATH->Min(m_mass, 100);
 	m_mass /= 100;
 	m_bounciness = GET_MATH->Min(m_bounciness, 1);
 	m_separatingVelocity = ZERO_VECTOR;
 }
 
-_uint CRigidBodyComponent::FixedUpdate(SHARED(CComponent) spThis)
+void CRigidBodyC::FixedUpdate(SP(CComponent) spThis)
 {
 	std::vector<CGameObject*> col;
-	SHARED(CColliderComponent) spCC = m_pOwner->GetComponent<CColliderComponent>();
+	SP(CCollisionC) spCC = m_pOwner->GetComponent<CCollisionC>();
 
 	bool crushCheck = false;
 	if (spCC->GetIsStarted())
@@ -74,32 +74,29 @@ _uint CRigidBodyComponent::FixedUpdate(SHARED(CComponent) spThis)
 	}
 
 	m_netForce = ZERO_VECTOR;
-	return _uint();
 }
 
-_uint CRigidBodyComponent::Update(SHARED(CComponent) spThis)
-{
-	return _uint();
-}
-
-_uint CRigidBodyComponent::LateUpdate(SHARED(CComponent) spThis)
-{
-	return _uint();
-}
-
-void CRigidBodyComponent::OnDestroy(void)
+void CRigidBodyC::Update(SP(CComponent) spThis)
 {
 }
 
-void CRigidBodyComponent::OnEnable(void)
+void CRigidBodyC::LateUpdate(SP(CComponent) spThis)
 {
 }
 
-void CRigidBodyComponent::OnDisable(void)
+void CRigidBodyC::OnDestroy(void)
 {
 }
 
-void CRigidBodyComponent::GravityDrag(_float3 & velocity)
+void CRigidBodyC::OnEnable(void)
+{
+}
+
+void CRigidBodyC::OnDisable(void)
+{
+}
+
+void CRigidBodyC::GravityDrag(_float3 & velocity)
 {
 	_float3 drag = velocity;
 	D3DXVec3Normalize(&drag, &drag);
@@ -110,7 +107,7 @@ void CRigidBodyComponent::GravityDrag(_float3 & velocity)
 	velocity.y -= drag.y;*/
 }
 
-void CRigidBodyComponent::AddForce(_float3 force)
+void CRigidBodyC::AddForce(_float3 force)
 {
 	m_netForce += force;
 
@@ -130,7 +127,7 @@ void CRigidBodyComponent::AddForce(_float3 force)
 	m_pTransform->SetPosition(m_pTransform->GetPosition() + (GET_DT * m_velocity));
 }
 
-void CRigidBodyComponent::SetForce(_float3 force)
+void CRigidBodyC::SetForce(_float3 force)
 {
 	_float xForce = (force.x / m_mass);
 	_float yForce = (force.y / m_mass);
@@ -145,7 +142,7 @@ void CRigidBodyComponent::SetForce(_float3 force)
 	m_pTransform->SetPosition(m_pTransform->GetPosition() + (GET_DT * m_velocity));
 }
 
-void CRigidBodyComponent::TranslateForce(_float3 force)
+void CRigidBodyC::TranslateForce(_float3 force)
 {
 	_float xForce = (force.x / m_mass);
 	_float yForce = (force.y / m_mass);
@@ -155,7 +152,8 @@ void CRigidBodyComponent::TranslateForce(_float3 force)
 
 	_mat rotate;
 
-	D3DXMatrixRotationYawPitchRoll(&rotate, D3DXToRadian(m_pTransform->GetRotation().y), D3DXToRadian(m_pTransform->GetRotation().x), D3DXToRadian(m_pTransform->GetRotation().z));
+	//ÄõÅÍ´Ï¾È
+	//D3DXMatrixRotationYawPitchRoll(&rotate, D3DXToRadian(m_pTransform->GetRotation().y), D3DXToRadian(m_pTransform->GetRotation().x), D3DXToRadian(m_pTransform->GetRotation().z));
 	D3DXVec3TransformCoord(&a, &a, &rotate);
 
 	m_velocity = a;
@@ -169,7 +167,7 @@ void CRigidBodyComponent::TranslateForce(_float3 force)
 
 
 
-void CRigidBodyComponent::ElasticCollision(std::vector<CGameObject*>& obj)
+void CRigidBodyC::ElasticCollision(std::vector<CGameObject*>& obj)
 {
 	if (m_velocity.y == 0)
 		return;
@@ -181,7 +179,7 @@ void CRigidBodyComponent::ElasticCollision(std::vector<CGameObject*>& obj)
 		if (collisionObj == GetOwner())
 			continue;
 
-		SHARED(CRigidBodyComponent) rigdbody = collisionObj->GetComponent<CRigidBodyComponent>();
+		SP(CRigidBodyC) rigdbody = collisionObj->GetComponent<CRigidBodyC>();
 		if (rigdbody != nullptr)
 		{
 			_float m1 = m_mass; 
@@ -214,7 +212,7 @@ void CRigidBodyComponent::ElasticCollision(std::vector<CGameObject*>& obj)
 	}
 }
 
-void CRigidBodyComponent::DecelerationFunction(std::vector<CGameObject*>& col)
+void CRigidBodyC::DecelerationFunction(std::vector<CGameObject*>& col)
 {
 	if (m_separatingVelocity != ZERO_VECTOR)
 	{

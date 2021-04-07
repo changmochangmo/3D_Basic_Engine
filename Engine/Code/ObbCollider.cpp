@@ -23,7 +23,7 @@ CObbCollider * CObbCollider::Create(_float3 size, _float3 offset)
 	return pObb;
 }
 
-CCollider * CObbCollider::MakeClone(CColliderComponent * pCC)
+CCollider * CObbCollider::MakeClone(CCollisionC * pCC)
 {
 	CObbCollider* pOC = CObbCollider::Create(m_size, m_offset);
 	pOC->SetOwner(pCC);

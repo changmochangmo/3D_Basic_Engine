@@ -14,9 +14,9 @@ public:
 	virtual		void	Awake		(void) PURE;
 	virtual		void	Start		(void) PURE;
 
-	virtual		void	PreRender	(CGraphicsComponent* pGraphics) PURE;
-	virtual		void	Render		(CGraphicsComponent* pGraphics) PURE;
-	virtual		void	PostRender	(CGraphicsComponent* pGraphics) PURE;
+	virtual		void	PreRender	(CGraphicsC* pGraphics) PURE;
+	virtual		void	Render		(CGraphicsC* pGraphics) PURE;
+	virtual		void	PostRender	(CGraphicsC* pGraphics) PURE;
 
 	virtual		void	OnDestroy	(void) PURE;
 

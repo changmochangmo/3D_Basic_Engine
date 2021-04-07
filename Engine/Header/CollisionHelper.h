@@ -31,8 +31,8 @@ static _bool CollisionTypeSorting(CCollider* pC1, CCollider* pC2,
 
 static bool PointPoint(CCollider* pC1, CCollider* pC2)
 {
-	SHARED(CTransformComponent) spTransform1 = pC1->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spTransform2 = pC2->GetOwner()->GetTransform();
+	SP(CTransformC) spTransform1 = pC1->GetOwner()->GetTransform();
+	SP(CTransformC) spTransform2 = pC2->GetOwner()->GetTransform();
 
 	CPointCollider* pPC1 = static_cast<CPointCollider*>(pC1);
 	CPointCollider* pPC2 = static_cast<CPointCollider*>(pC2);
@@ -54,8 +54,8 @@ static bool PointRay(CCollider* pC1, CCollider* pC2)
 	CPointCollider* pPC = static_cast<CPointCollider*>(pSupposedPC);
 	CRayCollider* pRC = static_cast<CRayCollider*>(pSupposedRC);
 
-	SHARED(CTransformComponent) spPointTransform = pPC->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spRayTransform = pRC->GetOwner()->GetTransform();
+	SP(CTransformC) spPointTransform = pPC->GetOwner()->GetTransform();
+	SP(CTransformC) spRayTransform = pRC->GetOwner()->GetTransform();
 
 	_float3 rayStartPos = spRayTransform->GetPosition() + pRC->GetOffset();
 	_float3 rayDir = pRC->GetDirection();
@@ -84,8 +84,8 @@ static bool PointSphere(CCollider* pC1, CCollider* pC2)
 	CPointCollider* pPC = static_cast<CPointCollider*>(pSupposedPC);
 	CSphereCollider* pSC = static_cast<CSphereCollider*>(pSupposedSC);
 
-	SHARED(CTransformComponent) spPointTransform = pPC->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spSphereTransform = pSC->GetOwner()->GetTransform();
+	SP(CTransformC) spPointTransform = pPC->GetOwner()->GetTransform();
+	SP(CTransformC) spSphereTransform = pSC->GetOwner()->GetTransform();
 
 	_float3 scPosition = spSphereTransform->GetPosition();
 	_float3 pcPosition = spPointTransform->GetPosition() + pPC->GetOffset();
@@ -107,8 +107,8 @@ static bool PointAabb(CCollider* pC1, CCollider* pC2)
 	CPointCollider* pPC = static_cast<CPointCollider*>(pSupposedPC);
 	CAabbCollider* pAC = static_cast<CAabbCollider*>(pSupposedAC);
 
-	SHARED(CTransformComponent) spPointTransform = pPC->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spAabbTransform = pAC->GetOwner()->GetTransform();
+	SP(CTransformC) spPointTransform = pPC->GetOwner()->GetTransform();
+	SP(CTransformC) spAabbTransform = pAC->GetOwner()->GetTransform();
 
 	_float3 pcPosition = spPointTransform->GetPosition() + pPC->GetOffset();
 	_float3 acPosition = spAabbTransform->GetPosition() + pAC->GetOffset();
@@ -133,8 +133,8 @@ static bool PointObb(CCollider* pC1, CCollider* pC2)
 	CPointCollider* pPC = static_cast<CPointCollider*>(pSupposedPC);
 	CObbCollider* pOC = static_cast<CObbCollider*>(pSupposedOC);
 
-	SHARED(CTransformComponent) spPointTransform = pPC->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spObbTransform = pOC->GetOwner()->GetTransform();
+	SP(CTransformC) spPointTransform = pPC->GetOwner()->GetTransform();
+	SP(CTransformC) spObbTransform = pOC->GetOwner()->GetTransform();
 
 	_float3 pcPosition = spPointTransform->GetPosition() + pPC->GetOffset();
 	_float3 ocPosition = spObbTransform->GetPosition() + pOC->GetOffset();
@@ -167,8 +167,8 @@ static bool RayRay(CCollider* pC1, CCollider* pC2)
 	CRayCollider* pRC1 = static_cast<CRayCollider*>(pC1);
 	CRayCollider* pRC2 = static_cast<CRayCollider*>(pC2);
 
-	SHARED(CTransformComponent) spRayTransform1 = pRC1->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spRayTransform2 = pRC2->GetOwner()->GetTransform();
+	SP(CTransformC) spRayTransform1 = pRC1->GetOwner()->GetTransform();
+	SP(CTransformC) spRayTransform2 = pRC2->GetOwner()->GetTransform();
 
 	_float3 ray1Start = pRC1->GetOffset() + spRayTransform1->GetPosition();
 	_float3 ray2Start = pRC2->GetOffset() + spRayTransform2->GetPosition();
@@ -207,8 +207,8 @@ static bool RaySphere(CCollider* pC1, CCollider* pC2)
 	CRayCollider* pRC = static_cast<CRayCollider*>(pSupposedRC);
 	CSphereCollider* pSC = static_cast<CSphereCollider*>(pSupposedSC);
 
-	SHARED(CTransformComponent) spRayTransform = pRC->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spSphereTransform = pSC->GetOwner()->GetTransform();
+	SP(CTransformC) spRayTransform = pRC->GetOwner()->GetTransform();
+	SP(CTransformC) spSphereTransform = pSC->GetOwner()->GetTransform();
 
 	_float3 rayStartPos = spRayTransform->GetPosition() + pRC->GetOffset();
 	_float3 spherePos = spSphereTransform->GetPosition() + pSC->GetOffset();
@@ -240,8 +240,8 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 	CRayCollider* pRC = static_cast<CRayCollider*>(pSupposedRC);
 	CAabbCollider* pAC = static_cast<CAabbCollider*>(pSupposedAC);
 
-	SHARED(CTransformComponent) spRayTransform = pRC->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spAabbTransform = pAC->GetOwner()->GetTransform();
+	SP(CTransformC) spRayTransform = pRC->GetOwner()->GetTransform();
+	SP(CTransformC) spAabbTransform = pAC->GetOwner()->GetTransform();
 
 	_float3 rayStartPos = spRayTransform->GetPosition() + pRC->GetOffset();
 	_float3 aabbPos = spAabbTransform->GetPosition() + pAC->GetOffset();
@@ -273,8 +273,8 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 				t2 = temp;
 			}
 
-			tMin = max(tMin, t1);
-			tMax = min(tMax, t2);
+			tMin = GET_MATH->Max(tMin, t1);
+			tMax = GET_MATH->Min(tMax, t2);
 
 			if (tMin > tMax) return false;
 		}
@@ -294,8 +294,8 @@ static bool RayObb(CCollider* pC1, CCollider* pC2)
 	CRayCollider* pRC = static_cast<CRayCollider*>(pSupposedRC);
 	CAabbCollider* pOC = static_cast<CAabbCollider*>(pSupposedOC);
 
-	SHARED(CTransformComponent) spRayTransform = pRC->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spObbTransform = pOC->GetOwner()->GetTransform();
+	SP(CTransformC) spRayTransform = pRC->GetOwner()->GetTransform();
+	SP(CTransformC) spObbTransform = pOC->GetOwner()->GetTransform();
 
 	_float3 rayStartPos = spRayTransform->GetPosition() + pRC->GetOffset();
 	_float3 obbPos = spObbTransform->GetPosition() + pOC->GetOffset();
@@ -355,8 +355,8 @@ static bool SphereSphere(CCollider* pC1, CCollider* pC2)
 	CSphereCollider* pSC1 = static_cast<CSphereCollider*>(pC1);
 	CSphereCollider* pSC2 = static_cast<CSphereCollider*>(pC2);
 
-	SHARED(CTransformComponent) spSphereTransform1 = pSC1->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spSphereTransform2 = pSC2->GetOwner()->GetTransform();
+	SP(CTransformC) spSphereTransform1 = pSC1->GetOwner()->GetTransform();
+	SP(CTransformC) spSphereTransform2 = pSC2->GetOwner()->GetTransform();
 
 	_float3 center1 = spSphereTransform1->GetPosition() + pSC1->GetOffset();
 	_float3 center2 = spSphereTransform2->GetPosition() + pSC2->GetOffset();
@@ -376,8 +376,8 @@ static bool SphereAabb(CCollider* pC1, CCollider* pC2)
 	CAabbCollider* pAC = static_cast<CAabbCollider*>(pSupposedAC);
 	CSphereCollider* pSC = static_cast<CSphereCollider*>(pSupposedSC);
 
-	SHARED(CTransformComponent) spAabbTransform = pAC->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spSphereTransform = pSC->GetOwner()->GetTransform();
+	SP(CTransformC) spAabbTransform = pAC->GetOwner()->GetTransform();
+	SP(CTransformC) spSphereTransform = pSC->GetOwner()->GetTransform();
 
 	float sqDist = pAC->SqDistFromPoint(spSphereTransform->GetPosition() + pSC->GetOffset());
 
@@ -394,8 +394,8 @@ static bool SphereObb(CCollider* pC1, CCollider* pC2)
 	CObbCollider* pOC = static_cast<CObbCollider*>(pSupposedOC);
 	CSphereCollider* pSC = static_cast<CSphereCollider*>(pSupposedSC);
 
-	SHARED(CTransformComponent) spObbTransform = pOC->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spSphereTransform = pSC->GetOwner()->GetTransform();
+	SP(CTransformC) spObbTransform = pOC->GetOwner()->GetTransform();
+	SP(CTransformC) spSphereTransform = pSC->GetOwner()->GetTransform();
 
 	_float3 closestOnOBB = pOC->ClosestFromPoint(pSC->GetOffset() + spSphereTransform->GetPosition());
 	_float3 sphereToClosest = closestOnOBB - (pSC->GetOffset() + spSphereTransform->GetPosition());
@@ -408,8 +408,8 @@ static bool AabbAabb(CCollider* pC1, CCollider* pC2)
 	CAabbCollider* pAC1 = static_cast<CAabbCollider*>(pC1);
 	CAabbCollider* pAC2 = static_cast<CAabbCollider*>(pC2);
 
-	SHARED(CTransformComponent) spAabbTransform1 = pAC1->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spAabbTransform2 = pAC2->GetOwner()->GetTransform();
+	SP(CTransformC) spAabbTransform1 = pAC1->GetOwner()->GetTransform();
+	SP(CTransformC) spAabbTransform2 = pAC2->GetOwner()->GetTransform();
 
 	_float3 aabb1Center = pAC1->GetOffset() + spAabbTransform1->GetPosition();
 	_float3 aabb2Center = pAC2->GetOffset() + spAabbTransform2->GetPosition();
@@ -433,8 +433,8 @@ static bool AabbObb(CCollider* pC1, CCollider* pC2)
 	CAabbCollider* pAC = static_cast<CAabbCollider*>(pSupposedAC);
 	CObbCollider* pOC = static_cast<CObbCollider*>(pSupposedOC);
 
-	SHARED(CTransformComponent) spAabbTransform = pAC->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spObbTransform = pOC->GetOwner()->GetTransform();
+	SP(CTransformC) spAabbTransform = pAC->GetOwner()->GetTransform();
+	SP(CTransformC) spObbTransform = pOC->GetOwner()->GetTransform();
 
 	_float3 aabbCenter = pAC->GetOffset() + spAabbTransform->GetPosition();
 	_float3 obbCenter = pOC->GetOffset() + spObbTransform->GetPosition();
@@ -546,8 +546,8 @@ static bool ObbObb(CCollider* pC1, CCollider* pC2)
 	CObbCollider* pOC1 = static_cast<CObbCollider*>(pC1);
 	CObbCollider* pOC2 = static_cast<CObbCollider*>(pC2);
 
-	SHARED(CTransformComponent) spObbTransform1 = pOC1->GetOwner()->GetTransform();
-	SHARED(CTransformComponent) spObbTransform2 = pOC2->GetOwner()->GetTransform();
+	SP(CTransformC) spObbTransform1 = pOC1->GetOwner()->GetTransform();
+	SP(CTransformC) spObbTransform2 = pOC2->GetOwner()->GetTransform();
 
 	_float3 obb1Center = pOC1->GetOffset() + spObbTransform1->GetPosition();
 	_float3 obb2Center = pOC2->GetOffset() + spObbTransform2->GetPosition();

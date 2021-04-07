@@ -218,8 +218,8 @@ void CEditorView::ForwardSpawnObject()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
-	SHARED(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(m_vCurCubePos.x,
+	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
 
@@ -237,8 +237,8 @@ void CEditorView::LeftSpawnObject()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
-	SHARED(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(m_vCurCubePos.x,
+	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
 
@@ -256,8 +256,8 @@ void CEditorView::TopSpawnObject()
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
 
-	SHARED(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(m_vCurCubePos.x,
+	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
 	m_vGameObjects.emplace_back(pObj);
@@ -275,8 +275,8 @@ void CEditorView::RightSpawnObject()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
-	SHARED(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(m_vCurCubePos.x,
+	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
 
@@ -295,8 +295,8 @@ void CEditorView::BottomSpawnObject()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
-	SHARED(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(m_vCurCubePos.x,
+	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
 
@@ -311,8 +311,8 @@ void CEditorView::BackSpawnObject()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
-	SHARED(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(m_vCurCubePos.x,
+	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
 

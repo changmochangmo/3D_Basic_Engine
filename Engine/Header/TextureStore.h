@@ -2,7 +2,7 @@
 #define TEXTURESTORE_H
 
 #include "ResourceStore.h"
-#include "Texture.h"
+//#include "Texture.h"
 
 BEGIN(Engine)
 class ENGINE_DLL CTextureStore final : public CResourceStore

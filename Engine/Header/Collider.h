@@ -11,7 +11,7 @@ public:
 	virtual								   ~CCollider		(void);
 
 public:
-	virtual			CCollider*				MakeClone		(CColliderComponent* pCC) PURE;
+	virtual			CCollider*				MakeClone		(CCollisionC* pCC) PURE;
 
 	virtual			void					Awake			(void) PURE;
 	virtual			void					OnDestroy		(void) PURE;
@@ -23,7 +23,7 @@ protected:
 	virtual			void					MakeBS			(void) PURE;
 protected:
 	GETTOR_SETTOR	(_int,					m_colliderType,		-1,			ColliderType)
-	GETTOR_SETTOR	(CColliderComponent*,	m_pOwner,			nullptr,	Owner)
+	GETTOR_SETTOR	(CCollisionC*,			m_pOwner,			nullptr,	Owner)
 
 	GETTOR_SETTOR	(_float3,				m_offsetBS,			ZERO_VECTOR,	OffsetBS)
 	GETTOR_SETTOR	(_float,				m_radiusBS,			0,				RadiusBS)

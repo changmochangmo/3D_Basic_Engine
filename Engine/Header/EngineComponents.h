@@ -3,17 +3,19 @@
 
 #include "Component.h"
 
-#include "TransformComponent.h"
+#include "TransformC.h"
 
 // Graphics-----------------------------------------
-#include "GraphicsComponent.h"
-#include "TextureComponent.h"
-#include "MeshComponent.h"
-//--------------------------------------------------
+#include "TextureC.h"
+#include "MeshC.h"
+#include "GraphicsC.h"
+
+// Camera-------------------------------------------
+#include "CameraC.h"
 
 // Physics------------------------------------------
-#include "RigidBodyComponent.h"
-#include "ColliderComponent.h"
+#include "RigidBodyC.h"
+#include "CollisionC.h"
 
 #include "Collider.h"
 #include "PointCollider.h"
@@ -22,5 +24,5 @@
 #include "AabbCollider.h"
 #include "ObbCollider.h"
 //#include "BitmapComponent.h"
-//--------------------------------------------------
+
 #endif

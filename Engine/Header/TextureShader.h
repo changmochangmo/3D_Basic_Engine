@@ -16,9 +16,9 @@ public:
 				void				Awake		(void) override;
 				void				Start		(void) override;
 
-				void				PreRender	(CGraphicsComponent* pGraphics) override;
-				void				Render		(CGraphicsComponent* pGraphics) override;
-				void				PostRender	(CGraphicsComponent* pGraphics) override;
+				void				PreRender	(CGraphicsC* pGraphics) override;
+				void				Render		(CGraphicsC* pGraphics) override;
+				void				PostRender	(CGraphicsC* pGraphics) override;
 
 				void				OnDestroy	(void) override;
 

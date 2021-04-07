@@ -36,11 +36,7 @@ void CDataStore::InitDataForScene(std::wstring curScene)
 
 void CDataStore::InitDataMap(_uint numOfDataID)
 {
-	if (numOfDataID < (_uint)EDataID::NumOfEngineDataID)
-	{
-		MSG_BOX(__FILE__, L"numOfDataID is too small");
-		abort();
-	}
+	m_numOfSection = numOfDataID;
 
 	m_mpCurDataMap = new _FileKeyMap[numOfDataID];
 	m_mpStaticDataMap = new _FileKeyMap[numOfDataID];

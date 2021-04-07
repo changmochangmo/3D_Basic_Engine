@@ -1,6 +1,6 @@
 #include "EngineStdafx.h"
 #include "Frustum.h"
-#include "Camera.h"
+#include "CameraC.h"
 
 USING(Engine)
 CFrustum::CFrustum()
@@ -12,7 +12,7 @@ CFrustum::~CFrustum()
 {
 }
 
-CFrustum * CFrustum::Create(CCamera* pOwner)
+CFrustum * CFrustum::Create(CCameraC* pOwner)
 {
 	CFrustum* pFrustum = new CFrustum;
 	pFrustum->SetOwner(pOwner);

@@ -10,9 +10,13 @@ public:
 	_float		Max				(_float num, _float standard);
 	_float		Min				(_float num, _float standard);
 
-	void		AddX			(_float3& vec, _float num);
-	void		AddY			(_float3& vec, _float num);
-	void		AddZ			(_float3& vec, _float num);
+	_float3		AddX			(_float3& vec, _float num);
+	_float3		AddY			(_float3& vec, _float num);
+	_float3		AddZ			(_float3& vec, _float num);
+
+	_float3		QuatToRad		(_quat& Q);
+	_float3		QuatToDegree	(_quat& Q);
+
 private:
 	void		OnDestroy		(void);
 };

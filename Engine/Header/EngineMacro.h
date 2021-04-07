@@ -34,7 +34,7 @@ if((something) != nullptr)															\
 
 
 //SmartPointers
-#define SHARED(typeName) std::shared_ptr<typeName>
+#define SP(typeName) std::shared_ptr<typeName>
 #define UNIQUE(typeName) std::unique_ptr<typeName>
 #define WEAK(typeName) std::weak_ptr<typeName>
 
@@ -47,14 +47,14 @@ template<typename T> friend void Engine::SmartDeleter(T* something);
 protected:																			\
 	varType varName = varInitValue; 												\
 public: 																			\
-	virtual inline varType& Get##funcName(void) { return varName; }					\
+	virtual inline varType const& Get##funcName(void) { return varName; }			\
 	virtual inline void Set##funcName(varType var){ varName = var; }    
 
 #define GETTOR(varType, varName, varInitValue, funcName)							\
 protected: 																			\
 	varType varName = varInitValue; 												\
 public: 																			\
-	virtual inline varType& Get##funcName(void) { return varName; }
+	virtual inline varType const& Get##funcName(void) { return varName; }
 
 
 
@@ -146,16 +146,36 @@ void ClassName::DestroyInstance(void)												\
 #define GET_ELAPSED_TIME CFRC::GetInstance()->GetElapsedTime()
 
 //DataStore Macro
-#define GET_VALUE(isStatic, dataID, objectKey, varKey, result)					\
+#define GET_VALUE(isStatic, dataID, objectKey, varKey, result)						\
 CDataStore::GetInstance()->GetValue(isStatic, dataID, objectKey, varKey, result)
 
 
 //ObjectFactory Macro
-#define ADD_CLONE(objectKey, isStatic)									\
+#define ADD_CLONE1(objectKey)														\
+CObjectFactory::GetInstance()->AddClone(objectKey)
+
+#define ADD_CLONE2(objectKey, isStatic)												\
 CObjectFactory::GetInstance()->AddClone(objectKey, isStatic)
 
+#define ADD_CLONE3(objectKey, isStatic, name)										\
+CObjectFactory::GetInstance()->AddClone(objectKey, isStatic, name)
+
+#define GET_4TH_ARG(arg1, arg2, arg3, arg4, ...) arg4
+
+#define ADD_CLONE_MACRO_CHOOSER(...)												\
+GET_4TH_ARG(__VA_ARGS__, ADD_CLONE3, ADD_CLONE2, ADD_CLONE1, )
+
+#define ADD_CLONE(...) ADD_CLONE_MACRO_CHOOSER(__VA_ARGS__)(__VA_ARGS__)
+
+
+
+#define ADD_PROTOTYPE(spPrototype, isStatic)										\
+CObjectFactory::GetInstance()->AddPrototype(spPrototype, isStatic)
+
 //FontManager Macro
-#define ADD_TEXT(key, text, position, color) CTextManager::GetInstance()->AddText(key, text, position, color)
+#define ADD_TEXT(key, text, position, color)										\
+CTextManager::GetInstance()->AddText(key, text, position, color)
+
 #define REWRITE_TEXT(key, text) CTextManager::GetInstance()->RewriteText(key, text)
 #define DELETE_TEXT(key) CTextManager::GetInstance()->DeleteText(key)
 

@@ -31,7 +31,7 @@ void CObjectFactory::OnDisable(void)
 {
 }
 
-HRESULT CObjectFactory::AddPrototype(SHARED(CGameObject) pPrototype, _bool isStatic)
+HRESULT CObjectFactory::AddPrototype(SP(CGameObject) pPrototype, _bool isStatic)
 {
 	if (pPrototype == nullptr)
 		return E_FAIL;
@@ -58,8 +58,9 @@ HRESULT CObjectFactory::AddPrototype(SHARED(CGameObject) pPrototype, _bool isSta
 	return S_OK;
 }
 
-SHARED(CGameObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,								    
-											 _bool isStatic)
+SP(CGameObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,
+										 _bool isStatic,
+										 const std::wstring & name)
 {
 	_PROTOTYPES* pCurPrototypes = nullptr;
 
@@ -76,23 +77,42 @@ SHARED(CGameObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey
 		abort();
 	}
 
-	SHARED(CGameObject) pClone = iter_find_prototype->second->MakeClone();
-	if (pClone == nullptr)
+	SP(CGameObject) spClone = iter_find_prototype->second->MakeClone();
+	if (spClone == nullptr)
 	{
 		MSG_BOX(__FILE__, (protoObjectKey + L" failed to make clone in AddClone").c_str());
 		abort();
 	}
-	
-	_int layerID = pClone->GetLayerID();
-	std::vector<CLayer*>* pLayers = &GET_CUR_SCENE->GetLayers();
-	if (layerID < 0 && (_uint)layerID >= pLayers->size())
+
+	_int layerID = spClone->GetLayerID();
+	std::vector<CLayer*> const* pLayers = &GET_CUR_SCENE->GetLayers();
+	if (layerID < 0 || (_uint)layerID >= pLayers->size())
 	{
 		MSG_BOX(__FILE__, std::wstring(L"LayerID is out of range").c_str());
 		abort();
 	}
-	(*pLayers)[layerID]->GetGameObjects().push_back(pClone);
-	
-	return pClone;
+	(*pLayers)[layerID]->AddGameObject(spClone);
+
+	if (name == L"")
+		spClone->SetBasicName();
+	else
+	{
+		_bool isThereSameName = false;
+		for (auto& gameObject : (*pLayers)[layerID]->GetGameObjects())
+		{
+			if (gameObject->GetName() == name)
+			{
+				isThereSameName = true;
+				spClone->SetBasicName();
+				break;
+			}
+		}
+
+		if (isThereSameName == false)
+			spClone->SetName(name);
+	}
+
+	return spClone;
 }
 
 void CObjectFactory::ClearCurPrototype(void)

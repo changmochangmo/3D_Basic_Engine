@@ -11,7 +11,7 @@ private:
 								   ~CRayCollider		(void);
 public:
 	static			CRayCollider*		Create				(_float3 offset, _float3 direction);
-					CCollider*			MakeClone			(CColliderComponent* pCC) override;
+					CCollider*			MakeClone			(CCollisionC* pCC) override;
 
 					void				Awake				(void) override;
 					void				OnDestroy			(void) override;

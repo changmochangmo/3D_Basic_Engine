@@ -1,5 +1,4 @@
 //#include "EngineStdafx.h"
-//#include "BitmapComponent.h"
 //#include "DeviceManager.h"
 //
 //USING(Engine)
@@ -15,9 +14,9 @@
 //{
 //}
 //
-//SHARED(CComponent) CBitmapComponent::MakeClone(CGameObject * pObject)
+//SP(CComponent) CBitmapComponent::MakeClone(CGameObject * pObject)
 //{
-//	SHARED(CBitmapComponent) pClone(new CBitmapComponent);
+//	SP(CBitmapComponent) pClone(new CBitmapComponent);
 //	pClone->SetOwner(pObject);
 //	pClone->SetName(m_name);
 //
@@ -34,22 +33,22 @@
 //		InitIndexBuffer();
 //}
 //
-//void CBitmapComponent::Start(SHARED(CComponent) spThis)
+//void CBitmapComponent::Start(SP(CComponent) spThis)
 //{
 //	__super::Start(spThis);
 //}
 //
-//_uint CBitmapComponent::FixedUpdate(SHARED(CComponent) spThis)
+//_uint CBitmapComponent::FixedUpdate(SP(CComponent) spThis)
 //{
 //	return _uint();
 //}
 //
-//_uint CBitmapComponent::Update(SHARED(CComponent) spThis)
+//_uint CBitmapComponent::Update(SP(CComponent) spThis)
 //{
 //	return _uint();
 //}
 //
-//_uint CBitmapComponent::LateUpdate(SHARED(CComponent) spThis)
+//_uint CBitmapComponent::LateUpdate(SP(CComponent) spThis)
 //{
 //	return _uint();
 //}

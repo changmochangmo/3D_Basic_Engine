@@ -4,7 +4,7 @@
 #include "Engine.h"
 
 BEGIN(Engine)
-class CCamera;
+class CCameraC;
 class ENGINE_DLL CCameraManager final : public CEngine
 {
 	DECLARE_SINGLETON(CCameraManager)
@@ -21,16 +21,20 @@ public:
 			void					OnEnable			(void);
 			void					OnDisable			(void);
 
-			CCamera*				AddCamera			(const std::wstring& cameraKey, CCamera* pCamera);
-			CCamera*				GetCamera			(const std::wstring& cameraKey);
+			SP(CCameraC)			AddCamera			(const std::wstring& cameraKey, SP(CCameraC) spCamera);
+			SP(CCameraC)			GetCamera			(const std::wstring& cameraKey);
 			void					DeleteCamera		(const std::wstring& cameraKey);
 			void					ChangeCameraKey		(const std::wstring& cameraKey, 
 														 const std::wstring& newKey);
 
 private:
-	std::unordered_map<std::wstring, CCamera*> m_mCameras;
+			void					SetMainCameraMode	(void);
 
-	GETTOR_SETTOR	(CCamera*,		m_pMainCamera,	nullptr,	MainCamera)
+private:
+	std::unordered_map<std::wstring, SP(CCameraC)> m_mCameras;
+
+	GETTOR_SETTOR	(SP(CCameraC),	m_spMainCamera,	nullptr,	MainCamera)
+	GETTOR_SETTOR	(_bool,			m_updateProj,	false,		UpdateProj)
 };
 END
 #endif

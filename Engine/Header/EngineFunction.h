@@ -91,7 +91,7 @@ namespace Engine
 		return StrToWStr(str.substr(str.find_last_of('\\') + 1));
 	}
 
-	inline std::wstringstream& operator >> (std::wstringstream& in, D3DXVECTOR3 & float3)
+	inline std::wstringstream& operator >> (std::wstringstream& in, _float3 & float3)
 	{
 		std::wstring vecStr;
 		std::wstring vecStrX, vecStrY, vecStrZ;
@@ -114,6 +114,29 @@ namespace Engine
 		ssX >> float3.x;
 		ssY >> float3.y;
 		ssZ >> float3.z;
+
+		return in;
+	}
+
+	inline std::wstringstream& operator >> (std::wstringstream& in, _float2 & float2)
+	{
+		std::wstring vecStr;
+		std::wstring vecStrX, vecStrY;
+
+		in >> vecStr;
+
+		size_t xEndPos;
+
+		xEndPos = vecStr.find_first_of(L",");
+
+		vecStrX = vecStr.substr(0, xEndPos);
+		vecStrY = vecStr.substr(++xEndPos);
+
+		std::wstringstream ssX(vecStrX);
+		std::wstringstream ssY(vecStrY);
+
+		ssX >> float2.x;
+		ssY >> float2.y;
 
 		return in;
 	}

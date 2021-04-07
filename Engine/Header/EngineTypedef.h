@@ -18,5 +18,6 @@ namespace Engine
 	typedef D3DXVECTOR4 _float4;
 
 	typedef D3DXMATRIX _mat;
+	typedef D3DXQUATERNION _quat;
 }
 #endif // ENGINETYPEDEF_H

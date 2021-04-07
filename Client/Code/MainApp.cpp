@@ -18,6 +18,7 @@
 #pragma endregion
 
 #pragma region Prototypes
+#include "BasicObject.h"
 #include "Player.h"
 #pragma endregion
 
@@ -29,9 +30,9 @@ CMainApp::~CMainApp(void)
 {
 }
 
-SHARED(CMainApp) CMainApp::Create(void)
+SP(CMainApp) CMainApp::Create(void)
 {
-	SHARED(CMainApp) pMainApp(new CMainApp, Engine::SmartDeleter<CMainApp>);
+	SP(CMainApp) pMainApp(new CMainApp, Engine::SmartDeleter<CMainApp>);
 
 	return pMainApp;
 }
@@ -39,8 +40,8 @@ void CMainApp::Awake(void)
 {
 	srand((_uint)time(NULL));
 
-	Engine::CInputManager::GetInstance()->Awake();
 	Engine::CTextManager::GetInstance()->Awake();
+	Engine::CInputManager::GetInstance()->Awake();
 	Engine::CSoundManager::GetInstance()->Awake();
 
 	Engine::CSceneManager::GetInstance()->Awake();
@@ -56,8 +57,8 @@ void CMainApp::Start(void)
 {
 	InitStaticPrototype();
 
-	Engine::CInputManager::GetInstance()->Start();
 	Engine::CTextManager::GetInstance()->Start();
+	Engine::CInputManager::GetInstance()->Start();
 
 	Engine::CSceneManager::GetInstance()->Start();
 	Engine::CSceneManager::GetInstance()->SceneChange(CChangmoScene::Create());
@@ -75,7 +76,7 @@ _uint CMainApp::FixedUpdate(void)
 
 	Engine::TIME_MEASURE_START;
 	if (event = Engine::CSceneManager::GetInstance()->FixedUpdate())	return event;
-	if (event = Engine::CInputManager::GetInstance()->FixedUpdate())	return event;
+	Engine::CInputManager::GetInstance()->FixedUpdate();
 	if (event = Engine::CGraphicsManager::GetInstance()->FixedUpdate())	return event;
 	_float time = Engine::GET_ELAPSED_TIME;
 
@@ -88,7 +89,7 @@ _uint CMainApp::Update(void)
 
 	Engine::TIME_MEASURE_START;
 	if (event = Engine::CSceneManager::GetInstance()->Update())		return event;
-	if (event = Engine::CInputManager::GetInstance()->Update())		return event;
+	Engine::CInputManager::GetInstance()->Update();
 	if (event = Engine::CGraphicsManager::GetInstance()->Update())	return event;
 
 	Engine::CCameraManager::GetInstance()->Update();
@@ -101,7 +102,7 @@ _uint CMainApp::LateUpdate(void)
 	_uint event = NO_EVENT;
 	Engine::TIME_MEASURE_START;
 	if (event = Engine::CGraphicsManager::GetInstance()->LateUpdate())	return event;
-	if (event = Engine::CInputManager::GetInstance()->LateUpdate())		return event;
+	Engine::CInputManager::GetInstance()->LateUpdate();
 	if (event = Engine::CSceneManager::GetInstance()->LateUpdate())		return event;
 	if (event = Engine::CColliderManager::GetInstance()->LateUpdate())	return event;
 
@@ -164,6 +165,9 @@ void CMainApp::OnDisable(void)
 
 void CMainApp::InitStaticPrototype(void)
 {
-	SHARED(Engine::CGameObject) spPlayerPrototype(CPlayer::Create());
-	Engine::CObjectFactory::GetInstance()->AddPrototype(spPlayerPrototype, true);
+	SP(Engine::CGameObject) spBasicObjectPrototype(CBasicObject::Create());
+	Engine::ADD_PROTOTYPE(spBasicObjectPrototype, true);
+
+	SP(Engine::CGameObject) spPlayerPrototype(CPlayer::Create());
+	Engine::ADD_PROTOTYPE(spPlayerPrototype, true);
 }

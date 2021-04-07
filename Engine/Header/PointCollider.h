@@ -12,7 +12,7 @@ private:
 
 public:
 	static		CPointCollider*		Create		(_float3 offset);
-				CCollider*			MakeClone	(CColliderComponent* pCC) override;
+				CCollider*			MakeClone	(CCollisionC* pCC) override;
 
 				void				Awake		(void) override;
 				void				OnDestroy	(void) override;

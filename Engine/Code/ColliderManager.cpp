@@ -1,8 +1,6 @@
 #include "EngineStdafx.h"
 #include "ColliderManager.h"
-#include "ColliderComponent.h"
 #include "SphereCollider.h"
-#include "TransformComponent.h"
 #include "GameObject.h"
 #include "CollisionHelper.h"
 #include "DataStore.h"
@@ -23,7 +21,7 @@ void CColliderManager::Start(_int numOfColliderID)
 	m_numOfColliderID = numOfColliderID;
 	for (int i = 0; i < m_numOfColliderID; ++i)
 	{
-		std::vector<SHARED(CColliderComponent)> colliders;
+		std::vector<SP(CCollisionC)> colliders;
 		m_vColliderComponents.emplace_back(colliders);
 
 		std::vector<_int> collisionMap;
@@ -79,7 +77,7 @@ void CColliderManager::OnDisable(void)
 {
 }
 
-void CColliderManager::AddColliderToManager(SHARED(CColliderComponent) colliderComponent)
+void CColliderManager::AddColliderToManager(SP(CCollisionC) colliderComponent)
 {
 	if (colliderComponent == nullptr)
 		return;
@@ -87,7 +85,7 @@ void CColliderManager::AddColliderToManager(SHARED(CColliderComponent) colliderC
 	m_vColliderComponents[colliderComponent->GetColliderID()].emplace_back(colliderComponent);
 }
 
-bool CColliderManager::OnColliderEnter(SHARED(CColliderComponent) pColliderComponent,
+bool CColliderManager::OnColliderEnter(SP(CCollisionC) pColliderComponent,
 									   std::vector<CGameObject*>& returnCollider/*,
 									   _int colliderID*/)
 {
@@ -194,13 +192,13 @@ void CColliderManager::InitCollisionMap(void)
 	{
 		_int numOfLayerToCheck = 0;
 		std::wstring varKey = L"numOfLayerToCheck" + std::to_wstring(i);
-		GET_VALUE(true, m_sectionKey, m_objectKey, varKey, numOfLayerToCheck);
+		GET_VALUE(true, m_dataID, m_objectKey, varKey, numOfLayerToCheck);
 
 		for (_int j = 0; j < numOfLayerToCheck; ++j)
 		{
 			_int checkLayer = -1;
 			varKey = L"Layer" + std::to_wstring(i) + L"_Check" + std::to_wstring(j);
-			GET_VALUE(true, m_sectionKey, m_objectKey, varKey, checkLayer);
+			GET_VALUE(true, m_dataID, m_objectKey, varKey, checkLayer);
 
 			m_vCollisionMap[i].push_back(checkLayer);
 		}

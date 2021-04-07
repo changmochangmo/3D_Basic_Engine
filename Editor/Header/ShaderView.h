@@ -50,9 +50,9 @@ public:
 	CEdit m_beginToEndForFace;
 
 private:
-	SHARED(Engine::CGameObject) m_pBeginCubeForFace; // 면 생성의 시작 큐브
-	std::vector<SHARED(Engine::CGameObject)> m_vFaceObjects; // 이전에 생성한 면에 포함되는 큐브들
-	SHARED(Engine::CGameObject) m_pNormOfFaceObject; // 면 생성시 기준이되었던 큐브
+	SP(Engine::CGameObject) m_pBeginCubeForFace; // 면 생성의 시작 큐브
+	std::vector<SP(Engine::CGameObject)> m_vFaceObjects; // 이전에 생성한 면에 포함되는 큐브들
+	SP(Engine::CGameObject) m_pNormOfFaceObject; // 면 생성시 기준이되었던 큐브
 };
 
 

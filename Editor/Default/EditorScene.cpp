@@ -19,9 +19,9 @@ CEditorScene::~CEditorScene()
 {
 }
 
-SHARED(Engine::CScene) CEditorScene::Create(void)
+SP(Engine::CScene) CEditorScene::Create(void)
 {
-	SHARED(CEditorScene) pCLogoScene(new CEditorScene, Engine::SmartDeleter<CEditorScene>);
+	SP(CEditorScene) pCLogoScene(new CEditorScene, Engine::SmartDeleter<CEditorScene>);
 
 	return pCLogoScene;
 }
@@ -44,7 +44,7 @@ void CEditorScene::Start(void)
 	m_pMainCamera = Engine::ADD_CLONE(L"Camera", L"Camera", false)->GetComponent<Engine::CCameraComponent>();
 	
 
-	SHARED(Engine::CGameObject) pObj = Engine::ADD_CLONE(L"NormalBlock", L"WhiteBlock", false);
+	SP(Engine::CGameObject) pObj = Engine::ADD_CLONE(L"NormalBlock", L"WhiteBlock", false);
 
 	m_pEditorView->Set_CubeData(pObj);
 }
@@ -113,45 +113,45 @@ void CEditorScene::InitLayers(void)
 
 void CEditorScene::InitPrototypes(void)
 {
-	SHARED(Engine::CGameObject) pCamera = Engine::CGameObject::Create(L"Camera", L"Camera", false);
-	pCamera->AddComponent<Engine::CTransformComponent>();
-	pCamera->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(0, 0, -5));
+	SP(Engine::CGameObject) pCamera = Engine::CGameObject::Create(L"Camera", L"Camera", false);
+	pCamera->AddComponent<Engine::CTransformC>();
+	pCamera->GetComponent<Engine::CTransformC>()->SetPosition(_float3(0, 0, -5));
 	pCamera->AddComponent<Engine::CCameraComponent>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pCamera);
 
-	SHARED(Engine::CGameObject) pWhiteBlock = Engine::CGameObject::Create(L"NormalBlock", L"WhiteBlock", false);
-	pWhiteBlock->AddComponent<Engine::CMeshComponent>();
-	pWhiteBlock->AddComponent<Engine::CTextureComponent>();
-	pWhiteBlock->AddComponent<Engine::CTransformComponent>();
-	pWhiteBlock->AddComponent<Engine::CGraphicsComponent>();
+	SP(Engine::CGameObject) pWhiteBlock = Engine::CGameObject::Create(L"NormalBlock", L"WhiteBlock", false);
+	pWhiteBlock->AddComponent<Engine::CMeshC>();
+	pWhiteBlock->AddComponent<Engine::CTextureC>();
+	pWhiteBlock->AddComponent<Engine::CTransformC>();
+	pWhiteBlock->AddComponent<Engine::CGraphicsC>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pWhiteBlock);
 
-	SHARED(Engine::CGameObject) pRedBlock = Engine::CGameObject::Create(L"EventBlock", L"RedBlock", false);
-	pRedBlock->AddComponent<Engine::CMeshComponent>();
-	pRedBlock->AddComponent<Engine::CTextureComponent>();
-	pRedBlock->AddComponent<Engine::CTransformComponent>();
-	pRedBlock->AddComponent<Engine::CGraphicsComponent>();
+	SP(Engine::CGameObject) pRedBlock = Engine::CGameObject::Create(L"EventBlock", L"RedBlock", false);
+	pRedBlock->AddComponent<Engine::CMeshC>();
+	pRedBlock->AddComponent<Engine::CTextureC>();
+	pRedBlock->AddComponent<Engine::CTransformC>();
+	pRedBlock->AddComponent<Engine::CGraphicsC>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pRedBlock);
 
-	SHARED(Engine::CGameObject) pBlueBlock = Engine::CGameObject::Create(L"EventBlock", L"BlueBlock", false);
-	pBlueBlock->AddComponent<Engine::CMeshComponent>();
-	pBlueBlock->AddComponent<Engine::CTextureComponent>();
-	pBlueBlock->AddComponent<Engine::CTransformComponent>();
-	pBlueBlock->AddComponent<Engine::CGraphicsComponent>();
+	SP(Engine::CGameObject) pBlueBlock = Engine::CGameObject::Create(L"EventBlock", L"BlueBlock", false);
+	pBlueBlock->AddComponent<Engine::CMeshC>();
+	pBlueBlock->AddComponent<Engine::CTextureC>();
+	pBlueBlock->AddComponent<Engine::CTransformC>();
+	pBlueBlock->AddComponent<Engine::CGraphicsC>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pBlueBlock);
 
-	SHARED(Engine::CGameObject) pYellowBlock = Engine::CGameObject::Create(L"EventBlock", L"YellowBlock", false);
-	pYellowBlock->AddComponent<Engine::CMeshComponent>();
-	pYellowBlock->AddComponent<Engine::CTextureComponent>();
-	pYellowBlock->AddComponent<Engine::CTransformComponent>();
-	pYellowBlock->AddComponent<Engine::CGraphicsComponent>();
+	SP(Engine::CGameObject) pYellowBlock = Engine::CGameObject::Create(L"EventBlock", L"YellowBlock", false);
+	pYellowBlock->AddComponent<Engine::CMeshC>();
+	pYellowBlock->AddComponent<Engine::CTextureC>();
+	pYellowBlock->AddComponent<Engine::CTransformC>();
+	pYellowBlock->AddComponent<Engine::CGraphicsC>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pYellowBlock);
 
-	SHARED(Engine::CGameObject) pGreenBlock = Engine::CGameObject::Create(L"EventBlock", L"GreenBlock", false);
-	pGreenBlock->AddComponent<Engine::CMeshComponent>();
-	pGreenBlock->AddComponent<Engine::CTextureComponent>();
-	pGreenBlock->AddComponent<Engine::CTransformComponent>();
-	pGreenBlock->AddComponent<Engine::CGraphicsComponent>();
+	SP(Engine::CGameObject) pGreenBlock = Engine::CGameObject::Create(L"EventBlock", L"GreenBlock", false);
+	pGreenBlock->AddComponent<Engine::CMeshC>();
+	pGreenBlock->AddComponent<Engine::CTextureC>();
+	pGreenBlock->AddComponent<Engine::CTransformC>();
+	pGreenBlock->AddComponent<Engine::CGraphicsC>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pGreenBlock);
 }
 
@@ -247,7 +247,7 @@ void CEditorScene::CreateCubeWhenClicked()
 		return;
 	}
 
-	_float3 targetPos = target->GetComponent<Engine::CTransformComponent>()->GetPosition();
+	_float3 targetPos = target->GetComponent<Engine::CTransformC>()->GetPosition();
 		if (!target)
 		{
 			target = Engine::CInputManager::GetInstance()->MousePicking(L"EventBlock", intersection);
@@ -257,7 +257,7 @@ void CEditorScene::CreateCubeWhenClicked()
 		{
 			return;
 		}
-		targetPos = target->GetComponent<Engine::CTransformComponent>()->GetPosition();
+		targetPos = target->GetComponent<Engine::CTransformC>()->GetPosition();
 
 	std::cout << "======================================" << std::endl;
 	std::cout << "objX: " << targetPos.x << " objY: " << targetPos.y << " objZ: " << targetPos.z << std::endl;
@@ -295,7 +295,7 @@ void CEditorScene::CreateCubeWhenClicked()
 	{
 		if (iter->get() == target)
 		{
-			if (target->GetComponent<Engine::CTransformComponent>()->GetPosition() == newPos)
+			if (target->GetComponent<Engine::CTransformC>()->GetPosition() == newPos)
 			{
 				std::cout << "Cube already exists.." << std::endl;
 				return;
@@ -306,8 +306,8 @@ void CEditorScene::CreateCubeWhenClicked()
 			++iter;
 	}
 
-	SHARED(Engine::CGameObject) pObj = Engine::ADD_CLONE(m_pListView->m_wsBlockType, m_pListView->m_wsBlockColor, false);
-	pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(newPos);
+	SP(Engine::CGameObject) pObj = Engine::ADD_CLONE(m_pListView->m_wsBlockType, m_pListView->m_wsBlockColor, false);
+	pObj->GetComponent<Engine::CTransformC>()->SetPosition(newPos);
 
 	m_pEditorView->Set_CubeData(pObj);
 
@@ -333,8 +333,8 @@ void CEditorScene::DeleteCubeWhenClicked()
 	// 두 layerkey가 광선에 걸렸다면 교차점에서 더 가까운 블럭을 target에 넣음
 	if (normalBlock && eventBlock)
 	{
-		_float3 normalPos = normalBlock->GetComponent<Engine::CTransformComponent>()->GetPosition();
-		_float3 eventPos = eventBlock->GetComponent<Engine::CTransformComponent>()->GetPosition();
+		_float3 normalPos = normalBlock->GetComponent<Engine::CTransformC>()->GetPosition();
+		_float3 eventPos = eventBlock->GetComponent<Engine::CTransformC>()->GetPosition();
 
 		if (normalPos - intersection > eventPos - intersection)
 		{
@@ -369,8 +369,8 @@ void CEditorScene::DeleteCubeWhenClicked()
 	
 	for (size_t i = 0; i < m_pListView->m_ListBox.GetCount(); i++)
 	{
-		if (m_pEditorView->GetGameObjects()[i]->GetComponent<Engine::CTransformComponent>()->GetPosition() ==
-			m_pCurSelectedObject->GetComponent<Engine::CTransformComponent>()->GetPosition())
+		if (m_pEditorView->GetGameObjects()[i]->GetComponent<Engine::CTransformC>()->GetPosition() ==
+			m_pCurSelectedObject->GetComponent<Engine::CTransformC>()->GetPosition())
 		{
 			m_pListView->m_ListBox.DeleteString(i);
 			m_pEditorView->GetGameObjects()[i]->SetIsNeedToBeDeleted(true);
@@ -419,15 +419,15 @@ void CEditorScene::SelectBlock()
 		message_s.assign(message_w.begin(), message_w.end());
 
 		std::cout << "target: " << message_s.c_str() << std::endl;
-		std::cout << "targetX: " << target->GetComponent<Engine::CTransformComponent>()->GetPosition().x << std::endl;
-		std::cout << "targetY: " << target->GetComponent<Engine::CTransformComponent>()->GetPosition().y << std::endl;
-		std::cout << "targetZ: " << target->GetComponent<Engine::CTransformComponent>()->GetPosition().z << std::endl;
+		std::cout << "targetX: " << target->GetComponent<Engine::CTransformC>()->GetPosition().x << std::endl;
+		std::cout << "targetY: " << target->GetComponent<Engine::CTransformC>()->GetPosition().y << std::endl;
+		std::cout << "targetZ: " << target->GetComponent<Engine::CTransformC>()->GetPosition().z << std::endl;
 		std::cout << "/*****************************************/ " << std::endl;
-		target->GetComponent<Engine::CGraphicsComponent>()->SetRenderID(Engine::ERenderID::WireFrame);
+		target->GetComponent<Engine::CGraphicsC>()->SetRenderID(Engine::ERenderID::WireFrame);
 
 		if (m_pPreSelectedObject)
 		{
-			m_pPreSelectedObject->GetComponent<Engine::CGraphicsComponent>()->SetRenderID(Engine::ERenderID::Base);
+			m_pPreSelectedObject->GetComponent<Engine::CGraphicsC>()->SetRenderID(Engine::ERenderID::Base);
 		}
 		m_pPreSelectedObject = target;
 	}

@@ -46,8 +46,7 @@ _uint CLayer::FixedUpdate(void)
 		if (pGameObject->GetIsStarted() == false)
 			continue;
 
-		if (event = pGameObject->FixedUpdate())
-			return event;
+		pGameObject->FixedUpdate();
 	}
 
 	return event;
@@ -78,9 +77,7 @@ _uint CLayer::Update(void)
 				(*it)->Start();
 
 
-			else if (event = (*it)->Update())
-				return event;
-
+			(*it)->Update();
 			++it;
 		}
 	}
@@ -96,8 +93,7 @@ _uint CLayer::LateUpdate(void)
 		if (pGameObject->GetIsStarted() == false)
 			continue;
 
-		if (event = pGameObject->LateUpdate())
-			return event;
+		pGameObject->LateUpdate();
 	}
 
 	return event;
@@ -115,4 +111,9 @@ void CLayer::OnEnable(void)
 
 void CLayer::OnDisable(void)
 {
+}
+
+void CLayer::AddGameObject(SP(CGameObject) spGameObject)
+{
+	m_vGameObjects.emplace_back(spGameObject);
 }

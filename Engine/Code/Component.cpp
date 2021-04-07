@@ -10,7 +10,7 @@ CComponent::~CComponent(void)
 {
 }
 
-void CComponent::InitClone(SHARED(CComponent) spClone, CGameObject * pOwner)
+void CComponent::InitClone(SP(CComponent) spClone, CGameObject * pOwner)
 {
 	spClone->SetOwner(pOwner);
 	spClone->SetName(m_name);
@@ -24,25 +24,21 @@ void CComponent::Awake(void)
 	m_name = GetCurClassName(this);
 }
 
-void CComponent::Start(SHARED(CComponent) spThis)
+void CComponent::Start(SP(CComponent) spThis)
 {
 	m_isStarted = true;
 }
 
-_uint CComponent::FixedUpdate(SHARED(CComponent) spThis)
+void CComponent::FixedUpdate(SP(CComponent) spThis)
 {
-	return NO_EVENT;
 }
 
-
-_uint CComponent::Update(SHARED(CComponent) spThis)
+void CComponent::Update(SP(CComponent) spThis)
 {
-	return NO_EVENT;
 }
 
-_uint CComponent::LateUpdate(SHARED(CComponent) spThis)
+void CComponent::LateUpdate(SP(CComponent) spThis)
 {
-	return NO_EVENT;
 }
 
 void CComponent::OnDestroy(void)

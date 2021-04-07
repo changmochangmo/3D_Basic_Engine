@@ -16,7 +16,7 @@ void CFRC::Awake(void)
 
 void CFRC::Start(void)
 {
-	GET_VALUE(true, m_sectionKey, m_objectKey, L"FPS", m_FPS);
+	GET_VALUE(true, m_dataID, m_objectKey, L"FPS", m_FPS);
 }
 
 void CFRC::OnDestroy(void)

@@ -21,7 +21,7 @@ CPointCollider * CPointCollider::Create(_float3 offset)
 	return pPoint;
 }
 
-CCollider * CPointCollider::MakeClone(CColliderComponent * pCC)
+CCollider * CPointCollider::MakeClone(CCollisionC * pCC)
 {
 	CPointCollider* pPC = CPointCollider::Create(m_offset);
 	pPC->SetOwner(pCC);

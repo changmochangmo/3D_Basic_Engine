@@ -41,7 +41,7 @@ void CChangmoScene::Start(void)
 {
 	__super::Start();
 
-	SHARED(Engine::CGameObject) spPlayerClone = Engine::ADD_CLONE(L"Player", true);
+	SP(Engine::CGameObject) spPlayerClone = Engine::ADD_CLONE(L"Player", true);
 }
 
 _uint CChangmoScene::FixedUpdate(void)
@@ -64,8 +64,6 @@ _uint CChangmoScene::Update(void)
 
 _uint CChangmoScene::LateUpdate(void)
 {
-	__super::LateUpdate();
-
 	_uint event = NO_EVENT;
 	if (event = __super::LateUpdate())
 		return event;

@@ -22,7 +22,7 @@ CAabbCollider * CAabbCollider::Create(_float3 size, _float3 offset)
 	return pAabb;
 }
 
-CCollider * CAabbCollider::MakeClone(CColliderComponent * pCC)
+CCollider * CAabbCollider::MakeClone(CCollisionC * pCC)
 {
 	CAabbCollider* pAC = CAabbCollider::Create(m_size, m_offset);
 	pAC->SetOwner(pCC);

@@ -9,13 +9,13 @@
 //							   ~CBitmapComponent	(void);
 //
 //public:
-//			SHARED(CComponent)	MakeClone			(CGameObject* pObject) override;
+//			SP(CComponent)	MakeClone			(CGameObject* pObject) override;
 //			void				Awake				(void) override;
-//			void				Start				(SHARED(CComponent) spThis) override;
+//			void				Start				(SP(CComponent) spThis) override;
 //
-//			_uint				FixedUpdate			(SHARED(CComponent) spThis) override;
-//			_uint				Update				(SHARED(CComponent) spThis) override;
-//			_uint				LateUpdate			(SHARED(CComponent) spThis) override;
+//			_uint				FixedUpdate			(SP(CComponent) spThis) override;
+//			_uint				Update				(SP(CComponent) spThis) override;
+//			_uint				LateUpdate			(SP(CComponent) spThis) override;
 //
 //			void				OnDestroy			(void) override;
 //

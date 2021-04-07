@@ -9,7 +9,7 @@ protected:
 
 public:
 
-	static		SHARED(CMainEditor)	Create(void);
+	static		SP(CMainEditor)	Create(void);
 
 	void				Awake(void);
 	void				Start(void);

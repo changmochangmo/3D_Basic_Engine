@@ -1,7 +1,7 @@
 #include "EngineStdafx.h"
 #include "WndApp.h"
-
 #include "DataStore.h"
+#include "CameraManager.h"
 
 USING(Engine)
 IMPLEMENT_SINGLETON(CWndApp)
@@ -13,10 +13,10 @@ void CWndApp::Awake(void)
 
 void CWndApp::Start(HINSTANCE hInstance, int nCmdShow)
 {
-	GET_VALUE(true, m_sectionKey, m_objectKey, L"className", m_className);
-	GET_VALUE(true, m_sectionKey, m_objectKey, L"windowName", m_windowName);
-	GET_VALUE(true, m_sectionKey, m_objectKey, L"wndWidth", m_wndWidth);
-	GET_VALUE(true, m_sectionKey, m_objectKey, L"wndHeight", m_wndHeight);
+	GET_VALUE(true, m_dataID, m_objectKey, L"className", m_className);
+	GET_VALUE(true, m_dataID, m_objectKey, L"windowName", m_windowName);
+	GET_VALUE(true, m_dataID, m_objectKey, L"wndWidth", m_wndWidth);
+	GET_VALUE(true, m_dataID, m_objectKey, L"wndHeight", m_wndHeight);
 
 
 	RegisterWndClass(hInstance);
@@ -33,6 +33,18 @@ void CWndApp::OnEnable(void)
 
 void CWndApp::OnDisable(void)
 {
+}
+
+void CWndApp::SetWndWidth(_int width)
+{
+	m_wndWidth = width;
+	CCameraManager::GetInstance()->SetUpdateProj(true);
+}
+
+void CWndApp::SetWndHeight(_int height)
+{
+	m_wndHeight = height;
+	CCameraManager::GetInstance()->SetUpdateProj(true);
 }
 
 ATOM CWndApp::RegisterWndClass(HINSTANCE hInstance)

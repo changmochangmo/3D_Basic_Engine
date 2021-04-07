@@ -51,6 +51,9 @@ public:
 					void				OnEnable			(void);
 					void				OnDisable			(void);
 
+public:
+					void				SetWndWidth			(_int width);
+					void				SetWndHeight		(_int height);
 	
 private:
 					ATOM				RegisterWndClass	(HINSTANCE hInstance);
@@ -68,8 +71,8 @@ private:
 	GETTOR			(std::wstring,		m_className,		L"",					ClassName)
 	GETTOR			(std::wstring,		m_windowName,		L"",					WindowName)
 
-	GETTOR_SETTOR	(_int,				m_wndWidth,			0,						WndWidth)
-	GETTOR_SETTOR	(_int,				m_wndHeight,		0,						WndHeight)
+	GETTOR			(_int,				m_wndWidth,			0,						WndWidth)
+	GETTOR			(_int,				m_wndHeight,		0,						WndHeight)
 
 	GETTOR_SETTOR	(EDisplayMdoe,		m_displayMode,		EDisplayMdoe::WinMode,	DisplayMode)
 };

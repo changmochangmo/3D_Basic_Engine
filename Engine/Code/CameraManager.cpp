@@ -1,6 +1,9 @@
 #include "EngineStdafx.h"
 #include "CameraManager.h"
-#include "Camera.h"
+#include "CameraC.h"
+#include "ObjectFactory.h"
+#include "GameObject.h"
+#include "InputManager.h"
 
 USING(Engine)
 IMPLEMENT_SINGLETON(CCameraManager)
@@ -8,39 +11,44 @@ IMPLEMENT_SINGLETON(CCameraManager)
 void CCameraManager::Awake(void)
 {
 	__super::Awake();
-
-	m_pMainCamera = AddCamera(L"Free", CCamera::Create());
 }
 
 void CCameraManager::Start(void)
 {
+	if (m_spMainCamera == nullptr)
+	{
+		SP(CGameObject) spBasicObject = ADD_CLONE(L"BasicObject", true);
+		m_spMainCamera = spBasicObject->AddComponent<CCameraC>();
+		spBasicObject->GetComponent<CTransformC>()->SetPosition(_float3(0, 0, -3));
+		AddCamera(L"FreeCamera", m_spMainCamera);
+	}
 }
 
 void CCameraManager::Update(void)
 {
-	for (auto& camera : m_mCameras)
+	if (m_updateProj)
 	{
-		if(camera.second->GetEnable())
-			camera.second->Update();
+		for (auto& camera : m_mCameras)
+		{
+			camera.second->SetUpdateProj(true);
+		}
+		m_updateProj = false;
 	}
+	
+	SetMainCameraMode();
 }
 
 void CCameraManager::LateUpdate(void)
 {
-	for (auto& it = m_mCameras.begin(); it != m_mCameras.end();)
+	for (auto& iter = m_mCameras.begin(); iter != m_mCameras.end();)
 	{
-		if (it->second->GetDeleteThis())
+		if (iter->second->GetOwner() == nullptr)
 		{
-			it->second->Free();
-			it = m_mCameras.erase(it);
+			iter->second.reset();
+			iter = m_mCameras.erase(iter);
 		}
 		else
-		{
-			if (it->second->GetEnable())
-				it->second->LateUpdate();
-
-			++it;
-		}
+			++iter;
 	}
 }
 
@@ -48,7 +56,7 @@ void CCameraManager::OnDestroy(void)
 {
 	for (auto& camera : m_mCameras)
 	{
-		camera.second->Free();
+		camera.second.reset();
 	}
 
 	m_mCameras.clear();
@@ -62,14 +70,14 @@ void CCameraManager::OnDisable(void)
 {
 }
 
-CCamera* CCameraManager::AddCamera(const std::wstring & cameraKey, CCamera * pCamera)
+SP(CCameraC) CCameraManager::AddCamera(const std::wstring & cameraKey, SP(CCameraC) spCamera)
 {
-	m_mCameras.emplace(cameraKey, pCamera);
+	m_mCameras.emplace(cameraKey, spCamera);
 
-	return pCamera;
+	return spCamera;
 }
 
-CCamera * CCameraManager::GetCamera(const std::wstring & cameraKey)
+SP(CCameraC) CCameraManager::GetCamera(const std::wstring & cameraKey)
 {
 	return m_mCameras[cameraKey];
 }
@@ -77,7 +85,7 @@ CCamera * CCameraManager::GetCamera(const std::wstring & cameraKey)
 void CCameraManager::DeleteCamera(const std::wstring & cameraKey)
 {
 	auto& it = m_mCameras.find(cameraKey);
-	it->second->Free();
+	it->second.reset();
 	m_mCameras.erase(it);
 }
 
@@ -85,4 +93,26 @@ void CCameraManager::ChangeCameraKey(const std::wstring & cameraKey, const std::
 {
 	AddCamera(newKey, m_mCameras[cameraKey]);
 	m_mCameras.erase(cameraKey);
+}
+
+void CCameraManager::SetMainCameraMode(void)
+{
+	if (IMKEY_DOWN(KEY_1))
+	{
+		m_spMainCamera->SetMode(ECameraMode::Fixed);
+		m_spMainCamera->SetMoveable(false);
+		m_spMainCamera->SetRotatable(false);
+	}
+	else if (IMKEY_DOWN(KEY_2))
+	{
+		m_spMainCamera->SetMode(ECameraMode::Edit);
+		m_spMainCamera->SetMoveable(true);
+		m_spMainCamera->SetRotatable(false);
+	}
+	else if (IMKEY_DOWN(KEY_3))
+	{
+		m_spMainCamera->SetMode(ECameraMode::FPS);
+		m_spMainCamera->SetMoveable(true);
+		m_spMainCamera->SetRotatable(false);
+	}
 }

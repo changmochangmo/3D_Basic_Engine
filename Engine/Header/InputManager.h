@@ -9,39 +9,43 @@ class ENGINE_DLL CInputManager final : public CEngine
 {
 	DECLARE_SINGLETON(CInputManager)
 public:
-					void					Awake				(void) override;
-					void					Start				(void);
+					void					Awake					(void) override;
+					void					Start					(void);
 
-					_uint					FixedUpdate			(void);
-					_uint					Update				(void);
-					_uint					LateUpdate			(void);	
+					void					FixedUpdate				(void);
+					void					Update					(void);
+					void					LateUpdate				(void);	
 
-					void					OnDestroy			(void);
+					void					OnDestroy				(void);
 
-					void					OnEnable			(void);
-					void					OnDisable			(void);
+					void					OnEnable				(void);
+					void					OnDisable				(void);
 
-					bool					KeyUp				(DWORD key);
-					bool					KeyDown				(DWORD key);
-					bool					KeyPress			(DWORD key);
+					bool					KeyUp					(DWORD key);
+					bool					KeyDown					(DWORD key);
+					bool					KeyPress				(DWORD key);
 
-					CGameObject*			MousePicking		(_int layerID, _float3& intersection);
-					CGameObject*			RayCast				(_float3 origin, _float3 direction, 
-																 _float maxDistance, _int layerID);
+					void					MoveMouseToCenter		(void);
+					CGameObject*			MousePicking			(_int layerID, _float3& intersection);
+
+					_float3					GetMousePosDelta		(void);
+					void					ResetMousePosDelta		(void);
 private:
-					void					KeyUpdate			(void);
-					void					MouseUpdate			(void);
+					void					KeyUpdate				(void);
+					void					MouseUpdate				(void);
 
 
-					_float3					GetPickingDirection	(void);
-					_bool					RayIntersectCheck	(_float rayAxisDir, _float rayAxisStart,
-																 _float aabbAxisMin, _float aabbAxisMax,
-																 _float& tMin, _float& tMax);
+					_float3					GetPickingDirection		(void);
+					_bool					RayIntersectCheck		(_float rayAxisDir, _float rayAxisStart,
+																	 _float aabbAxisMin, _float aabbAxisMax,
+																	 _float& tMin, _float& tMax);
 private:
-					DWORD					m_key;
-					DWORD					m_lastFrameKey;
+					DWORD					m_key			= 0;
+					DWORD					m_lastFrameKey	= 0;
 
-	GETTOR			(_float3,				m_mousePos,		_float3(0, 0, 0),	MousePos)
+	GETTOR			(_float3,				m_mousePos,				ZERO_VECTOR,		MousePos)
+	GETTOR			(_float3,				m_mouseLastFramePos,	ZERO_VECTOR,		MouseLastFramePos)
+	GETTOR			(_float2,				m_mouseSensitivity,		_float2(PI, PI),	MouseSensitivity)
 };
 END
 

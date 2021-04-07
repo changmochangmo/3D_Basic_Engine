@@ -15,5 +15,5 @@ typedef D3DXVECTOR2 _float2;
 typedef D3DXVECTOR3 _float3;
 
 typedef D3DXMATRIX _mat;
-
+typedef D3DXQUATERNION _quat;
 #endif // 

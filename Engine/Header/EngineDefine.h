@@ -35,8 +35,8 @@
 #define KEY_A		0x00004000
 #define KEY_S		0x00008000
 #define KEY_D		0x00010000
-#define KEY_SHIFT	0x00020000
-#define KEY_RBUTTON	0x00040000
+#define KEY_Q		0x00020000
+#define KEY_E		0x00040000
 #define KEY_1       0x00080000
 #define KEY_2       0x00100000
 #define KEY_3		0x00200000

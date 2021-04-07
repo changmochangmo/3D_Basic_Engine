@@ -26,11 +26,11 @@ public:
 			void					OnDisable			(void);
 
 			void					AddToRenderList		(_int renderID, 
-														 SHARED(CGraphicsComponent) pGC);
+														 SP(CGraphicsC) pGC);
 
 
 private:
-	typedef std::vector<SHARED(CGraphicsComponent)> _GRAPHICSCOMPONENTS;
+	typedef std::vector<SP(CGraphicsC)> _GRAPHICSCOMPONENTS;
 			_GRAPHICSCOMPONENTS		m_vRenderList[(_uint)ERenderID::NumOfRenderID];
 };
 END

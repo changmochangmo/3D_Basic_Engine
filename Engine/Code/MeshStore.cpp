@@ -32,7 +32,7 @@ void CMeshStore::ClearCurResource(void)
 	m_mCurSceneMeshData.clear();
 }
 
-SHARED(_MeshData) CMeshStore::GetMeshData(std::wstring meshKey)
+SP(_MeshData) CMeshStore::GetMeshData(std::wstring meshKey)
 {
 	auto iter_find_static = m_mStaticMeshData.find(meshKey);
 	if (iter_find_static != m_mStaticMeshData.end())
@@ -57,7 +57,10 @@ void CMeshStore::InitResource(std::wstring sourcePath)
 
 void CMeshStore::ParsingMesh(std::wstring filePath, std::wstring fileName)
 {
-	SHARED(_MeshData)		newMesh(new _MeshData);
+	SP(_MeshData)		newMesh(new _MeshData);
+
+	newMesh->maxVertex = _float3(-FLT_MAX, -FLT_MAX, FLT_MAX);
+	newMesh->minVertex = _float3(FLT_MAX, FLT_MAX, FLT_MAX);
 
 	std::ifstream           fin;
 	std::string             str;
@@ -93,6 +96,20 @@ void CMeshStore::ParsingMesh(std::wstring filePath, std::wstring fileName)
 						position.y = std::stof(str, &sz); str = str.substr(sz + 1, str.size());
 						position.z = std::stof(str, &sz);
 						vPosition.emplace_back(position);
+
+						if (position.x < newMesh->minVertex.x)
+							newMesh->minVertex.x = position.x;
+						if (position.y < newMesh->minVertex.y)
+							newMesh->minVertex.y = position.y;
+						if (position.z < newMesh->minVertex.z)
+							newMesh->minVertex.z = position.z;
+
+						if (position.x > newMesh->minVertex.x)
+							newMesh->minVertex.x = position.x;
+						if (position.y > newMesh->minVertex.y)
+							newMesh->minVertex.y = position.y;
+						if (position.z > newMesh->minVertex.z)
+							newMesh->minVertex.z = position.z;
 					}
 					else if (str[1] == 'n')
 					{

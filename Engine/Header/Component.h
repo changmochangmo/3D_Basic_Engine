@@ -11,20 +11,20 @@ public:
 
 public:
 
-	virtual		SHARED(CComponent)	MakeClone	(CGameObject* pObject)			PURE;
-				void				InitClone	(SHARED(CComponent) spClone, CGameObject* pOwner);
+	virtual		SP(CComponent)	MakeClone	(CGameObject* pObject) PURE;
+				void			InitClone	(SP(CComponent) spClone, CGameObject* pOwner);
 
-	virtual		void				Awake		(void)							PURE;
-	virtual		void				Start		(SHARED(CComponent) spThis)		PURE;
+	virtual		void			Awake		(void) PURE;
+	virtual		void			Start		(SP(CComponent) spThis) PURE;
+																    
+	virtual		void			FixedUpdate	(SP(CComponent) spThis) PURE;
+	virtual		void			Update		(SP(CComponent) spThis) PURE;
+	virtual		void			LateUpdate	(SP(CComponent) spThis) PURE;
 
-	virtual		_uint				FixedUpdate	(SHARED(CComponent) spThis)		PURE;
-	virtual		_uint				Update		(SHARED(CComponent) spThis)		PURE;
-	virtual		_uint				LateUpdate	(SHARED(CComponent) spThis)		PURE;
-
-	virtual		void				OnDestroy	(void)							PURE;
-	
-	virtual		void				OnEnable	(void)							PURE;
-	virtual		void				OnDisable	(void)							PURE;
+	virtual		void			OnDestroy	(void) PURE;
+												   
+	virtual		void			OnEnable	(void) PURE;
+	virtual		void			OnDisable	(void) PURE;
 
 protected:
 	GETTOR_SETTOR	(CGameObject*,	m_pOwner,		nullptr,					Owner)

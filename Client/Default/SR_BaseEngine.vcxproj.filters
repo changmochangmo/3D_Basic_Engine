@@ -34,8 +34,11 @@
     <Filter Include="02.Objects">
       <UniqueIdentifier>{50f5935f-2a42-4e51-81e7-19417db711ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Objects\00.Player">
+    <Filter Include="02.Objects\01.Player">
       <UniqueIdentifier>{fb136d06-05de-4244-9b21-c4b8608835ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\00.BasicObject">
+      <UniqueIdentifier>{a25b9957-8289-4078-b187-08a8609d2e72}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,7 +76,10 @@
       <Filter>98.Include</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Player.h">
-      <Filter>02.Objects\00.Player</Filter>
+      <Filter>02.Objects\01.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BasicObject.h">
+      <Filter>02.Objects\00.BasicObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +96,10 @@
       <Filter>01.Scene\05.Changmo</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Player.cpp">
-      <Filter>02.Objects\00.Player</Filter>
+      <Filter>02.Objects\01.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BasicObject.cpp">
+      <Filter>02.Objects\00.BasicObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

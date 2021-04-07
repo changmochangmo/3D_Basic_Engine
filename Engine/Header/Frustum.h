@@ -2,7 +2,7 @@
 #define FRUSTUM_H
 
 BEGIN(Engine)
-class CCamera;
+class CCameraC;
 class ENGINE_DLL CFrustum final
 {
 private:
@@ -10,7 +10,7 @@ private:
 							   ~CFrustum			(void);
 
 public:
-	static			CFrustum*	Create				(CCamera* pOwner);
+	static			CFrustum*	Create				(CCameraC* pOwner);
 					void		Free				(void);
 
 					void		Awake				(void);
@@ -29,7 +29,7 @@ private:
 private:
 					D3DXPLANE		m_plane[6];
 
-	GETTOR_SETTOR	(CCamera*,		m_pOwner,		nullptr,	Owner)
+	GETTOR_SETTOR	(CCameraC*,		m_pOwner,		nullptr,	Owner)
 };
 END
 

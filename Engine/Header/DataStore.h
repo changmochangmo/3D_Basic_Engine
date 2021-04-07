@@ -30,7 +30,8 @@ private:
 				std::wstring			GetVariableKey		(const std::wstring& lineFromFile);
 				std::wstring			GetKeyValue			(const std::wstring& lineFromFile);
 
-	friend		std::wstringstream&		operator >>			(std::wstringstream& in, D3DXVECTOR3& float3);
+	friend		std::wstringstream&		operator >>			(std::wstringstream& in, _float3& float3);
+	friend		std::wstringstream&		operator >>			(std::wstringstream& in, _float2& float3);
 
 private:
 	//VariableKey, KeyValue
@@ -40,8 +41,10 @@ private:
 	//DataKey
 	_FileKeyMap*	m_mpCurDataMap;
 	_FileKeyMap*	m_mpStaticDataMap;
-	
+	_uint			m_numOfSection;
+
 	std::vector<std::wstring> m_vHashKey;
+	
 
 public:
 	template <typename T>
@@ -54,16 +57,12 @@ public:
 		else
 			ppDataMap = &m_mpCurDataMap;
 
-		if ((_uint)sectionKey >= (*ppDataMap)->size())
+		if ((_uint)sectionKey >= m_numOfSection)
 		{
 			MSG_BOX(__FILE__, std::wstring(L"sectionKey is out of range").c_str());
 			abort();
 		}
 		
-		_FileKeyMap a = m_mpStaticDataMap[0];
-		_FileKeyMap b = m_mpStaticDataMap[1];
-		_FileKeyMap c = m_mpStaticDataMap[2];
-
 		auto& iter_object = (*ppDataMap)[sectionKey].find(objectKey);
 		if (iter_object == (*ppDataMap)[sectionKey].end())
 		{

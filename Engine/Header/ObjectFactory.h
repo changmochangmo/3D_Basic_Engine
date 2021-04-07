@@ -17,14 +17,15 @@ public:
 			void						OnEnable			(void);
 			void						OnDisable			(void);
 
-			HRESULT						AddPrototype		(SHARED(CGameObject) pPrototype, _bool isStatic);
-			SHARED(CGameObject)			AddClone			(const std::wstring& protoObjectKey,
-															 _bool isStatic = false);
+			HRESULT						AddPrototype		(SP(CGameObject) pPrototype, _bool isStatic);
+			SP(CGameObject)				AddClone			(const std::wstring& protoObjectKey,
+															 _bool isStatic = false,
+															 const std::wstring& name = L"");
 
 			void						ClearCurPrototype	(void);
 private:															 
 	//여러개의 맵을 가지고 있을 것. 각 맵은 하나의 Scene을 의미. 프로토타입
-	typedef std::unordered_map<std::wstring, SHARED(CGameObject)> _PROTOTYPES;
+	typedef std::unordered_map<std::wstring, SP(CGameObject)> _PROTOTYPES;
 					_PROTOTYPES		m_mCurPrototypes;
 					_PROTOTYPES		m_mStaticPrototypes;
 };

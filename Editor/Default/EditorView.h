@@ -40,15 +40,15 @@ public:
 
 protected:
 	LPDIRECT3DDEVICE9 m_pDevice = nullptr;
-	SHARED(CMainEditor) m_pMainEditor = nullptr;
+	SP(CMainEditor) m_pMainEditor = nullptr;
 
 private:
 	_float3 m_vCurCubePos;
 	_float3 m_vPreCubePos;
 	_uint   m_iDirNum;
-	typedef std::vector<SHARED(Engine::CGameObject)> _GAMEOBJECTS;
+	typedef std::vector<SP(Engine::CGameObject)> _GAMEOBJECTS;
 	GETTOR(_GAMEOBJECTS, m_vGameObjects, {}, GameObjects)
-	SHARED(Engine::CGameObject) m_curSelectedObject = nullptr;
+	SP(Engine::CGameObject) m_curSelectedObject = nullptr;
 
 public:
 	void Engine_Awake();
@@ -62,7 +62,7 @@ public:
 	void Release_CubeData();
 	void Delete_Block(Engine::CGameObject& pObj);
 public:
-	void Set_CubeData(SHARED(Engine::CGameObject) pObj) { m_vGameObjects.emplace_back(pObj); }
+	void Set_CubeData(SP(Engine::CGameObject) pObj) { m_vGameObjects.emplace_back(pObj); }
 	void Set_CubePos(_float3 vPos);
 	
 	

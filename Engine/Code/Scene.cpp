@@ -84,7 +84,7 @@ void CScene::OnDisable(void)
 {
 }
 
-SHARED(CGameObject) CScene::FindObjectByName(std::wstring name)
+SP(CGameObject) CScene::FindObjectByName(std::wstring name)
 {
 	for (auto& layer : m_vLayers)
 	{
@@ -97,7 +97,7 @@ SHARED(CGameObject) CScene::FindObjectByName(std::wstring name)
 	return nullptr;
 }
 
-SHARED(CGameObject) CScene::FindObjectWithKey(std::wstring objectKey)
+SP(CGameObject) CScene::FindObjectWithKey(std::wstring objectKey)
 {
 	for (auto& layer : m_vLayers)
 	{
@@ -110,7 +110,7 @@ SHARED(CGameObject) CScene::FindObjectWithKey(std::wstring objectKey)
 	return nullptr;
 }
 
-_uint CScene::FindObjectsWithKey(std::wstring objectKey, std::vector<SHARED(CGameObject)>& gameObjects)
+_uint CScene::FindObjectsWithKey(std::wstring objectKey, std::vector<SP(CGameObject)>& gameObjects)
 {
 	for (auto& layer : m_vLayers)
 	{

@@ -9,9 +9,9 @@ CCubeComponent::CCubeComponent()
 {
 }
 
-SHARED(Engine::CComponent) CCubeComponent::MakeClone(Engine::CGameObject * pObject)
+SP(Engine::CComponent) CCubeComponent::MakeClone(Engine::CGameObject * pObject)
 {
-	SHARED(CCubeComponent) pClone(new CCubeComponent);
+	SP(CCubeComponent) pClone(new CCubeComponent);
 	pClone->SetOwner(pObject);
 	pClone->SetName(m_name);
 
@@ -25,29 +25,29 @@ void CCubeComponent::Awake(void)
 	m_pOwner->SetObjectKey(L"Player");
 }
 
-void CCubeComponent::Start(SHARED(Engine::CComponent) spThis)
+void CCubeComponent::Start(SP(Engine::CComponent) spThis)
 {
 	__super::Start(spThis);
 
 	m_jumpForce = 5;
 
-	m_pTransform = m_pOwner->GetComponent<Engine::CTransformComponent>();
-	m_pGraphics = m_pOwner->GetComponent<Engine::CGraphicsComponent>();
-	SHARED(Engine::CScene) pScene = Engine::GET_CUR_SCENE;
-	m_spCamTransform = Engine::GET_CUR_SCENE->GetMainCamera()->GetOwner()->GetComponent<Engine::CTransformComponent>();
+	m_pTransform = m_pOwner->GetComponent<Engine::CTransformC>();
+	m_pGraphics = m_pOwner->GetComponent<Engine::CGraphicsC>();
+	SP(Engine::CScene) pScene = Engine::GET_CUR_SCENE;
+	m_spCamTransform = Engine::GET_CUR_SCENE->GetMainCamera()->GetOwner()->GetComponent<Engine::CTransformC>();
 }
 
-_uint CCubeComponent::FixedUpdate(SHARED(Engine::CComponent) spThis)
+_uint CCubeComponent::FixedUpdate(SP(Engine::CComponent) spThis)
 {
 	return _uint();
 }
 
-_uint CCubeComponent::Update(SHARED(Engine::CComponent) spThis)
+_uint CCubeComponent::Update(SP(Engine::CComponent) spThis)
 {
 	return _uint();
 }
 
-_uint CCubeComponent::LateUpdate(SHARED(Engine::CComponent) spThis)
+_uint CCubeComponent::LateUpdate(SP(Engine::CComponent) spThis)
 {
 	return _uint();
 }

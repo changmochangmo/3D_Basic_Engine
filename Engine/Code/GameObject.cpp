@@ -31,10 +31,8 @@ void CGameObject::Start(void)
 	m_isStarted = true;
 }
 
-_uint CGameObject::FixedUpdate(void)
+void CGameObject::FixedUpdate(void)
 {
-
-	_uint event = NO_EVENT;
 	for (auto& component : m_mComponents)
 	{
 		if (component.second->GetIsStarted() == false)
@@ -42,18 +40,13 @@ _uint CGameObject::FixedUpdate(void)
 
 		if (component.second->GetIsStarted() && component.second->GetIsAwaked())
 		{
-			if (event = component.second->FixedUpdate(component.second))
-				return event;
+			component.second->FixedUpdate(component.second);
 		}
 	}
-
-	return event;
 }
 
-_uint CGameObject::Update(void)
+void CGameObject::Update(void)
 {
-	_uint event = NO_EVENT;
-
 	for (auto& component : m_mComponents)
 	{
 		if (m_mComponents.empty())
@@ -62,26 +55,19 @@ _uint CGameObject::Update(void)
 		if (component.second->GetIsStarted() == false)
 			component.second->Start(component.second);
 
-		if (event = component.second->Update(component.second))
-			return event;
+		component.second->Update(component.second);
 	}
-
-	return event;
 }
 
-_uint CGameObject::LateUpdate(void)
+void CGameObject::LateUpdate(void)
 {
-	_uint event = NO_EVENT;
-
 	for (auto& component : m_mComponents)
 	{
 		if (component.second->GetIsStarted() == false)
 			continue;
 
-		if (event = component.second->LateUpdate(component.second))
-			return event;
+		component.second->LateUpdate(component.second);
 	}
-	return event;
 }
 
 
@@ -102,7 +88,7 @@ void CGameObject::OnDisable(void)
 {
 }
 
-void CGameObject::InitClone(SHARED(CGameObject) spClone)
+void CGameObject::InitClone(SP(CGameObject) spClone)
 {
 	spClone->SetIsClone(true);
 	spClone->SetIsStatic(m_isStatic);

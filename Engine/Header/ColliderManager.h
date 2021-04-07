@@ -4,7 +4,7 @@
 #include "Engine.h"
 
 BEGIN(Engine)
-class CColliderComponent;
+class CCollisionC;
 class CBoxCollider;
 class CSphereCollider;
 class CRayCollider;
@@ -24,9 +24,9 @@ public:
 	void				OnEnable				(void);
 	void				OnDisable				(void);
 
-	void				AddColliderToManager	(SHARED(CColliderComponent) vecObject);
+	void				AddColliderToManager	(SP(CCollisionC) vecObject);
 
-	bool				OnColliderEnter			(SHARED(CColliderComponent) pColliderComponent, 
+	bool				OnColliderEnter			(SP(CCollisionC) pColliderComponent, 
 												 std::vector<CGameObject*>& returnCollider/*,
 												 _int colliderID*/);
 
@@ -38,7 +38,7 @@ private:
 	
 private:
 	std::vector<std::vector<_int>> m_vCollisionMap;
-	std::vector<std::vector<SHARED(CColliderComponent)>> m_vColliderComponents;
+	std::vector<std::vector<SP(CCollisionC)>> m_vColliderComponents;
 
 	typedef std::function<_bool(CCollider*, CCollider*)>	_COLLISION_CHECKER;
 	typedef std::array<std::array <_COLLISION_CHECKER, (_int)EColliderType::NumOfCT>, (_int)EColliderType::NumOfCT> _COLLISION_CHECKER_2D;

@@ -12,7 +12,7 @@ private:
 
 public:
 	static		CAabbCollider*		Create				(_float3 size, _float3 offset = _float3(0, 0, 0));
-				CCollider*			MakeClone			(CColliderComponent* pCC) override;
+				CCollider*			MakeClone			(CCollisionC* pCC) override;
 
 				void				Awake				(void) override;
 				void				OnDestroy			(void) override;

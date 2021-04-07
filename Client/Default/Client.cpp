@@ -37,6 +37,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 #pragma region SubEnginesAwake
 	Engine::CDataStore::GetInstance()->Awake();
 	Engine::CDataStore::GetInstance()->InitDataMap((_uint)EDataID::NumOfDataID);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"BasicObject", (_uint)EDataID::BasicObject);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
 
 	Engine::CFRC::GetInstance()->Awake();
@@ -60,7 +61,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 
-	SHARED(CMainApp) pMainApp = CMainApp::Create();
+	SP(CMainApp) pMainApp = CMainApp::Create();
 	pMainApp->Awake();
 	pMainApp->Start();
 

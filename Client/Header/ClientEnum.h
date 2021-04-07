@@ -28,13 +28,15 @@ enum class EColliderID
 
 enum class EDataID
 {
-	Player				= 0 + (_uint)Engine::EDataID::NumOfEngineDataID,
-	NumOfDataID			= 1 + (_uint)Engine::EDataID::NumOfEngineDataID
+	BasicObject			= 0 + (_uint)Engine::EDataID::NumOfEngineDataID,
+	Player				= 1 + (_uint)Engine::EDataID::NumOfEngineDataID,
+	NumOfDataID			= 2 + (_uint)Engine::EDataID::NumOfEngineDataID
 };
 
 
 enum class ELayerID
 {
+	BasicObject,
 	Player,
 	NumOfLayerID
 };

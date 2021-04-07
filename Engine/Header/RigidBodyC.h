@@ -2,26 +2,26 @@
 #define  RIGIDBODYCOMPONENT_H
 
 BEGIN(Engine)
-class ENGINE_DLL CRigidBodyComponent : public CComponent
+class ENGINE_DLL CRigidBodyC final : public CComponent
 {
 public:
-	explicit	CRigidBodyComponent(void);
-	~CRigidBodyComponent(void);
+	explicit	CRigidBodyC(void);
+	~CRigidBodyC(void);
 
 public:
-	virtual SHARED(CComponent) MakeClone(CGameObject * pObject) override;
+		 SP(CComponent) MakeClone(CGameObject * pObject) override;
 
-	virtual void Awake();
-	virtual void Start(SHARED(CComponent) spThis) override;
+		 void Awake();
+		 void Start(SP(CComponent) spThis) override;
 
-	virtual _uint FixedUpdate(SHARED(CComponent) spThis) override;
-	virtual _uint Update(SHARED(CComponent) spThis) override;
-	virtual _uint LateUpdate(SHARED(CComponent) spThis) override;
+		 void FixedUpdate(SP(CComponent) spThis) override;
+		 void Update(SP(CComponent) spThis) override;
+		 void LateUpdate(SP(CComponent) spThis) override;
 
-	virtual void OnDestroy(void) override;
+		 void OnDestroy(void) override;
 
-	virtual void OnEnable(void) override;
-	virtual void OnDisable(void) override;
+		 void OnEnable(void) override;
+		 void OnDisable(void) override;
 
 	
 	void GravityDrag(_float3& velocity);
@@ -49,7 +49,7 @@ protected:
 
 	_float m_damping = 2.999f;	
 	_float3 m_separatingVelocity; 
-	CTransformComponent* m_pTransform;
+	CTransformC* m_pTransform;
 
 };
 

@@ -101,8 +101,8 @@ void CShaderView::OnBnClickedButtonCoord()
 	m_coordZ.GetWindowTextW(str);
 	coord.z = (float)_wtof(str);
 
-	SHARED(Engine::CGameObject) target = pEditorView->m_curSelectedObject;
-	auto& pTargetTC = target->GetComponent<Engine::CTransformComponent>();
+	SP(Engine::CGameObject) target = pEditorView->m_curSelectedObject;
+	auto& pTargetTC = target->GetComponent<Engine::CTransformC>();
 
 	if (0.f != coord.x)
 	{
@@ -140,8 +140,8 @@ void CShaderView::OnBnClickedButtonRotation()
 	m_rotationZ.GetWindowTextW(str);
 	rotation.z = (float)_wtof(str);
 
-	SHARED(Engine::CGameObject) target = pEditorView->m_curSelectedObject;
-	auto& pTargetTC = target->GetComponent<Engine::CTransformComponent>();
+	SP(Engine::CGameObject) target = pEditorView->m_curSelectedObject;
+	auto& pTargetTC = target->GetComponent<Engine::CTransformC>();
 	
 	if (0.f != rotation.x)
 	{
@@ -192,8 +192,8 @@ void CShaderView::OnBnClickedButtonScale()
 		scale.z = data;
 	}
 
-	SHARED(Engine::CGameObject) target = pEditorView->m_curSelectedObject;
-	target->GetComponent<Engine::CTransformComponent>()->SetScale(scale);
+	SP(Engine::CGameObject) target = pEditorView->m_curSelectedObject;
+	target->GetComponent<Engine::CTransformC>()->SetScale(scale);
 }
 
 void CShaderView::OnBnClickedButtonFaceBegin()
@@ -258,7 +258,7 @@ void CShaderView::OnBnClickedButtonFaceEnd()
 	//			coord.z += 1.f;
 	//		}
 
-	//		SHARED(Engine::CGameObject) pObj = Engine::ADD_CLONE(blockType, blockColor, false);
+	//		SP(Engine::CGameObject) pObj = Engine::ADD_CLONE(blockType, blockColor, false);
 	//		pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(coord);
 
 	//		pEditorView->Set_CubeData(pObj); // 모든 큐브들이 저장되는 벡터에 추가
@@ -305,7 +305,7 @@ void CShaderView::OnBnClickedButtonToTheTop()
 	//			coord.z += 1.f;
 	//		}
 
-	//		SHARED(Engine::CGameObject) pObj = Engine::ADD_CLONE(blockType, blockColor, false);
+	//		SP(Engine::CGameObject) pObj = Engine::ADD_CLONE(blockType, blockColor, false);
 	//		pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(coord);
 
 	//		pEditorView->Set_CubeData(pObj); // 모든 큐브들이 저장되는 벡터에 추가

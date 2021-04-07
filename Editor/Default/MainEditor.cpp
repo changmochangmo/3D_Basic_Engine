@@ -20,9 +20,9 @@ CMainEditor::~CMainEditor()
 	OnDestroy();
 }
 
-SHARED(CMainEditor) CMainEditor::Create(void)
+SP(CMainEditor) CMainEditor::Create(void)
 {
-	SHARED(CMainEditor) pMainEditor(new CMainEditor, Engine::SmartDeleter<CMainEditor>);
+	SP(CMainEditor) pMainEditor(new CMainEditor, Engine::SmartDeleter<CMainEditor>);
 
 	return pMainEditor;
 }

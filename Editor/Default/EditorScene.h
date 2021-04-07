@@ -9,7 +9,7 @@ public:
 	~CEditorScene();
 
 public:
-	static			SHARED(Engine::CScene)	Create(void);
+	static			SP(Engine::CScene)	Create(void);
 
 	virtual void Awake(void) override;
 	virtual void Start(void) override;

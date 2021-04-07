@@ -138,12 +138,12 @@ void CObjectListView::OnBnClickedSave()
 		for (auto& pObj : pView->GetGameObjects())
 		{
 			ofsSave << "m_objectKey=" << pObj->GetObjectKey() << "\n";
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetPosition().x << "\n";
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetPosition().y << "\n";
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetPosition().z << "\n";
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetRotation().x << "\n";
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetRotation().y << "\n";
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetRotation().z << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetPosition().x << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetPosition().y << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetPosition().z << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetRotation().x << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetRotation().y << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetRotation().z << "\n";
 
 		}
 
@@ -230,55 +230,55 @@ void CObjectListView::OnBnClickedLoad()
 				break;
 		
 
-			SHARED(Engine::CGameObject) pObj = nullptr;
+			SP(Engine::CGameObject) pObj = nullptr;
 
 			if (ObjectKey == "m_objectKey=WhiteBlock")
 			{
 			    pObj = Engine::CObjectFactory::GetInstance()->AddClone(L"NormalBlock", L"WhiteBlock");
-				pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(xPos,
+				pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(xPos,
 					yPos,
 					zPos));
-				pObj->GetComponent<Engine::CTransformComponent>()->SetRotation(_float3(xRot,
+				pObj->GetComponent<Engine::CTransformC>()->SetRotation(_float3(xRot,
 					yRot,
 					zRot));
 			}
 			else if (ObjectKey == "m_objectKey=RedBlock")
 			{
 				pObj = Engine::CObjectFactory::GetInstance()->AddClone(L"EventBlock", L"RedBlock");
-				pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(xPos,
+				pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(xPos,
 					yPos,
 					zPos));
-				pObj->GetComponent<Engine::CTransformComponent>()->SetRotation(_float3(xRot,
+				pObj->GetComponent<Engine::CTransformC>()->SetRotation(_float3(xRot,
 					yRot,
 					zRot));
 			}
 			else if (ObjectKey == "m_objectKey=BlueBlock")
 			{
 				pObj = Engine::CObjectFactory::GetInstance()->AddClone(L"EventBlock", L"BlueBlock");
-				pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(xPos,
+				pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(xPos,
 					yPos,
 					zPos));
-				pObj->GetComponent<Engine::CTransformComponent>()->SetRotation(_float3(xRot,
+				pObj->GetComponent<Engine::CTransformC>()->SetRotation(_float3(xRot,
 					yRot,
 					zRot));
 			}
 			else if (ObjectKey == "m_objectKey=YellowBlock")
 			{
 				pObj = Engine::CObjectFactory::GetInstance()->AddClone(L"EventBlock", L"YellowBlock");
-				pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(xPos,
+				pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(xPos,
 					yPos,
 					zPos));
-				pObj->GetComponent<Engine::CTransformComponent>()->SetRotation(_float3(xRot,
+				pObj->GetComponent<Engine::CTransformC>()->SetRotation(_float3(xRot,
 					yRot,
 					zRot));
 			}
 			else if (ObjectKey == "m_objectKey=GreenBlock")
 			{
 				pObj = Engine::CObjectFactory::GetInstance()->AddClone(L"EventBlock", L"GreenBlock");
-				pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(xPos,
+				pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(xPos,
 					yPos,
 					zPos));
-				pObj->GetComponent<Engine::CTransformComponent>()->SetRotation(_float3(xRot,
+				pObj->GetComponent<Engine::CTransformC>()->SetRotation(_float3(xRot,
 					yRot,
 					zRot));
 			}
@@ -286,7 +286,7 @@ void CObjectListView::OnBnClickedLoad()
 
 
 			pView->Set_CubeData(pObj);
-			pView->Set_CubePos(pObj->GetComponent<Engine::CTransformComponent>()->GetPosition());
+			pView->Set_CubePos(pObj->GetComponent<Engine::CTransformC>()->GetPosition());
 			m_ListBox.AddString(pObj->GetObjectKey().c_str());
 		}
 		pView->GetGameObjects().reserve(5000);
@@ -316,14 +316,14 @@ void CObjectListView::OnLbnSelchangeObjectList()
 			return;
 
 		Engine::GET_CUR_SCENE->GetMainCamera()->GetTransform()->SetPosition(_float3(
-			pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformComponent>()->GetPosition().x,
-			pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformComponent>()->GetPosition().y,
+			pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformC>()->GetPosition().x,
+			pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformC>()->GetPosition().y,
 			Engine::GET_CUR_SCENE->GetMainCamera()->GetTransform()->GetPosition().z));		
 
 		if (m_iSelect != Idx)
 		{
-		    pView->GetGameObjects()[Idx]->GetComponent<Engine::CGraphicsComponent>()->SetRenderID(Engine::ERenderID::WireFrame);
-			pView->GetGameObjects()[m_iSelect]->GetComponent<Engine::CGraphicsComponent>()->SetRenderID(Engine::ERenderID::Base);
+		    pView->GetGameObjects()[Idx]->GetComponent<Engine::CGraphicsC>()->SetRenderID(Engine::ERenderID::WireFrame);
+			pView->GetGameObjects()[m_iSelect]->GetComponent<Engine::CGraphicsC>()->SetRenderID(Engine::ERenderID::Base);
 		}
 
 		Engine::GET_CUR_SCENE->GetMainCamera()->GetTransform()->SetRotation(_float3(0.f, 0.f, 0.f));
@@ -334,9 +334,9 @@ void CObjectListView::OnLbnSelchangeObjectList()
 
 		pView->m_curSelectedObject = pView->GetGameObjects()[Idx]; // 현재 선택한 오브젝트를 저장
 
-		std::cout << "rotation X: " << pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformComponent>()->GetRotation().x << std::endl;
-		std::cout << "rotation Y: " << pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformComponent>()->GetRotation().y << std::endl;
-		std::cout << "rotation Z: " << pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformComponent>()->GetRotation().z << std::endl;
+		std::cout << "rotation X: " << pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformC>()->GetRotation().x << std::endl;
+		std::cout << "rotation Y: " << pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformC>()->GetRotation().y << std::endl;
+		std::cout << "rotation Z: " << pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformC>()->GetRotation().z << std::endl;
 		std::cout << "//////////////////////////////////" << std::endl;
 	}
 

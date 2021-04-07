@@ -142,8 +142,14 @@
     <Filter Include="00.Engine\01.Graphics\03.Camera\01.Frustum">
       <UniqueIdentifier>{70d3f97e-37f0-4a95-aa8c-e44b9d93eeb7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.Engine\11.MathHelper">
+    <Filter Include="00.Engine\11.Math">
       <UniqueIdentifier>{e687ba19-18d1-497a-a08b-dd491d90af0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\11.Math\00.Helper">
+      <UniqueIdentifier>{bdfc07aa-f72a-4a34-b843-73e6c94ca4ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Components\03.Camera">
+      <UniqueIdentifier>{00053be2-546b-4e96-b604-c531175c0889}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -168,29 +174,14 @@
     <ClCompile Include="..\Code\SceneManager.cpp">
       <Filter>00.Engine\04.SceneManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\TextureComponent.cpp">
-      <Filter>02.Components\01.GraphicsComponent\01.Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MeshComponent.cpp">
-      <Filter>02.Components\01.GraphicsComponent\00.Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\MeshStore.cpp">
       <Filter>00.Engine\09.ResourceStore\00.MeshStore</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ResourceStore.cpp">
       <Filter>00.Engine\09.ResourceStore</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\TransformComponent.cpp">
-      <Filter>02.Components\00.Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\GraphicsComponent.cpp">
-      <Filter>02.Components\01.GraphicsComponent</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\ObjectFactory.cpp">
       <Filter>00.Engine\05.ObjectFactory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\RigidBodyComponent.cpp">
-      <Filter>02.Components\02.PhysicsComponent\00.RigidBody</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TextureStore.cpp">
       <Filter>00.Engine\09.ResourceStore\01.TextureStore</Filter>
@@ -234,9 +225,6 @@
     <ClCompile Include="..\Code\SoundManager.cpp">
       <Filter>00.Engine\10.SoundManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ColliderComponent.cpp">
-      <Filter>02.Components\02.PhysicsComponent\01.Collider</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Collider.cpp">
       <Filter>00.Engine\02.Physics\01.Collision\00.Collider</Filter>
     </ClCompile>
@@ -261,9 +249,6 @@
     <ClCompile Include="..\Code\CollisionHelper.cpp">
       <Filter>00.Engine\02.Physics\01.Collision\02.CollisionHelper</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BitmapComponent.cpp">
-      <Filter>02.Components\01.GraphicsComponent\02.Bitmap</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\TextManager.cpp">
       <Filter>00.Engine\06.FontManager</Filter>
     </ClCompile>
@@ -273,11 +258,32 @@
     <ClCompile Include="..\Code\Frustum.cpp">
       <Filter>00.Engine\01.Graphics\03.Camera\01.Frustum</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Camera.cpp">
-      <Filter>00.Engine\01.Graphics\03.Camera</Filter>
+    <ClCompile Include="..\Code\TransformC.cpp">
+      <Filter>02.Components\00.Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MeshC.cpp">
+      <Filter>02.Components\01.GraphicsComponent\00.Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TextureC.cpp">
+      <Filter>02.Components\01.GraphicsComponent\01.Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BitmapC.cpp">
+      <Filter>02.Components\01.GraphicsComponent\02.Bitmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\GraphicsC.cpp">
+      <Filter>02.Components\01.GraphicsComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\RigidBodyC.cpp">
+      <Filter>02.Components\02.PhysicsComponent\00.RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CollisionC.cpp">
+      <Filter>02.Components\02.PhysicsComponent\01.Collider</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MathHelper.cpp">
-      <Filter>00.Engine\11.MathHelper</Filter>
+      <Filter>00.Engine\11.Math\00.Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CameraC.cpp">
+      <Filter>02.Components\03.Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,32 +326,17 @@
     <ClInclude Include="..\Header\SceneManager.h">
       <Filter>00.Engine\04.SceneManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\TextureComponent.h">
-      <Filter>02.Components\01.GraphicsComponent\01.Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MeshComponent.h">
-      <Filter>02.Components\01.GraphicsComponent\00.Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\MeshStore.h">
       <Filter>00.Engine\09.ResourceStore\00.MeshStore</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ResourceStore.h">
       <Filter>00.Engine\09.ResourceStore</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\TransformComponent.h">
-      <Filter>02.Components\00.Transform</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\EngineComponents.h">
       <Filter>99.Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\GraphicsComponent.h">
-      <Filter>02.Components\01.GraphicsComponent</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\ObjectFactory.h">
       <Filter>00.Engine\05.ObjectFactory</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\RigidBodyComponent.h">
-      <Filter>02.Components\02.PhysicsComponent\00.RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\TextureStore.h">
       <Filter>00.Engine\09.ResourceStore\01.TextureStore</Filter>
@@ -398,9 +389,6 @@
     <ClInclude Include="..\Header\ColliderManager.h">
       <Filter>00.Engine\02.Physics\01.Collision\01.ColliderManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ColliderComponent.h">
-      <Filter>02.Components\02.PhysicsComponent\01.Collider</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Collider.h">
       <Filter>00.Engine\02.Physics\01.Collision\00.Collider</Filter>
     </ClInclude>
@@ -419,9 +407,6 @@
     <ClInclude Include="..\Header\CollisionHelper.h">
       <Filter>00.Engine\02.Physics\01.Collision\02.CollisionHelper</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BitmapComponent.h">
-      <Filter>02.Components\01.GraphicsComponent\02.Bitmap</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\TextManager.h">
       <Filter>00.Engine\06.FontManager</Filter>
     </ClInclude>
@@ -431,11 +416,32 @@
     <ClInclude Include="..\Header\Frustum.h">
       <Filter>00.Engine\01.Graphics\03.Camera\01.Frustum</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Camera.h">
-      <Filter>00.Engine\01.Graphics\03.Camera</Filter>
+    <ClInclude Include="..\Header\TransformC.h">
+      <Filter>02.Components\00.Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MeshC.h">
+      <Filter>02.Components\01.GraphicsComponent\00.Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TextureC.h">
+      <Filter>02.Components\01.GraphicsComponent\01.Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BitmapC.h">
+      <Filter>02.Components\01.GraphicsComponent\02.Bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\GraphicsC.h">
+      <Filter>02.Components\01.GraphicsComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\RigidBodyC.h">
+      <Filter>02.Components\02.PhysicsComponent\00.RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CollisionC.h">
+      <Filter>02.Components\02.PhysicsComponent\01.Collider</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MathHelper.h">
-      <Filter>00.Engine\11.MathHelper</Filter>
+      <Filter>00.Engine\11.Math\00.Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CameraC.h">
+      <Filter>02.Components\03.Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

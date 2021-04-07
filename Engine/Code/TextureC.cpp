@@ -1,22 +1,21 @@
 #include "EngineStdafx.h"
-#include "TextureComponent.h"
 #include "GameObject.h"
 #include "TextureStore.h"
 #include "DataStore.h"
 
 USING(Engine)
-CTextureComponent::CTextureComponent()  
+CTextureC::CTextureC()  
 {
 }
 
 
-CTextureComponent::~CTextureComponent(void)
+CTextureC::~CTextureC(void)
 {
 }
 
-SHARED(CComponent) CTextureComponent::MakeClone(CGameObject* pObject)
+SP(CComponent) CTextureC::MakeClone(CGameObject* pObject)
 {
-	SHARED(CTextureComponent) spClone(new CTextureComponent);
+	SP(CTextureC) spClone(new CTextureC);
 	__super::InitClone(spClone, pObject);
 
 	spClone->SetTextureKey(m_textureKey);
@@ -26,14 +25,14 @@ SHARED(CComponent) CTextureComponent::MakeClone(CGameObject* pObject)
 	return spClone;
 }
 
-void CTextureComponent::Awake(void)
+void CTextureC::Awake(void)
 {
 	__super::Awake();
 	m_componentID = (_int)m_s_componentID;
 }
 
 
-void CTextureComponent::Start(SHARED(CComponent) spThis)
+void CTextureC::Start(SP(CComponent) spThis)
 {
 	__super::Start(spThis);
 	//현재 오브젝트가 Static Scene의 오브젝트냐?
@@ -50,31 +49,28 @@ void CTextureComponent::Start(SHARED(CComponent) spThis)
 		m_pTexData = CTextureStore::GetInstance()->GetTextureData(L"None");
 }
 
-_uint CTextureComponent::FixedUpdate(SHARED(CComponent) spThis)
-{
-	return _uint();
-}
-
-_uint CTextureComponent::Update(SHARED(CComponent) spThis)
-{
-	return _uint();
-}
-
-_uint CTextureComponent::LateUpdate(SHARED(CComponent) spThis)
-{
-	return _uint();
-}
-
-
-
-void CTextureComponent::OnDestroy(void)
+void CTextureC::FixedUpdate(SP(CComponent) spThis)
 {
 }
 
-void CTextureComponent::OnEnable(void)
+void CTextureC::Update(SP(CComponent) spThis)
 {
 }
 
-void CTextureComponent::OnDisable(void)
+void CTextureC::LateUpdate(SP(CComponent) spThis)
+{
+}
+
+
+
+void CTextureC::OnDestroy(void)
+{
+}
+
+void CTextureC::OnEnable(void)
+{
+}
+
+void CTextureC::OnDisable(void)
 {
 }

@@ -63,5 +63,13 @@ namespace Engine
 		Component,
 		NumOfEngineDataID
 	};
+
+	enum class ECameraMode
+	{
+		Fixed,
+		Edit,
+		FPS,
+		NumOfCameraMode
+	};
 }
 #endif // !ENGINEENUM_H

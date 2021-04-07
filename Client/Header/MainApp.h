@@ -11,7 +11,7 @@ protected:
 
 public:
 
-	static		SHARED(CMainApp)	Create					(void);
+	static		SP(CMainApp)	Create					(void);
 
 				void				Awake					(void);
 				void				Start					(void);

@@ -5,7 +5,7 @@
 #include "DeviceManager.h"
 #include "GameObject.h"
 #include "CameraManager.h"
-#include "Camera.h"
+#include "CameraC.h"
 #include "Frustum.h"
 
 USING(Engine)
@@ -89,9 +89,9 @@ _uint CGraphicsManager::Render(void)
 				if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(), 
 														  pGC->GetTransform()->GetScale() / 2.f))
 				{
-					if (event = pGC->PreRender()) return event;
-					if (event = pGC->Render()) return event;
-					if (event = pGC->PostRender()) return event;
+					pGC->PreRender();
+					pGC->Render();
+					pGC->PostRender();
 				}
 			}
 
@@ -132,7 +132,7 @@ void CGraphicsManager::OnDisable(void)
 {
 }
 
-void CGraphicsManager::AddToRenderList(_int renderID, SHARED(CGraphicsComponent) pGC)
+void CGraphicsManager::AddToRenderList(_int renderID, SP(CGraphicsC) pGC)
 {
 	if (pGC == nullptr)
 	{

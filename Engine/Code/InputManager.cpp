@@ -5,8 +5,9 @@
 #include "SceneManager.h"
 #include "Layer.h"
 #include "CameraManager.h"
-#include "Camera.h"
-
+#include "CameraC.h"
+#include "TextManager.h"
+#include "DataStore.h"
 
 USING(Engine)
 IMPLEMENT_SINGLETON(CInputManager)
@@ -19,24 +20,21 @@ void CInputManager::Awake(void)
 
 void CInputManager::Start(void)
 {
+	GET_VALUE(true, m_dataID, m_objectKey, L"mouseSensitivity", m_mouseSensitivity);
 }
 
-_uint CInputManager::FixedUpdate(void)
+void CInputManager::FixedUpdate(void)
 {
-	return NO_EVENT;
 }
 
-_uint CInputManager::Update(void)
+void CInputManager::Update(void)
 {
 	KeyUpdate();
 	MouseUpdate();
-
-	return NO_EVENT;
 }
 
-_uint CInputManager::LateUpdate(void)
+void CInputManager::LateUpdate(void)
 {
-	return NO_EVENT;
 }
 
 void CInputManager::OnDestroy(void)
@@ -109,10 +107,10 @@ void CInputManager::KeyUpdate(void)
 		m_key |= KEY_S;
 	if (GetAsyncKeyState(0x44) & 0x8000)
 		m_key |= KEY_D;
-	if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
-		m_key |= KEY_SHIFT;
-	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
-		m_key |= KEY_RBUTTON;
+	if (GetAsyncKeyState('E') & 0x8000)
+		m_key |= KEY_E;
+	if (GetAsyncKeyState('Q') & 0x8000)
+		m_key |= KEY_Q;
 	if (GetAsyncKeyState('1') & 0x8000)
 		m_key |= KEY_1;
 	if (GetAsyncKeyState('2') & 0x8000)
@@ -133,13 +131,15 @@ void CInputManager::KeyUpdate(void)
 
 void CInputManager::MouseUpdate(void)
 {
+	m_mouseLastFramePos = m_mousePos;
+
 	POINT p;
 	GetCursorPos(&p);
 	ScreenToClient(GET_HANDLE, &p);
 
-	m_mousePos = D3DXVECTOR3((float)p.x, (float)p.y, 0);
+	m_mousePos = _float3((_float)p.x, (_float)p.y, 0);
 
-	m_mousePos.x -= GET_WND_WIDTH / 2.f;
+	m_mousePos.x -= (GET_WND_WIDTH / 2.f);
 	m_mousePos.y = (m_mousePos.y * -1) + GET_WND_HEIGHT / 2.f;
 
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
@@ -148,9 +148,19 @@ void CInputManager::MouseUpdate(void)
 		m_key |= MOUSE_RIGHT;
 }
 
+void CInputManager::MoveMouseToCenter(void)
+{
+	m_mouseLastFramePos = m_mousePos;
+	POINT mousePos = { GET_WND_WIDTH >> 1, GET_WND_HEIGHT >> 1 };;
+	ClientToScreen(GET_HANDLE, &mousePos);
+	SetCursorPos(mousePos.x, mousePos.y);
+
+	m_mousePos = _float3(0, 0, 0);
+}
+
 CGameObject * CInputManager::MousePicking(_int layerID, _float3& intersection)
 {
-	_float3 rayStartPos = GET_MAIN_CAM->GetPosition(); // 원점
+	_float3 rayStartPos = GET_MAIN_CAM->GetTransform()->GetPosition(); // 원점
 	_float3 rayDir = GetPickingDirection(); // 방향
 
 	_float t = FLT_MAX;
@@ -160,10 +170,10 @@ CGameObject * CInputManager::MousePicking(_int layerID, _float3& intersection)
 
 	for (auto& object : pLayer->GetGameObjects())
 	{
-		_float tMin = 0;
-		_float tMax = 1000; // 거리
+		_float tMin = GET_MAIN_CAM->GetNear();
+		_float tMax = GET_MAIN_CAM->GetFar(); // 거리
 
- 		auto& pTransform = object->GetComponent<CTransformComponent>();
+ 		auto& pTransform = object->GetComponent<CTransformC>();
 
 		_float3 minPos = _float3(-0.5f, -0.5f, -0.5f);
 		_float3 maxPos = _float3(0.5f, 0.5f, 0.5f);
@@ -194,6 +204,16 @@ CGameObject * CInputManager::MousePicking(_int layerID, _float3& intersection)
 	
 	intersection = rayStartPos + t * rayDir;
 	return pGameObject;
+}
+
+_float3 CInputManager::GetMousePosDelta(void)
+{
+	return (m_mousePos - m_mouseLastFramePos);
+}
+
+void CInputManager::ResetMousePosDelta(void)
+{
+	m_mouseLastFramePos = m_mousePos;
 }
 
 

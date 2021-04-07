@@ -4,6 +4,7 @@
 
 namespace Engine
 {
+	//Graphics
 	typedef struct _CustomVertex
 	{
 		_float3	position;
@@ -36,12 +37,15 @@ namespace Engine
 
 	typedef struct _MeshData
 	{
-		LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
+		LPDIRECT3DVERTEXBUFFER9 vertexBuffer = nullptr;
 		_uint vertexCount;
 		_uint vertexSize;
 		_uint faceCount; //== PolygonCount == triangleCount
 		_uint FVF;
 		_uint vertexNumInFace;
+
+		_float3 minVertex;
+		_float3 maxVertex;
 
 		LPDIRECT3DINDEXBUFFER9 indexBuffer;
 		D3DFORMAT indexFormat;
@@ -53,6 +57,60 @@ namespace Engine
 		LPDIRECT3DTEXTURE9 pTexture;
 		D3DXIMAGE_INFO imageInfo;
 	}TEXTURE_DATA;
+
+	typedef struct _Face
+	{
+		_uint vertexIndex[3];
+		_uint uvIndex[3];
+		_uint normIndex[3];
+	}FACE;
+
+	typedef struct _FRUSTUM
+	{
+		D3DXPLANE plane[6];
+	}FRUSTUM;
+
+
+	//Text
+	typedef struct _Text
+	{
+		std::wstring	m_message;
+		D3DXVECTOR3		m_position;
+		D3DXCOLOR		m_color;
+		bool			m_isVisible;
+	}TEXT;
+
+	//Polygons
+	struct _Ray
+	{
+		_float3 origin;
+		_float3 direction;
+	};
+
+	struct _Triangle
+	{
+		_float3 points[3] = {};
+	};
+
+	struct _Aabb
+	{
+		_float3 position;
+		_float3 halfExtent;
+	};
+
+	struct _Obb
+	{
+		_float3 position;
+		_float3 halfExtent;
+		_float3 axis[3];
+	};
+
+	struct _Sphere
+	{
+		_float3 position;
+		_float radius;
+	};
+
 
 	typedef struct _BOOL3
 	{
@@ -67,26 +125,6 @@ namespace Engine
 		bool y;
 		bool z;
 	}BOOL3;
-
-	typedef struct _Face
-	{
-		_uint vertexIndex[3];
-		_uint uvIndex[3];
-		_uint normIndex[3];
-	}FACE;
-
-	typedef struct _Text
-	{
-		std::wstring	m_message;
-		D3DXVECTOR3		m_position;
-		D3DXCOLOR		m_color;
-		bool			m_isVisible;
-	}TEXT;
-
-	typedef struct _FRUSTUM
-	{
-		D3DXPLANE plane[6];
-	}FRUSTUM;
 }
 #endif // !ENGINESTRUCTURE_H
 

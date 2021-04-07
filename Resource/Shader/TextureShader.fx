@@ -2,7 +2,7 @@ matrix WorldMatrix;
 matrix ViewMatrix;
 matrix ProjMatrix;
 float4 Diffuse;
-float4 Colorr;
+float4 Color;
 
 
 sampler2D BaseMap;

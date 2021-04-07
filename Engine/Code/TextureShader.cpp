@@ -4,7 +4,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "CameraManager.h"
-#include "Camera.h"
+#include "CameraC.h"
 
 USING(Engine)
 CTextureShader::CTextureShader()
@@ -36,17 +36,15 @@ void CTextureShader::Start(void)
 	LoadShader();
 }
 
-void CTextureShader::PreRender(CGraphicsComponent* pGC)
+void CTextureShader::PreRender(CGraphicsC* pGC)
 {
 	m_pShader->SetMatrix("WorldMatrix", &pGC->GetTransform()->GetWorldMatrix());
 	m_pShader->SetMatrix("ViewMatrix", &GET_MAIN_CAM->GetViewMatrix());
 	m_pShader->SetMatrix("ProjMatrix", &GET_MAIN_CAM->GetProjMatrix());
-
-	D3DXVECTOR4 a = pGC->GetTexture()->GetColor();
-	m_pShader->SetVector("Colorr", &pGC->GetTexture()->GetColor());
+	m_pShader->SetVector("Color", &pGC->GetTexture()->GetColor());
 }
 
-void CTextureShader::Render(CGraphicsComponent* pGC)
+void CTextureShader::Render(CGraphicsC* pGC)
 {
 	_uint inumPasses = 0;
 
@@ -72,7 +70,7 @@ void CTextureShader::Render(CGraphicsComponent* pGC)
 	}
 }
 
-void CTextureShader::PostRender(CGraphicsComponent* pGraphics)
+void CTextureShader::PostRender(CGraphicsC* pGraphics)
 {
 }
 

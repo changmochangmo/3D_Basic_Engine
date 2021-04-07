@@ -14,7 +14,7 @@ public:
 
 					void				ClearCurResource	(void) override;
 
-					SHARED(_MeshData)	GetMeshData			(std::wstring meshKey);
+					SP(_MeshData)	GetMeshData			(std::wstring meshKey);
 					void				InitMeshForScene	(std::wstring curScene);
 private:
 					void				InitResource		(std::wstring sourcePath) override;
@@ -23,7 +23,7 @@ private:
 
 private:
 	std::wstring name = L"MeshStore";
-	typedef std::unordered_map<std::wstring, SHARED(_MeshData)>	_MeshDataMap;
+	typedef std::unordered_map<std::wstring, SP(_MeshData)>	_MeshDataMap;
 					_MeshDataMap		m_mCurSceneMeshData;
 					_MeshDataMap		m_mStaticMeshData;
 };

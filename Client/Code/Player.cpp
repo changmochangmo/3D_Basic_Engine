@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "InputManager.h"
+#include "FRC.h"
 
+_uint CPlayer::m_s_uniqueID = 0;
 
 CPlayer::CPlayer()
 {
@@ -11,18 +14,18 @@ CPlayer::~CPlayer()
 {
 }
 
-SHARED(CPlayer) CPlayer::Create(void)
+SP(CPlayer) CPlayer::Create(void)
 {
-	SHARED(CPlayer) spPlayer(new CPlayer, Engine::SmartDeleter<CPlayer>);
+	SP(CPlayer) spPlayer(new CPlayer, Engine::SmartDeleter<CPlayer>);
 	spPlayer->Awake();
 
 	return spPlayer;
 }
 
-SHARED(Engine::CGameObject) CPlayer::MakeClone(void)
+SP(Engine::CGameObject) CPlayer::MakeClone(void)
 {
-	SHARED(CPlayer) spClone(new CPlayer, Engine::SmartDeleter<CPlayer>);
-	Engine::CGameObject::InitClone(spClone);
+	SP(CPlayer) spClone(new CPlayer, Engine::SmartDeleter<CPlayer>);
+	__super::InitClone(spClone);
 
 	return spClone;
 }
@@ -35,33 +38,53 @@ void CPlayer::Awake(void)
 	m_layerID	= (_int)ELayerID::Player;
 	m_dataID	= (_int)EDataID::Player;
 
-	m_spTransform	= AddComponent<Engine::CTransformComponent>();
-	m_spMesh		= AddComponent<Engine::CMeshComponent>();
-	m_spTexture		= AddComponent<Engine::CTextureComponent>();
-	m_spGraphics	= AddComponent<Engine::CGraphicsComponent>();
+	m_spTransform	= AddComponent<Engine::CTransformC>();
+	m_spMesh		= AddComponent<Engine::CMeshC>();
+	m_spTexture		= AddComponent<Engine::CTextureC>();
+	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
 }
 
 void CPlayer::Start(void)
 {
 	__super::Start();
+	m_spTransform	= GetComponent<Engine::CTransformC>();
+	m_spMesh		= GetComponent<Engine::CMeshC>();
+	m_spTexture		= GetComponent<Engine::CTextureC>();
+	m_spGraphics	= GetComponent<Engine::CGraphicsC>();
+
+	m_spTransform->SetScale(_float3(1.f, 1.f, 2.f));
+
+	//m_spTransform->SetRotation(_float3(45, 45, 0));
+	//m_spTransform->UpdateLookAt();
+	//m_spTransform->UpdateWorldMatrix();
 }
 
-_uint CPlayer::FixedUpdate(void)
+void CPlayer::FixedUpdate(void)
 {
 	__super::FixedUpdate();
-	return _uint();
 }
 
-_uint CPlayer::Update(void)
+void CPlayer::Update(void)
 {
 	__super::Update();
-	return _uint();
+
+	if (Engine::IMKEY_PRESS(KEY_RIGHT))
+	{
+		//_float3 vec(-1, -1, -1);
+		//D3DXVec3Normalize(&vec, &vec);
+		//m_spTransform->SetLookAt(vec);
+		//m_spTransform->UpdateRotation();
+		m_spTransform->SetForward(m_spTransform->GetForward() + _float3(1, 0, 0) * GET_DT);
+	}
+	if (Engine::IMKEY_PRESS(KEY_LEFT))
+	{
+		m_spTransform->SetForward(m_spTransform->GetForward() + _float3(-1, 0, 0) * GET_DT);
+	}
 }
 
-_uint CPlayer::LateUpdate(void)
+void CPlayer::LateUpdate(void)
 {
 	__super::LateUpdate();
-	return _uint();
 }
 
 void CPlayer::OnDestroy(void)
@@ -77,4 +100,9 @@ void CPlayer::OnEnable(void)
 void CPlayer::OnDisable(void)
 {
 	__super::OnDisable();
+}
+
+void CPlayer::SetBasicName(void)
+{
+	m_name = m_objectKey + std::to_wstring(m_s_uniqueID++);
 }

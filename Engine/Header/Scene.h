@@ -24,10 +24,10 @@ public:
 	virtual		void					OnEnable			(void) PURE;
 	virtual		void					OnDisable			(void) PURE;
 				
-				SHARED(CGameObject)		FindObjectByName	(std::wstring name);
-				SHARED(CGameObject)		FindObjectWithKey	(std::wstring objectKey);
-				_uint					FindObjectsWithKey	(std::wstring objectKey, 
-															 std::vector<SHARED(CGameObject)>& gameObjects);
+				SP(CGameObject)		FindObjectByName		(std::wstring name);
+				SP(CGameObject)		FindObjectWithKey		(std::wstring objectKey);
+				_uint				FindObjectsWithKey		(std::wstring objectKey, 
+															 std::vector<SP(CGameObject)>& gameObjects);
 
 
 protected:												   

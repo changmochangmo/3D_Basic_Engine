@@ -1,23 +1,22 @@
 #include "EngineStdafx.h"
-#include "ColliderComponent.h"
 #include "Collider.h"
 #include "ColliderManager.h"
 #include "GameObject.h"
 #include "DataStore.h"
-USING(Engine)
 
-CColliderComponent::CColliderComponent(void)
+USING(Engine)
+CCollisionC::CCollisionC(void)
 {
 }
 
-CColliderComponent::~CColliderComponent(void)
+CCollisionC::~CCollisionC(void)
 {
 	OnDestroy();
 }
 
-SHARED(CComponent) CColliderComponent::MakeClone(CGameObject* pObject)
+SP(CComponent) CCollisionC::MakeClone(CGameObject* pObject)
 {
-	SHARED(CColliderComponent) spClone(new CColliderComponent);
+	SP(CCollisionC) spClone(new CCollisionC);
 	__super::InitClone(spClone, pObject);
 
 	spClone->SetColliderID(m_colliderID);
@@ -29,17 +28,17 @@ SHARED(CComponent) CColliderComponent::MakeClone(CGameObject* pObject)
 	return spClone;
 }
 
-void CColliderComponent::Awake(void)
+void CCollisionC::Awake(void)
 {
 	__super::Awake();
 	m_componentID = (_int)m_s_componentID;;
 }
 
-void CColliderComponent::Start(SHARED(CComponent) spThis)
+void CCollisionC::Start(SP(CComponent) spThis)
 {
 	__super::Start(spThis);
 
-	m_pTransform = m_pOwner->GetComponent<CTransformComponent>();
+	m_pTransform = m_pOwner->GetComponent<CTransformC>();
 
 
 	_bool isStatic = m_pOwner->GetIsStatic();
@@ -49,12 +48,12 @@ void CColliderComponent::Start(SHARED(CComponent) spThis)
 	if (m_colliderID == 0)
 		GET_VALUE(isStatic, ownerDataID, objectKey, L"colliderID", m_colliderID);
 
-	CColliderManager::GetInstance()->AddColliderToManager(std::dynamic_pointer_cast<CColliderComponent>(spThis));
+	CColliderManager::GetInstance()->AddColliderToManager(std::dynamic_pointer_cast<CCollisionC>(spThis));
 
 	CalculateBS();
 }
 
-_uint CColliderComponent::FixedUpdate(SHARED(CComponent) spThis)
+void CCollisionC::FixedUpdate(SP(CComponent) spThis)
 {
 	//std::vector<_int>& layersToCheck = CColliderManager::GetInstance()->GetLayersToCheck(m_colliderID);
 	//
@@ -65,20 +64,17 @@ _uint CColliderComponent::FixedUpdate(SHARED(CComponent) spThis)
 	//
 	//	}
 	//}
-	return _uint();
 }
 
-_uint CColliderComponent::Update(SHARED(CComponent) spThis)
+void CCollisionC::Update(SP(CComponent) spThis)
 {
-	return _uint();
 }
 
-_uint CColliderComponent::LateUpdate(SHARED(CComponent) spSelf)
+void CCollisionC::LateUpdate(SP(CComponent) spSelf)
 {
-	return _uint();
 }
 
-void CColliderComponent::OnDestroy(void)
+void CCollisionC::OnDestroy(void)
 {
 	for (auto& collider : m_vColliders)
 		delete collider;
@@ -86,15 +82,15 @@ void CColliderComponent::OnDestroy(void)
 	m_vColliders.clear();
 }
 
-void CColliderComponent::OnEnable(void)
+void CCollisionC::OnEnable(void)
 {
 }
 
-void CColliderComponent::OnDisable(void)
+void CCollisionC::OnDisable(void)
 {
 }
 
-CColliderComponent* CColliderComponent::AddCollider(CCollider* pCollider)
+CCollisionC* CCollisionC::AddCollider(CCollider* pCollider)
 {
 	pCollider->SetOwner(this);
 	m_vColliders.emplace_back(pCollider);
@@ -102,13 +98,13 @@ CColliderComponent* CColliderComponent::AddCollider(CCollider* pCollider)
 	return this;
 }
 
-void CColliderComponent::CalculateBS(void)
+void CCollisionC::CalculateBS(void)
 {
 	for (auto& collider : m_vColliders)
 		MergingTwoBS(collider->GetOffsetBS(), collider->GetRadiusBS());
 }
 
-void CColliderComponent::MergingTwoBS(_float3 curOffset, _float curRadius)
+void CCollisionC::MergingTwoBS(_float3 curOffset, _float curRadius)
 {
 	_float3 delta = m_offsetBS - curOffset;
 	_float sqDist = D3DXVec3Dot(&delta, &delta);
