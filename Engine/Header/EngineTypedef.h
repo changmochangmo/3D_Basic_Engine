@@ -10,6 +10,7 @@ namespace Engine
 
 	typedef int _int;
 	typedef unsigned int _uint;
+	typedef size_t _size;
 
 	typedef float _float;
 

@@ -79,7 +79,7 @@ namespace Engine
 	//FileName string에서 확장자명 떼는 함수
 	inline std::wstring RemoveExtension(const std::wstring& fileName)
 	{
-		_uint lastindex = fileName.find_last_of('.');
+		_size lastindex = fileName.find_last_of('.');
 		return fileName.substr(0, lastindex);
 	}
 
