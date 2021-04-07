@@ -10,6 +10,7 @@ CRigidBodyC::CRigidBodyC(void)
 
 CRigidBodyC::~CRigidBodyC(void)
 {
+	OnDestroy();
 }
 
 SP(CComponent) CRigidBodyC::MakeClone(CGameObject * pObject)

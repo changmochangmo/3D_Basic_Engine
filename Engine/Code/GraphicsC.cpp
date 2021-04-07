@@ -21,6 +21,7 @@ CGraphicsC::CGraphicsC(void)
 
 CGraphicsC::~CGraphicsC(void)
 {
+	OnDestroy();
 }
 
 SP(CComponent) CGraphicsC::MakeClone(CGameObject* pObject)

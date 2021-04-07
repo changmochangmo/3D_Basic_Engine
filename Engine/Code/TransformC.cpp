@@ -10,6 +10,7 @@ CTransformC::CTransformC(void)
 
 CTransformC::~CTransformC(void)
 {
+	OnDestroy();
 }
 
 SP(CComponent) CTransformC::MakeClone(CGameObject* pObject)

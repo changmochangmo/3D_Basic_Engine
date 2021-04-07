@@ -11,6 +11,11 @@ CCollider::~CCollider(void)
 {
 }
 
+void CCollider::Free(void)
+{
+	delete this;
+}
+
 void CCollider::Awake(void)
 {
 	__super::Awake();

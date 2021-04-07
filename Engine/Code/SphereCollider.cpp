@@ -22,6 +22,11 @@ CSphereCollider* CSphereCollider::Create(_float radius, _float3 offset)
 	return pSphere;
 }
 
+void CSphereCollider::Free(void)
+{
+	delete this;
+}
+
 CCollider * CSphereCollider::MakeClone(CCollisionC * pCC)
 {
 	CSphereCollider* pSC = CSphereCollider::Create(m_radius, m_offset);

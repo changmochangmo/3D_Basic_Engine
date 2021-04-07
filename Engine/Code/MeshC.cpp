@@ -12,6 +12,7 @@ CMeshC::CMeshC(void)
 
 CMeshC::~CMeshC(void)
 {
+	OnDestroy();
 }
 
 SP(CComponent) CMeshC::MakeClone(CGameObject* pObject)

@@ -120,7 +120,7 @@ _uint CScene::FindObjectsWithKey(std::wstring objectKey, std::vector<SP(CGameObj
 				gameObjects.push_back(gameObject);
 		}
 	}
-	return gameObjects.size();
+	return (_uint)gameObjects.size();
 }
 
 void CScene::InitLayers(_int numOfLayers)

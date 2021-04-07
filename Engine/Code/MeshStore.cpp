@@ -160,8 +160,8 @@ void CMeshStore::ParsingMesh(std::wstring filePath, std::wstring fileName)
 		}
 		
 		newMesh->vertexSize = sizeof(_CustomVertex);
-		newMesh->vertexCount = vPosition.size();
-		newMesh->faceCount = vFace.size();
+		newMesh->vertexCount = (_uint)vPosition.size();
+		newMesh->faceCount = (_uint)vFace.size();
 		newMesh->FVF = customFVF;
 
 		newMesh->indexSize = sizeof(WORD);

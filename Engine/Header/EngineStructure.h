@@ -41,7 +41,7 @@ namespace Engine
 		_uint vertexCount;
 		_uint vertexSize;
 		_uint faceCount; //== PolygonCount == triangleCount
-		_uint FVF;
+		DWORD FVF;
 		_uint vertexNumInFace;
 
 		_float3 minVertex;

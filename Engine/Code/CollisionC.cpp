@@ -77,7 +77,7 @@ void CCollisionC::LateUpdate(SP(CComponent) spSelf)
 void CCollisionC::OnDestroy(void)
 {
 	for (auto& collider : m_vColliders)
-		delete collider;
+		collider->Free();
 
 	m_vColliders.clear();
 }

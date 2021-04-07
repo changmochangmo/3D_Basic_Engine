@@ -11,6 +11,7 @@ CTextureC::CTextureC()
 
 CTextureC::~CTextureC(void)
 {
+	OnDestroy();
 }
 
 SP(CComponent) CTextureC::MakeClone(CGameObject* pObject)
