@@ -1,5 +1,5 @@
-#ifndef ENGINE_STDAFX_H
-#define ENGINE_STDAFX_H
+#ifndef ENGINESTDAFX_H
+#define ENGINESTDAFX_H
 
 #pragma warning(disable : 4251)
 #pragma warning(disable : 4503)

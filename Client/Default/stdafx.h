@@ -3,7 +3,8 @@
 // 들어 있는 포함 파일입니다.
 //
 
-#pragma once
+#ifndef STDAFX_H
+#define STDAFX_H
 
 #include "targetver.h"
 
@@ -42,3 +43,5 @@
 #include <io.h>
 #include "fmod.h"
 #pragma comment (lib, "fmodex64_vc.lib")
+
+#endif
