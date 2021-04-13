@@ -37,6 +37,12 @@ void CGraphicsC::Awake(void)
 {
 	__super::Awake();
 	m_componentID = (_int)m_s_componentID;;
+
+	_bool isStatic			= m_pOwner->GetIsStatic();
+	_int dataID				= m_pOwner->GetDataID();
+	std::wstring objectKey	= m_pOwner->GetObjectKey();
+
+	GET_VALUE(isStatic, dataID, objectKey, L"renderID", m_renderID);
 }
 
 void CGraphicsC::Start(SP(CComponent) spThis)
@@ -46,13 +52,6 @@ void CGraphicsC::Start(SP(CComponent) spThis)
 	m_pTexture		= m_pOwner->GetComponent<CTextureC>();
 	m_pTransform	= m_pOwner->GetComponent<CTransformC>();
 
-	_bool isStatic			= m_pOwner->GetIsStatic();
-	_int dataID				= m_pOwner->GetDataID();
-	std::wstring objectKey	= m_pOwner->GetObjectKey();
-
-	GET_VALUE(isStatic, dataID, objectKey, L"renderID", m_renderID);
-	//if (m_pBitmap = m_pOwner->GetComponent<CBitmapComponent>())
-	//	m_renderID = ERenderID::UI;
 }
 
 void CGraphicsC::FixedUpdate(SP(CComponent) spThis)

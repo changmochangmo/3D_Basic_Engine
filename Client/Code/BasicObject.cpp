@@ -13,9 +13,10 @@ CBasicObject::~CBasicObject()
 {
 }
 
-SP(CBasicObject) CBasicObject::Create(void)
+SP(CBasicObject) CBasicObject::Create(_bool isStatic)
 {
 	SP(CBasicObject) spBasicObject(new CBasicObject, Engine::SmartDeleter<CBasicObject>);
+	spBasicObject->SetIsStatic(isStatic);
 	spBasicObject->Awake();
 
 	return spBasicObject;

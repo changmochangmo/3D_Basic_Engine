@@ -30,19 +30,18 @@ void CMeshC::Awake(void)
 {
 	__super::Awake();
 	m_componentID = (_int)m_s_componentID;;
+
+	_bool isStatic			= m_pOwner->GetIsStatic();
+	_int ownerDataID		= m_pOwner->GetDataID();
+	std::wstring objectKey	= m_pOwner->GetObjectKey();
+
+	GET_VALUE(isStatic, ownerDataID, objectKey, L"meshKey", m_meshKey);
+	m_pMeshData = CMeshStore::GetInstance()->GetMeshData(m_meshKey);
 }
 
 void CMeshC::Start(SP(CComponent) spThis)
 {
 	__super::Start(spThis);
-	_bool isStatic = m_pOwner->GetIsStatic();
-	_int ownerDataID = m_pOwner->GetDataID();
-	std::wstring objectKey = m_pOwner->GetObjectKey();
-
-	if ((GET_VALUE(isStatic, ownerDataID, objectKey, L"meshKey", m_meshKey) == false) && m_meshKey == L"")
-		m_meshKey = L"Cube";
-
-	m_pMeshData = CMeshStore::GetInstance()->GetMeshData(m_meshKey);
 }
 
 void CMeshC::FixedUpdate(SP(CComponent) spThis)

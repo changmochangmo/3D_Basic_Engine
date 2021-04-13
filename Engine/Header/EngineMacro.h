@@ -47,14 +47,14 @@ template<typename T> friend void Engine::SmartDeleter(T* something);
 protected:																			\
 	varType varName = varInitValue; 												\
 public: 																			\
-	virtual inline varType const& Get##funcName(void) { return varName; }			\
+	virtual inline varType const& Get##funcName(void) const { return varName; }			\
 	virtual inline void Set##funcName(varType var){ varName = var; }    
 
 #define GETTOR(varType, varName, varInitValue, funcName)							\
 protected: 																			\
 	varType varName = varInitValue; 												\
 public: 																			\
-	virtual inline varType const& Get##funcName(void) { return varName; }
+	virtual inline varType const& Get##funcName(void) const { return varName; }
 
 
 
@@ -169,8 +169,8 @@ GET_4TH_ARG(__VA_ARGS__, ADD_CLONE3, ADD_CLONE2, ADD_CLONE1, )
 
 
 
-#define ADD_PROTOTYPE(spPrototype, isStatic)										\
-CObjectFactory::GetInstance()->AddPrototype(spPrototype, isStatic)
+#define ADD_PROTOTYPE(spPrototype)													\
+CObjectFactory::GetInstance()->AddPrototype(spPrototype)
 
 //FontManager Macro
 #define ADD_TEXT(key, text, position, color)										\

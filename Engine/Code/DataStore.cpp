@@ -20,8 +20,8 @@ void CDataStore::Start(void)
 
 void CDataStore::OnDestroy(void)
 {
-	//m_mpStaticDataMap.clear();
-	//m_mpCurDataMap.clear();
+	delete[] m_mpCurDataMap;
+	delete[] m_mpStaticDataMap;
 }
 
 void CDataStore::ClearCurResource(void)
@@ -78,13 +78,17 @@ void CDataStore::ParsingData(std::wstring filePath, std::wstring fileName)
 
 		while (!readFile.eof() && std::getline(readFile, line))
 		{
-			variableKey = GetVariableKey(line);
-			keyValue = GetKeyValue(line);
+			_size symbolPos = line.find('=');
+			if (symbolPos != std::wstring::npos)
+			{
+				variableKey = GetVariableKey(line, symbolPos);
+				keyValue = GetKeyValue(line, symbolPos);
 
-			if(m_isStatic)
-				m_mpStaticDataMap[GetIndex(sectionKey)][objectKey][variableKey] = keyValue;
-			else
-				m_mpCurDataMap[GetIndex(sectionKey)][objectKey][variableKey] = keyValue;
+				if (m_isStatic)
+					m_mpStaticDataMap[GetIndex(sectionKey)][objectKey][variableKey] = keyValue;
+				else
+					m_mpCurDataMap[GetIndex(sectionKey)][objectKey][variableKey] = keyValue;
+			}
 		}
 	}
 }
@@ -102,7 +106,7 @@ _int CDataStore::GetIndex(std::wstring sectionKey)
 
 std::wstring CDataStore::GetLayerKey(const std::wstring & fullPath)
 {
-	size_t startPoint, endPoint;
+	_size startPoint, endPoint;
 	startPoint = fullPath.find_first_of(L"\\");
 	startPoint = fullPath.find(L"\\", ++startPoint);
 	startPoint = fullPath.find(L"\\", ++startPoint);
@@ -115,23 +119,20 @@ std::wstring CDataStore::GetLayerKey(const std::wstring & fullPath)
 
 std::wstring CDataStore::GetObjectKey(const std::wstring & fullPath)
 {
-	size_t startPoint, endPoint;
+	_size startPoint, endPoint;
 	startPoint = fullPath.find_last_of('\\') + 1;
 	endPoint = fullPath.find_last_of('.');
 
 	return fullPath.substr(startPoint, endPoint - startPoint);
 }
 
-std::wstring CDataStore::GetVariableKey(const std::wstring & lineFromFile)
+std::wstring CDataStore::GetVariableKey(const std::wstring & lineFromFile, _size symbolPos)
 {
-	size_t endPoint = lineFromFile.find_first_of('=');
-
-	return lineFromFile.substr(0, endPoint);
+	return lineFromFile.substr(0, symbolPos);
 }
 
-std::wstring CDataStore::GetKeyValue(const std::wstring & lineFromFile)
+std::wstring CDataStore::GetKeyValue(const std::wstring & lineFromFile, _size symbolPos)
 {
-	size_t startPoint = lineFromFile.find_first_of('=');
-	return lineFromFile.substr(++startPoint);
+	return lineFromFile.substr(++symbolPos);
 }
 

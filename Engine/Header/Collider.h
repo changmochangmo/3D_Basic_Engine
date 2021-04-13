@@ -4,7 +4,7 @@
 #include "Engine.h"
 
 BEGIN(Engine)
-class ENGINE_DLL CCollider abstract : public CEngine
+class ENGINE_DLL CCollider abstract
 {
 protected:
 	explicit						CCollider		(void);
@@ -20,15 +20,22 @@ public:
 	virtual			void			OnEnable		(void) PURE;
 	virtual			void			OnDisable		(void) PURE;
 
+//Interface
+public:
+					void			UpdatePosition	(void);
+
 protected:
 	virtual			void			MakeBS			(void) PURE;
 protected:
 	GETTOR_SETTOR	(_int,			m_colliderType,		-1,				ColliderType)
 	GETTOR_SETTOR	(CCollisionC*,	m_pOwner,			nullptr,		Owner)
 
-	GETTOR_SETTOR	(_float3,		m_offsetBS,			ZERO_VECTOR,	OffsetBS)
-	GETTOR_SETTOR	(_float,		m_radiusBS,			0,				RadiusBS)
-
+	//부모 상대좌표
+	GETTOR_SETTOR	(_float3,		m_offset,			ZERO_VECTOR,	Offset)
+	//실제 좌표
+	GETTOR_SETTOR	(_float3,		m_position,			ZERO_VECTOR,	Position)
+	//BoundingSphere의 반지름.
+	GETTOR_SETTOR	(_float,		m_radiusBS,			0,				RadiusBS)	
 };
 
 END

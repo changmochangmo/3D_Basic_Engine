@@ -15,20 +15,18 @@ public:
 	void				Awake					(void) override;
 	void				Start					(_int numOfColliderID);
 
-	_uint				FixedUpdate				(void);
-	_uint				Update					(void);
-	_uint				LateUpdate				(void);
+	void				FixedUpdate				(void);
+	void				Update					(void);
+	void				LateUpdate				(void);
 
 	void				OnDestroy				(void);
 
 	void				OnEnable				(void);
 	void				OnDisable				(void);
 
-	void				AddColliderToManager	(SP(CCollisionC) vecObject);
+	void				CheckCollision			(CCollisionC* pCC);
 
-	bool				OnColliderEnter			(SP(CCollisionC) pColliderComponent, 
-												 std::vector<CGameObject*>& returnCollider/*,
-												 _int colliderID*/);
+	void				AddCollisionToManager	(SP(CCollisionC) vecObject);
 
 	std::vector<_int>&	GetLayersToCheck		(_int colliderID);
 

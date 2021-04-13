@@ -25,6 +25,7 @@ void CWndApp::Start(HINSTANCE hInstance, int nCmdShow)
 
 void CWndApp::OnDestroy(void)
 {
+	DestroyWindow(m_hWnd);
 }
 
 void CWndApp::OnEnable(void)

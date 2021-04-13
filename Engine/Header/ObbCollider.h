@@ -11,7 +11,8 @@ private:
 	virtual		   ~CObbCollider		(void);
 
 public:
-	static		CObbCollider*		Create				(_float3 size, _float3 offset);
+	static		CObbCollider*		Create				(_float3 size, _float3 offset, 
+														 _float3 right, _float3 up, _float3 forward);
 				CCollider*			MakeClone			(CCollisionC* pCC) override;
 
 				void				Awake				(void) override;
@@ -20,19 +21,18 @@ public:
 				void				OnEnable			(void) override;
 				void				OnDisable			(void) override;
 
-				_float				SqDistFromPoint		(_float3 point);
-				_float3				ClosestFromPoint	(_float3 point);
-
+				_float				SqDistFromPoint		(_float3 const& point);
+				_float3				ClosestFromPoint	(_float3 const& point);
+				_float3				SurfacePoint		(_float3 const& dir);
 private:
 				void				MakeBS				(void) override;
 protected:
-	GETTOR_SETTOR	(_float3,		m_offset,		ZERO_VECTOR,	Offset)
 	GETTOR_SETTOR	(_float3,		m_halfSize,		ONE_VECTOR,		HalfSize)
 	GETTOR_SETTOR	(_float3,		m_size,			ONE_VECTOR,		Size)
 
-	GETTOR_SETTOR	(_float3,		m_orientedX,	_float3(1, 0, 0), OrientedX)
-	GETTOR_SETTOR	(_float3,		m_orientedY,	_float3(0, 1, 0), OrientedY)
-	GETTOR_SETTOR	(_float3,		m_orientedZ,	_float3(0, 0, 1), OrientedZ)
+	GETTOR_SETTOR	(_float3,		m_right,		RIGHT_VECTOR,	Right)
+	GETTOR_SETTOR	(_float3,		m_up,			UP_VECTOR,		Up)
+	GETTOR_SETTOR	(_float3,		m_forward,		FORWARD_VECTOR, Forward)
 };
 END
 #endif

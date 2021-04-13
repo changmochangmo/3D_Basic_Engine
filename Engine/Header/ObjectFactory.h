@@ -17,7 +17,7 @@ public:
 			void						OnEnable			(void);
 			void						OnDisable			(void);
 
-			HRESULT						AddPrototype		(SP(CGameObject) pPrototype, _bool isStatic);
+			HRESULT						AddPrototype		(SP(CGameObject) pPrototype);
 			SP(CGameObject)				AddClone			(const std::wstring& protoObjectKey,
 															 _bool isStatic = false,
 															 const std::wstring& name = L"");

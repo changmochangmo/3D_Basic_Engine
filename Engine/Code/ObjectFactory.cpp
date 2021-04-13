@@ -19,7 +19,12 @@ void CObjectFactory::Start(void)
 
 void CObjectFactory::OnDestroy(void)
 {
+	for (auto& object : m_mCurPrototypes)
+		object.second.reset();
 	m_mCurPrototypes.clear();
+
+	for (auto& object : m_mStaticPrototypes)
+		object.second.reset();
 	m_mStaticPrototypes.clear();
 }
 
@@ -31,14 +36,14 @@ void CObjectFactory::OnDisable(void)
 {
 }
 
-HRESULT CObjectFactory::AddPrototype(SP(CGameObject) pPrototype, _bool isStatic)
+HRESULT CObjectFactory::AddPrototype(SP(CGameObject) pPrototype)
 {
 	if (pPrototype == nullptr)
 		return E_FAIL;
 
 	_PROTOTYPES* pCurPrototypes = nullptr;
 
-	if (isStatic)
+	if (pPrototype->GetIsStatic())
 		pCurPrototypes = &m_mStaticPrototypes;
 	else
 		pCurPrototypes = &m_mCurPrototypes;
@@ -47,12 +52,11 @@ HRESULT CObjectFactory::AddPrototype(SP(CGameObject) pPrototype, _bool isStatic)
 	if (it == pCurPrototypes->end())
 	{
 		(*pCurPrototypes)[pPrototype->GetObjectKey()] = pPrototype;
-		pPrototype->SetIsStatic(isStatic);
 	}
 	else
 	{
 		MSG_BOX(__FILE__, (pPrototype->GetObjectKey() + L" is already in _PROTOTYPES").c_str());
-		abort();
+		ABORT;
 	}
 
 	return S_OK;
@@ -74,14 +78,14 @@ SP(CGameObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,
 	if (pCurPrototypes->end() == iter_find_prototype)
 	{
 		MSG_BOX(__FILE__, (protoObjectKey + L" is not found in AddClone").c_str());
-		abort();
+		ABORT;
 	}
 
 	SP(CGameObject) spClone = iter_find_prototype->second->MakeClone();
 	if (spClone == nullptr)
 	{
 		MSG_BOX(__FILE__, (protoObjectKey + L" failed to make clone in AddClone").c_str());
-		abort();
+		ABORT;
 	}
 
 	_int layerID = spClone->GetLayerID();
@@ -89,7 +93,7 @@ SP(CGameObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,
 	if (layerID < 0 || (_uint)layerID >= pLayers->size())
 	{
 		MSG_BOX(__FILE__, std::wstring(L"LayerID is out of range").c_str());
-		abort();
+		ABORT;
 	}
 	(*pLayers)[layerID]->AddGameObject(spClone);
 

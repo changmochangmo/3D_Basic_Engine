@@ -74,7 +74,10 @@ void CGameObject::LateUpdate(void)
 void CGameObject::OnDestroy(void)
 {
 	for (auto& component : m_mComponents)
+	{
 		component.second->SetOwner(nullptr);
+		component.second.reset();
+	}
 
 	m_mComponents.clear();
 }

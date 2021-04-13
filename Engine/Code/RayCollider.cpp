@@ -15,11 +15,12 @@ CRayCollider::~CRayCollider()
 {
 }
 
-CRayCollider * CRayCollider::Create(_float3 offset, _float3 direction)
+CRayCollider * CRayCollider::Create(_float3 offset, _float3 direction, _float length)
 {
-	CRayCollider* pRay = new CRayCollider();
+	CRayCollider* pRay = new CRayCollider;
 	pRay->SetOffset(offset);
 	pRay->SetDirection(direction);
+	pRay->SetLength(length);
 	pRay->Awake();
 
 	return pRay;
@@ -27,10 +28,16 @@ CRayCollider * CRayCollider::Create(_float3 offset, _float3 direction)
 
 CCollider * CRayCollider::MakeClone(CCollisionC * pCC)
 {
-	CRayCollider* pRC = CRayCollider::Create(m_offset, m_direction);
-	pRC->SetOwner(pCC);
+	CRayCollider* pRayClone = new CRayCollider;
+	pRayClone->SetOffset(m_offset);
+	pRayClone->SetDirection(m_direction);
+	pRayClone->SetLength(m_length);
 
-	return pRC;
+	pRayClone->SetColliderType(m_colliderType);
+
+	pRayClone->SetOwner(pCC);
+
+	return pRayClone;
 }
 
 void CRayCollider::Awake(void)
@@ -53,6 +60,5 @@ void CRayCollider::OnDisable(void)
 
 void CRayCollider::MakeBS(void)
 {
-	m_offsetBS = m_offset;
-	m_radiusBS = FLT_MAX;
+	m_radiusBS = 0;
 }

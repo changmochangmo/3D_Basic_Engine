@@ -22,17 +22,19 @@ CSphereCollider* CSphereCollider::Create(_float radius, _float3 offset)
 	return pSphere;
 }
 
-void CSphereCollider::Free(void)
-{
-	delete this;
-}
-
 CCollider * CSphereCollider::MakeClone(CCollisionC * pCC)
 {
-	CSphereCollider* pSC = CSphereCollider::Create(m_radius, m_offset);
-	pSC->SetOwner(pCC);
+	CSphereCollider* pSphereClone = new CSphereCollider;
+	pSphereClone->SetOffset(m_offset);
+	pSphereClone->SetRadius(m_radius);
 
-	return pSC;
+	pSphereClone->SetRadiusBS(m_radiusBS);
+
+	pSphereClone->SetColliderType(m_colliderType);
+
+	pSphereClone->SetOwner(pCC);
+
+	return pSphereClone;
 }
 
 void CSphereCollider::Awake(void)
@@ -55,6 +57,5 @@ void CSphereCollider::OnDisable(void)
 
 void CSphereCollider::MakeBS(void)
 {
-	m_offsetBS = m_offset;
 	m_radiusBS = m_radius;
 }

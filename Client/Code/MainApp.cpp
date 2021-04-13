@@ -43,14 +43,12 @@ void CMainApp::Awake(void)
 	Engine::CTextManager::GetInstance()->Awake();
 	Engine::CInputManager::GetInstance()->Awake();
 	Engine::CSoundManager::GetInstance()->Awake();
-
 	Engine::CSceneManager::GetInstance()->Awake();
 	Engine::CObjectFactory::GetInstance()->Awake();
 	Engine::CGraphicsManager::GetInstance()->Awake();
 	Engine::CCameraManager::GetInstance()->Awake();
 	Engine::CShaderManager::GetInstance()->Awake();
 	Engine::CColliderManager::GetInstance()->Awake();
-
 }
 
 void CMainApp::Start(void)
@@ -59,7 +57,6 @@ void CMainApp::Start(void)
 
 	Engine::CTextManager::GetInstance()->Start();
 	Engine::CInputManager::GetInstance()->Start();
-
 	Engine::CSceneManager::GetInstance()->Start();
 	Engine::CSceneManager::GetInstance()->SceneChange(CChangmoScene::Create());
 	Engine::CObjectFactory::GetInstance()->Start();
@@ -70,77 +67,70 @@ void CMainApp::Start(void)
 	Engine::CColliderManager::GetInstance()->Start((_int)EColliderID::NumOfColliderID);
 }
 
-_uint CMainApp::FixedUpdate(void)
+void CMainApp::FixedUpdate(void)
 {
-	_uint event = NO_EVENT;
-
 	Engine::TIME_MEASURE_START;
-	if (event = Engine::CSceneManager::GetInstance()->FixedUpdate())	return event;
+
+	Engine::CSceneManager::GetInstance()->FixedUpdate();
 	Engine::CInputManager::GetInstance()->FixedUpdate();
-	if (event = Engine::CGraphicsManager::GetInstance()->FixedUpdate())	return event;
-	_float time = Engine::GET_ELAPSED_TIME;
+	Engine::CGraphicsManager::GetInstance()->FixedUpdate();
 
-	return event;
+	_float time = Engine::GET_ELAPSED_TIME;
 }
 
-_uint CMainApp::Update(void)
+void CMainApp::Update(void)
 {
-	_uint event = NO_EVENT;
-
 	Engine::TIME_MEASURE_START;
-	if (event = Engine::CSceneManager::GetInstance()->Update())		return event;
+
+	Engine::CSceneManager::GetInstance()->Update();
 	Engine::CInputManager::GetInstance()->Update();
-	if (event = Engine::CGraphicsManager::GetInstance()->Update())	return event;
-
+	Engine::CGraphicsManager::GetInstance()->Update();
 	Engine::CCameraManager::GetInstance()->Update();
+
 	_float time = Engine::GET_ELAPSED_TIME;
-	return event;
 }
 
-_uint CMainApp::LateUpdate(void)
+void CMainApp::LateUpdate(void)
 {
-	_uint event = NO_EVENT;
 	Engine::TIME_MEASURE_START;
-	if (event = Engine::CGraphicsManager::GetInstance()->LateUpdate())	return event;
+
+	Engine::CGraphicsManager::GetInstance()->LateUpdate();
 	Engine::CInputManager::GetInstance()->LateUpdate();
-	if (event = Engine::CSceneManager::GetInstance()->LateUpdate())		return event;
-	if (event = Engine::CColliderManager::GetInstance()->LateUpdate())	return event;
-
+	Engine::CSceneManager::GetInstance()->LateUpdate();
+	Engine::CColliderManager::GetInstance()->LateUpdate();
 	Engine::CCameraManager::GetInstance()->LateUpdate();
+
 	_float time = Engine::GET_ELAPSED_TIME;
-	return event;
 }
 
-_uint CMainApp::PreRender(void)
+void CMainApp::PreRender(void)
 {
-
-	_uint event = NO_EVENT;
 	Engine::TIME_MEASURE_START;
-	if (event = Engine::CGraphicsManager::GetInstance()->PreRender())	return event;
-	if (event = Engine::CTextManager::GetInstance()->Render())			return event;
-	_float time = Engine::GET_ELAPSED_TIME;
 
-	return event;
+	Engine::CGraphicsManager::GetInstance()->PreRender();
+	Engine::CTextManager::GetInstance()->Render();
+
+	_float time = Engine::GET_ELAPSED_TIME;
 }
 
-_uint CMainApp::Render(void)
+void CMainApp::Render(void)
 {
-	_uint event = NO_EVENT;
 	Engine::TIME_MEASURE_START;
-	if (event = Engine::CGraphicsManager::GetInstance()->Render())	return event;
-	if (event = Engine::CTextManager::GetInstance()->Render())		return event;
+
+	Engine::CGraphicsManager::GetInstance()->Render();
+	Engine::CTextManager::GetInstance()->Render();
+
 	_float time = Engine::GET_ELAPSED_TIME;
-	return event;
 }
 
-_uint CMainApp::PostRender(void)
+void CMainApp::PostRender(void)
 {
-	_uint event = NO_EVENT;
 	Engine::TIME_MEASURE_START;
-	if (event = Engine::CGraphicsManager::GetInstance()->PostRender())	return event;
-	if (event = Engine::CTextManager::GetInstance()->Render())			return event;
+
+	Engine::CGraphicsManager::GetInstance()->PostRender();
+	Engine::CTextManager::GetInstance()->Render();
+
 	_float time = Engine::GET_ELAPSED_TIME;
-	return event;
 }
 
 void CMainApp::OnDestroy(void)
@@ -152,6 +142,8 @@ void CMainApp::OnDestroy(void)
 	Engine::CColliderManager::GetInstance()->DestroyInstance();
 	Engine::CSoundManager::GetInstance()->DestroyInstance();
 	Engine::CCameraManager::GetInstance()->DestroyInstance();
+	Engine::CShaderManager::GetInstance()->DestroyInstance();
+	Engine::CTextManager::GetInstance()->DestroyInstance();
 }
 
 void CMainApp::OnEnable(void)
@@ -165,9 +157,9 @@ void CMainApp::OnDisable(void)
 
 void CMainApp::InitStaticPrototype(void)
 {
-	SP(Engine::CGameObject) spBasicObjectPrototype(CBasicObject::Create());
-	Engine::ADD_PROTOTYPE(spBasicObjectPrototype, true);
+	SP(Engine::CGameObject) spBasicObjectPrototype(CBasicObject::Create(true));
+	Engine::ADD_PROTOTYPE(spBasicObjectPrototype);
 
-	SP(Engine::CGameObject) spPlayerPrototype(CPlayer::Create());
-	Engine::ADD_PROTOTYPE(spPlayerPrototype, true);
+	SP(Engine::CGameObject) spPlayerPrototype(CPlayer::Create(true));
+	Engine::ADD_PROTOTYPE(spPlayerPrototype);
 }

@@ -11,9 +11,9 @@ public:
 	void		Awake			(void) override;
 	void		Start			(void);
 
-	_uint		PreRender		(void);
-	_uint		Render			(void);
-	_uint		PostRender		(void);
+	void		PreRender		(void);
+	void		Render			(void);
+	void		PostRender		(void);
 
 	void		OnDestroy		(void);
 

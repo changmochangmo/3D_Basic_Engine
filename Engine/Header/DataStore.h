@@ -27,8 +27,8 @@ private:
 
 				std::wstring			GetLayerKey			(const std::wstring& fullPath);
 				std::wstring			GetObjectKey		(const std::wstring& fullPath);
-				std::wstring			GetVariableKey		(const std::wstring& lineFromFile);
-				std::wstring			GetKeyValue			(const std::wstring& lineFromFile);
+				std::wstring			GetVariableKey		(const std::wstring& lineFromFile, _size symbolPos);
+				std::wstring			GetKeyValue			(const std::wstring& lineFromFile, _size symbolPos);
 
 	friend		std::wstringstream&		operator >>			(std::wstringstream& in, _float3& float3);
 	friend		std::wstringstream&		operator >>			(std::wstringstream& in, _float2& float3);
@@ -60,14 +60,14 @@ public:
 		if ((_uint)sectionKey >= m_numOfSection)
 		{
 			MSG_BOX(__FILE__, std::wstring(L"sectionKey is out of range").c_str());
-			abort();
+			ABORT;
 		}
 		
 		auto& iter_object = (*ppDataMap)[sectionKey].find(objectKey);
 		if (iter_object == (*ppDataMap)[sectionKey].end())
 		{
 			MSG_BOX(__FILE__, (L"objectKey [" + objectKey + L"] is missing in GetValue").c_str());
-			abort();
+			ABORT;
 		}
 
 		auto& iter_var = iter_object->second.find(varKey);
@@ -76,7 +76,7 @@ public:
 			MSG_BOX(__FILE__,
 					(L"object : ["	+ objectKey + 
 					 L"] var: ["	+ varKey	 + L"] Missing varKey in GetValue").c_str());
-			abort();
+			ABORT;
 		}
 
 		//stringstream이라는 라이브러리가 있는데

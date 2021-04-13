@@ -20,7 +20,7 @@ SP(CComponent) CTransformC::MakeClone(CGameObject* pObject)
 
 	spClone->SetPosition(m_position);
 	spClone->SetRotation(m_rotation);
-	spClone->SetScale(m_scale);
+	spClone->SetSize(m_size);
 	spClone->UpdateWorldMatrix();
 
 	return spClone;
@@ -79,9 +79,9 @@ void CTransformC::SetRotation(_float3 rotation)
 	m_hasChanged = true;
 }
 
-void CTransformC::SetScale(_float3 scale)
+void CTransformC::SetSize(_float3 size)
 {
-	m_scale = scale;
+	m_size = size;
 	m_hasChanged = true;
 }
 
@@ -146,27 +146,27 @@ void CTransformC::AddRotationZ(_float adder)
 	UpdateForward();
 }
 
-void CTransformC::AddScale(_float3 scale)
+void CTransformC::AddSize(_float3 size)
 {
-	m_scale += scale;
+	m_size += size;
 	m_hasChanged = true;
 }
 
-void CTransformC::AddScaleX(_float adder)
+void CTransformC::AddSizeX(_float adder)
 {
-	m_scale.x += adder;
+	m_size.x += adder;
 	m_hasChanged = true;
 }
 
-void CTransformC::AddScaleY(_float adder)
+void CTransformC::AddSizeY(_float adder)
 {
-	m_scale.y += adder;
+	m_size.y += adder;
 	m_hasChanged = true;
 }
 
-void CTransformC::AddScaleZ(_float adder)
+void CTransformC::AddSizeZ(_float adder)
 {
-	m_scale.z += adder;
+	m_size.z += adder;
 	m_hasChanged = true;
 }
 #pragma endregion
@@ -189,6 +189,16 @@ void CTransformC::MoveLeft(_float magnitude)
 void CTransformC::MoveRight(_float magnitude)
 {
 	AddPosition(m_right * magnitude);
+}
+
+void CTransformC::MoveUp(_float magnitude)
+{
+	AddPosition(m_up * magnitude);
+}
+
+void CTransformC::MoveDown(_float magnitude)
+{
+	AddPosition(-m_up * magnitude);
 }
 
 void CTransformC::UpdateForward(void)
@@ -217,10 +227,10 @@ void CTransformC::UpdateRotation(void)
 	D3DXVec3Cross(&m_up, &m_forward, &m_right);
 	D3DXVec3Normalize(&m_up, &m_up);
 
-	_mat rotMatrix(m_right.x, m_right.y, m_right.z, 0.f,
-				   m_up.x, m_up.y, m_up.z, 0.f,
-				   m_forward.x, m_forward.y, m_forward.z, 0.f,
-				   0.f, 0.f, 0.f, 1.f);
+	_mat rotMatrix(m_right.x,		m_right.y,		m_right.z,		0.f,
+				   m_up.x,			m_up.y,			m_up.z,			0.f,
+				   m_forward.x,		m_forward.y,	m_forward.z,	0.f,
+				   0.f,				0.f,			0.f,			1.f);
 
 	_quat rotQuat;
 	D3DXQuaternionRotationMatrix(&rotQuat, &rotMatrix);
@@ -232,21 +242,21 @@ void CTransformC::UpdateRotation(void)
 
 void CTransformC::UpdateWorldMatrix(void)
 {
-	_mat rotateX, rotateY, rotateZ, scale, translation, result;
+	_mat rotateX, rotateY, rotateZ, size, translation, result;
 
+	D3DXMatrixRotationX(&rotateX, m_rotation.x);
+	D3DXMatrixRotationY(&rotateY, m_rotation.y);
 	D3DXMatrixRotationZ(&rotateZ, m_rotation.z);
-    D3DXMatrixRotationY(&rotateY, m_rotation.y);
-    D3DXMatrixRotationX(&rotateX, m_rotation.x);
     
-    D3DXMatrixScaling(&scale, m_scale.x, 
-                              m_scale.y,
-                              m_scale.z);
+    D3DXMatrixScaling(&size, m_size.x, 
+                             m_size.y,
+                             m_size.z);
     
     D3DXMatrixTranslation(&translation, m_position.x, 
                                         m_position.y,
                                         m_position.z);
 
-	m_worldMat = scale * rotateX * rotateY * rotateZ * translation;
+	m_worldMat = size * rotateX * rotateY * rotateZ * translation;
 
 	m_hasChanged = false;
 }

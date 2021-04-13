@@ -7,10 +7,10 @@ BEGIN(Engine)
 class ENGINE_DLL CRayCollider final : public CCollider
 {
 private:
-	explicit						CRayCollider		(void);
-								   ~CRayCollider		(void);
+	explicit							CRayCollider		(void);
+									   ~CRayCollider		(void);
 public:
-	static			CRayCollider*		Create				(_float3 offset, _float3 direction);
+	static			CRayCollider*		Create				(_float3 offset, _float3 direction, _float length);
 					CCollider*			MakeClone			(CCollisionC* pCC) override;
 
 					void				Awake				(void) override;
@@ -21,12 +21,10 @@ public:
 
 private:
 					void				MakeBS				(void) override;
-					//_float				SqDistFromPoint		(_float3 point);
-					//_float3				ClosestFromPoint	(_float3 point);
 protected:
 	GETTOR_SETTOR	(_float3,			m_offset,			ZERO_VECTOR,		Offset)
 	GETTOR_SETTOR	(_float3,			m_direction,		ZERO_VECTOR,		Direction)
-	GETTOR_SETTOR	(_float,			m_size,				FLT_MAX,			Size)
+	GETTOR_SETTOR	(_float,			m_length,			FLT_MAX,			Length)
 };
 END
 #endif

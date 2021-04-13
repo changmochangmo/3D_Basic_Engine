@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "FRC.h"
 
+
 _uint CPlayer::m_s_uniqueID = 0;
 
 CPlayer::CPlayer()
@@ -14,9 +15,10 @@ CPlayer::~CPlayer()
 {
 }
 
-SP(CPlayer) CPlayer::Create(void)
+SP(CPlayer) CPlayer::Create(_bool isStatic)
 {
 	SP(CPlayer) spPlayer(new CPlayer, Engine::SmartDeleter<CPlayer>);
+	spPlayer->SetIsStatic(isStatic);
 	spPlayer->Awake();
 
 	return spPlayer;
@@ -52,7 +54,7 @@ void CPlayer::Start(void)
 	m_spTexture		= GetComponent<Engine::CTextureC>();
 	m_spGraphics	= GetComponent<Engine::CGraphicsC>();
 
-	m_spTransform->SetScale(_float3(1.f, 1.f, 2.f));
+	m_spTransform->SetSize(_float3(1.f, 1.f, 2.f));
 
 	//m_spTransform->SetRotation(_float3(45, 45, 0));
 	//m_spTransform->UpdateLookAt();

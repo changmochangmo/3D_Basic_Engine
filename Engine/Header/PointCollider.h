@@ -7,8 +7,8 @@ BEGIN(Engine)
 class ENGINE_DLL CPointCollider final : public CCollider
 {
 private:
-	explicit			CPointCollider		(void);
-	virtual			   ~CPointCollider		(void);
+	explicit						CPointCollider		(void);
+	virtual						   ~CPointCollider		(void);
 
 public:
 	static		CPointCollider*		Create		(_float3 offset);
@@ -23,8 +23,6 @@ public:
 private:
 				void				MakeBS		(void) override;
 
-protected:
-	GETTOR_SETTOR	(_float3,		m_offset,		ZERO_VECTOR,	Offset)
 };
 END
 #endif

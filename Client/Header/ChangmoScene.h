@@ -15,9 +15,9 @@ public:
 					void				Awake				(_int numOfLayers) override;
 					void				Start				(void) override;
 															   
-					_uint				FixedUpdate			(void) override;
-					_uint				Update				(void) override;
-					_uint				LateUpdate			(void) override;	
+					void				FixedUpdate			(void) override;
+					void				Update				(void) override;
+					void				LateUpdate			(void) override;	
 					
 					void				OnDestroy			(void) override;
 

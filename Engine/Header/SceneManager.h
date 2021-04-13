@@ -13,9 +13,9 @@ public:
 					void				Awake				(void) override;
 					void				Start				(void);
 																  
-					_uint				FixedUpdate			(void);
-					_uint				Update				(void);
-					_uint				LateUpdate			(void);
+					void				FixedUpdate			(void);
+					void				Update				(void);
+					void				LateUpdate			(void);
 					
 					void				OnDestroy			(void);
 

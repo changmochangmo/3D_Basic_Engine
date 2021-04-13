@@ -87,8 +87,8 @@ void CInputManager::KeyUpdate(void)
 		m_key |= KEY_DOWN;
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 		m_key |= KEY_SPACE;
-	if (GetAsyncKeyState(VK_RETURN) & 0x8000)
-		m_key |= KEY_RETURN;
+	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
+		m_key |= KEY_CONTROL;
 	if (GetAsyncKeyState(VK_F1) & 0x8000)
 		m_key |= KEY_F1;
 	if (GetAsyncKeyState(VK_F2) & 0x8000)

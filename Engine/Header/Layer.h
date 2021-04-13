@@ -18,9 +18,9 @@ public:
 				void			Awake			(void);
 				void			Start			(void);
 				
-				_uint			FixedUpdate		(void);
-				_uint			Update			(void);
-				_uint			LateUpdate		(void);
+				void			FixedUpdate		(void);
+				void			Update			(void);
+				void			LateUpdate		(void);
 				
 				void			OnDestroy		(void);
 
@@ -34,8 +34,9 @@ protected:
 	typedef std::vector<SP(CGameObject)> _GAMEOBJECTS;
 	GETTOR			(_GAMEOBJECTS,	m_vGameObjects,		{},			GameObjects)
 
-	GETTOR_SETTOR	(CScene*,		m_pOwner,			nullptr,	Owner)
-	GETTOR_SETTOR	(_int,			m_layerID,			-1,			LayerID)
+	GETTOR_SETTOR	(CScene*,		m_pOwner,			nullptr,		Owner)
+	GETTOR_SETTOR	(_int,			m_layerID,			UNDEFINED,	LayerID)
+	GETTOR_SETTOR	(_bool,			m_enable,			true,			Enable)
 };
 END
 

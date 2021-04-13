@@ -15,19 +15,19 @@ public:
 	virtual		void					Awake				(_int numOfLayers) PURE;
 	virtual		void					Start				(void) PURE;
 																   
-	virtual		_uint					FixedUpdate			(void) PURE;
-	virtual		_uint					Update				(void) PURE;
-	virtual		_uint					LateUpdate			(void) PURE;	
+	virtual		void					FixedUpdate			(void) PURE;
+	virtual		void					Update				(void) PURE;
+	virtual		void					LateUpdate			(void) PURE;	
 																   
 	virtual		void					OnDestroy			(void) PURE;
 																   
 	virtual		void					OnEnable			(void) PURE;
 	virtual		void					OnDisable			(void) PURE;
 				
-				SP(CGameObject)		FindObjectByName		(std::wstring name);
-				SP(CGameObject)		FindObjectWithKey		(std::wstring objectKey);
-				_uint				FindObjectsWithKey		(std::wstring objectKey, 
-															 std::vector<SP(CGameObject)>& gameObjects);
+				SP(CGameObject)			FindObjectByName		(std::wstring name);
+				SP(CGameObject)			FindObjectWithKey		(std::wstring objectKey);
+				_uint					FindObjectsWithKey		(std::wstring objectKey, 
+																 std::vector<SP(CGameObject)>& gameObjects);
 
 
 protected:												   

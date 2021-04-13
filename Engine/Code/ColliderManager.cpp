@@ -31,21 +31,16 @@ void CColliderManager::Start(_int numOfColliderID)
 	InitCollisionMap();
 }
 
-_uint CColliderManager::FixedUpdate(void)
+void CColliderManager::FixedUpdate(void)
 {
-	
-	return _uint();
 }
 
-_uint CColliderManager::Update(void)
+void CColliderManager::Update(void)
 {
-	
-	return _uint();
 }
 
-_uint CColliderManager::LateUpdate(void)
+void CColliderManager::LateUpdate(void)
 {
-	_uint event = NO_EVENT;
 	for (int i = 0; i < m_numOfColliderID; ++i)
 	{
 		for (auto& it = m_vColliderComponents[i].begin(); it != m_vColliderComponents[i].end();)
@@ -59,8 +54,6 @@ _uint CColliderManager::LateUpdate(void)
 				++it;
 		}
 	}
-
-	return event;
 }
 
 
@@ -77,76 +70,61 @@ void CColliderManager::OnDisable(void)
 {
 }
 
-void CColliderManager::AddColliderToManager(SP(CCollisionC) colliderComponent)
+void CColliderManager::CheckCollision(CCollisionC* pCC)
 {
-	if (colliderComponent == nullptr)
-		return;
-
-	m_vColliderComponents[colliderComponent->GetColliderID()].emplace_back(colliderComponent);
-}
-
-bool CColliderManager::OnColliderEnter(SP(CCollisionC) pColliderComponent,
-									   std::vector<CGameObject*>& returnCollider/*,
-									   _int colliderID*/)
-{
-	std::vector<_int>& checkingLayer = GetLayersToCheck(pColliderComponent->GetColliderID());
+	std::vector<_int>& checkingLayer = GetLayersToCheck(pCC->GetCollisionID());
 	_bool isItCollided;
 
 	for (auto& layerID : checkingLayer)
 	{
 		for (auto& ccIt : m_vColliderComponents[layerID])
-		{			
+		{
+			if (ccIt.get() == pCC)
+				continue;
 
-			if (pColliderComponent->GetTransform() == nullptr)
+			if (pCC->GetTransform() == nullptr)
 			{
-				MSG_BOX(__FILE__, L"콜라이더 컴포넌트에 트랜스폼이 없다 시1발");
-				abort();
+				MSG_BOX(__FILE__, L"콜라이더 컴포넌트에 트랜스폼이 없다.");
+				ABORT;
 			}
+			else if (pCC->GetRigidbody() == nullptr)
+			{
+				MSG_BOX(__FILE__, L"콜라이더 컴포넌트에 리지드 바디가 없네요.");
+				ABORT;
+			}
+			
+			//콜리션 컴포넌트 간의 BS 체크
+			if (CollisionHelper::CheckCollisionComponentBS(pCC, ccIt.get()) == false)
+				continue;
 
-
-			// BoundingSphere || BoundingAABB 
-			// 아래꺼는 BoundingSphere
-			_float3 myPos = pColliderComponent->GetTransform()->GetPosition() + pColliderComponent->GetOffsetBS();
-			_float myRadius = pColliderComponent->GetRadiusBS();
-
-			_float3 checkerPos = ccIt->GetTransform()->GetPosition() + ccIt->GetOffsetBS();
-			_float checkerRadius = ccIt->GetRadiusBS();
-
-			_float3 delta = checkerPos - myPos;
-			_float sqDist = D3DXVec3Dot(&delta, &delta);
-
-			if(sqDist > (myRadius + checkerRadius) * (myRadius + checkerRadius))
-				continue;;
-
-
-
-
-			isItCollided = false; 
+			isItCollided = false;
 			for (auto& checkCollider : ccIt->GetColliders())
 			{
-				for (auto& myCollider : pColliderComponent->GetColliders())
+				for (auto& myCollider : pCC->GetColliders())
 				{
-					//CType == CollisionType
+					//콜라이더 간의 BS 체크
+					if (CollisionHelper::CheckColliderBS(myCollider, checkCollider) == false)
+						continue;
+
 					_int myCType = myCollider->GetColliderType();
 					_int checkCType = checkCollider->GetColliderType();
 					if (isItCollided = (m_fpCollisionChecker[myCType][checkCType])(myCollider, checkCollider))
-					{
-						returnCollider.emplace_back(checkCollider->GetOwner()->GetOwner());
 						break;
-					}
 				}
 				if (isItCollided)
 					break;
 			}
 		}
 	}
-
-	if (returnCollider.empty())
-		return false;
-
-	return true;
 }
 
+void CColliderManager::AddCollisionToManager(SP(CCollisionC) colliderComponent)
+{
+	if (colliderComponent == nullptr)
+		return;
+
+	m_vColliderComponents[colliderComponent->GetCollisionID()].emplace_back(colliderComponent);
+}
 
 std::vector<_int>& CColliderManager::GetLayersToCheck(_int colliderID)
 {

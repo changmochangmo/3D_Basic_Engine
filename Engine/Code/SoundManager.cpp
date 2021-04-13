@@ -10,14 +10,14 @@ void CSoundManager::Awake(void)
 	if (FMOD_System_Create(&m_pSystem) != FMOD_OK)
 	{
 		MSG_BOX(__FILE__, L"FMOD_SYSTEM_CREATE FAILED");
-		abort();
+		ABORT;
 	}
 
 	// 1. 시스템 포인터, 2. 사용할 가상채널 수 , 초기화 방식) 
 	if (FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL) != FMOD_OK)
 	{
 		MSG_BOX(__FILE__, L"FMOD_SYSTEM_INIT FAILED");
-		abort();
+		ABORT;
 	}
 
 	LoadSoundFile();
@@ -95,7 +95,7 @@ void CSoundManager::LoadSoundFile()
 	if (handle == INVALID_HANDLE_VALUE)
 	{
 		MSG_BOX(__FILE__, L"Given path is wrong during getting handle in SoundManager");
-		abort();
+		ABORT;
 	}
 
 	do

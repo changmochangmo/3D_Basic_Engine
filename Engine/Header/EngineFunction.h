@@ -37,7 +37,7 @@ namespace Engine
 	std::wstring GetCurClassName(void)
 	{
 		std::wstring className = StrToWStr(typeid(T).name());
-		size_t nameStartPos = className.find_last_of(':');
+		_size nameStartPos = className.find_last_of(':');
 		if (nameStartPos == std::string::npos)
 			className.erase(0, 7);
 		else
@@ -50,7 +50,7 @@ namespace Engine
 	std::wstring GetCurClassName(T* something)
 	{
 		std::wstring className = StrToWStr(typeid(*something).name());
-		size_t nameStartPos = className.find_last_of(':');
+		_size nameStartPos = className.find_last_of(':');
 		if (nameStartPos == std::wstring::npos)
 			className.erase(0, 7);
 		else
@@ -98,7 +98,7 @@ namespace Engine
 
 		in >> vecStr;
 
-		size_t xEndPos, yEndPos;
+		_size xEndPos, yEndPos;
 
 		xEndPos = vecStr.find_first_of(L",");
 		yEndPos = vecStr.find_last_of(L",");
@@ -125,7 +125,7 @@ namespace Engine
 
 		in >> vecStr;
 
-		size_t xEndPos;
+		_size xEndPos;
 
 		xEndPos = vecStr.find_first_of(L",");
 
@@ -140,6 +140,15 @@ namespace Engine
 
 		return in;
 	}
+
+
+	template<class T> inline T	operator	~	(T a)		{ return (T)~(int)a; }
+	template<class T> inline T	operator	|	(T a, T b)	{ return (T)((int)a | (int)b); }
+	template<class T> inline T	operator	&	(T a, T b)	{ return (T)((int)a & (int)b); }
+	template<class T> inline T	operator	^	(T a, T b)	{ return (T)((int)a ^ (int)b); }
+	template<class T> inline T& operator	|=	(T& a, T b) { return (T&)((int&)a |= (int)b); }
+	template<class T> inline T& operator	&=	(T& a, T b) { return (T&)((int&)a &= (int)b); }
+	template<class T> inline T& operator	^=	(T& a, T b) { return (T&)((int&)a ^= (int)b); }
 }
 
 

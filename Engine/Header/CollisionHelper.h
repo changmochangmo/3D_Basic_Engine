@@ -28,8 +28,49 @@ static _bool CollisionTypeSorting(CCollider* pC1, CCollider* pC2,
 	return false;
 }
 
+static _bool CheckBS(_float3 const& pos1, _float3 const& pos2,
+					 _float const& radius1, _float const& radius2)
+{
+	_float3 posDelta = pos2 - pos1;
+	_float sqDistance = D3DXVec3Dot(&posDelta, &posDelta);
 
-static bool PointPoint(CCollider* pC1, CCollider* pC2)
+	if (sqDistance > ((radius1 + radius2) * (radius1 + radius2)))
+		return false;
+	else
+		return true;
+}
+
+static _bool CheckCollisionComponentBS(CCollisionC const* pCC1, CCollisionC const* pCC2)
+{
+	_float3 objOnePos = pCC1->GetTransform()->GetPosition();
+	_float3 objTwoPos = pCC2->GetTransform()->GetPosition();
+
+	_float3 ccOnePos = objOnePos + pCC1->GetOffsetBS();
+	_float3 ccTwoPos = objTwoPos + pCC2->GetOffsetBS();
+
+	_float radiusOne = pCC1->GetRadiusBS();
+	_float radiusTwo = pCC2->GetRadiusBS();
+
+	return CheckBS(ccOnePos, ccTwoPos, radiusOne, radiusTwo);
+}
+
+static _bool CheckColliderBS(CCollider const* pCollider1, CCollider const* pCollider2)
+{
+	_float3 objOnePos = pCollider1->GetOwner()->GetTransform()->GetPosition();
+	_float3 objTwoPos = pCollider2->GetOwner()->GetTransform()->GetPosition();
+
+	_float3 colliderOnePos = objOnePos + pCollider1->GetOffset();
+	_float3 colliderTwoPos = objTwoPos + pCollider2->GetOffset();
+
+	_float radiusOne = pCollider1->GetRadiusBS();
+	_float radiusTwo = pCollider2->GetRadiusBS();
+
+	return CheckBS(colliderOnePos, colliderTwoPos, radiusOne, radiusTwo);
+}
+
+
+
+static _bool PointPoint(CCollider* pC1, CCollider* pC2)
 {
 	SP(CTransformC) spTransform1 = pC1->GetOwner()->GetTransform();
 	SP(CTransformC) spTransform2 = pC2->GetOwner()->GetTransform();
@@ -37,9 +78,15 @@ static bool PointPoint(CCollider* pC1, CCollider* pC2)
 	CPointCollider* pPC1 = static_cast<CPointCollider*>(pC1);
 	CPointCollider* pPC2 = static_cast<CPointCollider*>(pC2);
 
-	if (spTransform1->GetPosition() + pPC1->GetOffset() == 
+	if (spTransform1->GetPosition() + pPC1->GetOffset() ==
 		spTransform2->GetPosition() + pPC2->GetOffset())
+	{
+		_float3 hitPoint = spTransform1->GetPosition() + pPC1->GetOffset();
+		pPC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC1, pPC2, hitPoint, ZERO_VECTOR, 0));
+		pPC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC2, pPC1, hitPoint, ZERO_VECTOR, 0));
+		
 		return true;
+	}
 
 	return false;
 }
@@ -68,12 +115,16 @@ static bool PointRay(CCollider* pC1, CCollider* pC2)
 
 	
 	if (rayStartPos + t * rayDir == pointPos)
+	{
+		pPC->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC, pRC, pointPos, ZERO_VECTOR, 0));
+		pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pPC, pointPos, ZERO_VECTOR, 0));
 		return true;
+	}
 
 
 	return false;
 }
-static bool PointSphere(CCollider* pC1, CCollider* pC2) 
+static bool PointSphere(CCollider* pC1, CCollider* pC2)
 { 
 	CCollider* pSupposedPC = nullptr;
 	CCollider* pSupposedSC = nullptr;
@@ -87,16 +138,20 @@ static bool PointSphere(CCollider* pC1, CCollider* pC2)
 	SP(CTransformC) spPointTransform = pPC->GetOwner()->GetTransform();
 	SP(CTransformC) spSphereTransform = pSC->GetOwner()->GetTransform();
 
-	_float3 scPosition = spSphereTransform->GetPosition();
+	_float3 scPosition = spSphereTransform->GetPosition() + pSC->GetOffset();
 	_float3 pcPosition = spPointTransform->GetPosition() + pPC->GetOffset();
 
 	if (D3DXVec3LengthSq(&(scPosition - pcPosition)) <= pSC->GetRadius() * pSC->GetRadius())
+	{
+		pPC->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC, pSC, pcPosition, ZERO_VECTOR, 0));
+		pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pPC, pcPosition, ZERO_VECTOR, 0));
 		return true;
+	}
 
 	return false; 
 }
 
-static bool PointAabb(CCollider* pC1, CCollider* pC2) 
+static bool PointAabb(CCollider* pC1, CCollider* pC2)
 { 
 	CCollider* pSupposedPC = nullptr;
 	CCollider* pSupposedAC = nullptr;
@@ -120,9 +175,11 @@ static bool PointAabb(CCollider* pC1, CCollider* pC2)
 		if (pcPosition[i] > acPosition[i] + acHalfSize[i]) return false;
 	}
 
+	pPC->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC, pAC, pcPosition, ZERO_VECTOR, 0));
+	pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pPC, pcPosition, ZERO_VECTOR, 0));
 	return true; 
 }
-static bool PointObb(CCollider* pC1, CCollider* pC2) 
+static bool PointObb(CCollider* pC1, CCollider* pC2)
 { 
 	CCollider* pSupposedPC = nullptr;
 	CCollider* pSupposedOC = nullptr;
@@ -143,9 +200,9 @@ static bool PointObb(CCollider* pC1, CCollider* pC2)
 	_float3 closest = ocPosition;
 
 	_float3 orientedAxis[3];
-	orientedAxis[0] = pOC->GetOrientedX();
-	orientedAxis[1] = pOC->GetOrientedY();
-	orientedAxis[2] = pOC->GetOrientedZ();
+	orientedAxis[0] = pOC->GetRight();
+	orientedAxis[1] = pOC->GetUp();
+	orientedAxis[2] = pOC->GetForward();
 	for (int i = 0; i < 3; ++i)
 	{
 		float distance = D3DXVec3Dot(&obbToPoint, &orientedAxis[i]);
@@ -157,12 +214,16 @@ static bool PointObb(CCollider* pC1, CCollider* pC2)
 	}
 
 	if (closest == pcPosition)
+	{
+		pPC->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC, pOC, pcPosition, ZERO_VECTOR, 0));
+		pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pPC, pcPosition, ZERO_VECTOR, 0));
 		return true;
+	}
 
 	return false; 
 }
 
-static bool RayRay(CCollider* pC1, CCollider* pC2) 
+static bool RayRay(CCollider* pC1, CCollider* pC2)
 { 
 	CRayCollider* pRC1 = static_cast<CRayCollider*>(pC1);
 	CRayCollider* pRC2 = static_cast<CRayCollider*>(pC2);
@@ -192,11 +253,15 @@ static bool RayRay(CCollider* pC1, CCollider* pC2)
 	_float3 closestOnRay2 = ray2Start + pRC2->GetDirection() * t;
 
 	if (closestOnRay1 == closestOnRay2)
+	{
+		pRC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC1, pRC2, closestOnRay1, ZERO_VECTOR, 0));
+		pRC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC2, pRC1, closestOnRay1, ZERO_VECTOR, 0));
 		return true;
+	}
 
 	return false; 
 }
-static bool RaySphere(CCollider* pC1, CCollider* pC2) 
+static bool RaySphere(CCollider* pC1, CCollider* pC2)
 { 
 	CCollider* pSupposedRC = nullptr;
 	CCollider* pSupposedSC = nullptr;
@@ -225,11 +290,13 @@ static bool RaySphere(CCollider* pC1, CCollider* pC2)
 
 	_float t = -b - sqrtf(disc);
 
-	_float3 intersection = rayStartPos + t * pRC->GetDirection();
+	_float3 hitPoint = rayStartPos + t * pRC->GetDirection();
+	pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pSC, hitPoint, ZERO_VECTOR, 0));
+	pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pRC, hitPoint, ZERO_VECTOR, 0));
 
 	return true; 
 }
-static bool RayAabb(CCollider* pC1, CCollider* pC2) 
+static bool RayAabb(CCollider* pC1, CCollider* pC2)
 { 
 	CCollider* pSupposedRC = nullptr;
 	CCollider* pSupposedAC = nullptr;
@@ -280,10 +347,13 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 		}
 	}
 
-	_float3 intersection = rayStartPos + pRC->GetDirection() * tMin;
+	_float3 hitPoint = rayStartPos + pRC->GetDirection() * tMin;
+	pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pAC, hitPoint, ZERO_VECTOR, 0));
+	pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pRC, hitPoint, ZERO_VECTOR, 0));
+
 	return true; 
 }
-static bool RayObb(CCollider* pC1, CCollider* pC2) 
+static bool RayObb(CCollider* pC1, CCollider* pC2)
 { 
 	CCollider* pSupposedRC = nullptr;
 	CCollider* pSupposedOC = nullptr;
@@ -346,11 +416,14 @@ static bool RayObb(CCollider* pC1, CCollider* pC2)
 	}
 
 	
-	_float3 intersection = rayStartPos + tMin * pRC->GetDirection();
+	_float3 hitPoint = rayStartPos + tMin * pRC->GetDirection();
+	pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pOC, hitPoint, ZERO_VECTOR, 0));
+	pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pRC, hitPoint, ZERO_VECTOR, 0));
+
 	return true; 
 }
 
-static bool SphereSphere(CCollider* pC1, CCollider* pC2) 
+static bool SphereSphere(CCollider* pC1, CCollider* pC2)
 { 
 	CSphereCollider* pSC1 = static_cast<CSphereCollider*>(pC1);
 	CSphereCollider* pSC2 = static_cast<CSphereCollider*>(pC2);
@@ -363,8 +436,23 @@ static bool SphereSphere(CCollider* pC1, CCollider* pC2)
 
 	_float sqDistanceCenter = D3DXVec3LengthSq(&(center1 - center2));
 
-	return sqDistanceCenter <= pow(pSC1->GetRadius() + pSC2->GetRadius(), 2); 
+	if (sqDistanceCenter <= pow(pSC1->GetRadius() + pSC2->GetRadius(), 2))
+	{
+		_float3 normal;
+		D3DXVec3Normalize(&normal, &(center2 - center1));
+
+		_float3 hitPoint1	= center1 + (normal * pSC1->GetRadius());
+		_float3 hitPoint2	= center2 + (-normal * pSC2->GetRadius());
+		_float	penet		= D3DXVec3Length(&(hitPoint2 - hitPoint1));
+		pSC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC1, pSC2, hitPoint1, normal, penet));
+		pSC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC2, pSC1, hitPoint2, -normal, penet));
+
+		return true;
+	}
+	else
+		return false;
 }
+
 static bool SphereAabb(CCollider* pC1, CCollider* pC2) 
 { 
 	CCollider* pSupposedAC = nullptr;
@@ -379,9 +467,26 @@ static bool SphereAabb(CCollider* pC1, CCollider* pC2)
 	SP(CTransformC) spAabbTransform = pAC->GetOwner()->GetTransform();
 	SP(CTransformC) spSphereTransform = pSC->GetOwner()->GetTransform();
 
-	float sqDist = pAC->SqDistFromPoint(spSphereTransform->GetPosition() + pSC->GetOffset());
+	_float3 sphereCenter	= spSphereTransform->GetPosition() + pSC->GetOffset();
+	_float3 aabbCenter		= spAabbTransform->GetPosition() + pAC->GetOffset();
 
-	return sqDist <= pSC->GetRadius() * pSC->GetRadius();
+	_float sqDist = pAC->SqDistFromPoint(sphereCenter);
+
+	if (sqDist <= pSC->GetRadius() * pSC->GetRadius())
+	{
+		_float3 normal;
+		D3DXVec3Normalize(&normal, &(sphereCenter - aabbCenter));
+
+		_float3 aabbHitPoint	= pAC->SurfacePoint(normal);
+		_float3 sphereHitPoint	= sphereCenter + (-normal) * pSC->GetRadius();
+		_float penet			= D3DXVec3Length(&(aabbHitPoint - sphereHitPoint));
+
+		pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pSC, aabbHitPoint, normal, penet));
+		pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pAC, sphereHitPoint, -normal, penet));
+		return true;
+	}
+	else
+		return false;
 }
 static bool SphereObb(CCollider* pC1, CCollider* pC2) 
 {
@@ -397,10 +502,28 @@ static bool SphereObb(CCollider* pC1, CCollider* pC2)
 	SP(CTransformC) spObbTransform = pOC->GetOwner()->GetTransform();
 	SP(CTransformC) spSphereTransform = pSC->GetOwner()->GetTransform();
 
-	_float3 closestOnOBB = pOC->ClosestFromPoint(pSC->GetOffset() + spSphereTransform->GetPosition());
-	_float3 sphereToClosest = closestOnOBB - (pSC->GetOffset() + spSphereTransform->GetPosition());
+	_float3 sphereCenter = spSphereTransform->GetPosition() + pSC->GetOffset();
+	_float3 obbCenter = spObbTransform->GetPosition() + pOC->GetOffset();
 
-	return D3DXVec3Dot(&sphereToClosest, &sphereToClosest) <= pSC->GetRadius() * pSC->GetRadius();
+	_float3 closestOnOBB = pOC->ClosestFromPoint(sphereCenter);
+	_float3 sphereToClosest = closestOnOBB - sphereCenter;
+
+	if (D3DXVec3Dot(&sphereToClosest, &sphereToClosest) <= pSC->GetRadius() * pSC->GetRadius())
+	{
+		_float3 normal;
+		D3DXVec3Normalize(&normal, &(sphereCenter - obbCenter));
+
+		_float3 obbHitPoint		= pOC->SurfacePoint(normal);
+		_float3 sphereHitPoint	= sphereCenter + (-normal) * pSC->GetRadius();
+		_float	penet			= D3DXVec3Length(&(obbHitPoint - sphereHitPoint));
+
+		pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pSC, obbHitPoint, normal, penet));
+		pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pOC, sphereHitPoint, -normal, penet));
+
+		return true;
+	}
+	else
+		return false;
 }
 
 static bool AabbAabb(CCollider* pC1, CCollider* pC2) 
@@ -414,11 +537,25 @@ static bool AabbAabb(CCollider* pC1, CCollider* pC2)
 	_float3 aabb1Center = pAC1->GetOffset() + spAabbTransform1->GetPosition();
 	_float3 aabb2Center = pAC2->GetOffset() + spAabbTransform2->GetPosition();
 
+	_float3 basicAxis[3] = { _float3(1, 0, 0), _float3(0, 1, 0), _float3(0, 0, 1) };
 	for (int i = 0; i < 3; ++i)
 	{
-		if (abs(aabb1Center[i] - aabb2Center[i]) > (pAC1->GetHalfSize()[i] + pAC2->GetHalfSize()[i]))
+		if(GET_MATH->SeparateAxisTest(basicAxis[i], aabb1Center[i] - pAC1->GetHalfSize()[i], 
+													aabb1Center[i] + pAC1->GetHalfSize()[i],
+													aabb2Center[i] - pAC2->GetHalfSize()[i],
+													aabb2Center[i] + pAC2->GetHalfSize()[i]) == false)
 			return false;
 	}
+
+	_float3 normal;
+	D3DXVec3Normalize(&normal, &(aabb2Center - aabb1Center));
+
+	//Calculate HitPoint 
+	_float3 hitPoint1	= pAC1->SurfacePoint(normal);
+	_float3 hitPoint2	= pAC2->SurfacePoint(-normal);
+	_float	penet		= D3DXVec3Length(&(hitPoint2 - hitPoint1));
+	pAC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC1, pAC2, hitPoint1, normal, penet));
+	pAC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC2, pAC1, hitPoint2, -normal, penet));
 
 	return true; 
 }
@@ -445,9 +582,9 @@ static bool AabbObb(CCollider* pC1, CCollider* pC2)
 	aabbAxis[2] = _float3(0.f, 0.f, 1.f);
 
 	_float3 obbOrientedAxis[3];
-	obbOrientedAxis[0] = pOC->GetOrientedX();
-	obbOrientedAxis[1] = pOC->GetOrientedY();
-	obbOrientedAxis[2] = pOC->GetOrientedZ();
+	obbOrientedAxis[0] = pOC->GetRight();
+	obbOrientedAxis[1] = pOC->GetUp();
+	obbOrientedAxis[2] = pOC->GetForward();
 
 
 	_float ra, rb;
@@ -536,8 +673,15 @@ static bool AabbObb(CCollider* pC1, CCollider* pC2)
 	rb = pOC->GetHalfSize()[0] * absRotation[2][1] + pOC->GetHalfSize()[1] * absRotation[2][0];
 	if (abs(translation[1] * rotation[0][2] - translation[0] * rotation[1][2]) > ra + rb) return false;
 
+	
+	_float3 normal			= obbCenter - aabbCenter;
+	_float3 aabbHitPoint	= pAC->SurfacePoint(normal);
+	_float3 obbHitPoint		= pOC->SurfacePoint(-normal);
 
-
+	_float penet			= D3DXVec3Length(&(aabbHitPoint - obbHitPoint));
+	
+	pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pOC, aabbHitPoint, normal, penet));
+	pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pAC, obbHitPoint, -normal, penet));
 	return true;
 }
 
@@ -553,14 +697,14 @@ static bool ObbObb(CCollider* pC1, CCollider* pC2)
 	_float3 obb2Center = pOC2->GetOffset() + spObbTransform2->GetPosition();
 
 	_float3 obb1OrientedAxis[3];
-	obb1OrientedAxis[0] = pOC1->GetOrientedX();
-	obb1OrientedAxis[1] = pOC1->GetOrientedY();
-	obb1OrientedAxis[2] = pOC1->GetOrientedZ();
+	obb1OrientedAxis[0] = pOC1->GetRight();
+	obb1OrientedAxis[1] = pOC1->GetUp();
+	obb1OrientedAxis[2] = pOC1->GetForward();
 
 	_float3 obb2OrientedAxis[3];
-	obb2OrientedAxis[0] = pOC2->GetOrientedX();
-	obb2OrientedAxis[1] = pOC2->GetOrientedY();
-	obb2OrientedAxis[2] = pOC2->GetOrientedZ();
+	obb2OrientedAxis[0] = pOC2->GetRight();
+	obb2OrientedAxis[1] = pOC2->GetUp();
+	obb2OrientedAxis[2] = pOC2->GetForward();
 
 
 	_float ra, rb;
@@ -650,7 +794,14 @@ static bool ObbObb(CCollider* pC1, CCollider* pC2)
 	if (abs(translation[1] * rotation[0][2] - translation[0] * rotation[1][2]) > ra + rb) return false;
 
 
+	_float3 normal = obb2Center - obb1Center;
+	_float3 obb1HitPoint = pOC1->SurfacePoint(normal);
+	_float3 obb2HitPoint = pOC2->SurfacePoint(-normal);
 
+	_float penet = D3DXVec3Length(&(obb1HitPoint - obb2HitPoint));
+
+	pOC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC1, pOC2, obb1HitPoint, normal, penet));
+	pOC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC2, pOC1, obb2HitPoint, -normal, penet));
 	return true; 
 }
 

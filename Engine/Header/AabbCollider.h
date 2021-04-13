@@ -20,14 +20,14 @@ public:
 				void				OnEnable			(void) override;
 				void				OnDisable			(void) override;
 
-				_float				SqDistFromPoint		(_float3 point);
-				_float3				ClosestFromPoint	(_float3 point);
-
+public:
+				_float				SqDistFromPoint		(_float3 const& point);
+				_float3				ClosestFromPoint	(_float3 const& point);
+				_float3				SurfacePoint		(_float3 const& dir);
 private:
 				void				MakeBS				(void) override;
 
 protected:
-	GETTOR_SETTOR	(_float3,		m_offset,		ZERO_VECTOR,	Offset)
 	GETTOR_SETTOR	(_float3,		m_halfSize,		ONE_VECTOR,		HalfSize)
 	GETTOR_SETTOR	(_float3,		m_size,			ONE_VECTOR,		Size)
 };

@@ -20,22 +20,18 @@ void CTextManager::Start(void)
 	}
 }
 
-_uint CTextManager::PreRender(void)
+void CTextManager::PreRender(void)
 {
-	return _uint();
 }
 
-_uint CTextManager::Render(void)
+void CTextManager::Render(void)
 {
 	for (auto& text : m_mTexts)
 		DrawMyText(text.second);
-
-	return NO_EVENT;
 }
 
-_uint CTextManager::PostRender(void)
+void CTextManager::PostRender(void)
 {
-	return _uint();
 }
 
 void CTextManager::OnDestroy(void)

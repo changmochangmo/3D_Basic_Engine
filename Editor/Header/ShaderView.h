@@ -29,7 +29,7 @@ protected:
 public:
 	afx_msg void OnBnClickedButtonCoord();
 	afx_msg void OnBnClickedButtonRotation();
-	afx_msg void OnBnClickedButtonScale();
+	afx_msg void OnBnClickedButtonSize();
 	afx_msg void OnBnClickedButtonFaceBegin();
 	afx_msg void OnBnClickedButtonFaceEnd();
 	afx_msg void OnBnClickedButtonToTheTop();
@@ -41,9 +41,9 @@ public:
 	CEdit m_rotationX;
 	CEdit m_rotationY;
 	CEdit m_rotationZ;
-	CEdit m_scaleX;
-	CEdit m_scaleY;
-	CEdit m_scaleZ;
+	CEdit m_sizeX;
+	CEdit m_sizeY;
+	CEdit m_sizeZ;
 	CEdit m_faceBeginX;
 	CEdit m_faceBeginY;
 	CEdit m_faceBeginZ;

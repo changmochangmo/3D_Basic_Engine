@@ -40,9 +40,9 @@ void CShaderView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT4, m_rotationX);
 	DDX_Control(pDX, IDC_EDIT5, m_rotationY);
 	DDX_Control(pDX, IDC_EDIT6, m_rotationZ);
-	DDX_Control(pDX, IDC_EDIT7, m_scaleX);
-	DDX_Control(pDX, IDC_EDIT8, m_scaleY);
-	DDX_Control(pDX, IDC_EDIT9, m_scaleZ);
+	DDX_Control(pDX, IDC_EDIT7, m_sizeX);
+	DDX_Control(pDX, IDC_EDIT8, m_sizeY);
+	DDX_Control(pDX, IDC_EDIT9, m_sizeZ);
 	DDX_Control(pDX, IDC_EDIT10, m_faceBeginX);
 	DDX_Control(pDX, IDC_EDIT11, m_faceBeginY);
 	DDX_Control(pDX, IDC_EDIT12, m_faceBeginZ);
@@ -52,7 +52,7 @@ void CShaderView::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CShaderView, CFormView)
 	ON_BN_CLICKED(IDC_BUTTON2, &CShaderView::OnBnClickedButtonCoord)
 	ON_BN_CLICKED(IDC_BUTTON3, &CShaderView::OnBnClickedButtonRotation)
-	ON_BN_CLICKED(IDC_BUTTON4, &CShaderView::OnBnClickedButtonScale)
+	ON_BN_CLICKED(IDC_BUTTON4, &CShaderView::OnBnClickedButtonSize)
 	ON_BN_CLICKED(IDC_BUTTON5, &CShaderView::OnBnClickedButtonFaceBegin)
 	ON_BN_CLICKED(IDC_BUTTON6, &CShaderView::OnBnClickedButtonFaceEnd)
 	ON_BN_CLICKED(IDC_BUTTON8, &CShaderView::OnBnClickedButtonToTheTop)
@@ -157,7 +157,7 @@ void CShaderView::OnBnClickedButtonRotation()
 	}
 }
 
-void CShaderView::OnBnClickedButtonScale()
+void CShaderView::OnBnClickedButtonSize()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CMainFrame * pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
@@ -167,33 +167,33 @@ void CShaderView::OnBnClickedButtonScale()
 	if (!pEditorView->m_curSelectedObject)
 		return;
 
-	_float3 scale = { 0.f, 0.f, 0.f };
+	_float3 size = { 0.f, 0.f, 0.f };
 	_float data = 0.f;
 	CString str;
 
-	m_scaleX.GetWindowTextW(str);
+	m_sizeX.GetWindowTextW(str);
 	data = (float)_wtof(str);
 	if (0.f != data)
 	{
-		scale.x = data;
+		size.x = data;
 	}
 
-	m_scaleY.GetWindowTextW(str);
+	m_sizeY.GetWindowTextW(str);
 	data = (float)_wtof(str);
 	if (0.f != data)
 	{
-		scale.y = data;
+		size.y = data;
 	}
 
-	m_scaleZ.GetWindowTextW(str);
+	m_sizeZ.GetWindowTextW(str);
 	data = (float)_wtof(str);
 	if (0.f != data)
 	{
-		scale.z = data;
+		size.z = data;
 	}
 
 	SP(Engine::CGameObject) target = pEditorView->m_curSelectedObject;
-	target->GetComponent<Engine::CTransformC>()->SetScale(scale);
+	target->GetComponent<Engine::CTransformC>()->SetSize(size);
 }
 
 void CShaderView::OnBnClickedButtonFaceBegin()

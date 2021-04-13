@@ -4,7 +4,7 @@
 
 namespace Engine
 {
-	//Graphics
+#pragma region GraphicsStructure
 	typedef struct _CustomVertex
 	{
 		_float3	position;
@@ -69,62 +69,31 @@ namespace Engine
 	{
 		D3DXPLANE plane[6];
 	}FRUSTUM;
+#pragma endregion
 
+	class CCollider;
+	struct _CollisionInfo
+	{
+		_CollisionInfo(CCollider* pMine, CCollider* pOthers, _float3 cHitPoint, _float3 cNormal, _float cPenet)
+			: pMyCollider(pMine), pOtherCollider(pOthers), hitPoint(cHitPoint), normal(cNormal), penetLength(cPenet)
+		{
+		}
+
+		CCollider*	pMyCollider		= nullptr;
+		CCollider*	pOtherCollider	= nullptr;	
+		_float3		hitPoint		= ZERO_VECTOR;
+		_float3		normal			= ZERO_VECTOR;
+		_float		penetLength		= 0.f;
+	};
 
 	//Text
-	typedef struct _Text
+	struct _Text
 	{
 		std::wstring	m_message;
 		D3DXVECTOR3		m_position;
 		D3DXCOLOR		m_color;
-		bool			m_isVisible;
-	}TEXT;
-
-	//Polygons
-	struct _Ray
-	{
-		_float3 origin;
-		_float3 direction;
+		_bool			m_isVisible;
 	};
-
-	struct _Triangle
-	{
-		_float3 points[3] = {};
-	};
-
-	struct _Aabb
-	{
-		_float3 position;
-		_float3 halfExtent;
-	};
-
-	struct _Obb
-	{
-		_float3 position;
-		_float3 halfExtent;
-		_float3 axis[3];
-	};
-
-	struct _Sphere
-	{
-		_float3 position;
-		_float radius;
-	};
-
-
-	typedef struct _BOOL3
-	{
-		_BOOL3(bool x, bool y, bool z)
-		{
-			x = x;
-			y = y;
-			z = z;
-		}
-
-		bool x;
-		bool y;
-		bool z;
-	}BOOL3;
 }
-#endif // !ENGINESTRUCTURE_H
+#endif // !ENGINESTRUCTURE_H            `
 

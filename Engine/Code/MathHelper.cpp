@@ -64,6 +64,28 @@ _float3 CMathHelper::QuatToDegree(_quat & Q)
 	return result;
 }
 
+_bool CMathHelper::SeparateAxisTest(_float3 const& axis, 
+									_float const& minA, _float const& maxA,
+									_float const& minB, _float const& maxB)
+{
+	_float axisLengthSquared = D3DXVec3Dot(&axis, &axis);
+
+	//if axis is degenerate to ignore
+	if (axisLengthSquared <= EPSILON)
+		return true;
+
+	//Calculate two possible overlap ranges
+	//left or right
+	_float d0 = maxB - minA;//left case
+	_float d1 = maxA - minB;//right case
+
+						   //Intervals do not overlap -> no interaction
+	if (d0 <= 0.f || d1 <= 0.f)
+		return false;
+
+	return true;
+}
+
 void CMathHelper::OnDestroy(void)
 {
 }

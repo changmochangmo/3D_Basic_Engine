@@ -25,6 +25,6 @@ void CShader::LoadShader(void)
 	if (m_pShader == nullptr)
 	{
 		MSG_BOX(__FILE__, L"Create Effect failed in LoadShader");
-		abort();
+		ABORT;
 	}
 }

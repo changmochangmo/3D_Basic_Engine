@@ -28,6 +28,11 @@ public:
 	virtual			void				OnDisable			(void) PURE;
 
 public:
+	virtual			void				OnCollisionEnter	(_CollisionInfo ci) {}
+	virtual			void				OnCollisionStay		(_CollisionInfo ci) {}
+	virtual			void				OnCollisionExit		(_CollisionInfo ci) {}
+
+public:
 	virtual			void				SetBasicName		(void) PURE;
 
 protected:
@@ -82,7 +87,7 @@ public:
 		else
 		{
 			MSG_BOX(__FILE__, (pNewComponent->GetName() + L" is already in " + m_objectKey).c_str());
-			abort();
+			ABORT;
 		}
 
 		return nullptr;

@@ -20,37 +20,28 @@ void CSceneManager::Start(void)
 {
 }
 
-_uint CSceneManager::FixedUpdate(void)
+void CSceneManager::FixedUpdate(void)
 {
-	_uint event = NO_EVENT;
 	if (m_pCurScene != nullptr && m_pCurScene->GetEnable())
 	{
-		if (event = m_pCurScene->FixedUpdate())
-			return event;
+		m_pCurScene->FixedUpdate();
 	}
-	return event;
 }
 
-_uint CSceneManager::Update(void)
+void CSceneManager::Update(void)
 {
-	_uint event = NO_EVENT;
 	if (m_pCurScene != nullptr && m_pCurScene->GetEnable())
 	{
-		if (event = m_pCurScene->Update())
-			return event;
+		m_pCurScene->Update();
 	}
-	return event;
 }
 
-_uint CSceneManager::LateUpdate(void)
+void CSceneManager::LateUpdate(void)
 {
-	_uint event = NO_EVENT;
 	if (m_pCurScene != nullptr && m_pCurScene->GetEnable())
 	{
-		if (event = m_pCurScene->LateUpdate())
-			return event;
+		m_pCurScene->LateUpdate();
 	}
-	return event;
 }
 
 

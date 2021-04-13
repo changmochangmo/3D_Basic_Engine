@@ -44,32 +44,20 @@ void CChangmoScene::Start(void)
 	SP(Engine::CGameObject) spPlayerClone = Engine::ADD_CLONE(L"Player", true);
 }
 
-_uint CChangmoScene::FixedUpdate(void)
+void CChangmoScene::FixedUpdate(void)
 {
 	__super::FixedUpdate();
 
-	return _uint();
 }
 
-_uint CChangmoScene::Update(void)
+void CChangmoScene::Update(void)
 {
-	//__super::Update();
-
-	_uint event = NO_EVENT;
-	if (event = __super::Update())
-		return event;
-
-	return event;
+	__super::Update();
 }
 
-_uint CChangmoScene::LateUpdate(void)
+void CChangmoScene::LateUpdate(void)
 {
-	_uint event = NO_EVENT;
-	if (event = __super::LateUpdate())
-		return event;
-
-
-	return event;
+	__super::LateUpdate();
 }
 
 void CChangmoScene::OnDestroy(void)

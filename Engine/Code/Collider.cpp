@@ -13,12 +13,17 @@ CCollider::~CCollider(void)
 
 void CCollider::Free(void)
 {
+	OnDestroy();
 	delete this;
 }
 
 void CCollider::Awake(void)
 {
-	__super::Awake();
 	MakeBS();
 }
 
+void CCollider::UpdatePosition(void)
+{
+	D3DXVec3TransformNormal(&m_position, &m_offset, &m_pOwner->GetOwnerRotMat());
+	m_position += m_pOwner->GetTransform()->GetPosition();
+}

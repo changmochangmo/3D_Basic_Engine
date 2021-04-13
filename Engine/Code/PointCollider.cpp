@@ -23,10 +23,14 @@ CPointCollider * CPointCollider::Create(_float3 offset)
 
 CCollider * CPointCollider::MakeClone(CCollisionC * pCC)
 {
-	CPointCollider* pPC = CPointCollider::Create(m_offset);
-	pPC->SetOwner(pCC);
+	CPointCollider* pPointClone = new CPointCollider;
+	pPointClone->SetOffset(m_offset);
+	pPointClone->SetRadiusBS(m_radiusBS);
+	pPointClone->SetColliderType(m_colliderType);
 
-	return pPC;
+	pPointClone->SetOwner(pCC);
+
+	return pPointClone;
 }
 
 void CPointCollider::Awake(void)
@@ -49,6 +53,5 @@ void CPointCollider::OnDisable(void)
 
 void CPointCollider::MakeBS(void)
 {
-	m_offsetBS = m_offset;
 	m_radiusBS = 0.f;
 }

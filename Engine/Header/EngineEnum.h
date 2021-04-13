@@ -3,12 +3,15 @@
 
 namespace Engine
 {
+#pragma region GraphicsEnum
+	//윈도우 디스플레이 모드
 	enum class EDisplayMdoe
 	{
 		FullMode,
 		WinMode
 	};
 
+	//GraphicsComponent RenderID
 	enum class ERenderID
 	{
 		Base			= 0,
@@ -19,6 +22,17 @@ namespace Engine
 		NumOfRenderID	
 	};
 
+	//Camera Mdoe
+	enum class ECameraMode
+	{
+		Fixed,
+		Edit,
+		FPS,
+		NumOfCameraMode
+	};
+#pragma endregion
+
+#pragma region PhysicsEnum
 	enum class EColliderType
 	{
 		Point,
@@ -29,9 +43,24 @@ namespace Engine
 		NumOfCT
 	};
 
+	enum class EConstraint
+	{
+		None				= 1 << 0,
+		FreezePositionX		= 1 << 1,
+		FreezePositionY		= 1 << 2,
+		FreezePositionZ		= 1 << 3,
+		FreezeRotationX		= 1 << 4,
+		FreezeRotationY		= 1 << 5,
+		FreezeRotationZ		= 1 << 6,
+		FreezePosition		= 1 << 7,
+		FreezeRotation		= 1 << 8,
+		FreezeAll			= 1 << 9
+	};
+#pragma endregion
+
+
 	enum class EComponentID
 	{
-		Undefined,
 		Transform,
 		Graphics,
 		Mesh,
@@ -62,14 +91,6 @@ namespace Engine
 		Engine,
 		Component,
 		NumOfEngineDataID
-	};
-
-	enum class ECameraMode
-	{
-		Fixed,
-		Edit,
-		FPS,
-		NumOfCameraMode
 	};
 }
 #endif // !ENGINEENUM_H

@@ -37,32 +37,24 @@ void CLayer::Start(void)
 {
 }
 
-_uint CLayer::FixedUpdate(void)
+void CLayer::FixedUpdate(void)
 {
-	_uint event = NO_EVENT;	
-
-	for (auto& pGameObject : m_vGameObjects)
+	for (auto& gameObject : m_vGameObjects)
 	{
-		if (pGameObject->GetIsStarted() == false)
-			continue;
+		if (gameObject->GetIsEnabled())
+		{
+			if (gameObject->GetIsStarted() == false)
+				continue;
 
-		pGameObject->FixedUpdate();
+			gameObject->FixedUpdate();
+		}
 	}
-
-	return event;
 }
 
-_uint CLayer::Update(void)
+void CLayer::Update(void)
 {
-	_uint event = NO_EVENT;	
-	
-
 	for (auto& it = m_vGameObjects.begin(); it != m_vGameObjects.end();)
 	{
-		/*std::cout << (*it)->GetComponent<Engine::CTransformComponent>()->GetPosition().x << ", ";
-		std::cout << (*it)->GetComponent<Engine::CTransformComponent>()->GetPosition().y << ", ";
-		std::cout << (*it)->GetComponent<Engine::CTransformComponent>()->GetPosition().z << std::endl;*/
-
 		if ((*it)->GetDeleteThis())
 		{
 			it->reset();			
@@ -70,33 +62,30 @@ _uint CLayer::Update(void)
 		}
 		else
 		{
-			if (m_vGameObjects.empty())
-				return event;
+			if ((*it)->GetIsEnabled())
+			{
+				if ((*it)->GetIsStarted() == false)
+					(*it)->Start();
 
-			else if ((*it)->GetIsStarted() == false)
-				(*it)->Start();
-
-
-			(*it)->Update();
+				(*it)->Update();
+			}
 			++it;
 		}
 	}
-	return event;
 }
 
-_uint CLayer::LateUpdate(void)
+void CLayer::LateUpdate(void)
 {
-	_uint event = 0;
-
-	for (auto& pGameObject : m_vGameObjects)
+	for (auto& gameObject : m_vGameObjects)
 	{
-		if (pGameObject->GetIsStarted() == false)
-			continue;
+		if (gameObject->GetIsEnabled())
+		{
+			if (gameObject->GetIsStarted() == false)
+				continue;
 
-		pGameObject->LateUpdate();
+			gameObject->LateUpdate();
+		}
 	}
-
-	return event;
 }
 
 void CLayer::OnDestroy(void)

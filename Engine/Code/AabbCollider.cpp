@@ -24,10 +24,18 @@ CAabbCollider * CAabbCollider::Create(_float3 size, _float3 offset)
 
 CCollider * CAabbCollider::MakeClone(CCollisionC * pCC)
 {
-	CAabbCollider* pAC = CAabbCollider::Create(m_size, m_offset);
-	pAC->SetOwner(pCC);
+	CAabbCollider* pAabbClone = new CAabbCollider;
+	pAabbClone->SetOffset(m_offset);
+	pAabbClone->SetSize(m_size);
+	pAabbClone->SetHalfSize(m_halfSize);
 
-	return pAC;
+	pAabbClone->SetRadiusBS(m_radiusBS);
+
+	pAabbClone->SetColliderType(m_colliderType);
+
+	pAabbClone->SetOwner(pCC);
+
+	return pAabbClone;
 }
 
 void CAabbCollider::Awake(void)
@@ -48,7 +56,7 @@ void CAabbCollider::OnDisable(void)
 {
 }
 
-_float CAabbCollider::SqDistFromPoint(_float3 point)
+_float CAabbCollider::SqDistFromPoint(_float3 const& point)
 {
 	_float sqDist = 0.f;
 	
@@ -64,22 +72,44 @@ _float CAabbCollider::SqDistFromPoint(_float3 point)
 	return sqDist;
 }
 
-_float3 CAabbCollider::ClosestFromPoint(_float3 point)
+_float3 CAabbCollider::ClosestFromPoint(_float3 const& point)
 {
-	_float3 closestPoint = {};
+	_float3 closestPoint = ZERO_VECTOR;
 
 	_float3 minPos = m_pOwner->GetTransform()->GetPosition() + m_offset - m_halfSize;
 	_float3 maxPos = m_pOwner->GetTransform()->GetPosition() + m_offset + m_halfSize;
 
 	for (int i = 0; i < 3; ++i)
 	{
+		if (point[i] < minPos[i])		closestPoint[i] = minPos[i];
+		else if (point[i] > maxPos[i])	closestPoint[i] = maxPos[i];
+		else							closestPoint[i] = point[i];
+		
+	}
+	/*for (int i = 0; i < 3; ++i)
+	{
 		if (point[i] < minPos[i]) point[i] = minPos[i];
 		else if (point[i] > maxPos[i])	 point[i] = maxPos[i];
 
 		closestPoint[i] = point[i];
-	}
+	}*/
 
 	return closestPoint;
+}
+
+_float3 CAabbCollider::SurfacePoint(_float3 const& dir)
+{
+	SP(CTransformC) spTransform = m_pOwner->GetTransform();
+	_float3 hitPoint;
+	_float3 proportion(abs(dir.x / m_halfSize.x), abs(dir.y / m_halfSize.y), abs(dir.z / m_halfSize.z));
+	if (proportion.x > proportion.y && proportion.x > proportion.z)
+		hitPoint = spTransform->GetPosition() + m_offset + dir / proportion.x;
+	else if (proportion.y > proportion.z)
+		hitPoint = spTransform->GetPosition() + m_offset + dir / proportion.y;
+	else
+		hitPoint = spTransform->GetPosition() + m_offset + dir / proportion.z;
+
+	return hitPoint;
 }
 
 void CAabbCollider::MakeBS(void)
@@ -87,6 +117,5 @@ void CAabbCollider::MakeBS(void)
 	_float3 minPos = m_offset - m_halfSize;
 	_float3 maxPos = m_offset + m_halfSize;
 
-	m_offsetBS = m_offset;
 	m_radiusBS = D3DXVec3Length(&(maxPos - minPos)) / 2.f;
 }

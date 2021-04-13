@@ -33,7 +33,7 @@ private:
 
 					LONGLONG			m_timer				= {};
 					
-
+	GETTOR			(_float,			m_fixedDeltaTime,	0.f,		FixedDeltaTime)
 	GETTOR			(_float,			m_deltaTime,		0.f,		DeltaTime)
 	GETTOR			(_float,			m_FPS,				0.f,		FPS)
 

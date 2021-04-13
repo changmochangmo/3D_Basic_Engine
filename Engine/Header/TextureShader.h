@@ -137,7 +137,7 @@ END
 //
 //
 //	D3DXVECTOR3 worldPos(0, 0, 0);
-//	D3DXVECTOR3 scalePos(1, 1, 1);
+//	D3DXVECTOR3 sizePos(1, 1, 1);
 //	D3DXMatrixTranslation(&worldMatrix, 0, 0, 0);
 //
 //

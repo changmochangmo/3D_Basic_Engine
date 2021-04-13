@@ -76,9 +76,6 @@
     <Filter Include="02.Components\02.PhysicsComponent\00.RigidBody">
       <UniqueIdentifier>{94baa3bc-ecc9-4403-9159-d7d86111f867}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Components\02.PhysicsComponent\01.Collider">
-      <UniqueIdentifier>{445b6595-61a6-4d9f-bb3d-b331677c55b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Engine\02.Physics\01.Collision">
       <UniqueIdentifier>{b7cc312e-82d4-4fa3-982e-1ef3086f1f4f}</UniqueIdentifier>
     </Filter>
@@ -150,6 +147,9 @@
     </Filter>
     <Filter Include="02.Components\03.Camera">
       <UniqueIdentifier>{00053be2-546b-4e96-b604-c531175c0889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Components\02.PhysicsComponent\01.Collision">
+      <UniqueIdentifier>{445b6595-61a6-4d9f-bb3d-b331677c55b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -277,7 +277,7 @@
       <Filter>02.Components\02.PhysicsComponent\00.RigidBody</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CollisionC.cpp">
-      <Filter>02.Components\02.PhysicsComponent\01.Collider</Filter>
+      <Filter>02.Components\02.PhysicsComponent\01.Collision</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MathHelper.cpp">
       <Filter>00.Engine\11.Math\00.Helper</Filter>
@@ -435,7 +435,7 @@
       <Filter>02.Components\02.PhysicsComponent\00.RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CollisionC.h">
-      <Filter>02.Components\02.PhysicsComponent\01.Collider</Filter>
+      <Filter>02.Components\02.PhysicsComponent\01.Collision</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MathHelper.h">
       <Filter>00.Engine\11.Math\00.Helper</Filter>

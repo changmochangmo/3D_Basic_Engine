@@ -28,7 +28,7 @@ public:
 public:
 					void				SetPosition			(_float3 position);
 					void				SetRotation			(_float3 rotation);
-					void				SetScale			(_float3 scale);
+					void				SetSize				(_float3 size);
 
 					void				SetForward			(_float3 lookAt);
 
@@ -42,10 +42,10 @@ public:
 					void				AddRotationY		(_float adder);
 					void				AddRotationZ		(_float adder);
 
-					void				AddScale			(_float3 scale);
-					void				AddScaleX			(_float adder);
-					void				AddScaleY			(_float adder);
-					void				AddScaleZ			(_float adder);
+					void				AddSize				(_float3 size);
+					void				AddSizeX			(_float adder);
+					void				AddSizeY			(_float adder);
+					void				AddSizeZ			(_float adder);
 
 //Interface
 public:
@@ -53,6 +53,8 @@ public:
 					void				MoveBackward		(_float magnitude);
 					void				MoveLeft			(_float magnitude);
 					void				MoveRight			(_float magnitude);
+					void				MoveUp				(_float magnitude);
+					void				MoveDown			(_float magnitude);
 	
 public:
 					void				UpdateForward		(void);
@@ -63,9 +65,6 @@ public:
 	static const	EComponentID		m_s_componentID = EComponentID::Transform;
 
 protected:
-	//GETTOR_SETTOR	(SP(CTransformC),	m_spParent,		nullptr,		Parent)
-	
-
 	GETTOR			(_mat,				m_worldMat,		{},				WorldMatrix)
 
 	GETTOR			(_float3,			m_forward,		FORWARD_VECTOR,	Forward)
@@ -74,7 +73,7 @@ protected:
 
 	GETTOR			(_float3,			m_position,		ZERO_VECTOR,	Position)
 	GETTOR			(_float3,			m_rotation,		ZERO_VECTOR,	Rotation)
-	GETTOR			(_float3,			m_scale,		ONE_VECTOR,		Scale)
+	GETTOR			(_float3,			m_size,			ONE_VECTOR,		Size)
 
 	GETTOR			(_bool,				m_hasChanged,	true,			HasChanged)
 };

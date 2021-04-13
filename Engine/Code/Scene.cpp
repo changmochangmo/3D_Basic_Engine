@@ -34,40 +34,31 @@ void CScene::Start(void)
 	
 }
 
-_uint CScene::FixedUpdate(void)
+void CScene::FixedUpdate(void)
 {
-	_uint event = NO_EVENT;
-
 	for (auto& layer : m_vLayers)
 	{
-		if (event = layer->FixedUpdate())
-			return event;
+		if (layer->GetEnable())
+			layer->FixedUpdate();
 	}
-	return event;
 }
 
-_uint CScene::Update(void)
+void CScene::Update(void)
 {
-	_uint event = NO_EVENT;
-
 	for (auto& layer : m_vLayers)
 	{
-		if (event = layer->Update())
-			return event;
+		if(layer->GetEnable())
+			layer->Update();
 	}
-	return event;
 }
 
-_uint CScene::LateUpdate(void)
+void CScene::LateUpdate(void)
 {
-	_uint event = NO_EVENT;
-
 	for (auto& layer : m_vLayers)
 	{
-		if (event = layer->LateUpdate())
-			return event;
+		if (layer->GetEnable())
+			layer->LateUpdate();
 	}
-	return event;
 }
 
 void CScene::OnDestroy(void)

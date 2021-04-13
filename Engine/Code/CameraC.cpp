@@ -16,6 +16,7 @@ CCameraC::CCameraC()
 
 CCameraC::~CCameraC()
 {
+	OnDestroy();
 }
 
 
@@ -135,6 +136,10 @@ void CCameraC::Translation(void)
 			m_spTransform->MoveForward(3 * GET_DT);
 		if (IMKEY_PRESS(KEY_S))
 			m_spTransform->MoveBackward(3 * GET_DT);
+		if (IMKEY_PRESS(KEY_SPACE))
+			m_spTransform->MoveUp(3 * GET_DT);
+		if (IMKEY_PRESS(KEY_CONTROL))
+			m_spTransform->MoveDown(3 * GET_DT);
 	}
 }
 
