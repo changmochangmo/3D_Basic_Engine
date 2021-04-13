@@ -1,5 +1,5 @@
-#ifndef  CColliderManager_H
-#define  CColliderManager_H
+#ifndef  CCOLLISIONMANAGER_H
+#define  CCOLLISIONMANAGER_H
 
 #include "Engine.h"
 
@@ -8,9 +8,9 @@ class CCollisionC;
 class CBoxCollider;
 class CSphereCollider;
 class CRayCollider;
-class ENGINE_DLL CColliderManager final : public CEngine
+class ENGINE_DLL CCollisionManager final : public CEngine
 {
-	DECLARE_SINGLETON(CColliderManager)
+	DECLARE_SINGLETON(CCollisionManager)
 public:
 	void				Awake					(void) override;
 	void				Start					(_int numOfColliderID);
@@ -24,8 +24,6 @@ public:
 	void				OnEnable				(void);
 	void				OnDisable				(void);
 
-	void				CheckCollision			(CCollisionC* pCC);
-
 	void				AddCollisionToManager	(SP(CCollisionC) vecObject);
 
 	std::vector<_int>&	GetLayersToCheck		(_int colliderID);
@@ -33,10 +31,12 @@ public:
 private:
 	void				InitCollisionChecker	(void);
 	void				InitCollisionMap		(void);
+
+	void				CheckCollision			(CCollisionC* pCC);
 	
 private:
 	std::vector<std::vector<_int>> m_vCollisionMap;
-	std::vector<std::vector<SP(CCollisionC)>> m_vColliderComponents;
+	std::vector<std::vector<SP(CCollisionC)>> m_vCollisionComponents;
 
 	typedef std::function<_bool(CCollider*, CCollider*)>	_COLLISION_CHECKER;
 	typedef std::array<std::array <_COLLISION_CHECKER, (_int)EColliderType::NumOfCT>, (_int)EColliderType::NumOfCT> _COLLISION_CHECKER_2D;

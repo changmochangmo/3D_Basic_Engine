@@ -28,7 +28,7 @@
     <ClInclude Include="..\Header\CameraManager.h" />
     <ClInclude Include="..\Header\Collider.h" />
     <ClInclude Include="..\Header\CollisionC.h" />
-    <ClInclude Include="..\Header\ColliderManager.h" />
+    <ClInclude Include="..\Header\CollisionManager.h" />
     <ClInclude Include="..\Header\CollisionHelper.h" />
     <ClInclude Include="..\Header\Component.h" />
     <ClInclude Include="..\Header\DataStore.h" />
@@ -84,7 +84,7 @@
     <ClCompile Include="..\Code\CameraManager.cpp" />
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\CollisionC.cpp" />
-    <ClCompile Include="..\Code\ColliderManager.cpp" />
+    <ClCompile Include="..\Code\CollisionManager.cpp" />
     <ClCompile Include="..\Code\CollisionHelper.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\DataStore.cpp" />

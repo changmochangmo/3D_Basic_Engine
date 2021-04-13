@@ -17,9 +17,6 @@ CGameObject::~CGameObject(void)
 	OnDestroy();
 }
 
-
-
-
 void CGameObject::Awake(void)
 {
 	m_isAwaked = true;

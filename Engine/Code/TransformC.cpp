@@ -171,6 +171,7 @@ void CTransformC::AddSizeZ(_float adder)
 }
 #pragma endregion
 
+#pragma region Move
 void CTransformC::MoveForward(_float magnitude)
 {
 	AddPosition(m_forward * magnitude);
@@ -200,6 +201,7 @@ void CTransformC::MoveDown(_float magnitude)
 {
 	AddPosition(-m_up * magnitude);
 }
+#pragma endregion
 
 void CTransformC::UpdateForward(void)
 {

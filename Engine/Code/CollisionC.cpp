@@ -1,6 +1,6 @@
 #include "EngineStdafx.h"
 #include "Collider.h"
-#include "ColliderManager.h"
+#include "CollisionManager.h"
 #include "GameObject.h"
 #include "DataStore.h"
 
@@ -47,7 +47,7 @@ void CCollisionC::Start(SP(CComponent) spThis)
 	m_spTransform = m_pOwner->GetComponent<CTransformC>();
 	m_spRigidbody = m_pOwner->GetComponent<CRigidBodyC>();
 
-	CColliderManager::GetInstance()->AddCollisionToManager(std::dynamic_pointer_cast<CCollisionC>(spThis));
+	CCollisionManager::GetInstance()->AddCollisionToManager(std::dynamic_pointer_cast<CCollisionC>(spThis));
 }
 
 void CCollisionC::FixedUpdate(SP(CComponent) spThis)
@@ -106,6 +106,11 @@ void CCollisionC::AddColliderClone(CCollider* pCollider)
 void CCollisionC::AddCollisionInfo(_CollisionInfo collisionInfo)
 {
 	m_vCurCollisions.emplace_back(collisionInfo);
+}
+
+void CCollisionC::AddTriggeredCC(CCollisionC* pCC)
+{
+	m_vCurTriggers.emplace_back(pCC);
 }
 
 void CCollisionC::AddColliderFromFile(void)
@@ -217,5 +222,69 @@ void CCollisionC::UpdateOwnerRotMat(void)
 	D3DXMatrixRotationZ(&rotateZ, m_spTransform->GetRotation().z);
 
 	m_ownerRotMat = rotateX * rotateY * rotateZ;
+}
+
+void CCollisionC::ProcessCollisions(void)
+{
+	if (m_vCurCollisions.size() == 0 && m_vPreCollisions.size() == 0)
+		return;
+
+	for (auto& curColInfo : m_vCurCollisions)
+	{
+		_bool alreadyThere = false;
+		for (auto& it = m_vPreCollisions.begin(); it != m_vPreCollisions.end(); ++it)
+		{
+			CCollisionC* pPreCollidedCC = (*it).pOtherCollider->GetOwner();
+			CCollisionC* pCurCollidedCC = curColInfo.pOtherCollider->GetOwner();
+			if (pPreCollidedCC == pCurCollidedCC)
+			{
+				m_pOwner->OnCollisionStay(curColInfo);
+				alreadyThere = true;
+				m_vPreCollisions.erase(it);
+				break;
+			}
+		}
+
+		if (alreadyThere == false)
+			m_pOwner->OnCollisionEnter(curColInfo);
+	}
+
+	for (auto& preColInfo : m_vPreCollisions)
+		m_pOwner->OnCollisionExit(preColInfo);
+
+	m_vPreCollisions.clear();
+	m_vPreCollisions = m_vCurCollisions;
+	m_vCurCollisions.clear();
+}
+
+void CCollisionC::ProcessTriggers(void)
+{
+	if (m_vCurTriggers.size() == 0 && m_vPreTriggers.size() == 0)
+		return;
+
+	for (auto& curTrigger : m_vCurTriggers)
+	{
+		_bool alreadyThere = false;
+		for (auto& it = m_vPreTriggers.begin(); it != m_vPreTriggers.end() ++it)
+		{
+			if ((*it) == curTrigger)
+			{
+				m_pOwner->OnTriggerStay(curTrigger);
+				alreadyThere = true;
+				m_vPreTriggers.erase(it);
+				break;
+			}
+		}
+
+		if (alreadyThere == false)
+			m_pOwner->OnTriggerEnter(curTrigger);
+	}
+
+	for (auto& preTrigger : m_vPreTriggers)
+		m_pOwner->OnTriggerExit(preTrigger);
+
+	m_vPreTriggers.clear();
+	m_vPreTriggers = m_vCurTriggers;
+	m_vCurTriggers.clear();
 }
 

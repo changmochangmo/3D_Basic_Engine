@@ -32,6 +32,10 @@ public:
 	virtual			void				OnCollisionStay		(_CollisionInfo ci) {}
 	virtual			void				OnCollisionExit		(_CollisionInfo ci) {}
 
+	virtual			void				OnTriggerEnter		(CCollisionC const* pCollisionC) {}
+	virtual			void				OnTriggerStay		(CCollisionC const* pCollisionC) {}
+	virtual			void				OnTriggerExit		(CCollisionC const* pCollisionC) {}
+
 public:
 	virtual			void				SetBasicName		(void) PURE;
 

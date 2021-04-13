@@ -1,6 +1,6 @@
 #include "EngineStdafx.h"
 #include "GameObject.h"
-#include "ColliderManager.h"
+#include "CollisionManager.h"
 #include "FRC.h"
 
 USING(Engine)
@@ -42,16 +42,8 @@ void CRigidBodyC::Start(SP(CComponent) spThis)
 void CRigidBodyC::FixedUpdate(SP(CComponent) spThis)
 {
 	UpdateLinear();
-
 	//아직 미구현
 	UpdateAngular();
-	
-	_float deltaTime = GET_DT;
-
-	_float3 nextFramePos = m_spTransform->GetPosition() + m_velocity * deltaTime;
-	//_float3 nextFrameRot = m_rotation + m_angularVelocity * deltaTime;
-
-	//CColliderManager::GetInstance()->CheckCollision()
 }
 
 void CRigidBodyC::Update(SP(CComponent) spThis)
@@ -111,6 +103,7 @@ void CRigidBodyC::UpdateLinear(void)
 	m_force *= (1 - m_drag);
 
 	m_velocity += (m_force / m_mass) * deltaTime;
+	m_spTransform->AddPosition(m_velocity * deltaTime);
 }
 
 void CRigidBodyC::UpdateAngular(void)

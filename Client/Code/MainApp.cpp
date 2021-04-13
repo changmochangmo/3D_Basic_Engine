@@ -4,7 +4,7 @@
 #include "GraphicsManager.h"
 #include "SceneManager.h"
 #include "InputManager.h"
-#include "ColliderManager.h"
+#include "CollisionManager.h"
 #include "ObjectFactory.h"
 #include "GameObject.h"
 #include "ShaderManager.h"
@@ -48,7 +48,7 @@ void CMainApp::Awake(void)
 	Engine::CGraphicsManager::GetInstance()->Awake();
 	Engine::CCameraManager::GetInstance()->Awake();
 	Engine::CShaderManager::GetInstance()->Awake();
-	Engine::CColliderManager::GetInstance()->Awake();
+	Engine::CCollisionManager::GetInstance()->Awake();
 }
 
 void CMainApp::Start(void)
@@ -64,7 +64,7 @@ void CMainApp::Start(void)
 	Engine::CCameraManager::GetInstance()->Start();
 	Engine::CShaderManager::GetInstance()->Start();
 	
-	Engine::CColliderManager::GetInstance()->Start((_int)EColliderID::NumOfColliderID);
+	Engine::CCollisionManager::GetInstance()->Start((_int)EColliderID::NumOfColliderID);
 }
 
 void CMainApp::FixedUpdate(void)
@@ -82,10 +82,13 @@ void CMainApp::Update(void)
 {
 	Engine::TIME_MEASURE_START;
 
-	Engine::CSceneManager::GetInstance()->Update();
 	Engine::CInputManager::GetInstance()->Update();
-	Engine::CGraphicsManager::GetInstance()->Update();
+	Engine::CSceneManager::GetInstance()->Update();
+	
 	Engine::CCameraManager::GetInstance()->Update();
+	Engine::CCollisionManager::GetInstance()->Update();
+	Engine::CGraphicsManager::GetInstance()->Update();
+	
 
 	_float time = Engine::GET_ELAPSED_TIME;
 }
@@ -94,11 +97,16 @@ void CMainApp::LateUpdate(void)
 {
 	Engine::TIME_MEASURE_START;
 
-	Engine::CGraphicsManager::GetInstance()->LateUpdate();
 	Engine::CInputManager::GetInstance()->LateUpdate();
 	Engine::CSceneManager::GetInstance()->LateUpdate();
-	Engine::CColliderManager::GetInstance()->LateUpdate();
+	
 	Engine::CCameraManager::GetInstance()->LateUpdate();
+	Engine::CCollisionManager::GetInstance()->LateUpdate();
+	Engine::CGraphicsManager::GetInstance()->LateUpdate();
+	
+	
+	
+	
 
 	_float time = Engine::GET_ELAPSED_TIME;
 }
@@ -139,7 +147,7 @@ void CMainApp::OnDestroy(void)
 	Engine::CInputManager::GetInstance()->DestroyInstance();
 	Engine::CSceneManager::GetInstance()->DestroyInstance();
 	Engine::CObjectFactory::GetInstance()->DestroyInstance();
-	Engine::CColliderManager::GetInstance()->DestroyInstance();
+	Engine::CCollisionManager::GetInstance()->DestroyInstance();
 	Engine::CSoundManager::GetInstance()->DestroyInstance();
 	Engine::CCameraManager::GetInstance()->DestroyInstance();
 	Engine::CShaderManager::GetInstance()->DestroyInstance();

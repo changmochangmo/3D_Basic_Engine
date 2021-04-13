@@ -6,6 +6,7 @@ BEGIN(Engine)
 class CCollider;
 class ENGINE_DLL CCollisionC final : public CComponent
 {
+	friend class CCollisionManager;
 public:
 	explicit						CCollisionC			(void);
 								   ~CCollisionC			(void);
@@ -31,19 +32,29 @@ public:
 					void			AddColliderClone	(CCollider* pCollider);
 
 					void			AddCollisionInfo	(_CollisionInfo collisionInfo);
+
+					void			AddTriggeredCC		(CCollisionC* pCC);
 private:
 					void			AddColliderFromFile	(void);
 					void			MergingBS			(CCollider* pCollider);
 					void			UpdateOwnerRotMat	(void);
+
+					void			ProcessCollisions	(void);
+					void			ProcessTriggers		(void);
 
 public:
 	static const	EComponentID	m_s_componentID = EComponentID::Collider;
 
 protected:
 	typedef std::vector<_CollisionInfo> _COLLISIONS;
+	typedef	std::vector<CCollisionC*> _TRIGGERS;
 	typedef std::vector<CCollider*> _COLLIDERS;
 	GETTOR			(_COLLISIONS,		m_vCurCollisions,	{},				CurCollisions)
 	GETTOR			(_COLLISIONS,		m_vPreCollisions,	{},				PreCollisions)
+
+	GETTOR			(_TRIGGERS,			m_vCurTriggers,		{},				CurTriggers)
+	GETTOR			(_TRIGGERS,			m_vPreTriggers,		{},				PreTriggers)
+
 	GETTOR			(_COLLIDERS,		m_vColliders,		{},				Colliders)
 	GETTOR_SETTOR	(_int,				m_collisionID,		UNDEFINED,		CollisionID)
 

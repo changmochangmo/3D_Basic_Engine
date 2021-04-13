@@ -100,9 +100,6 @@
     <Filter Include="00.Engine\02.Physics\01.Collision\00.Collider\04.OBB">
       <UniqueIdentifier>{2cb03ccb-41d3-42ec-b291-707dbaf6f097}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.Engine\02.Physics\01.Collision\01.ColliderManager">
-      <UniqueIdentifier>{0fd891e5-81c1-4c86-b8a0-39283d835edf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Engine\02.Physics\01.Collision\02.CollisionHelper">
       <UniqueIdentifier>{0cc52ac8-bf2a-48e1-b67c-ab9b08c1a0c7}</UniqueIdentifier>
     </Filter>
@@ -150,6 +147,9 @@
     </Filter>
     <Filter Include="02.Components\02.PhysicsComponent\01.Collision">
       <UniqueIdentifier>{445b6595-61a6-4d9f-bb3d-b331677c55b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\02.Physics\01.Collision\01.CollisionManager">
+      <UniqueIdentifier>{0fd891e5-81c1-4c86-b8a0-39283d835edf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -231,9 +231,6 @@
     <ClCompile Include="..\Code\SphereCollider.cpp">
       <Filter>00.Engine\02.Physics\01.Collision\00.Collider\02.Sphere</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ColliderManager.cpp">
-      <Filter>00.Engine\02.Physics\01.Collision\01.ColliderManager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\AabbCollider.cpp">
       <Filter>00.Engine\02.Physics\01.Collision\00.Collider\03.AABB</Filter>
     </ClCompile>
@@ -284,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CameraC.cpp">
       <Filter>02.Components\03.Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CollisionManager.cpp">
+      <Filter>00.Engine\02.Physics\01.Collision\01.CollisionManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -386,9 +386,6 @@
     <ClInclude Include="..\Header\SphereCollider.h">
       <Filter>00.Engine\02.Physics\01.Collision\00.Collider\02.Sphere</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ColliderManager.h">
-      <Filter>00.Engine\02.Physics\01.Collision\01.ColliderManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Collider.h">
       <Filter>00.Engine\02.Physics\01.Collision\00.Collider</Filter>
     </ClInclude>
@@ -442,6 +439,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\CameraC.h">
       <Filter>02.Components\03.Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CollisionManager.h">
+      <Filter>00.Engine\02.Physics\01.Collision\01.CollisionManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

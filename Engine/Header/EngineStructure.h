@@ -74,6 +74,10 @@ namespace Engine
 	class CCollider;
 	struct _CollisionInfo
 	{
+		_CollisionInfo(const _CollisionInfo& ci)
+			: pMyCollider(ci.pMyCollider), pOtherCollider(ci.pOtherCollider), hitPoint(ci.hitPoint), normal(ci.normal), penetLength(ci.penetLength)
+		{
+		}
 		_CollisionInfo(CCollider* pMine, CCollider* pOthers, _float3 cHitPoint, _float3 cNormal, _float cPenet)
 			: pMyCollider(pMine), pOtherCollider(pOthers), hitPoint(cHitPoint), normal(cNormal), penetLength(cPenet)
 		{
