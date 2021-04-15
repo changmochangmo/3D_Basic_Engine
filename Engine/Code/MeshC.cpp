@@ -20,7 +20,6 @@ SP(CComponent) CMeshC::MakeClone(CObject* pObject)
 	SP(CMeshC) spClone(new CMeshC);
 	__super::InitClone(spClone, pObject);
 
-	spClone->SetMeshKey(m_meshKey);
 	spClone->SetMeshData(m_pMeshData);
 
 	return spClone;
@@ -37,8 +36,9 @@ void CMeshC::Awake(void)
 		_int dataID = m_pOwner->GetDataID();
 		std::wstring objectKey = m_pOwner->GetObjectKey();
 
-		GET_VALUE(isStatic, dataID, objectKey, L"meshKey", m_meshKey);
-		m_pMeshData = CMeshStore::GetInstance()->GetMeshData(m_meshKey);
+		std::wstring meshKey;
+		GET_VALUE(isStatic, dataID, objectKey, L"meshKey", meshKey);
+		m_pMeshData = CMeshStore::GetInstance()->GetMeshData(meshKey);
 	}
 }
 
@@ -73,6 +73,5 @@ void CMeshC::OnDisable(void)
 
 void CMeshC::ChangeMesh(std::wstring const & meshKey)
 {
-	m_meshKey	= meshKey;
-	m_pMeshData = CMeshStore::GetInstance()->GetMeshData(m_meshKey);
+	m_pMeshData = CMeshStore::GetInstance()->GetMeshData(meshKey);
 }

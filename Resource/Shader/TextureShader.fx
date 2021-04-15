@@ -4,6 +4,11 @@ matrix ProjMatrix;
 float4 Diffuse;
 float4 Color;
 
+texture baseTex;
+sampler temp = sampler_state
+{
+	Texture = (baseTex);
+};
 
 sampler2D BaseMap;
 
@@ -41,7 +46,7 @@ PS_INPUT vs_main(VS_INPUT input)
 
 float4 ps_main(PS_INPUT input) : COLOR0
 {
-	float4 baseColor = tex2D(BaseMap, input.texcoord);
+	float4 baseColor = tex2D(temp, input.texcoord);
 	float4 c = saturate(baseColor + Diffuse);
 	c.a = 0.5;
 	return c;

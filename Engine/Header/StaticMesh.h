@@ -7,7 +7,7 @@ BEGIN(Engine)
 class ENGINE_DLL CStaticMesh final : public CMesh
 {
 	friend class CMeshStore;
-public:
+private:
 	explicit				CStaticMesh		(void);
 	virtual				   ~CStaticMesh		(void);
 
@@ -16,19 +16,15 @@ public:
 				void		Start			(void) override;
 				void		OnDestory		(void) override;
 
-				void		PreRender		(void) override;
-				void		Render			(void) override;
-				void		PostRender		(void) override;
-
 private:
 
 public:
 private:
-	LPD3DXMESH				m_pMesh			= nullptr;
-	LPD3DXBUFFER			m_pAdjacency	= nullptr;
-	LPD3DXBUFFER			m_pSubset		= nullptr;	// 서브셋의 개수 == 재질의 개수 == 텍스처의 개수
-	LPD3DXMATERIAL			m_pMtrl			= nullptr;
-	_ulong					m_subsetCount	= 0;
+	GETTOR		(LPD3DXMESH,		m_pMesh,		nullptr,	Mesh)
+	GETTOR		(LPD3DXBUFFER,		m_pAdjacency,	nullptr,	Adjacency)
+	GETTOR		(LPD3DXBUFFER,		m_pSubset,		nullptr,	Subset)	// 서브셋의 개수 == 재질의 개수 == 텍스처의 개수
+	GETTOR		(LPD3DXMATERIAL,	m_pMtrl,		nullptr,	Mtrl)
+	GETTOR		(_ulong,			m_subsetCount,	0,			SubsetCount)
 };
 END
 

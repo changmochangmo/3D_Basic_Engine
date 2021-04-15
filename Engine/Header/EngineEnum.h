@@ -25,10 +25,18 @@ namespace Engine
 	//Camera Mdoe
 	enum class ECameraMode
 	{
-		Fixed,
-		Edit,
-		FPS,
-		NumOfCameraMode
+		Fixed			= 0,
+		Edit			= 1,
+		FPS				= 2,
+		NumOfCameraMode	= 3
+	};
+
+	//MeshType
+	enum class EMeshType
+	{
+		Static			= 0,
+		Dynamic			= 1,
+		NumOfMeshType	= 2
 	};
 #pragma endregion
 
