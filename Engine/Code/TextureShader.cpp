@@ -64,16 +64,14 @@ void CTextureShader::Render(CGraphicsC* pGC)
 			{
 				const CStaticMesh* pSM = dynamic_cast<const CStaticMesh*>(pGC->GetMesh()->GetMeshData());
 				
-				for (_ulong i = 0; i < pSM->GetSubsetCount(); ++i)
+				for (_ulong j = 0; j < pSM->GetSubsetCount(); ++j)
 				{
-					if (FAILED(GET_DEVICE->SetTexture(0, pGC->GetTexture()->GetTexData()[i]->pTexture)))
+					if (FAILED(GET_DEVICE->SetTexture(0, pGC->GetTexture()->GetTexData()[j]->pTexture)))
 					{
 						int a = 5;
 						int b = a;
 					}
-
-					m_pShader->SetTexture(m_pShader->GetParameterByName(0, "baseTex"), pGC->GetTexture()->GetTexData()[i]->pTexture);
-					pSM->GetMesh()->DrawSubset(i);
+					pSM->GetMesh()->DrawSubset(j);
 				}
 			}
 			else if (pGC->GetMesh()->GetMeshData()->GetMeshType() == (_int)EMeshType::Dynamic)

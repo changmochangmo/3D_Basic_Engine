@@ -96,4 +96,6 @@ void CMeshStore::ParsingMesh(std::wstring filePath, std::wstring fileName)
 	{
 
 	}
+
+	int a = 5;
 }
