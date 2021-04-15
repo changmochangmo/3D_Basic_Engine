@@ -1,6 +1,6 @@
 #include "EngineStdafx.h"
 #include "CameraC.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "WndApp.h"
 #include "Frustum.h"
 #include "CameraManager.h"
@@ -21,7 +21,7 @@ CCameraC::~CCameraC()
 
 
 
-SP(CComponent) CCameraC::MakeClone(CGameObject * pObject)
+SP(CComponent) CCameraC::MakeClone(CObject * pObject)
 {
 	SP(CCameraC) spClone(new CCameraC, SmartDeleter<CCameraC>);
 	__super::InitClone(spClone, pObject);

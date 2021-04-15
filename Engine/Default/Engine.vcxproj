@@ -39,9 +39,11 @@
     <ClInclude Include="..\Header\EngineTypedef.h" />
     <ClInclude Include="..\Header\Frustum.h" />
     <ClInclude Include="..\Header\MathHelper.h" />
+    <ClInclude Include="..\Header\Mesh.h" />
+    <ClInclude Include="..\Header\StaticMesh.h" />
     <ClInclude Include="..\Header\TextManager.h" />
     <ClInclude Include="..\Header\FRC.h" />
-    <ClInclude Include="..\Header\GameObject.h" />
+    <ClInclude Include="..\Header\Object.h" />
     <ClInclude Include="..\Header\GraphicsC.h" />
     <ClInclude Include="..\Header\GraphicsManager.h" />
     <ClInclude Include="..\Header\EngineDefine.h" />
@@ -92,9 +94,11 @@
     <ClCompile Include="..\Code\Engine.cpp" />
     <ClCompile Include="..\Code\Frustum.cpp" />
     <ClCompile Include="..\Code\MathHelper.cpp" />
+    <ClCompile Include="..\Code\Mesh.cpp" />
+    <ClCompile Include="..\Code\StaticMesh.cpp" />
     <ClCompile Include="..\Code\TextManager.cpp" />
     <ClCompile Include="..\Code\FRC.cpp" />
-    <ClCompile Include="..\Code\GameObject.cpp" />
+    <ClCompile Include="..\Code\Object.cpp" />
     <ClCompile Include="..\Code\GraphicsC.cpp" />
     <ClCompile Include="..\Code\GraphicsManager.cpp" />
     <ClCompile Include="..\Code\EngineStdafx.cpp" />

@@ -167,8 +167,6 @@ GET_4TH_ARG(__VA_ARGS__, ADD_CLONE3, ADD_CLONE2, ADD_CLONE1, )
 
 #define ADD_CLONE(...) ADD_CLONE_MACRO_CHOOSER(__VA_ARGS__)(__VA_ARGS__)
 
-
-
 #define ADD_PROTOTYPE(spPrototype)													\
 CObjectFactory::GetInstance()->AddPrototype(spPrototype)
 

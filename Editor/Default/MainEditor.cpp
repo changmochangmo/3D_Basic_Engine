@@ -5,7 +5,7 @@
 #include "InputManager.h"
 #include "ColliderManager.h"
 #include "ObjectFactory.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "ShaderManager.h"
 #include "EditorScene.h"
 #include "TextManager.h"

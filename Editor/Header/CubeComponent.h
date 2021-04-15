@@ -2,7 +2,7 @@
 
 #include "MainComponent.h"
 
-class Engine::CGameObject;
+class Engine::CObject;
 class Engine::CGraphicsC;
 class Engine::CTransformC;
 class CCubeComponent final : public Engine::CMainComponent
@@ -12,7 +12,7 @@ public:
 	~CCubeComponent() = default;
 
 public:
-	SP(Engine::CComponent)	MakeClone(Engine::CGameObject * pObject);
+	SP(Engine::CComponent)	MakeClone(Engine::CObject * pObject);
 
 	void						Awake(void) override;
 	void						Start(SP(Engine::CComponent) spThis) override;

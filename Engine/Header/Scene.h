@@ -3,7 +3,7 @@
 
 BEGIN(Engine)
 class CLayer;
-class CGameObject;
+class CObject;
 class ENGINE_DLL CScene abstract  
 {
 protected:
@@ -24,10 +24,10 @@ public:
 	virtual		void					OnEnable			(void) PURE;
 	virtual		void					OnDisable			(void) PURE;
 				
-				SP(CGameObject)			FindObjectByName		(std::wstring name);
-				SP(CGameObject)			FindObjectWithKey		(std::wstring objectKey);
+				SP(CObject)			FindObjectByName		(std::wstring name);
+				SP(CObject)			FindObjectWithKey		(std::wstring objectKey);
 				_uint					FindObjectsWithKey		(std::wstring objectKey, 
-																 std::vector<SP(CGameObject)>& gameObjects);
+																 std::vector<SP(CObject)>& gameObjects);
 
 
 protected:												   

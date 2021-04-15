@@ -1,34 +1,37 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "GameObject.h"
+#include "Object.h"
 
-class CPlayer final : public Engine::CGameObject
+class CPlayer final : public Engine::CObject
 {
 	SMART_DELETER_REGISTER
 private:
-	explicit								CPlayer			(void);
-										   ~CPlayer			(void);
+	explicit								CPlayer				(void);
+										   ~CPlayer				(void);
 
 public:
-	static		SP(CPlayer)					Create			(_bool isStatic);
+	static		SP(CPlayer)			Create				(_bool isStatic);
 
-				SP(Engine::CGameObject)		MakeClone		(void) override;
+				SP(Engine::CObject)	MakeClone			(void) override;
 		
-				void						Awake			(void) override;
-				void						Start			(void) override;
+				void				Awake				(void) override;
+				void				Start				(void) override;
 		
-				void						FixedUpdate		(void) override;
-				void						Update			(void) override;
-				void						LateUpdate		(void) override;
+				void				FixedUpdate			(void) override;
+				void				Update				(void) override;
+				void				LateUpdate			(void) override;
 		
-				void						OnDestroy		(void) override;
+				void				OnDestroy			(void) override;
 		
-				void						OnEnable		(void) override;
-				void						OnDisable		(void) override;
+				void				OnEnable			(void) override;
+				void				OnDisable			(void) override;
 
+				void				OnCollisionEnter	(Engine::_CollisionInfo ci);
+				void				OnCollisionStay		(Engine::_CollisionInfo ci);
+				void				OnCollisionExit		(Engine::_CollisionInfo ci);
 public:
-				void						SetBasicName	(void) override;
+				void				SetBasicName	(void) override;
 
 private:
 	static		_uint						m_s_uniqueID;

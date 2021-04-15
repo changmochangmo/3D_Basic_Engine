@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CubeComponent.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Scene.h"
@@ -9,7 +9,7 @@ CCubeComponent::CCubeComponent()
 {
 }
 
-SP(Engine::CComponent) CCubeComponent::MakeClone(Engine::CGameObject * pObject)
+SP(Engine::CComponent) CCubeComponent::MakeClone(Engine::CObject * pObject)
 {
 	SP(CCubeComponent) pClone(new CCubeComponent);
 	pClone->SetOwner(pObject);

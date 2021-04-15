@@ -1,7 +1,7 @@
 #include "EngineStdafx.h"
 #include "InputManager.h"
 #include "WndApp.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "SceneManager.h"
 #include "Layer.h"
 #include "CameraManager.h"
@@ -158,13 +158,13 @@ void CInputManager::MoveMouseToCenter(void)
 	m_mousePos = _float3(0, 0, 0);
 }
 
-CGameObject * CInputManager::MousePicking(_int layerID, _float3& intersection)
+CObject * CInputManager::MousePicking(_int layerID, _float3& intersection)
 {
 	_float3 rayStartPos = GET_MAIN_CAM->GetTransform()->GetPosition(); // 원점
 	_float3 rayDir = GetPickingDirection(); // 방향
 
 	_float t = FLT_MAX;
-	CGameObject* pGameObject = nullptr;
+	CObject* pGameObject = nullptr;
 
 	CLayer* pLayer = GET_CUR_SCENE->GetLayers()[layerID];
 

@@ -1,7 +1,7 @@
 #include "EngineStdafx.h"
 #include "SphereCollider.h"
 #include "CollisionManager.h"
-#include "GameObject.h"
+#include "Object.h"
 
 USING(Engine)
 CSphereCollider::CSphereCollider(void)

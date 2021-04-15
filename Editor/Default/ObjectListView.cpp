@@ -7,7 +7,7 @@
 #include "EditorView.h"
 #include "MainFrm.h"
 #include "ObjectFactory.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "InputManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
@@ -230,7 +230,7 @@ void CObjectListView::OnBnClickedLoad()
 				break;
 		
 
-			SP(Engine::CGameObject) pObj = nullptr;
+			SP(Engine::CObject) pObj = nullptr;
 
 			if (ObjectKey == "m_objectKey=WhiteBlock")
 			{

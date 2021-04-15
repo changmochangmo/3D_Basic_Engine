@@ -1,7 +1,7 @@
 #include "EngineStdafx.h"
 #include "CollisionManager.h"
 #include "SphereCollider.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "CollisionHelper.h"
 #include "DataStore.h"
 #include "FRC.h"

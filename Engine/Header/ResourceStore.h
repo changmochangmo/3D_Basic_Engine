@@ -19,6 +19,8 @@ public:
 protected:
 	virtual			void				InitResource			(std::wstring sourcePath) PURE;
 	
+					std::wstring		GetLastDirName			(std::wstring const& fullPath);
+					std::wstring		GetFileName				(std::wstring const& fullPath);
 
 	std::function<void(std::wstring, std::wstring)>	m_fpResourceHandler;
 

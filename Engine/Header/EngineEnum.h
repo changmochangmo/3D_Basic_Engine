@@ -19,7 +19,7 @@ namespace Engine
 		Alpha			= 2,
 		UI				= 3,
 		WireFrame		= 4,
-		NumOfRenderID	
+		NumOfRenderID	= 5
 	};
 
 	//Camera Mdoe

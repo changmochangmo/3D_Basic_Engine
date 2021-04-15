@@ -3,7 +3,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "DeviceManager.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "CameraManager.h"
 #include "CameraC.h"
 #include "Frustum.h"

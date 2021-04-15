@@ -1,5 +1,5 @@
 #include "EngineStdafx.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "DataStore.h"
 #include "FRC.h"
 
@@ -13,7 +13,7 @@ CTransformC::~CTransformC(void)
 	OnDestroy();
 }
 
-SP(CComponent) CTransformC::MakeClone(CGameObject* pObject)
+SP(CComponent) CTransformC::MakeClone(CObject* pObject)
 {
 	SP(CTransformC) spClone(new CTransformC);
 	__super::InitClone(spClone, pObject);

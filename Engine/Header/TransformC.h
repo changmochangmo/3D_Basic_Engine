@@ -10,7 +10,7 @@ public:
 
 //Override functions									   
 public:
-					SP(CComponent)		MakeClone			(CGameObject* pObject) override;
+					SP(CComponent)		MakeClone			(CObject* pObject) override;
 
 					void				Awake				(void) override;
 					void				Start				(SP(CComponent) spThis) override;

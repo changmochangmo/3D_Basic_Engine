@@ -9,7 +9,7 @@ public:
 								   ~CRigidBodyC		(void);
 
 public:
-				SP(CComponent)		MakeClone		(CGameObject * pObject) override;
+				SP(CComponent)		MakeClone		(CObject * pObject) override;
 				
 				void				Awake			(void) override;
 				void				Start			(SP(CComponent) spThis) override;
@@ -50,7 +50,7 @@ private:
 	GETTOR_SETTOR	(_bool,				m_useGravity,			true,				UseGravity)
 	GETTOR_SETTOR	(_bool,				m_detectCollision,		true,				DetectCollision)
 	//0일 경우 무한대.
-	GETTOR_SETTOR	(_float,			m_mass,					0.f,				Mass)
+	GETTOR_SETTOR	(_float,			m_mass,					1.f,				Mass)
 	GETTOR_SETTOR	(_float3,			m_centerOfMass,			ZERO_VECTOR,		CenterOfMass)
 	GETTOR_SETTOR	(_float3,			m_worldCenterOfMass,	ZERO_VECTOR,		WorldCenterOfMass)
 

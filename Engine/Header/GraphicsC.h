@@ -8,7 +8,7 @@ public:
 	explicit	CGraphicsC	(void);
 			   ~CGraphicsC	(void);
 public:
-					SP(CComponent)	MakeClone		(CGameObject* pObject)	override;
+					SP(CComponent)	MakeClone		(CObject* pObject)	override;
 
 					void				Awake			(void) override;
 					void				Start			(SP(CComponent) spThis) override;
@@ -35,7 +35,7 @@ protected:
 	GETTOR			(SP(CTextureC),		m_pTexture,		nullptr,			Texture)
 	GETTOR			(SP(CTransformC),	m_pTransform,	nullptr,			Transform)
 	//GETTOR			(SP(CBitmapComponent),		m_pBitmap,		nullptr,			Bitmap)
-	GETTOR_SETTOR	(_int,				m_renderID,		-1,					RenderID)
+	GETTOR_SETTOR	(_int,				m_renderID,		UNDEFINED,			RenderID)
 };
 END
 #endif // !GRAPHICSCOMPONENT_H

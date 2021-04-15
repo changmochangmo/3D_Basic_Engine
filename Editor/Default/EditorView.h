@@ -6,7 +6,7 @@
 
 #include "MainEditor.h"
 #include "EditorDoc.h"
-#include "GameObject.h"
+#include "Object.h"
 
 class CEditorView : public CView
 {
@@ -46,9 +46,9 @@ private:
 	_float3 m_vCurCubePos;
 	_float3 m_vPreCubePos;
 	_uint   m_iDirNum;
-	typedef std::vector<SP(Engine::CGameObject)> _GAMEOBJECTS;
+	typedef std::vector<SP(Engine::CObject)> _GAMEOBJECTS;
 	GETTOR(_GAMEOBJECTS, m_vGameObjects, {}, GameObjects)
-	SP(Engine::CGameObject) m_curSelectedObject = nullptr;
+	SP(Engine::CObject) m_curSelectedObject = nullptr;
 
 public:
 	void Engine_Awake();
@@ -60,9 +60,9 @@ public:
 	void BottomSpawnObject();
 	void BackSpawnObject();
 	void Release_CubeData();
-	void Delete_Block(Engine::CGameObject& pObj);
+	void Delete_Block(Engine::CObject& pObj);
 public:
-	void Set_CubeData(SP(Engine::CGameObject) pObj) { m_vGameObjects.emplace_back(pObj); }
+	void Set_CubeData(SP(Engine::CObject) pObj) { m_vGameObjects.emplace_back(pObj); }
 	void Set_CubePos(_float3 vPos);
 	
 	

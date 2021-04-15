@@ -3,7 +3,7 @@
 
 BEGIN(Engine)
 
-class CGameObject;
+class CObject;
 class CScene;
 class ENGINE_DLL CLayer final  
 {
@@ -29,9 +29,9 @@ public:
 
 //Interface
 public:
-				void			AddGameObject	(SP(CGameObject) spGameObject);
+				void			AddGameObject	(SP(CObject) spGameObject);
 protected:
-	typedef std::vector<SP(CGameObject)> _GAMEOBJECTS;
+	typedef std::vector<SP(CObject)> _GAMEOBJECTS;
 	GETTOR			(_GAMEOBJECTS,	m_vGameObjects,		{},			GameObjects)
 
 	GETTOR_SETTOR	(CScene*,		m_pOwner,			nullptr,		Owner)

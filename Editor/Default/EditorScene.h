@@ -34,8 +34,8 @@ private:
 private:
 	_bool m_isPickingMode = false;
 	_bool m_AddFistCubeToListBox = true;
-	class Engine::CGameObject* m_pPreSelectedObject = nullptr;
-	class Engine::CGameObject* m_pCurSelectedObject = nullptr;
+	class Engine::CObject* m_pPreSelectedObject = nullptr;
+	class Engine::CObject* m_pCurSelectedObject = nullptr;
 
 	class CMainFrame * m_pMain;
 	class CEditorView* m_pEditorView;

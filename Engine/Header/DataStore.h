@@ -25,8 +25,8 @@ private:
 
 				_int					GetIndex			(std::wstring sectionKey);
 
-				std::wstring			GetLayerKey			(const std::wstring& fullPath);
-				std::wstring			GetObjectKey		(const std::wstring& fullPath);
+				//std::wstring			GetLayerKey			(const std::wstring& fullPath);
+				//std::wstring			GetObjectKey		(const std::wstring& fullPath);
 				std::wstring			GetVariableKey		(const std::wstring& lineFromFile, _size symbolPos);
 				std::wstring			GetKeyValue			(const std::wstring& lineFromFile, _size symbolPos);
 
@@ -48,7 +48,7 @@ private:
 
 public:
 	template <typename T>
-	bool GetValue(_bool isStatic, _int sectionKey, 
+	bool GetValue(_bool isStatic, _int dataID, 
 				  std::wstring objectKey, std::wstring varKey, T& result)
 	{
 		_FileKeyMap** ppDataMap = nullptr;
@@ -57,14 +57,14 @@ public:
 		else
 			ppDataMap = &m_mpCurDataMap;
 
-		if ((_uint)sectionKey >= m_numOfSection)
+		if ((_uint)dataID >= m_numOfSection)
 		{
-			MSG_BOX(__FILE__, std::wstring(L"sectionKey is out of range").c_str());
+			MSG_BOX(__FILE__, std::wstring(L"dataID is out of range").c_str());
 			ABORT;
 		}
 		
-		auto& iter_object = (*ppDataMap)[sectionKey].find(objectKey);
-		if (iter_object == (*ppDataMap)[sectionKey].end())
+		auto& iter_object = (*ppDataMap)[dataID].find(objectKey);
+		if (iter_object == (*ppDataMap)[dataID].end())
 		{
 			MSG_BOX(__FILE__, (L"objectKey [" + objectKey + L"] is missing in GetValue").c_str());
 			ABORT;

@@ -1,7 +1,7 @@
 #include "EngineStdafx.h"
 #include "Collider.h"
 #include "CollisionManager.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "DataStore.h"
 
 USING(Engine)
@@ -14,7 +14,7 @@ CCollisionC::~CCollisionC(void)
 	OnDestroy();
 }
 
-SP(CComponent) CCollisionC::MakeClone(CGameObject* pObject)
+SP(CComponent) CCollisionC::MakeClone(CObject* pObject)
 {
 	SP(CCollisionC) spClone(new CCollisionC);
 	__super::InitClone(spClone, pObject);
@@ -31,13 +31,15 @@ void CCollisionC::Awake(void)
 	__super::Awake();
 	m_componentID = (_int)m_s_componentID;;
 
-	_bool isStatic			= m_pOwner->GetIsStatic();
-	_int ownerDataID		= m_pOwner->GetDataID();
-	std::wstring objectKey	= m_pOwner->GetObjectKey();
+	if (m_pOwner->GetAddExtra() == false)
+	{
+		_bool isStatic = m_pOwner->GetIsStatic();
+		_int dataID = m_pOwner->GetDataID();
+		std::wstring objectKey = m_pOwner->GetObjectKey();
 
-	GET_VALUE(isStatic, ownerDataID, objectKey, L"collisionID", m_collisionID);
-
-	AddColliderFromFile();
+		GET_VALUE(isStatic, dataID, objectKey, L"collisionID", m_collisionID);
+		AddColliderFromFile();
+	}
 }
 
 void CCollisionC::Start(SP(CComponent) spThis)
@@ -265,7 +267,7 @@ void CCollisionC::ProcessTriggers(void)
 	for (auto& curTrigger : m_vCurTriggers)
 	{
 		_bool alreadyThere = false;
-		for (auto& it = m_vPreTriggers.begin(); it != m_vPreTriggers.end() ++it)
+		for (auto& it = m_vPreTriggers.begin(); it != m_vPreTriggers.end(); ++it)
 		{
 			if ((*it) == curTrigger)
 			{

@@ -1,7 +1,7 @@
 #include "EngineStdafx.h"
 #include "Scene.h"
 #include "Layer.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "SceneManager.h"
 
 #include "DataStore.h"
@@ -75,7 +75,7 @@ void CScene::OnDisable(void)
 {
 }
 
-SP(CGameObject) CScene::FindObjectByName(std::wstring name)
+SP(CObject) CScene::FindObjectByName(std::wstring name)
 {
 	for (auto& layer : m_vLayers)
 	{
@@ -88,7 +88,7 @@ SP(CGameObject) CScene::FindObjectByName(std::wstring name)
 	return nullptr;
 }
 
-SP(CGameObject) CScene::FindObjectWithKey(std::wstring objectKey)
+SP(CObject) CScene::FindObjectWithKey(std::wstring objectKey)
 {
 	for (auto& layer : m_vLayers)
 	{
@@ -101,7 +101,7 @@ SP(CGameObject) CScene::FindObjectWithKey(std::wstring objectKey)
 	return nullptr;
 }
 
-_uint CScene::FindObjectsWithKey(std::wstring objectKey, std::vector<SP(CGameObject)>& gameObjects)
+_uint CScene::FindObjectsWithKey(std::wstring objectKey, std::vector<SP(CObject)>& gameObjects)
 {
 	for (auto& layer : m_vLayers)
 	{

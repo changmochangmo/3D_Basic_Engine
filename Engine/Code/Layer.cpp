@@ -1,6 +1,6 @@
 #include "EngineStdafx.h"
 #include "Layer.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "Scene.h"
 #include "SceneManager.h"
 
@@ -102,7 +102,7 @@ void CLayer::OnDisable(void)
 {
 }
 
-void CLayer::AddGameObject(SP(CGameObject) spGameObject)
+void CLayer::AddGameObject(SP(CObject) spGameObject)
 {
 	m_vGameObjects.emplace_back(spGameObject);
 }

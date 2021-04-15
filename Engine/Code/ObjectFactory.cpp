@@ -1,6 +1,6 @@
 #include "EngineStdafx.h"
 #include "ObjectFactory.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "SceneManager.h"
 #include "Scene.h"
 #include "Layer.h"
@@ -36,7 +36,7 @@ void CObjectFactory::OnDisable(void)
 {
 }
 
-HRESULT CObjectFactory::AddPrototype(SP(CGameObject) pPrototype)
+HRESULT CObjectFactory::AddPrototype(SP(CObject) pPrototype)
 {
 	if (pPrototype == nullptr)
 		return E_FAIL;
@@ -62,7 +62,7 @@ HRESULT CObjectFactory::AddPrototype(SP(CGameObject) pPrototype)
 	return S_OK;
 }
 
-SP(CGameObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,
+SP(CObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,
 										 _bool isStatic,
 										 const std::wstring & name)
 {
@@ -81,7 +81,7 @@ SP(CGameObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,
 		ABORT;
 	}
 
-	SP(CGameObject) spClone = iter_find_prototype->second->MakeClone();
+	SP(CObject) spClone = iter_find_prototype->second->MakeClone();
 	if (spClone == nullptr)
 	{
 		MSG_BOX(__FILE__, (protoObjectKey + L" failed to make clone in AddClone").c_str());

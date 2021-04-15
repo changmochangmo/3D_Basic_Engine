@@ -1,5 +1,5 @@
 #include "EngineStdafx.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "CollisionManager.h"
 #include "FRC.h"
 
@@ -13,7 +13,7 @@ CRigidBodyC::~CRigidBodyC(void)
 	OnDestroy();
 }
 
-SP(CComponent) CRigidBodyC::MakeClone(CGameObject * pObject)
+SP(CComponent) CRigidBodyC::MakeClone(CObject * pObject)
 {
 	SP(CRigidBodyC) spClone(new CRigidBodyC);
 	InitClone(spClone, pObject);

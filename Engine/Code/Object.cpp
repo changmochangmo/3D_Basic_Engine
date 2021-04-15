@@ -1,34 +1,34 @@
 #include "EngineStdafx.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "Layer.h"
 #include "ObjectFactory.h"
 USING(Engine)
 
-CGameObject::CGameObject(void)
+CObject::CObject(void)
 {
 }
 
-CGameObject::CGameObject(const CGameObject & other)
+CObject::CObject(const CObject & other)
 {
 }
 
-CGameObject::~CGameObject(void)
+CObject::~CObject(void)
 {
 	OnDestroy();
 }
 
-void CGameObject::Awake(void)
+void CObject::Awake(void)
 {
 	m_isAwaked = true;
 	m_objectKey = GetCurClassName(this);
 }
 
-void CGameObject::Start(void)
+void CObject::Start(void)
 {
 	m_isStarted = true;
 }
 
-void CGameObject::FixedUpdate(void)
+void CObject::FixedUpdate(void)
 {
 	for (auto& component : m_mComponents)
 	{
@@ -42,7 +42,7 @@ void CGameObject::FixedUpdate(void)
 	}
 }
 
-void CGameObject::Update(void)
+void CObject::Update(void)
 {
 	for (auto& component : m_mComponents)
 	{
@@ -56,7 +56,7 @@ void CGameObject::Update(void)
 	}
 }
 
-void CGameObject::LateUpdate(void)
+void CObject::LateUpdate(void)
 {
 	for (auto& component : m_mComponents)
 	{
@@ -68,7 +68,7 @@ void CGameObject::LateUpdate(void)
 }
 
 
-void CGameObject::OnDestroy(void)
+void CObject::OnDestroy(void)
 {
 	for (auto& component : m_mComponents)
 	{
@@ -79,16 +79,16 @@ void CGameObject::OnDestroy(void)
 	m_mComponents.clear();
 }
 
-void CGameObject::OnEnable(void)
+void CObject::OnEnable(void)
 {
 }
 
 
-void CGameObject::OnDisable(void)
+void CObject::OnDisable(void)
 {
 }
 
-void CGameObject::InitClone(SP(CGameObject) spClone)
+void CObject::InitClone(SP(CObject) spClone)
 {
 	spClone->SetIsClone(true);
 	spClone->SetIsStatic(m_isStatic);
@@ -101,6 +101,8 @@ void CGameObject::InitClone(SP(CGameObject) spClone)
 	
 	for (auto& component : m_mComponents)
 	{
-		spClone->AddComponentToClone(component.second);
+		spClone->CopyComponentToClone(component.second);
 	}
+
+	spClone->SetAddExtra(true);
 }

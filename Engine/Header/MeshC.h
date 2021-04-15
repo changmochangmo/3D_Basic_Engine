@@ -1,5 +1,5 @@
-#ifndef MESH_H
-#define MESH_H
+#ifndef MESHC_H
+#define MESHC_H
 
 BEGIN(Engine)
 class ENGINE_DLL CMeshC final : public CComponent
@@ -9,7 +9,7 @@ public:
 							   ~CMeshC		(void);
 
 public:
-			SP(CComponent)		MakeClone			(CGameObject* pObject) override;
+			SP(CComponent)		MakeClone			(CObject* pObject) override;
 			void				Awake				(void) override;
 			void				Start				(SP(CComponent) spThis) override;
 
@@ -21,12 +21,14 @@ public:
 
 			void				OnEnable			(void) override;
 			void				OnDisable			(void) override;
+public:
+			void				ChangeMesh			(std::wstring const& meshKey);
 
 public:
 	static const	EComponentID	m_s_componentID = EComponentID::Mesh;
 
 protected:
-	GETTOR_SETTOR	(std::wstring,	m_meshKey,		L"",		MeshKey)
+	//GETTOR_SETTOR	(std::wstring,	m_meshKey,		L"",		MeshKey)
 	GETTOR_SETTOR	(SP(_MeshData),	m_pMeshData,	nullptr,	MeshData)
 
 	

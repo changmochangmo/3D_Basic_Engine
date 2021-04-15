@@ -22,7 +22,7 @@ SP(CBasicObject) CBasicObject::Create(_bool isStatic)
 	return spBasicObject;
 }
 
-SP(Engine::CGameObject) CBasicObject::MakeClone(void)
+SP(Engine::CObject) CBasicObject::MakeClone(void)
 {
 	SP(CBasicObject) spClone(new CBasicObject, Engine::SmartDeleter<CBasicObject>);
 	__super::InitClone(spClone);

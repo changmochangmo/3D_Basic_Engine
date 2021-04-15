@@ -2,7 +2,7 @@
 #include "CameraManager.h"
 #include "CameraC.h"
 #include "ObjectFactory.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "InputManager.h"
 
 USING(Engine)
@@ -17,7 +17,7 @@ void CCameraManager::Start(void)
 {
 	if (m_spMainCamera == nullptr)
 	{
-		SP(CGameObject) spBasicObject = ADD_CLONE(L"BasicObject", true);
+		SP(CObject) spBasicObject = ADD_CLONE(L"BasicObject", true);
 		m_spMainCamera = spBasicObject->AddComponent<CCameraC>();
 		spBasicObject->GetComponent<CTransformC>()->SetPosition(_float3(0, 0, -3));
 		AddCamera(L"FreeCamera", m_spMainCamera);

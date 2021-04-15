@@ -4,7 +4,7 @@
 #include "Engine.h"
 
 BEGIN(Engine)
-class CGameObject;
+class CObject;
 class ENGINE_DLL CInputManager final : public CEngine
 {
 	DECLARE_SINGLETON(CInputManager)
@@ -26,7 +26,7 @@ public:
 					bool					KeyPress				(DWORD key);
 
 					void					MoveMouseToCenter		(void);
-					CGameObject*			MousePicking			(_int layerID, _float3& intersection);
+					CObject*			MousePicking			(_int layerID, _float3& intersection);
 
 					_float3					GetMousePosDelta		(void);
 					void					ResetMousePosDelta		(void);

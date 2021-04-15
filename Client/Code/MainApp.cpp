@@ -6,7 +6,7 @@
 #include "InputManager.h"
 #include "CollisionManager.h"
 #include "ObjectFactory.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "ShaderManager.h"
 #include "FRC.h"
 #include "TextManager.h"
@@ -165,9 +165,9 @@ void CMainApp::OnDisable(void)
 
 void CMainApp::InitStaticPrototype(void)
 {
-	SP(Engine::CGameObject) spBasicObjectPrototype(CBasicObject::Create(true));
+	SP(Engine::CObject) spBasicObjectPrototype(CBasicObject::Create(true));
 	Engine::ADD_PROTOTYPE(spBasicObjectPrototype);
 
-	SP(Engine::CGameObject) spPlayerPrototype(CPlayer::Create(true));
+	SP(Engine::CObject) spPlayerPrototype(CPlayer::Create(true));
 	Engine::ADD_PROTOTYPE(spPlayerPrototype);
 }

@@ -1,46 +1,46 @@
-#ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H
+#ifndef OBJECT_H
+#define OBJECT_H
 
 
 BEGIN(Engine)
-class ENGINE_DLL CGameObject abstract  
+class ENGINE_DLL CObject abstract  
 {
 	SMART_DELETER_REGISTER
 
 protected:
-	explicit							CGameObject			(void);
-	explicit							CGameObject			(const CGameObject& other);
-	virtual							   ~CGameObject			(void);
+	explicit							CObject			(void);
+	explicit							CObject			(const CObject& other);
+	virtual							   ~CObject			(void);
 
 public:
-	virtual			SP(CGameObject)		MakeClone			(void) PURE;
+	virtual			SP(CObject)		MakeClone			(void) PURE;
 		
-	virtual			void				Awake				(void) PURE;
-	virtual			void				Start				(void) PURE;
+	virtual			void			Awake				(void) PURE;
+	virtual			void			Start				(void) PURE;
 	
-	virtual			void				FixedUpdate			(void) PURE;
-	virtual			void				Update				(void) PURE;
-	virtual			void				LateUpdate			(void) PURE;
+	virtual			void			FixedUpdate			(void) PURE;
+	virtual			void			Update				(void) PURE;
+	virtual			void			LateUpdate			(void) PURE;
 	
-	virtual			void				OnDestroy			(void) PURE;
+	virtual			void			OnDestroy			(void) PURE;
 	
-	virtual			void				OnEnable			(void) PURE;
-	virtual			void				OnDisable			(void) PURE;
+	virtual			void			OnEnable			(void) PURE;
+	virtual			void			OnDisable			(void) PURE;
 
 public:
-	virtual			void				OnCollisionEnter	(_CollisionInfo ci) {}
-	virtual			void				OnCollisionStay		(_CollisionInfo ci) {}
-	virtual			void				OnCollisionExit		(_CollisionInfo ci) {}
+	virtual			void			OnCollisionEnter	(_CollisionInfo ci) {}
+	virtual			void			OnCollisionStay		(_CollisionInfo ci) {}
+	virtual			void			OnCollisionExit		(_CollisionInfo ci) {}
 
-	virtual			void				OnTriggerEnter		(CCollisionC const* pCollisionC) {}
-	virtual			void				OnTriggerStay		(CCollisionC const* pCollisionC) {}
-	virtual			void				OnTriggerExit		(CCollisionC const* pCollisionC) {}
+	virtual			void			OnTriggerEnter		(CCollisionC const* pCollisionC) {}
+	virtual			void			OnTriggerStay		(CCollisionC const* pCollisionC) {}
+	virtual			void			OnTriggerExit		(CCollisionC const* pCollisionC) {}
 
 public:
-	virtual			void				SetBasicName		(void) PURE;
+	virtual			void			SetBasicName		(void) PURE;
 
 protected:
-					void				InitClone			(SP(CGameObject) spClone);
+					void			InitClone			(SP(CObject) spClone);
 
 protected:
 	typedef std::unordered_map<_uint, SP(CComponent)> _COMPONENTS;
@@ -48,6 +48,7 @@ protected:
 	GETTOR			(_COMPONENTS,		m_mComponents,		{},			Components)
 
 	GETTOR_SETTOR	(_bool,				m_isClone,			false,		IsClone)
+	GETTOR_SETTOR	(_bool,				m_addExtra,			false,		AddExtra)
 
 	GETTOR_SETTOR	(_bool,				m_isStatic,			false,		IsStatic)
 	GETTOR_SETTOR	(_bool,				m_isAwaked,			false,		IsAwaked)
@@ -96,10 +97,10 @@ public:
 
 		return nullptr;
 	}
-	
+private:
 	//클론에 컴포넌트 복제하는 함수
 	template <typename ComponentType>
-	void AddComponentToClone(SP(ComponentType) pComponent)
+	void CopyComponentToClone(SP(ComponentType) pComponent)
 	{
 		auto& iter_find_comp = m_mComponents.find(pComponent->GetComponentID());
 		if (iter_find_comp != m_mComponents.end())
@@ -107,7 +108,7 @@ public:
 			MSG_BOX(__FILE__, (pComponent->GetName() + L" is already in " + m_objectKey).c_str());
 			return;
 		}
-
+		
 		SP(CComponent) pNewComponent = pComponent->MakeClone(this);
 		m_mComponents[pComponent->GetComponentID()] = pNewComponent;
 	}

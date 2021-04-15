@@ -2,7 +2,7 @@
 #define COMPONENT_H
 
 BEGIN(Engine)
-class CGameObject;
+class CObject;
 class ENGINE_DLL CComponent abstract  
 {
 public:
@@ -11,8 +11,8 @@ public:
 
 public:
 
-	virtual		SP(CComponent)	MakeClone	(CGameObject* pObject) PURE;
-				void			InitClone	(SP(CComponent) spClone, CGameObject* pOwner);
+	virtual		SP(CComponent)	MakeClone	(CObject* pObject) PURE;
+				void			InitClone	(SP(CComponent) spClone, CObject* pOwner);
 
 	virtual		void			Awake		(void) PURE;
 	virtual		void			Start		(SP(CComponent) spThis) PURE;
@@ -27,7 +27,7 @@ public:
 	virtual		void			OnDisable	(void) PURE;
 
 protected:
-	GETTOR_SETTOR	(CGameObject*,	m_pOwner,		nullptr,					Owner)
+	GETTOR_SETTOR	(CObject*,	m_pOwner,		nullptr,					Owner)
 	
 	
 	GETTOR_SETTOR	(_bool,			m_isAwaked,		false,						IsAwaked)

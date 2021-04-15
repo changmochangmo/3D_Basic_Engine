@@ -70,8 +70,8 @@ void CDataStore::ParsingData(std::wstring filePath, std::wstring fileName)
 	if (readFile.is_open())
 	{
 		std::wstring line;
-		std::wstring sectionKey = GetLayerKey(fullPath);
-		std::wstring objectKey = GetObjectKey(fullPath);
+		std::wstring sectionKey = GetLastDirName(fullPath);
+		std::wstring objectKey = GetFileName(fullPath);
 		std::wstring variableKey;
 		std::wstring keyValue;
 
@@ -104,27 +104,27 @@ _int CDataStore::GetIndex(std::wstring sectionKey)
 	return -1;
 }
 
-std::wstring CDataStore::GetLayerKey(const std::wstring & fullPath)
-{
-	_size startPoint, endPoint;
-	startPoint = fullPath.find_first_of(L"\\");
-	startPoint = fullPath.find(L"\\", ++startPoint);
-	startPoint = fullPath.find(L"\\", ++startPoint);
-	startPoint = fullPath.find(L"\\", ++startPoint);
-	startPoint = fullPath.find(L"\\", ++startPoint);
-	endPoint = fullPath.find(L"\\", ++startPoint);
-
-	return fullPath.substr(startPoint, endPoint - startPoint);
-}
-
-std::wstring CDataStore::GetObjectKey(const std::wstring & fullPath)
-{
-	_size startPoint, endPoint;
-	startPoint = fullPath.find_last_of('\\') + 1;
-	endPoint = fullPath.find_last_of('.');
-
-	return fullPath.substr(startPoint, endPoint - startPoint);
-}
+//std::wstring CDataStore::GetLayerKey(const std::wstring & fullPath)
+//{
+//	_size startPoint, endPoint;
+//	startPoint = fullPath.find_first_of(L"\\");
+//	startPoint = fullPath.find(L"\\", ++startPoint);
+//	startPoint = fullPath.find(L"\\", ++startPoint);
+//	startPoint = fullPath.find(L"\\", ++startPoint);
+//	startPoint = fullPath.find(L"\\", ++startPoint);
+//	endPoint = fullPath.find(L"\\", ++startPoint);
+//
+//	return fullPath.substr(startPoint, endPoint - startPoint);
+//}
+//
+//std::wstring CDataStore::GetObjectKey(const std::wstring & fullPath)
+//{
+//	_size startPoint, endPoint;
+//	startPoint = fullPath.find_last_of('\\') + 1;
+//	endPoint = fullPath.find_last_of('.');
+//
+//	return fullPath.substr(startPoint, endPoint - startPoint);
+//}
 
 std::wstring CDataStore::GetVariableKey(const std::wstring & lineFromFile, _size symbolPos)
 {

@@ -24,7 +24,7 @@ SP(CPlayer) CPlayer::Create(_bool isStatic)
 	return spPlayer;
 }
 
-SP(Engine::CGameObject) CPlayer::MakeClone(void)
+SP(Engine::CObject) CPlayer::MakeClone(void)
 {
 	SP(CPlayer) spClone(new CPlayer, Engine::SmartDeleter<CPlayer>);
 	__super::InitClone(spClone);
@@ -53,12 +53,6 @@ void CPlayer::Start(void)
 	m_spMesh		= GetComponent<Engine::CMeshC>();
 	m_spTexture		= GetComponent<Engine::CTextureC>();
 	m_spGraphics	= GetComponent<Engine::CGraphicsC>();
-
-	m_spTransform->SetSize(_float3(1.f, 1.f, 2.f));
-
-	//m_spTransform->SetRotation(_float3(45, 45, 0));
-	//m_spTransform->UpdateLookAt();
-	//m_spTransform->UpdateWorldMatrix();
 }
 
 void CPlayer::FixedUpdate(void)
@@ -72,15 +66,19 @@ void CPlayer::Update(void)
 
 	if (Engine::IMKEY_PRESS(KEY_RIGHT))
 	{
-		//_float3 vec(-1, -1, -1);
-		//D3DXVec3Normalize(&vec, &vec);
-		//m_spTransform->SetLookAt(vec);
-		//m_spTransform->UpdateRotation();
-		m_spTransform->SetForward(m_spTransform->GetForward() + _float3(1, 0, 0) * GET_DT);
+		m_spTransform->MoveRight(3 * GET_DT);
 	}
 	if (Engine::IMKEY_PRESS(KEY_LEFT))
 	{
-		m_spTransform->SetForward(m_spTransform->GetForward() + _float3(-1, 0, 0) * GET_DT);
+		m_spTransform->MoveLeft(3 * GET_DT);
+	}
+	if (Engine::IMKEY_PRESS(KEY_UP))
+	{
+		m_spTransform->MoveForward(3 * GET_DT);
+	}
+	if (Engine::IMKEY_PRESS(KEY_DOWN))
+	{
+		m_spTransform->MoveBackward(3 * GET_DT);
 	}
 }
 
@@ -102,6 +100,21 @@ void CPlayer::OnEnable(void)
 void CPlayer::OnDisable(void)
 {
 	__super::OnDisable();
+}
+
+void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
+{
+	int a = 5;
+}
+
+void CPlayer::OnCollisionStay(Engine::_CollisionInfo ci)
+{
+	int a = 5;
+}
+
+void CPlayer::OnCollisionExit(Engine::_CollisionInfo ci)
+{
+	int a = 5;
 }
 
 void CPlayer::SetBasicName(void)

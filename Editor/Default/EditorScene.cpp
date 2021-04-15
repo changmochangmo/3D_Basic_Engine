@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "EditorScene.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "ObjectFactory.h"
 
 #include "InputManager.h"
@@ -44,7 +44,7 @@ void CEditorScene::Start(void)
 	m_pMainCamera = Engine::ADD_CLONE(L"Camera", L"Camera", false)->GetComponent<Engine::CCameraComponent>();
 	
 
-	SP(Engine::CGameObject) pObj = Engine::ADD_CLONE(L"NormalBlock", L"WhiteBlock", false);
+	SP(Engine::CObject) pObj = Engine::ADD_CLONE(L"NormalBlock", L"WhiteBlock", false);
 
 	m_pEditorView->Set_CubeData(pObj);
 }
@@ -113,41 +113,41 @@ void CEditorScene::InitLayers(void)
 
 void CEditorScene::InitPrototypes(void)
 {
-	SP(Engine::CGameObject) pCamera = Engine::CGameObject::Create(L"Camera", L"Camera", false);
+	SP(Engine::CObject) pCamera = Engine::CObject::Create(L"Camera", L"Camera", false);
 	pCamera->AddComponent<Engine::CTransformC>();
 	pCamera->GetComponent<Engine::CTransformC>()->SetPosition(_float3(0, 0, -5));
 	pCamera->AddComponent<Engine::CCameraComponent>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pCamera);
 
-	SP(Engine::CGameObject) pWhiteBlock = Engine::CGameObject::Create(L"NormalBlock", L"WhiteBlock", false);
+	SP(Engine::CObject) pWhiteBlock = Engine::CObject::Create(L"NormalBlock", L"WhiteBlock", false);
 	pWhiteBlock->AddComponent<Engine::CMeshC>();
 	pWhiteBlock->AddComponent<Engine::CTextureC>();
 	pWhiteBlock->AddComponent<Engine::CTransformC>();
 	pWhiteBlock->AddComponent<Engine::CGraphicsC>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pWhiteBlock);
 
-	SP(Engine::CGameObject) pRedBlock = Engine::CGameObject::Create(L"EventBlock", L"RedBlock", false);
+	SP(Engine::CObject) pRedBlock = Engine::CObject::Create(L"EventBlock", L"RedBlock", false);
 	pRedBlock->AddComponent<Engine::CMeshC>();
 	pRedBlock->AddComponent<Engine::CTextureC>();
 	pRedBlock->AddComponent<Engine::CTransformC>();
 	pRedBlock->AddComponent<Engine::CGraphicsC>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pRedBlock);
 
-	SP(Engine::CGameObject) pBlueBlock = Engine::CGameObject::Create(L"EventBlock", L"BlueBlock", false);
+	SP(Engine::CObject) pBlueBlock = Engine::CObject::Create(L"EventBlock", L"BlueBlock", false);
 	pBlueBlock->AddComponent<Engine::CMeshC>();
 	pBlueBlock->AddComponent<Engine::CTextureC>();
 	pBlueBlock->AddComponent<Engine::CTransformC>();
 	pBlueBlock->AddComponent<Engine::CGraphicsC>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pBlueBlock);
 
-	SP(Engine::CGameObject) pYellowBlock = Engine::CGameObject::Create(L"EventBlock", L"YellowBlock", false);
+	SP(Engine::CObject) pYellowBlock = Engine::CObject::Create(L"EventBlock", L"YellowBlock", false);
 	pYellowBlock->AddComponent<Engine::CMeshC>();
 	pYellowBlock->AddComponent<Engine::CTextureC>();
 	pYellowBlock->AddComponent<Engine::CTransformC>();
 	pYellowBlock->AddComponent<Engine::CGraphicsC>();
 	Engine::CObjectFactory::GetInstance()->AddPrototype(pYellowBlock);
 
-	SP(Engine::CGameObject) pGreenBlock = Engine::CGameObject::Create(L"EventBlock", L"GreenBlock", false);
+	SP(Engine::CObject) pGreenBlock = Engine::CObject::Create(L"EventBlock", L"GreenBlock", false);
 	pGreenBlock->AddComponent<Engine::CMeshC>();
 	pGreenBlock->AddComponent<Engine::CTextureC>();
 	pGreenBlock->AddComponent<Engine::CTransformC>();
@@ -235,7 +235,7 @@ void CEditorScene::CreateCubeWhenClicked()
 {
 	_float3 intersection = { 0.f, 0.f, 0.f };
 
-	Engine::CGameObject* target = Engine::CInputManager::GetInstance()->MousePicking(L"NormalBlock", intersection);
+	Engine::CObject* target = Engine::CInputManager::GetInstance()->MousePicking(L"NormalBlock", intersection);
 
 	if (!target)
 	{
@@ -306,7 +306,7 @@ void CEditorScene::CreateCubeWhenClicked()
 			++iter;
 	}
 
-	SP(Engine::CGameObject) pObj = Engine::ADD_CLONE(m_pListView->m_wsBlockType, m_pListView->m_wsBlockColor, false);
+	SP(Engine::CObject) pObj = Engine::ADD_CLONE(m_pListView->m_wsBlockType, m_pListView->m_wsBlockColor, false);
 	pObj->GetComponent<Engine::CTransformC>()->SetPosition(newPos);
 
 	m_pEditorView->Set_CubeData(pObj);
@@ -326,9 +326,9 @@ void CEditorScene::DeleteCubeWhenClicked()
 
 	// layerkey에 해당하는 가장 가까운 블럭을 변수에 넣음
 	// 광선에 걸리는 layerkey가 없다면 nullptr을 넣음
-	Engine::CGameObject* target = nullptr;
-	Engine::CGameObject* normalBlock = Engine::CInputManager::GetInstance()->MousePicking(L"NormalBlock", intersection);
-	Engine::CGameObject* eventBlock = Engine::CInputManager::GetInstance()->MousePicking(L"EventBlock", intersection);
+	Engine::CObject* target = nullptr;
+	Engine::CObject* normalBlock = Engine::CInputManager::GetInstance()->MousePicking(L"NormalBlock", intersection);
+	Engine::CObject* eventBlock = Engine::CInputManager::GetInstance()->MousePicking(L"EventBlock", intersection);
 
 	// 두 layerkey가 광선에 걸렸다면 교차점에서 더 가까운 블럭을 target에 넣음
 	if (normalBlock && eventBlock)
@@ -401,7 +401,7 @@ void CEditorScene::SelectBlock()
 
 	if (Engine::CInputManager::GetInstance()->KeyDown(MOUSE_LEFT))
 	{
-		Engine::CGameObject* target = Engine::CInputManager::GetInstance()->MousePicking(L"EventBlock", intersection);
+		Engine::CObject* target = Engine::CInputManager::GetInstance()->MousePicking(L"EventBlock", intersection);
 
 		if (!target)
 		{

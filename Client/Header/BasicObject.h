@@ -1,9 +1,9 @@
 #ifndef BASICOBJECT_H
 #define BASICOBJECT_H
 
-#include "GameObject.h"
+#include "Object.h"
 
-class CBasicObject final : public Engine::CGameObject
+class CBasicObject final : public Engine::CObject
 {
 	SMART_DELETER_REGISTER
 private:
@@ -13,7 +13,7 @@ private:
 public:
 	static		SP(CBasicObject)			Create			(_bool isStatic);
 
-				SP(Engine::CGameObject)		MakeClone		(void) override;
+				SP(Engine::CObject)		MakeClone		(void) override;
 		
 				void						Awake			(void) override;
 				void						Start			(void) override;
@@ -33,7 +33,7 @@ public:
 
 private:
 	static		_uint						m_s_uniqueID;
-				SP(Engine::CTransformC)		m_spTransform;
+	GETTOR		(SP(Engine::CTransformC),	m_spTransform,	nullptr,	Transform)
 };
 
 #endif

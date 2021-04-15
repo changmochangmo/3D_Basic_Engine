@@ -8,7 +8,7 @@
 #include "MainFrm.h"
 #include "EditorView.h"
 #include "ObjectListView.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "ObjectFactory.h"
 #include "SceneManager.h"
 #include "Layer.h"
@@ -101,7 +101,7 @@ void CShaderView::OnBnClickedButtonCoord()
 	m_coordZ.GetWindowTextW(str);
 	coord.z = (float)_wtof(str);
 
-	SP(Engine::CGameObject) target = pEditorView->m_curSelectedObject;
+	SP(Engine::CObject) target = pEditorView->m_curSelectedObject;
 	auto& pTargetTC = target->GetComponent<Engine::CTransformC>();
 
 	if (0.f != coord.x)
@@ -140,7 +140,7 @@ void CShaderView::OnBnClickedButtonRotation()
 	m_rotationZ.GetWindowTextW(str);
 	rotation.z = (float)_wtof(str);
 
-	SP(Engine::CGameObject) target = pEditorView->m_curSelectedObject;
+	SP(Engine::CObject) target = pEditorView->m_curSelectedObject;
 	auto& pTargetTC = target->GetComponent<Engine::CTransformC>();
 	
 	if (0.f != rotation.x)
@@ -192,7 +192,7 @@ void CShaderView::OnBnClickedButtonSize()
 		size.z = data;
 	}
 
-	SP(Engine::CGameObject) target = pEditorView->m_curSelectedObject;
+	SP(Engine::CObject) target = pEditorView->m_curSelectedObject;
 	target->GetComponent<Engine::CTransformC>()->SetSize(size);
 }
 
@@ -206,7 +206,7 @@ void CShaderView::OnBnClickedButtonFaceBegin()
 	//if (!pEditorView->m_curSelectedObject)
 	//	return;
 
-	//Engine::CGameObject* target = pEditorView->m_curSelectedObject;
+	//Engine::CObject* target = pEditorView->m_curSelectedObject;
 	//m_pBeginCubeForFace = target;
 	//_float3 coord = target->GetComponent<Engine::CTransformComponent>()->GetPosition();
 	//CString str;
@@ -258,7 +258,7 @@ void CShaderView::OnBnClickedButtonFaceEnd()
 	//			coord.z += 1.f;
 	//		}
 
-	//		SP(Engine::CGameObject) pObj = Engine::ADD_CLONE(blockType, blockColor, false);
+	//		SP(Engine::CObject) pObj = Engine::ADD_CLONE(blockType, blockColor, false);
 	//		pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(coord);
 
 	//		pEditorView->Set_CubeData(pObj); // 모든 큐브들이 저장되는 벡터에 추가
@@ -305,7 +305,7 @@ void CShaderView::OnBnClickedButtonToTheTop()
 	//			coord.z += 1.f;
 	//		}
 
-	//		SP(Engine::CGameObject) pObj = Engine::ADD_CLONE(blockType, blockColor, false);
+	//		SP(Engine::CObject) pObj = Engine::ADD_CLONE(blockType, blockColor, false);
 	//		pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(coord);
 
 	//		pEditorView->Set_CubeData(pObj); // 모든 큐브들이 저장되는 벡터에 추가

@@ -5,7 +5,7 @@
 #include "MeshStore.h"
 #include "TextureStore.h"
 #include "DataStore.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "WndApp.h"
 #include "FRC.h"
 

@@ -14,7 +14,7 @@
 //{
 //}
 //
-//SP(CComponent) CBitmapComponent::MakeClone(CGameObject * pObject)
+//SP(CComponent) CBitmapComponent::MakeClone(CObject * pObject)
 //{
 //	SP(CBitmapComponent) pClone(new CBitmapComponent);
 //	pClone->SetOwner(pObject);

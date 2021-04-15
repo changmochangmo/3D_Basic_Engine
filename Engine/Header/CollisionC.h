@@ -12,7 +12,7 @@ public:
 								   ~CCollisionC			(void);
 //Engine
 public:
-					SP(CComponent)	MakeClone			(CGameObject* pObject) override;
+					SP(CComponent)	MakeClone			(CObject* pObject) override;
 
 					void			Awake				(void);
 					void			Start				(SP(CComponent) spThis) override;

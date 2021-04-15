@@ -3,7 +3,7 @@
 #include "InputManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
-#include "GameObject.h"
+#include "Object.h"
 
 USING(Engine)
 CRayCollider::CRayCollider()

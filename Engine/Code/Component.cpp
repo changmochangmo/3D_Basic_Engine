@@ -1,6 +1,6 @@
 #include "EngineStdafx.h"
 #include "Component.h"
-#include "GameObject.h"
+#include "Object.h"
 
 USING(Engine)
 CComponent::CComponent(void)
@@ -10,7 +10,7 @@ CComponent::~CComponent(void)
 {
 }
 
-void CComponent::InitClone(SP(CComponent) spClone, CGameObject * pOwner)
+void CComponent::InitClone(SP(CComponent) spClone, CObject * pOwner)
 {
 	spClone->SetOwner(pOwner);
 	spClone->SetName(m_name);

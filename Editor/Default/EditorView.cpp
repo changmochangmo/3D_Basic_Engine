@@ -23,7 +23,7 @@
 #include "MainFrm.h"
 #include "MainEditor.h"
 #include "ObjectFactory.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "Layer.h"
 #include "SceneManager.h"
 #include "Scene.h"
@@ -218,7 +218,7 @@ void CEditorView::ForwardSpawnObject()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
-	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
 	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
@@ -237,7 +237,7 @@ void CEditorView::LeftSpawnObject()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
-	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
 	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
@@ -256,7 +256,7 @@ void CEditorView::TopSpawnObject()
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
 
-	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
 	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
@@ -275,7 +275,7 @@ void CEditorView::RightSpawnObject()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
-	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
 	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
@@ -295,7 +295,7 @@ void CEditorView::BottomSpawnObject()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
-	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
 	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
@@ -311,7 +311,7 @@ void CEditorView::BackSpawnObject()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
 
-	SP(Engine::CGameObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
+	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
 	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
 		m_vCurCubePos.y,
 		m_vCurCubePos.z));
@@ -332,7 +332,7 @@ void CEditorView::Release_CubeData()
 	m_vGameObjects.clear();
 }
 
-void CEditorView::Delete_Block(Engine::CGameObject & pObj)
+void CEditorView::Delete_Block(Engine::CObject & pObj)
 {
 }
 
