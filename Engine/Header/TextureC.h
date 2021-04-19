@@ -24,14 +24,14 @@ public:
 				void			OnDisable			(void) override;
 
 public:
-				void			InitTextureBuffer	(const int numOfTex);
-				void			ChangeTexture		(const int index, std::wstring const& textureKey);
+				void			AddTexture			(std::wstring const& textureKey);
+				void			ChangeTexture		(const _size index, std::wstring const& textureKey);
 
 public:
 	static const	EComponentID	m_s_componentID = EComponentID::Texture;
 private:
-	//GETTOR_SETTOR	(std::wstring,	m_textureKey,	L"",					TextureKey)
-	GETTOR_SETTOR	(_TexData**,	m_ppTexData,	nullptr,				TexData)
+	typedef std::vector<_TexData*> _TEXDATAS;
+	GETTOR_SETTOR	(_TEXDATAS,		m_vTexData,		{},						TexData)
 	GETTOR_SETTOR	(_float4,		m_color,		_float4(1, 1, 1, 1),	Color)
 	GETTOR_SETTOR	(_int,			m_numOfTex,		UNDEFINED,				NumOfTex)	
 	

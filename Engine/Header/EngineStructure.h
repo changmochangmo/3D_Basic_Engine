@@ -35,23 +35,6 @@ namespace Engine
 	}CUSTOM_VERTEX2D;
 	const _uint customFVF2D = (D3DFVF_XYZ | D3DFVF_TEX1);
 
-	typedef struct _MeshData
-	{
-		LPDIRECT3DVERTEXBUFFER9 vertexBuffer = nullptr;
-		_uint vertexCount;
-		_uint vertexSize;
-		_uint faceCount; //== PolygonCount == triangleCount
-		DWORD FVF;
-		_uint vertexNumInFace;
-
-		_float3 minVertex;
-		_float3 maxVertex;
-
-		LPDIRECT3DINDEXBUFFER9 indexBuffer;
-		D3DFORMAT indexFormat;
-		_uint indexSize;
-	}MESH_DATA;
-
 	typedef struct _TexData
 	{
 		LPDIRECT3DTEXTURE9 pTexture;
@@ -65,10 +48,25 @@ namespace Engine
 		_uint normIndex[3];
 	}FACE;
 
-	typedef struct _FRUSTUM
+	typedef struct _DerivedD3DXFRAME : public D3DXFRAME
 	{
-		D3DXPLANE plane[6];
-	}FRUSTUM;
+		_mat		CombinedTransformMatrix;
+	}D3DXFRAME_DERIVED;
+
+	typedef struct _DerivedD3DXMESHCONTAINER : public D3DXMESHCONTAINER
+	{
+		LPD3DXMESH				pOriMesh;
+
+		_ulong					numBones;
+
+		_mat*					pFrameOffsetMatrix;
+		_mat**					ppCombinedTransformMatrix;
+
+		_mat*					pRenderingMatrix;	// 최종적으로 변환이 끝나서 그리기를 수행하기 위한 행렬 정보
+													// pFrameOffsetMatrix * (*ppCombinedTransformMatrix)
+
+		_int					texIndexStart;
+	}D3DXMESHCONTAINER_DERIVED;
 #pragma endregion
 
 	class CCollider;

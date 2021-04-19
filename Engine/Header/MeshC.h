@@ -30,7 +30,7 @@ public:
 	static const	EComponentID	m_s_componentID = EComponentID::Mesh;
 
 protected:
-	GETTOR_SETTOR	(const CMesh*,	m_pMeshData,	nullptr,	MeshData)
+	GETTOR_SETTOR	(CMesh*,		m_pMeshData,	nullptr,	MeshData)
 
 	
 };

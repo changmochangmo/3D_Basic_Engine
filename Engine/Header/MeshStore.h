@@ -15,7 +15,7 @@ public:
 
 			void				ClearCurResource	(void) override;
 
-	const	CMesh*				GetMeshData			(std::wstring meshKey);
+			CMesh*				GetMeshData			(std::wstring meshKey);
 			void				InitMeshForScene	(std::wstring curScene);
 private:
 			void				InitResource		(std::wstring sourcePath) override;

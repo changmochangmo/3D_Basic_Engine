@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AabbCollider.h" />
+    <ClInclude Include="..\Header\AniCtrl.h" />
     <ClInclude Include="..\Header\BitmapC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -33,11 +34,13 @@
     <ClInclude Include="..\Header\Component.h" />
     <ClInclude Include="..\Header\DataStore.h" />
     <ClInclude Include="..\Header\DeviceManager.h" />
+    <ClInclude Include="..\Header\DynamicMesh.h" />
     <ClInclude Include="..\Header\Engine.h" />
     <ClInclude Include="..\Header\EngineComponents.h" />
     <ClInclude Include="..\Header\EngineExtern.h" />
     <ClInclude Include="..\Header\EngineTypedef.h" />
     <ClInclude Include="..\Header\Frustum.h" />
+    <ClInclude Include="..\Header\HierarchyLoader.h" />
     <ClInclude Include="..\Header\MathHelper.h" />
     <ClInclude Include="..\Header\Mesh.h" />
     <ClInclude Include="..\Header\StaticMesh.h" />
@@ -78,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\AabbCollider.cpp" />
+    <ClCompile Include="..\code\AniCtrl.cpp" />
     <ClCompile Include="..\Code\BitmapC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -91,8 +95,10 @@
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\DataStore.cpp" />
     <ClCompile Include="..\Code\DeviceManager.cpp" />
+    <ClCompile Include="..\Code\DynamicMesh.cpp" />
     <ClCompile Include="..\Code\Engine.cpp" />
     <ClCompile Include="..\Code\Frustum.cpp" />
+    <ClCompile Include="..\Code\HierarchyLoader.cpp" />
     <ClCompile Include="..\Code\MathHelper.cpp" />
     <ClCompile Include="..\Code\Mesh.cpp" />
     <ClCompile Include="..\Code\StaticMesh.cpp" />

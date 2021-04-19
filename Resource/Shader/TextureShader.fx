@@ -42,9 +42,7 @@ PS_INPUT vs_main(VS_INPUT input)
 float4 ps_main(PS_INPUT input) : COLOR0
 {
 	float4 baseColor = tex2D(BaseMap, input.texcoord);
-	float4 c = saturate(baseColor + Diffuse);
-	c.a = 0.5;
-	return c;
+	return saturate(baseColor + Diffuse);
 }
 
 technique Default_Technique

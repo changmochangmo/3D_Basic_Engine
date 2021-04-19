@@ -49,8 +49,8 @@ void CChangmoScene::Start(void)
 
 	SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"BasicObject", true);
 	spBasicClone->AddComponent<Engine::CMeshC>()->ChangeMesh(L"Cube");
-	spBasicClone->AddComponent<Engine::CTextureC>()->ChangeTexture(0, L"None");
-	spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::Base);
+	spBasicClone->AddComponent<Engine::CTextureC>()->ChangeTexture(0, L"BlueBlock");
+	spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
 	spBasicClone->GetComponent<Engine::CTransformC>()->AddPositionX(3);
 	spBasicClone->AddComponent<Engine::CCollisionC>()->
 		AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1)));

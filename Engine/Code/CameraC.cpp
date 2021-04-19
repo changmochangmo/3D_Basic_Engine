@@ -41,7 +41,7 @@ void CCameraC::Start(SP(CComponent) spThis)
 {
 	__super::Start(spThis);
 	m_spTransform = m_pOwner->GetComponent<CTransformC>();
-	m_spTransform->SetPosition(_float3(0, 0, -3));
+
 }
 
 void CCameraC::FixedUpdate(SP(CComponent) spThis)
@@ -129,17 +129,17 @@ void CCameraC::Translation(void)
 	if (m_moveable)
 	{
 		if (IMKEY_PRESS(KEY_D))
-			m_spTransform->MoveRight(3 * GET_DT);
+			m_spTransform->MoveRight(30 * GET_DT);
 		if (IMKEY_PRESS(KEY_A))
-			m_spTransform->MoveLeft(3 * GET_DT);
+			m_spTransform->MoveLeft(30 * GET_DT);
 		if (IMKEY_PRESS(KEY_W))
-			m_spTransform->MoveForward(3 * GET_DT);
+			m_spTransform->MoveForward(30 * GET_DT);
 		if (IMKEY_PRESS(KEY_S))
-			m_spTransform->MoveBackward(3 * GET_DT);
+			m_spTransform->MoveBackward(30 * GET_DT);
 		if (IMKEY_PRESS(KEY_SPACE))
-			m_spTransform->MoveUp(3 * GET_DT);
+			m_spTransform->MoveUp(30 * GET_DT);
 		if (IMKEY_PRESS(KEY_CONTROL))
-			m_spTransform->MoveDown(3 * GET_DT);
+			m_spTransform->MoveDown(30 * GET_DT);
 	}
 }
 

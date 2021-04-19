@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "InputManager.h"
 #include "FRC.h"
-
+#include "DynamicMesh.h"
 
 _uint CPlayer::m_s_uniqueID = 0;
 
@@ -67,6 +67,7 @@ void CPlayer::Update(void)
 	if (Engine::IMKEY_PRESS(KEY_RIGHT))
 	{
 		m_spTransform->MoveRight(3 * GET_DT);
+		
 	}
 	if (Engine::IMKEY_PRESS(KEY_LEFT))
 	{
@@ -79,6 +80,33 @@ void CPlayer::Update(void)
 	if (Engine::IMKEY_PRESS(KEY_DOWN))
 	{
 		m_spTransform->MoveBackward(3 * GET_DT);
+	}
+
+	if (Engine::IMKEY_PRESS(KEY_1))
+	{
+		dynamic_cast<Engine::CDynamicMesh*>(m_spMesh->GetMeshData())->PlayAnimation();
+	}
+	if (Engine::IMKEY_DOWN(KEY_2))
+	{
+		static int i = 0;
+		dynamic_cast<Engine::CDynamicMesh*>(m_spMesh->GetMeshData())->ChangeAniSet(i++);
+	}
+
+	if (Engine::IMKEY_PRESS(KEY_4))
+	{
+		Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(m_spMesh->GetMeshData());
+
+		pDM->PlayAnimation();
+
+		if (pDM->IsAnimationEnd())
+		{
+			pDM->ChangeAniSet(pDM->GetAniCtrl()->GetCurIndex() + 1);
+		}
+	}
+	if (Engine::IMKEY_DOWN(KEY_F2))
+	{
+		Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(m_spMesh->GetMeshData());
+		pDM->ChangeAniSet("Stand_Idle");
 	}
 }
 

@@ -8,6 +8,8 @@ namespace Engine
 	typedef char			_byte;
 	typedef unsigned char	_ubyte;
 
+	typedef wchar_t			_tchar;
+
 	typedef int				_int;
 	typedef unsigned int	_uint;
 
@@ -17,6 +19,7 @@ namespace Engine
 	typedef size_t			_size;
 
 	typedef float			_float;
+	typedef double			_double;
 
 	typedef D3DXVECTOR2		_float2;
 	typedef D3DXVECTOR3		_float3;

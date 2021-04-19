@@ -2,6 +2,8 @@
 #include "MeshStore.h"
 #include "DeviceManager.h"
 #include "StaticMesh.h"
+#include "DynamicMesh.h"
+
 
 #include <fstream>
 #include <algorithm>
@@ -25,30 +27,30 @@ void CMeshStore::Start(void)
 void CMeshStore::OnDestroy(void)
 {
 	for (auto& mesh : m_mStaticMeshData)
-		delete mesh.second;
+		mesh.second->Free();
 	m_mStaticMeshData.clear();
 
 	for (auto& mesh : m_mCurSceneMeshData)
-		delete mesh.second;
+		mesh.second->Free();
 	m_mCurSceneMeshData.clear();
 }
 
 void CMeshStore::ClearCurResource(void)
 {
 	for (auto& mesh : m_mCurSceneMeshData)
-		delete mesh.second;
+		mesh.second->Free();
 	m_mCurSceneMeshData.clear();
 }
 
-const CMesh* CMeshStore::GetMeshData(std::wstring meshKey)
+CMesh* CMeshStore::GetMeshData(std::wstring meshKey)
 {
 	auto iter_find_static = m_mStaticMeshData.find(meshKey);
 	if (iter_find_static != m_mStaticMeshData.end())
-		return iter_find_static->second;
+		return iter_find_static->second->MakeClone();
 
 	auto iter_find_cur = m_mCurSceneMeshData.find(meshKey);
 	if (iter_find_cur != m_mCurSceneMeshData.end())
-		return iter_find_cur->second;
+		return iter_find_cur->second->MakeClone();
 
 	return nullptr;
 }
@@ -68,34 +70,19 @@ void CMeshStore::ParsingMesh(std::wstring filePath, std::wstring fileName)
 	std::wstring fullFilePath = filePath + L"\\" + fileName;
 	
 	if (GetLastDirName(fullFilePath) == L"Static")
-	{
-		CStaticMesh* pStaticMesh = new CStaticMesh;
-		pStaticMesh->Awake();
-
-		if (FAILED(D3DXLoadMeshFromX(fullFilePath.c_str(),
-									 D3DXMESH_MANAGED,
-									 GET_DEVICE,
-									 &pStaticMesh->m_pAdjacency,
-									 &pStaticMesh->m_pSubset,
-									 NULL,
-									 &pStaticMesh->m_subsetCount,
-									 &pStaticMesh->m_pMesh)))
-		{
-			MSG_BOX(__FILE__, L"Load X-Mesh Failed Parsing Mesh");
-			ABORT;
-		}
-
-		pStaticMesh->m_pMtrl = (D3DXMATERIAL*)pStaticMesh->m_pSubset->GetBufferPointer();
-
+	{	
 		if (m_isStatic)
-			m_mStaticMeshData[RemoveExtension(fileName)] = pStaticMesh;
+			m_mStaticMeshData[RemoveExtension(fileName)] = CStaticMesh::Create(filePath, fileName);
 		else
-			m_mCurSceneMeshData[RemoveExtension(fileName)] = pStaticMesh;
+			m_mCurSceneMeshData[RemoveExtension(fileName)] = CStaticMesh::Create(filePath, fileName);
 	}
-	else //Dynamic Mesh
+	else if (GetLastDirName(fullFilePath) == L"Dynamic")//Dynamic Mesh
 	{
-
+		if (m_isStatic)
+			m_mStaticMeshData[RemoveExtension(fileName)] = CDynamicMesh::Create(filePath, fileName);
+		else
+			m_mCurSceneMeshData[RemoveExtension(fileName)] = CDynamicMesh::Create(filePath, fileName);
 	}
 
-	int a = 5;
 }
+

@@ -28,6 +28,15 @@ public:
 			void					AddToRenderList		(_int renderID, 
 														 SP(CGraphicsC) pGC);
 
+			void					ClearRenderList		(void);
+
+private:	
+			void					RenderBase			(void);
+			void					RenderNonAlpha		(void);
+			void					RenderWire			(void);
+			void					RenderAlpha			(void);
+			void					RenderUI			(void);
+			
 
 private:
 	typedef std::vector<SP(CGraphicsC)> _GRAPHICSCOMPONENTS;

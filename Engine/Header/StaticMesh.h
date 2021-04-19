@@ -8,17 +8,25 @@ class ENGINE_DLL CStaticMesh final : public CMesh
 {
 	friend class CMeshStore;
 private:
-	explicit				CStaticMesh		(void);
-	virtual				   ~CStaticMesh		(void);
+	explicit						CStaticMesh		(void);
+	virtual						   ~CStaticMesh		(void);
 
 public:
-				void		Awake			(void) override;
-				void		Start			(void) override;
-				void		OnDestory		(void) override;
+				CMesh*				MakeClone		(void) override;
+				void				FreeClone		(void) override;
+
+				void				Awake			(std::wstring const& filePath, 
+													 std::wstring const& fileName) override;
+				void				Start			(void) override;
+				void				Update			(void) override;
+
+				void				OnDestory		(void) override;
 
 private:
+	static		CStaticMesh*		Create			(std::wstring const& filePath, 
+													 std::wstring const& fileName);
+				void				Free			(void) override;
 
-public:
 private:
 	GETTOR		(LPD3DXMESH,		m_pMesh,		nullptr,	Mesh)
 	GETTOR		(LPD3DXBUFFER,		m_pAdjacency,	nullptr,	Adjacency)

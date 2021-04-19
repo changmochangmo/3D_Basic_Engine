@@ -25,8 +25,6 @@ private:
 
 				_int					GetIndex			(std::wstring sectionKey);
 
-				//std::wstring			GetLayerKey			(const std::wstring& fullPath);
-				//std::wstring			GetObjectKey		(const std::wstring& fullPath);
 				std::wstring			GetVariableKey		(const std::wstring& lineFromFile, _size symbolPos);
 				std::wstring			GetKeyValue			(const std::wstring& lineFromFile, _size symbolPos);
 

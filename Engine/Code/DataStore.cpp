@@ -26,7 +26,8 @@ void CDataStore::OnDestroy(void)
 
 void CDataStore::ClearCurResource(void)
 {
-	//m_mpCurDataMap.clear();
+	for (_uint i = 0; i < m_numOfSection; ++i)
+		m_mpCurDataMap[i].clear();
 }
 
 void CDataStore::InitDataForScene(std::wstring curScene)
@@ -36,18 +37,17 @@ void CDataStore::InitDataForScene(std::wstring curScene)
 
 void CDataStore::InitDataMap(_uint numOfDataID)
 {
-	m_numOfSection = numOfDataID;
+	m_numOfSection		= numOfDataID;
 
-	m_mpCurDataMap = new _FileKeyMap[numOfDataID];
-	m_mpStaticDataMap = new _FileKeyMap[numOfDataID];
+	m_mpCurDataMap		= new _FileKeyMap[numOfDataID];
+	m_mpStaticDataMap	= new _FileKeyMap[numOfDataID];
 
 	m_vHashKey.resize(numOfDataID);
 
+
+	//엔진 쪽의 데이터 섹션
 	AddDataSection(L"Engine", (_uint)EDataID::Engine);
 	AddDataSection(L"Component", (_uint)EDataID::Component);
-	
-
-	
 }
 
 void CDataStore::AddDataSection(std::wstring sectionKey, _uint ID)
@@ -103,28 +103,6 @@ _int CDataStore::GetIndex(std::wstring sectionKey)
 
 	return -1;
 }
-
-//std::wstring CDataStore::GetLayerKey(const std::wstring & fullPath)
-//{
-//	_size startPoint, endPoint;
-//	startPoint = fullPath.find_first_of(L"\\");
-//	startPoint = fullPath.find(L"\\", ++startPoint);
-//	startPoint = fullPath.find(L"\\", ++startPoint);
-//	startPoint = fullPath.find(L"\\", ++startPoint);
-//	startPoint = fullPath.find(L"\\", ++startPoint);
-//	endPoint = fullPath.find(L"\\", ++startPoint);
-//
-//	return fullPath.substr(startPoint, endPoint - startPoint);
-//}
-//
-//std::wstring CDataStore::GetObjectKey(const std::wstring & fullPath)
-//{
-//	_size startPoint, endPoint;
-//	startPoint = fullPath.find_last_of('\\') + 1;
-//	endPoint = fullPath.find_last_of('.');
-//
-//	return fullPath.substr(startPoint, endPoint - startPoint);
-//}
 
 std::wstring CDataStore::GetVariableKey(const std::wstring & lineFromFile, _size symbolPos)
 {

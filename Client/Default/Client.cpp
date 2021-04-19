@@ -43,8 +43,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Engine::CFRC::GetInstance()->Awake();
 	Engine::CWndApp::GetInstance()->Awake();
 	Engine::CDeviceManager::GetInstance()->Awake();
-	Engine::CMeshStore::GetInstance()->Awake();
 	Engine::CTextureStore::GetInstance()->Awake();
+	Engine::CMeshStore::GetInstance()->Awake();
 #pragma endregion
 
 #pragma region SubEnginesStart
@@ -52,8 +52,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Engine::CWndApp::GetInstance()->Start(hInstance, nCmdShow);
 	Engine::CDeviceManager::GetInstance()->Start();
 	Engine::CFRC::GetInstance()->Start();
-	Engine::CMeshStore::GetInstance()->Start();
 	Engine::CTextureStore::GetInstance()->Start();
+	Engine::CMeshStore::GetInstance()->Start();
 #pragma endregion
 
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));

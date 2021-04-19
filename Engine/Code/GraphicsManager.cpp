@@ -49,7 +49,7 @@ void CGraphicsManager::PreRender(void)
 {
 	GET_DEVICE->Clear(0, nullptr,
 					  D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-					  D3DCOLOR_ARGB(255, 0, 0, 0),
+					  D3DCOLOR_ARGB(255, 125, 125, 125),
 					  1.f, 0);
 
 	GET_DEVICE->BeginScene();
@@ -57,47 +57,13 @@ void CGraphicsManager::PreRender(void)
 
 void CGraphicsManager::Render(void)
 {
-	for (_uint i = 0; i < (_uint)ERenderID::NumOfRenderID; ++i)
-	{
-		if ((_uint)ERenderID::WireFrame == i)
-		{
-			GET_DEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		}
-		else
-		{
-			GET_DEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		}
-
-		if ((_uint)ERenderID::UI == i)
-		{
-			GET_DEVICE->SetRenderState(D3DRS_ZENABLE, FALSE);
-			GET_DEVICE->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-		}
-
-		for (auto& pGC : m_vRenderList[i])
-		{
-			if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
-			{
-				if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(), 
-														  pGC->GetTransform()->GetSize() / 2.f))
-				{
-					pGC->PreRender();
-					pGC->Render();
-					pGC->PostRender();
-				}
-			}
-
-			pGC.reset();		
-		}
-
-		if ((_uint)ERenderID::UI == i)
-		{
-			GET_DEVICE->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GET_DEVICE->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		}
-
-		m_vRenderList[i].clear();
-	}
+	RenderBase();
+	RenderNonAlpha();
+	RenderWire();
+	RenderAlpha();
+	RenderUI();
+	
+	ClearRenderList();
 }
 
 void CGraphicsManager::PostRender(void)
@@ -140,4 +106,121 @@ void CGraphicsManager::AddToRenderList(_int renderID, SP(CGraphicsC) pGC)
 	}
 
 	m_vRenderList[(_uint)renderID].push_back(pGC);
+}
+
+void CGraphicsManager::ClearRenderList(void)
+{
+	for (_int i = 0; i < (_int)ERenderID::NumOfRenderID; ++i)
+		m_vRenderList[i].clear();
+}
+
+void CGraphicsManager::RenderBase(void)
+{
+	LPDIRECT3DDEVICE9 pDevice = GET_DEVICE;
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+	for (auto& pGC : m_vRenderList[(_int)ERenderID::Base])
+	{
+		if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
+		{
+			if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(),
+													  pGC->GetTransform()->GetSize() / 2.f))
+			{
+				pGC->PreRender();
+				pGC->Render();
+				pGC->PostRender();
+			}
+		}
+
+		pGC.reset();
+	}
+
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+}
+
+void CGraphicsManager::RenderNonAlpha(void)
+{
+	for (auto& pGC : m_vRenderList[(_int)ERenderID::NonAlpha])
+	{
+		if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
+		{
+			//if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(),
+			//										  pGC->GetTransform()->GetSize() / 2.f))
+			{
+				pGC->PreRender();
+				pGC->Render();
+				pGC->PostRender();
+			}
+		}
+
+		pGC.reset();
+	}
+}
+
+void CGraphicsManager::RenderWire(void)
+{
+	LPDIRECT3DDEVICE9 pDevice = GET_DEVICE;
+	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	for (auto& pGC : m_vRenderList[(_int)ERenderID::WireFrame])
+	{
+		if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
+		{
+			if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(),
+				pGC->GetTransform()->GetSize() / 2.f))
+			{
+				pGC->PreRender();
+				pGC->Render();
+				pGC->PostRender();
+			}
+		}
+
+		pGC.reset();
+	}
+	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+}
+
+void CGraphicsManager::RenderAlpha(void)
+{
+	LPDIRECT3DDEVICE9 pDevice = GET_DEVICE;
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	for (auto& pGC : m_vRenderList[(_int)ERenderID::Alpha])
+	{
+		if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
+		{
+			if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(),
+													  pGC->GetTransform()->GetSize() / 2.f))
+			{
+				pGC->PreRender();
+				pGC->Render();
+				pGC->PostRender();
+			}
+		}
+
+		pGC.reset();
+	}
+}
+
+void CGraphicsManager::RenderUI(void)
+{
+	for (auto& pGC : m_vRenderList[(_int)ERenderID::UI])
+	{
+		if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
+		{
+			if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(),
+													  pGC->GetTransform()->GetSize() / 2.f))
+			{
+				pGC->PreRender();
+				pGC->Render();
+				pGC->PostRender();
+			}
+		}
+
+		pGC.reset();
+	}
 }

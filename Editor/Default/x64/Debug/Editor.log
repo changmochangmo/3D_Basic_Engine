@@ -1,0 +1,2 @@
+﻿  stdafx.cpp
+c:\users\yjcm1\desktop\3d_basic_engine\editor\default\stdafx.h(37): fatal error C1083: 포함 파일을 열 수 없습니다. 'EngineStdafx.h': No such file or directory

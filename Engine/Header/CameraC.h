@@ -56,7 +56,7 @@ private:
 	GETTOR_SETTOR	(_mat,				m_viewMat,		{},						ViewMatrix)
 	GETTOR_SETTOR	(_mat,				m_projMat,		{},						ProjMatrix)
 
-	GETTOR			(_float,			m_near,			0.f,					Near)
+	GETTOR			(_float,			m_near,			0.1f,					Near)
 	GETTOR			(_float,			m_far,			1000.f,					Far)
 	GETTOR			(_float,			m_FOV,			45.f,					FOV)
 

@@ -6,7 +6,7 @@
 #include "CameraManager.h"
 #include "CameraC.h"
 #include "Mesh.h"
-#include "StaticMesh.h"
+
 
 USING(Engine)
 CTextureShader::CTextureShader()
@@ -59,27 +59,23 @@ void CTextureShader::Render(CGraphicsC* pGC)
 				MSG_BOX(__FILE__, L"Shader BeginPass Failed");
 				ABORT;
 			}
+			_int meshType = pGC->GetMesh()->GetMeshData()->GetMeshType();
 
-			if (pGC->GetMesh()->GetMeshData()->GetMeshType() == (_int)EMeshType::Static)
+			switch (meshType)
 			{
-				const CStaticMesh* pSM = dynamic_cast<const CStaticMesh*>(pGC->GetMesh()->GetMeshData());
-				
-				for (_ulong j = 0; j < pSM->GetSubsetCount(); ++j)
-				{
-					if (FAILED(GET_DEVICE->SetTexture(0, pGC->GetTexture()->GetTexData()[j]->pTexture)))
-					{
-						int a = 5;
-						int b = a;
-					}
-					pSM->GetMesh()->DrawSubset(j);
-				}
-			}
-			else if (pGC->GetMesh()->GetMeshData()->GetMeshType() == (_int)EMeshType::Dynamic)
-			{
+			case (_int)EMeshType::Static:
+				__super::RenderStaticMesh(pGC);
+				break;
 
+			case (_int)EMeshType::Dynamic:
+				__super::RenderDynamicMesh(pGC);
+				break;
+
+			default:
+				break;
 			}
+
 			m_pShader->EndPass();
-
 		}
 
 		m_pShader->End();

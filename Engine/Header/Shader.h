@@ -7,25 +7,27 @@ BEGIN(Engine)
 class ENGINE_DLL CShader abstract : public CEngine
 {
 public:	
-	explicit			CShader(void);
-	virtual			   ~CShader(void);
+	explicit			CShader				(void);
+	virtual			   ~CShader				(void);
 
 public:
-	virtual		void	Awake		(void) PURE;
-	virtual		void	Start		(void) PURE;
+	virtual		void	Awake				(void) PURE;
+	virtual		void	Start				(void) PURE;
 
-	virtual		void	PreRender	(CGraphicsC* pGraphics) PURE;
-	virtual		void	Render		(CGraphicsC* pGraphics) PURE;
-	virtual		void	PostRender	(CGraphicsC* pGraphics) PURE;
+	virtual		void	PreRender			(CGraphicsC* pGraphics) PURE;
+	virtual		void	Render				(CGraphicsC* pGraphics) PURE;
+	virtual		void	PostRender			(CGraphicsC* pGraphics) PURE;
 
-	virtual		void	OnDestroy	(void) PURE;
+	virtual		void	OnDestroy			(void) PURE;
 
-	virtual		void	OnEnable	(void) PURE;
-	virtual		void	OnDisable	(void) PURE;
+	virtual		void	OnEnable			(void) PURE;
+	virtual		void	OnDisable			(void) PURE;
 
 	
 protected:
-	virtual		void	LoadShader	(void) PURE;
+	virtual		void	LoadShader			(void) PURE;
+				void	RenderStaticMesh	(CGraphicsC* pGC);
+				void	RenderDynamicMesh	(CGraphicsC* pGC);
 
 protected:
 	GETTOR				(std::wstring,		m_filePath,		L"",			FilePath)

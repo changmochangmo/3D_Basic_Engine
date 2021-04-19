@@ -3,6 +3,7 @@
 #include "MeshStore.h"
 #include "DataStore.h"
 #include "Object.h"
+#include "Mesh.h"
 
 USING(Engine)
 CMeshC::CMeshC(void)  
@@ -20,7 +21,7 @@ SP(CComponent) CMeshC::MakeClone(CObject* pObject)
 	SP(CMeshC) spClone(new CMeshC);
 	__super::InitClone(spClone, pObject);
 
-	spClone->SetMeshData(m_pMeshData);
+	spClone->SetMeshData(m_pMeshData->MakeClone());
 
 	return spClone;
 }
@@ -45,6 +46,7 @@ void CMeshC::Awake(void)
 void CMeshC::Start(SP(CComponent) spThis)
 {
 	__super::Start(spThis);
+	m_pMeshData->Start();
 }
 
 void CMeshC::FixedUpdate(SP(CComponent) spThis)
@@ -53,6 +55,7 @@ void CMeshC::FixedUpdate(SP(CComponent) spThis)
 
 void CMeshC::Update(SP(CComponent) spThis)
 {
+	m_pMeshData->Update();
 }
 
 void CMeshC::LateUpdate(SP(CComponent) spThis)
@@ -61,6 +64,7 @@ void CMeshC::LateUpdate(SP(CComponent) spThis)
 
 void CMeshC::OnDestroy(void)
 {
+	m_pMeshData->FreeClone();
 }
 
 void CMeshC::OnEnable(void)
