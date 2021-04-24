@@ -27,7 +27,7 @@ public:
 	virtual		void			OnDisable	(void) PURE;
 
 protected:
-	GETTOR_SETTOR	(CObject*,	m_pOwner,		nullptr,					Owner)
+	GETTOR_SETTOR	(CObject*,		m_pOwner,		nullptr,					Owner)
 	
 	
 	GETTOR_SETTOR	(_bool,			m_isAwaked,		false,						IsAwaked)

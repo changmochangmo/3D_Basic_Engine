@@ -29,10 +29,11 @@ public:
 public:
 	static const	EComponentID	m_s_componentID = EComponentID::Mesh;
 
-protected:
-	GETTOR_SETTOR	(CMesh*,		m_pMeshData,	nullptr,	MeshData)
-
-	
+private:
+	GETTOR_SETTOR	(CMesh*,		m_pMeshData,		nullptr,		MeshData)
+	GETTOR			(_float3,		m_minVertex,		MAX_VECTOR,		MinVertex)
+	GETTOR			(_float3,		m_maxVertex,		-MAX_VECTOR,	MaxVertex)
+	GETTOR			(_int,			m_renderID,			UNDEFINED,		RenderID)
 };
 END
 #endif // !MESH_H

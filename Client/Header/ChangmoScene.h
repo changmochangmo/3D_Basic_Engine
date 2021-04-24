@@ -3,7 +3,6 @@
 #include "Scene.h"
 class CChangmoScene final : public Engine::CScene
 {
-	SMART_DELETER_REGISTER;
 private:
 	explicit							CChangmoScene		(void);
 									   ~CChangmoScene		(void);

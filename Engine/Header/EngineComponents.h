@@ -8,6 +8,7 @@
 // Graphics-----------------------------------------
 #include "TextureC.h"
 #include "MeshC.h"
+#include "DebugC.h"
 #include "GraphicsC.h"
 
 // Camera-------------------------------------------

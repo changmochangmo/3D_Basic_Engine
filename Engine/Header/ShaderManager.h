@@ -15,13 +15,13 @@ public:
 			void		OnEnable	(void);
 			void		OnDisable	(void);
 
-			CShader*	GetShader	(std::wstring shaderKey);
+			CShader*	GetShader	(_int shaderKey);
 
 private:
 			HRESULT		AddShader	(CShader* pShader);
 
 private:
-	std::unordered_map<std::wstring, CShader*> m_mShaders;
+	std::unordered_map<_int, CShader*> m_mShaders;
 };
 END
 

@@ -16,10 +16,6 @@ public:
 					void				FixedUpdate		(SP(CComponent) spThis) override;
 					void				Update			(SP(CComponent) spThis) override;
 					void				LateUpdate		(SP(CComponent) spThis) override;
-					
-					void				PreRender		(void);
-					void				Render			(void);
-					void				PostRender		(void);	
 
 					void				OnDestroy		(void) override;
 
@@ -30,12 +26,10 @@ public:
 	static const	EComponentID	m_s_componentID = EComponentID::Graphics;
 
 protected:
-
-	GETTOR			(SP(CMeshC),		m_pMesh,		nullptr,			Mesh)
-	GETTOR			(SP(CTextureC),		m_pTexture,		nullptr,			Texture)
-	GETTOR			(SP(CTransformC),	m_pTransform,	nullptr,			Transform)
-	//GETTOR			(SP(CBitmapComponent),		m_pBitmap,		nullptr,			Bitmap)
-	GETTOR_SETTOR	(_int,				m_renderID,		UNDEFINED,			RenderID)
+	GETTOR			(SP(CMeshC),		m_spMesh,		nullptr,			Mesh)
+	GETTOR			(SP(CTextureC),		m_spTexture,	nullptr,			Texture)
+	GETTOR			(SP(CTransformC),	m_spTransform,	nullptr,			Transform)
+	GETTOR			(SP(CDebugC),		m_spDebug,		nullptr,			Debug)		
 };
 END
 #endif // !GRAPHICSCOMPONENT_H

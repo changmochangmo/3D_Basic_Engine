@@ -16,7 +16,7 @@ CFrustum * CFrustum::Create(CCameraC* pOwner)
 {
 	CFrustum* pFrustum = new CFrustum;
 	pFrustum->SetOwner(pOwner);
-	
+
 	return pFrustum;
 }
 
@@ -101,27 +101,28 @@ _bool CFrustum::CheckPoint(_float3 position)
 
 _bool CFrustum::CheckAabb(_float3 position, _float3 halfExtent)
 {
-	for (_uint i = 0; i < 2; ++i)
-	{
-		for (_uint j = 0; j < 2; ++j)
-		{
-			for (_uint k = 0; k < 2; ++k)
-			{
-				_int xSign = i ? 1 : -1;
-				_int ySign = j ? 1 : -1;
-				_int zSign = k ? 1 : -1;
-
-				_float3 curExtent = _float3(halfExtent.x * xSign,
-											 halfExtent.y * ySign,
-											 halfExtent.z * zSign);
-
-				if (CheckPoint(position + curExtent))
-					return true;
-			}
-		}
-	}
-
-	return false;
+	return true;
+	//for (_uint i = 0; i < 2; ++i)
+	//{
+	//	for (_uint j = 0; j < 2; ++j)
+	//	{
+	//		for (_uint k = 0; k < 2; ++k)
+	//		{
+	//			_int xSign = i ? 1 : -1;
+	//			_int ySign = j ? 1 : -1;
+	//			_int zSign = k ? 1 : -1;
+	//
+	//			_float3 curExtent = _float3(halfExtent.x * xSign,
+	//										 halfExtent.y * ySign,
+	//										 halfExtent.z * zSign);
+	//
+	//			if (CheckPoint(position + curExtent))
+	//				return true;
+	//		}
+	//	}
+	//}
+	//
+	//return false;
 }
 
 _bool CFrustum::CheckSphere(_float3 position, _float radius)

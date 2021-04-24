@@ -17,11 +17,12 @@ CMesh * CDynamicMesh::MakeClone(void)
 {
 	CDynamicMesh* pClone = new CDynamicMesh;
 
-	pClone->m_pRootFrame		= m_pRootFrame;
-	pClone->m_pHierarchyLoader	= m_pHierarchyLoader;
-	pClone->m_pAniCtrl			= m_pAniCtrl->MakeClone();
-	pClone->m_vMeshContainers	= m_vMeshContainers;
-	pClone->m_meshType			= m_meshType;
+	pClone->m_pRootFrame = m_pRootFrame;
+	pClone->m_pHierarchyLoader = m_pHierarchyLoader;
+	pClone->m_pAniCtrl = m_pAniCtrl->MakeClone();
+	pClone->m_vMeshContainers = m_vMeshContainers;
+	pClone->m_meshType = m_meshType;
+	pClone->m_vMeshContainers = m_vMeshContainers;
 
 	return pClone;
 }
@@ -40,25 +41,27 @@ void CDynamicMesh::Awake(std::wstring const& filePath, std::wstring const& fileN
 	LPD3DXANIMATIONCONTROLLER pAniCtrl = nullptr;
 
 	if (FAILED(D3DXLoadMeshHierarchyFromX((filePath + L"\\" + fileName).c_str(),
-										  D3DXMESH_MANAGED,
-										  GET_DEVICE,
-										  m_pHierarchyLoader,
-										  NULL,
-										  &m_pRootFrame,
-										  &pAniCtrl)))
+		D3DXMESH_MANAGED,
+		GET_DEVICE,
+		m_pHierarchyLoader,
+		NULL,
+		&m_pRootFrame,
+		&pAniCtrl)))
 	{
 		MSG_BOX(__FILE__, L"Load Mesh Hierarchy failed in ParsingMesh");
 		ABORT;
 	}
 
+
 	m_pAniCtrl = CAniCtrl::Create(pAniCtrl);
 	m_pAniCtrl->ChangeAniSet(FindFirstAniIndex(fileName));
+	UpdateFrame();
+	SetFrameMatPointer((_DerivedD3DXFRAME*)m_pRootFrame);
 }
 
 void CDynamicMesh::Start(void)
 {
-	UpdateFrame();
-	SetFrameMatPointer((_DerivedD3DXFRAME*)m_pRootFrame);
+
 }
 
 void CDynamicMesh::Update(void)
@@ -90,8 +93,8 @@ void CDynamicMesh::Free(void)
 void CDynamicMesh::UpdateFrame(void)
 {
 	_mat makeMeshLookAtMe;
-	UpdateFrameMatrices((_DerivedD3DXFRAME*)m_pRootFrame, 
-						D3DXMatrixRotationY(&makeMeshLookAtMe, D3DXToRadian(180.f)));
+	UpdateFrameMatrices((_DerivedD3DXFRAME*)m_pRootFrame,
+		D3DXMatrixRotationY(&makeMeshLookAtMe, D3DXToRadian(180.f)));
 
 }
 
@@ -108,7 +111,7 @@ void CDynamicMesh::ChangeAniSet(std::string name)
 void CDynamicMesh::PlayAnimation(void)
 {
 	m_pAniCtrl->Play();
-	
+
 	UpdateFrame();
 }
 
@@ -129,26 +132,28 @@ void CDynamicMesh::UpdateFrameMatrices(_DerivedD3DXFRAME* pFrame, _mat* pParentM
 
 	pFrame->CombinedTransformMatrix = pFrame->TransformationMatrix * (*pParentMat);
 
-	if (nullptr != pFrame->pFrameSibling)
+	if (pFrame->pFrameSibling != nullptr)
 		UpdateFrameMatrices((D3DXFRAME_DERIVED*)pFrame->pFrameSibling, pParentMat);
 
-	if (nullptr != pFrame->pFrameFirstChild)
+	if (pFrame->pFrameFirstChild != nullptr)
 		UpdateFrameMatrices((D3DXFRAME_DERIVED*)pFrame->pFrameFirstChild, &pFrame->CombinedTransformMatrix);
 
 }
 
 void CDynamicMesh::SetFrameMatPointer(_DerivedD3DXFRAME * pFrame)
 {
+
 	if (pFrame->pMeshContainer != nullptr)
 	{
 		_DerivedD3DXMESHCONTAINER*	pDerivedMeshContainer = (_DerivedD3DXMESHCONTAINER*)pFrame->pMeshContainer;
-		
-		pDerivedMeshContainer->ppCombinedTransformMatrix;
+
 		for (_ulong i = 0; i < pDerivedMeshContainer->numBones; ++i)
 		{
-			std::string	pBoneName = pDerivedMeshContainer->pSkinInfo->GetBoneName(i);
+			std::string			pBoneName = pDerivedMeshContainer->pSkinInfo->GetBoneName(i);
 			_DerivedD3DXFRAME* pFindFrame = (_DerivedD3DXFRAME*)D3DXFrameFind(m_pRootFrame, pBoneName.c_str());
 			pDerivedMeshContainer->ppCombinedTransformMatrix[i] = &pFindFrame->CombinedTransformMatrix;
+
+			pDerivedMeshContainer->pOriMesh;
 		}
 
 		m_vMeshContainers.push_back(pDerivedMeshContainer);
@@ -163,8 +168,8 @@ void CDynamicMesh::SetFrameMatPointer(_DerivedD3DXFRAME * pFrame)
 
 _uint CDynamicMesh::FindFirstAniIndex(std::wstring const & fileName)
 {
-	_size startPoint	= fileName.find_first_of('.');
-	_size endPoint		= fileName.find_last_of('.');
+	_size startPoint = fileName.find_first_of('.');
+	_size endPoint = fileName.find_last_of('.');
 
 	if (startPoint == endPoint)
 		return 0;

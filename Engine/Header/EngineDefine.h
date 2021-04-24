@@ -59,6 +59,7 @@
 #define DOWN_VECTOR		_float3(0,  -1, 0)
 #define FORWARD_VECTOR	_float3(0,  0,  1)
 #define BACK_VECTOR		_float3(0,  0, -1)
+#define MAX_VECTOR		_float3(FLT_MAX, FLT_MAX, FLT_MAX)
 
 #define PLAYER_RAY_DISTANCE 0.7f
 

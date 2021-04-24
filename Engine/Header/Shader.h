@@ -14,9 +14,9 @@ public:
 	virtual		void	Awake				(void) PURE;
 	virtual		void	Start				(void) PURE;
 
-	virtual		void	PreRender			(CGraphicsC* pGraphics) PURE;
-	virtual		void	Render				(CGraphicsC* pGraphics) PURE;
-	virtual		void	PostRender			(CGraphicsC* pGraphics) PURE;
+	virtual		void	PreRender			(CGraphicsC* pGC) PURE;
+	virtual		void	Render				(CGraphicsC* pGC) PURE;
+	virtual		void	PostRender			(CGraphicsC* pGC) PURE;
 
 	virtual		void	OnDestroy			(void) PURE;
 
@@ -26,12 +26,11 @@ public:
 	
 protected:
 	virtual		void	LoadShader			(void) PURE;
-				void	RenderStaticMesh	(CGraphicsC* pGC);
-				void	RenderDynamicMesh	(CGraphicsC* pGC);
 
 protected:
-	GETTOR				(std::wstring,		m_filePath,		L"",			FilePath)
-	GETTOR_SETTOR		(LPD3DXEFFECT,		m_pShader,		nullptr,		Shader)
+	GETTOR		(std::wstring,		m_filePath,		L"",			FilePath)
+	GETTOR		(LPD3DXEFFECT,		m_pShader,		nullptr,		Shader)
+	GETTOR		(_int,				m_shaderType,	UNDEFINED,		ShaderType)
 };
 END
 #endif // !SHADER_H

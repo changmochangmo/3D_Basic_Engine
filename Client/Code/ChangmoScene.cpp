@@ -19,10 +19,10 @@ CChangmoScene::~CChangmoScene()
 
 Engine::CScene* CChangmoScene::Create(void)
 {
-	CChangmoScene* pNewScene = new CChangmoScene;
-	pNewScene->Awake((_int)ELayerID::NumOfLayerID);
+	CChangmoScene* pChangmoScene = new CChangmoScene;
+	pChangmoScene->Awake((_int)ELayerID::NumOfLayerID);
 
-	return pNewScene;
+	return pChangmoScene;
 }
 
 void CChangmoScene::Free(void)
@@ -47,14 +47,14 @@ void CChangmoScene::Start(void)
 	spPlayerClone->GetComponent<Engine::CCollisionC>()->SetCollisionID(1);
 	spPlayerClone->AddComponent<Engine::CRigidBodyC>()->SetUseGravity(false);
 
-	SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"BasicObject", true);
-	spBasicClone->AddComponent<Engine::CMeshC>()->ChangeMesh(L"Cube");
-	spBasicClone->AddComponent<Engine::CTextureC>()->ChangeTexture(0, L"BlueBlock");
-	spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
-	spBasicClone->GetComponent<Engine::CTransformC>()->AddPositionX(3);
-	spBasicClone->AddComponent<Engine::CCollisionC>()->
-		AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1)));
-	spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID(0);
+	//SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"BasicObject", true);
+	//spBasicClone->AddComponent<Engine::CMeshC>()->ChangeMesh(L"Cube");
+	//spBasicClone->AddComponent<Engine::CTextureC>()->ChangeTexture(0, L"BlueBlock");
+	//spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
+	//spBasicClone->GetComponent<Engine::CTransformC>()->AddPositionX(3);
+	//spBasicClone->AddComponent<Engine::CCollisionC>()->
+	//	AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1)));
+	//spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID(0);
 }
 
 void CChangmoScene::FixedUpdate(void)
@@ -80,7 +80,7 @@ void CChangmoScene::OnDestroy(void)
 
 void CChangmoScene::OnEnable(void)
 {
-	
+
 }
 
 void CChangmoScene::OnDisable(void)

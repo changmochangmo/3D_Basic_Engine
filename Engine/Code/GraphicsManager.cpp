@@ -7,6 +7,8 @@
 #include "CameraManager.h"
 #include "CameraC.h"
 #include "Frustum.h"
+#include "ShaderManager.h"
+#include "Shader.h"
 
 USING(Engine)
 IMPLEMENT_SINGLETON(CGraphicsManager)
@@ -48,9 +50,9 @@ void CGraphicsManager::LateUpdate(void)
 void CGraphicsManager::PreRender(void)
 {
 	GET_DEVICE->Clear(0, nullptr,
-					  D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-					  D3DCOLOR_ARGB(255, 125, 125, 125),
-					  1.f, 0);
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+		D3DCOLOR_ARGB(255, 125, 125, 125),
+		1.f, 0);
 
 	GET_DEVICE->BeginScene();
 }
@@ -62,7 +64,7 @@ void CGraphicsManager::Render(void)
 	RenderWire();
 	RenderAlpha();
 	RenderUI();
-	
+
 	ClearRenderList();
 }
 
@@ -120,20 +122,22 @@ void CGraphicsManager::RenderBase(void)
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	for (auto& pGC : m_vRenderList[(_int)ERenderID::Base])
+	CShader* pShader = GET_SHADER((_int)EShaderType::Texture);
+	for (auto& spGC : m_vRenderList[(_int)ERenderID::Base])
 	{
-		if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
+		if (spGC->GetOwner() != nullptr && spGC->GetIsEnabled())
 		{
-			if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(),
-													  pGC->GetTransform()->GetSize() / 2.f))
+			if (GET_MAIN_CAM->GetFrustum()->
+				CheckAabb(spGC->GetTransform()->GetPosition(),
+					spGC->GetTransform()->GetSize() / 2.f))
 			{
-				pGC->PreRender();
-				pGC->Render();
-				pGC->PostRender();
+				pShader->PreRender(spGC.get());
+				pShader->Render(spGC.get());
+				pShader->PostRender(spGC.get());
 			}
 		}
 
-		pGC.reset();
+		spGC.reset();
 	}
 
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
@@ -142,20 +146,21 @@ void CGraphicsManager::RenderBase(void)
 
 void CGraphicsManager::RenderNonAlpha(void)
 {
-	for (auto& pGC : m_vRenderList[(_int)ERenderID::NonAlpha])
+	CShader* pShader = GET_SHADER((_int)EShaderType::Texture);
+	for (auto& spGC : m_vRenderList[(_int)ERenderID::NonAlpha])
 	{
-		if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
+		if (spGC->GetOwner() != nullptr && spGC->GetIsEnabled())
 		{
-			//if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(),
-			//										  pGC->GetTransform()->GetSize() / 2.f))
+			if (GET_MAIN_CAM->GetFrustum()->
+				CheckAabb(spGC->GetTransform()->GetPosition(),
+					spGC->GetTransform()->GetSize() / 2.f))
 			{
-				pGC->PreRender();
-				pGC->Render();
-				pGC->PostRender();
+				pShader->PreRender(spGC.get());
+				pShader->Render(spGC.get());
+				pShader->PostRender(spGC.get());
 			}
 		}
-
-		pGC.reset();
+		spGC.reset();
 	}
 }
 
@@ -163,21 +168,24 @@ void CGraphicsManager::RenderWire(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GET_DEVICE;
 	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	for (auto& pGC : m_vRenderList[(_int)ERenderID::WireFrame])
+
+	CShader* pShader = GET_SHADER((_int)EShaderType::Debug);
+	for (auto& spGC : m_vRenderList[(_int)ERenderID::WireFrame])
 	{
-		if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
+		if (spGC->GetOwner() != nullptr && spGC->GetIsEnabled())
 		{
-			if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(),
-				pGC->GetTransform()->GetSize() / 2.f))
+			if (GET_MAIN_CAM->GetFrustum()->
+				CheckAabb(spGC->GetTransform()->GetPosition(),
+					spGC->GetTransform()->GetSize() / 2.f))
 			{
-				pGC->PreRender();
-				pGC->Render();
-				pGC->PostRender();
+				pShader->PreRender(spGC.get());
+				pShader->Render(spGC.get());
+				pShader->PostRender(spGC.get());
 			}
 		}
-
-		pGC.reset();
+		spGC.reset();
 	}
+
 	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
@@ -189,38 +197,40 @@ void CGraphicsManager::RenderAlpha(void)
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	for (auto& pGC : m_vRenderList[(_int)ERenderID::Alpha])
+	CShader* pShader = GET_SHADER((_int)EShaderType::Texture);
+	for (auto& spGC : m_vRenderList[(_int)ERenderID::Alpha])
 	{
-		if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
+		if (spGC->GetOwner() != nullptr && spGC->GetIsEnabled())
 		{
-			if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(),
-													  pGC->GetTransform()->GetSize() / 2.f))
+			if (GET_MAIN_CAM->GetFrustum()->
+				CheckAabb(spGC->GetTransform()->GetPosition(),
+					spGC->GetTransform()->GetSize() / 2.f))
 			{
-				pGC->PreRender();
-				pGC->Render();
-				pGC->PostRender();
+				pShader->PreRender(spGC.get());
+				pShader->Render(spGC.get());
+				pShader->PostRender(spGC.get());
 			}
 		}
-
-		pGC.reset();
+		spGC.reset();
 	}
 }
 
 void CGraphicsManager::RenderUI(void)
 {
-	for (auto& pGC : m_vRenderList[(_int)ERenderID::UI])
+	CShader* pShader = GET_SHADER((_int)EShaderType::Texture);
+	for (auto& spGC : m_vRenderList[(_int)ERenderID::UI])
 	{
-		if (pGC->GetOwner() != nullptr && pGC->GetIsEnabled())
+		if (spGC->GetOwner() != nullptr && spGC->GetIsEnabled())
 		{
-			if (GET_MAIN_CAM->GetFrustum()->CheckAabb(pGC->GetTransform()->GetPosition(),
-													  pGC->GetTransform()->GetSize() / 2.f))
+			if (GET_MAIN_CAM->GetFrustum()->
+				CheckAabb(spGC->GetTransform()->GetPosition(),
+					spGC->GetTransform()->GetSize() / 2.f))
 			{
-				pGC->PreRender();
-				pGC->Render();
-				pGC->PostRender();
+				pShader->PreRender(spGC.get());
+				pShader->Render(spGC.get());
+				pShader->PostRender(spGC.get());
 			}
 		}
-
-		pGC.reset();
+		spGC.reset();
 	}
 }

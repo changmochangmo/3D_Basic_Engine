@@ -38,6 +38,20 @@ namespace Engine
 		Dynamic			= 1,
 		NumOfMeshType	= 2
 	};
+
+	enum class EDebugBV
+	{
+		Sphere			= 0,
+		AABB			= 1,
+		NumOfDebugBV	= 2
+	};
+
+	enum class EShaderType
+	{
+		Debug			= 0,
+		Texture			= 1,
+		NumOfShdaerType	= 2
+	};
 #pragma endregion
 
 #pragma region PhysicsEnum
@@ -69,17 +83,16 @@ namespace Engine
 
 	enum class EComponentID
 	{
-		Transform,
-		Graphics,
-		Mesh,
-		Texture,
-		Physics,
-		UI,
-		RigidBody,
-		Collider,
-		Camera,
-		Bitmap,
-		NumOfEngineComponentID
+		Transform				= 0,
+		Mesh					= 1,
+		Texture					= 2,
+		Debug					= 3,
+		Graphics				= 4,
+		RigidBody				= 5,
+		Collider				= 6,
+		Physics					= 7,
+		Camera					= 8,
+		NumOfEngineComponentID	= 9
 	};
 
 	enum class EChannelID

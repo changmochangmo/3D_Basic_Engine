@@ -47,6 +47,47 @@ void CStaticMesh::Awake(std::wstring const& filePath, std::wstring const& fileNa
 		ABORT;
 	}
 	
+	void* pVertices = nullptr;
+	m_pMesh->LockVertexBuffer(0, &pVertices);
+
+	D3DVERTEXELEMENT9 decl[MAX_FVF_DECL_SIZE];
+	ZeroMemory(decl, sizeof(D3DVERTEXELEMENT9) * MAX_FVF_DECL_SIZE);
+	m_pMesh->GetDeclaration(decl);
+
+	_ubyte byOffset = 0;
+	for (_ulong i = 0; i < MAX_FVF_DECL_SIZE; ++i)
+	{
+		if (decl[i].Usage == D3DDECLUSAGE_POSITION)
+		{
+			byOffset = (_ubyte)decl[i].Offset;
+			break;
+		}
+	}
+
+	_ulong FVF = m_pMesh->GetFVF();
+	m_stride = D3DXGetFVFVertexSize(FVF);
+	m_numOfVtx = m_pMesh->GetNumVertices();
+
+	m_pVertices = new _float3[m_numOfVtx];
+
+	for (_ulong i = 0; i < m_numOfVtx; ++i)
+	{
+		m_pVertices[i] = *((_float3*)(((_ubyte*)pVertices) + (m_stride * i + byOffset)));
+		if (m_pVertices[i].x > m_maxVertex.x)
+			m_maxVertex.x = m_pVertices[i].x;
+		if (m_pVertices[i].y > m_maxVertex.y)
+			m_maxVertex.y = m_pVertices[i].y;
+		if (m_pVertices[i].z > m_maxVertex.z)
+			m_maxVertex.z = m_pVertices[i].z;
+
+		if (m_pVertices[i].x < m_minVertex.x)
+			m_minVertex.x = m_pVertices[i].x;
+		if (m_pVertices[i].y < m_minVertex.y)
+			m_minVertex.y = m_pVertices[i].y;
+		if (m_pVertices[i].z < m_minVertex.z)
+			m_minVertex.z = m_pVertices[i].z;
+	}
+
 	m_pMtrl = (D3DXMATERIAL*)m_pSubset->GetBufferPointer();
 }
 

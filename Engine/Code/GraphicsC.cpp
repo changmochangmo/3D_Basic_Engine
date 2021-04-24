@@ -29,8 +29,6 @@ SP(CComponent) CGraphicsC::MakeClone(CObject* pObject)
 	SP(CGraphicsC) spClone(new CGraphicsC);
 	__super::InitClone(spClone, pObject);
 
-	spClone->SetRenderID(m_renderID);
-
 	return spClone;
 }
 void CGraphicsC::Awake(void)
@@ -43,17 +41,16 @@ void CGraphicsC::Awake(void)
 		_bool isStatic = m_pOwner->GetIsStatic();
 		_int dataID = m_pOwner->GetDataID();
 		std::wstring objectKey = m_pOwner->GetObjectKey();
-
-		GET_VALUE(isStatic, dataID, objectKey, L"renderID", m_renderID);
 	}
 }
 
 void CGraphicsC::Start(SP(CComponent) spThis)
 {
 	__super::Start(spThis);
-	m_pMesh			= m_pOwner->GetComponent<CMeshC>();
-	m_pTexture		= m_pOwner->GetComponent<CTextureC>();
-	m_pTransform	= m_pOwner->GetComponent<CTransformC>();
+	m_spMesh		= m_pOwner->GetComponent<CMeshC>();
+	m_spTexture		= m_pOwner->GetComponent<CTextureC>();
+	m_spTransform	= m_pOwner->GetComponent<CTransformC>();
+	m_spDebug		= m_pOwner->GetComponent<CDebugC>();
 }
 
 void CGraphicsC::FixedUpdate(SP(CComponent) spThis)
@@ -66,26 +63,12 @@ void CGraphicsC::Update(SP(CComponent) spThis)
 
 void CGraphicsC::LateUpdate(SP(CComponent) spThis)
 {
-	CGraphicsManager::GetInstance()->
-		AddToRenderList(m_renderID, std::dynamic_pointer_cast<CGraphicsC>(spThis));
-}
+	SP(CGraphicsC) spGraphicC = std::dynamic_pointer_cast<CGraphicsC>(spThis);
 
-void CGraphicsC::PreRender(void)
-{	
-	CShader* pShader = CShaderManager::GetInstance()->GetShader(L"TextureShader");
-	pShader->PreRender(this);
-}
-
-void CGraphicsC::Render(void)
-{
-	CShader* pShader = CShaderManager::GetInstance()->GetShader(L"TextureShader");
-	pShader->Render(this);
-}
-
-void CGraphicsC::PostRender(void)
-{
-	CShader* pShader = CShaderManager::GetInstance()->GetShader(L"TextureShader");
-	pShader->PostRender(this);
+	if(m_spMesh)
+		ADD_TO_RENDER_LIST(m_spMesh->GetRenderID(), spGraphicC);
+	if (m_spDebug)
+		ADD_TO_RENDER_LIST(m_spDebug->GetRenderID(), spGraphicC);
 }
 
 void CGraphicsC::OnDestroy(void)

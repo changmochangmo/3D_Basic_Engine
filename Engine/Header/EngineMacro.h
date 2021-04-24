@@ -134,6 +134,10 @@ void ClassName::DestroyInstance(void)												\
 #define GET_WND_HEIGHT CWndApp::GetInstance()->GetWndHeight()
 
 //GraphicsManager Macro
+#define ADD_TO_RENDER_LIST(renderID, spGraphicsC)									\
+CGraphicsManager::GetInstance()->AddToRenderList(renderID, spGraphicsC)
+
+//DeviceManager Macro
 #define GET_DEVICE CDeviceManager::GetInstance()->GetDevice()
 
 //FRC Macro
@@ -182,25 +186,9 @@ CTextManager::GetInstance()->AddText(key, text, position, color)
 
 //MathHelper Macro
 #define GET_MATH CMath::CMathHelper::GetInstance()
+
+//ShaderManager Macro
+#define GET_SHADER(shaderKey) CShaderManager::GetInstance()->GetShader(shaderKey)
+
+
 #endif // ! MACRO_H	
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

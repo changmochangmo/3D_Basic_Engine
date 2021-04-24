@@ -6,7 +6,7 @@
 #include "Mesh.h"
 
 USING(Engine)
-CMeshC::CMeshC(void)  
+CMeshC::CMeshC(void)
 {
 }
 
@@ -22,6 +22,7 @@ SP(CComponent) CMeshC::MakeClone(CObject* pObject)
 	__super::InitClone(spClone, pObject);
 
 	spClone->SetMeshData(m_pMeshData->MakeClone());
+	spClone->m_renderID = m_renderID;
 
 	return spClone;
 }
@@ -40,6 +41,8 @@ void CMeshC::Awake(void)
 		std::wstring meshKey;
 		GET_VALUE(isStatic, dataID, objectKey, L"meshKey", meshKey);
 		m_pMeshData = CMeshStore::GetInstance()->GetMeshData(meshKey);
+
+		GET_VALUE(isStatic, dataID, objectKey, L"renderID", m_renderID);
 	}
 }
 
@@ -77,5 +80,7 @@ void CMeshC::OnDisable(void)
 
 void CMeshC::ChangeMesh(std::wstring const & meshKey)
 {
+	if (m_pMeshData != nullptr)
+		m_pMeshData->FreeClone();
 	m_pMeshData = CMeshStore::GetInstance()->GetMeshData(meshKey);
 }

@@ -3,9 +3,8 @@
 #include "DeviceManager.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "CameraManager.h"
-#include "CameraC.h"
-#include "Mesh.h"
+#include "StaticMesh.h"
+#include "DynamicMesh.h"
 
 
 USING(Engine)
@@ -19,18 +18,18 @@ CTextureShader::~CTextureShader()
 
 CTextureShader * CTextureShader::Create(void)
 {
-	CTextureShader* pTextureShader = new CTextureShader;
-	pTextureShader->Awake();
-	pTextureShader->Start();
+	CTextureShader* pInstance = new CTextureShader;
+	pInstance->Awake();
+	pInstance->Start();
 
-	return pTextureShader;
+	return pInstance;
 }
 
 void CTextureShader::Awake(void)
 {
 	__super::Awake();
 	m_filePath = L"..\\..\\Resource\\Shader\\TextureShader.fx";
-	
+	m_shaderType = (_int)EShaderType::Texture;
 }
 
 void CTextureShader::Start(void)
@@ -40,13 +39,11 @@ void CTextureShader::Start(void)
 
 void CTextureShader::PreRender(CGraphicsC* pGC)
 {
-	m_pShader->SetMatrix("WorldMatrix", &pGC->GetTransform()->GetWorldMatrix());
-	m_pShader->SetMatrix("ViewMatrix", &GET_MAIN_CAM->GetViewMatrix());
-	m_pShader->SetMatrix("ProjMatrix", &GET_MAIN_CAM->GetProjMatrix());
+	__super::PreRender(pGC);
 	m_pShader->SetVector("Color", &pGC->GetTexture()->GetColor());
 }
 
-void CTextureShader::Render(CGraphicsC* pGC)
+void CTextureShader::Render(CGraphicsC * pGC)
 {
 	_uint inumPasses = 0;
 
@@ -64,11 +61,11 @@ void CTextureShader::Render(CGraphicsC* pGC)
 			switch (meshType)
 			{
 			case (_int)EMeshType::Static:
-				__super::RenderStaticMesh(pGC);
+				RenderStaticMesh(pGC);
 				break;
 
 			case (_int)EMeshType::Dynamic:
-				__super::RenderDynamicMesh(pGC);
+				RenderDynamicMesh(pGC);
 				break;
 
 			default:
@@ -82,7 +79,8 @@ void CTextureShader::Render(CGraphicsC* pGC)
 	}
 }
 
-void CTextureShader::PostRender(CGraphicsC* pGraphics)
+
+void CTextureShader::PostRender(CGraphicsC* pGC)
 {
 }
 
@@ -101,4 +99,54 @@ void CTextureShader::OnDisable(void)
 void CTextureShader::LoadShader(void)
 {
 	__super::LoadShader();
+}
+
+void CTextureShader::RenderStaticMesh(CGraphicsC * pGC)
+{
+	CStaticMesh* pSM = dynamic_cast<CStaticMesh*>(pGC->GetMesh()->GetMeshData());
+
+	for (_ulong i = 0; i < pSM->GetSubsetCount(); ++i)
+	{
+		if (FAILED(GET_DEVICE->SetTexture(0, pGC->GetTexture()->GetTexData()[i]->pTexture)))
+		{
+			MSG_BOX(__FILE__, L"SetTexture failed in RenderStaticMesh");
+			ABORT;
+		}
+		pSM->GetMesh()->DrawSubset(i);
+	}
+}
+
+void CTextureShader::RenderDynamicMesh(CGraphicsC * pGC)
+{
+	CDynamicMesh* pDM = dynamic_cast<CDynamicMesh*>(pGC->GetMesh()->GetMeshData());
+
+	pDM->GetAniCtrl()->GetAniCtrl()->AdvanceTime(0, NULL);
+	pDM->UpdateFrame();
+
+	for (auto& meshContainer : pDM->GetMeshContainers())
+	{
+		for (_ulong i = 0; i < meshContainer->numBones; ++i)
+		{
+			meshContainer->pRenderingMatrix[i] = meshContainer->pFrameOffsetMatrix[i] *
+												 (*meshContainer->ppCombinedTransformMatrix[i]);
+		}
+
+		void* pSrcVertex = nullptr;
+		void* pDestVertex = nullptr;
+
+		meshContainer->pOriMesh->LockVertexBuffer(0, &pSrcVertex);
+		meshContainer->MeshData.pMesh->LockVertexBuffer(0, &pDestVertex);
+
+		meshContainer->pSkinInfo->UpdateSkinnedMesh(meshContainer->pRenderingMatrix, NULL,
+													pSrcVertex, pDestVertex);
+
+		meshContainer->MeshData.pMesh->UnlockVertexBuffer();
+		meshContainer->pOriMesh->UnlockVertexBuffer();
+
+		for (_ulong i = 0; i < meshContainer->NumMaterials; ++i)
+		{
+			GET_DEVICE->SetTexture(0, pGC->GetTexture()->GetTexData()[meshContainer->texIndexStart + i]->pTexture);
+			meshContainer->MeshData.pMesh->DrawSubset(i);
+		}
+	}
 }

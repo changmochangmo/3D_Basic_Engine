@@ -38,6 +38,7 @@ private:
 
 				SP(Engine::CTransformC)		m_spTransform;
 				SP(Engine::CMeshC)			m_spMesh;
+				SP(Engine::CDebugC)			m_spDebug;
 				SP(Engine::CTextureC)		m_spTexture;
 				SP(Engine::CGraphicsC)		m_spGraphics;
 };

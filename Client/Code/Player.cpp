@@ -37,22 +37,26 @@ void CPlayer::Awake(void)
 {
 	__super::Awake();
 
-	m_layerID	= (_int)ELayerID::Player;
-	m_dataID	= (_int)EDataID::Player;
+	m_layerID = (_int)ELayerID::Player;
+	m_dataID = (_int)EDataID::Player;
 
-	m_spTransform	= AddComponent<Engine::CTransformC>();
-	m_spMesh		= AddComponent<Engine::CMeshC>();
-	m_spTexture		= AddComponent<Engine::CTextureC>();
-	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
+	m_spTransform = AddComponent<Engine::CTransformC>();
+	m_spMesh = AddComponent<Engine::CMeshC>();
+	m_spTexture = AddComponent<Engine::CTextureC>();
+	m_spGraphics = AddComponent<Engine::CGraphicsC>();
+	m_spDebug = AddComponent<Engine::CDebugC>();
 }
 
 void CPlayer::Start(void)
 {
 	__super::Start();
-	m_spTransform	= GetComponent<Engine::CTransformC>();
-	m_spMesh		= GetComponent<Engine::CMeshC>();
-	m_spTexture		= GetComponent<Engine::CTextureC>();
-	m_spGraphics	= GetComponent<Engine::CGraphicsC>();
+	m_spTransform = GetComponent<Engine::CTransformC>();
+	m_spMesh = GetComponent<Engine::CMeshC>();
+	m_spTexture = GetComponent<Engine::CTextureC>();
+	m_spGraphics = GetComponent<Engine::CGraphicsC>();
+	m_spDebug = GetComponent<Engine::CDebugC>();
+
+	m_spTransform->SetSize(_float3(0.5f, 0.5f, 0.5f));
 }
 
 void CPlayer::FixedUpdate(void)
@@ -67,7 +71,7 @@ void CPlayer::Update(void)
 	if (Engine::IMKEY_PRESS(KEY_RIGHT))
 	{
 		m_spTransform->MoveRight(3 * GET_DT);
-		
+
 	}
 	if (Engine::IMKEY_PRESS(KEY_LEFT))
 	{
@@ -132,17 +136,14 @@ void CPlayer::OnDisable(void)
 
 void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
 {
-	int a = 5;
 }
 
 void CPlayer::OnCollisionStay(Engine::_CollisionInfo ci)
 {
-	int a = 5;
 }
 
 void CPlayer::OnCollisionExit(Engine::_CollisionInfo ci)
 {
-	int a = 5;
 }
 
 void CPlayer::SetBasicName(void)
