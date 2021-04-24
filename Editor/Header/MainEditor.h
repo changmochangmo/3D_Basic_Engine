@@ -14,13 +14,13 @@ public:
 	void				Awake(void);
 	void				Start(void);
 
-	_uint				FixedUpdate(void);
-	_uint				Update(void);
-	_uint				LateUpdate(void);
+	void				FixedUpdate(void);
+	void				Update(void);
+	void				LateUpdate(void);
 
-	_uint				PreRender(void);
-	_uint				Render(void);
-	_uint				PostRender(void);
+	void				PreRender(void);
+	void				Render(void);
+	void				PostRender(void);
 
 	void				OnDestroy(void);
 

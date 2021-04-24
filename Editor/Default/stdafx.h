@@ -33,20 +33,22 @@
 
 #include <afxcontrolbars.h>     // MFC의 리본 및 컨트롤 막대 지원
 
+
+//For Grapchis
+#include "d3d9.h"
+#pragma comment(lib, "d3d9.lib")
+
+#include "d3dx9.h"
+#pragma comment(lib, "d3dx9.lib")
+
 // 엔진에 있는 파일들을 가져오기 위한 stdafx
 #include "EngineStdafx.h"
-#include "EditorTypedef.h"
-#include "EditorStruct.h"
-#include "EditorDefine.h"
-#include "EditorExtern.h"
-#include <vector>
-#include <list>
-#include <map>
-#include <unordered_map>
-#include <fstream>
-#include <sstream>
-#include <string>
 
+#include "EditorTypedef.h"
+#include "EditorDefine.h"
+#include "EditorEnum.h"
+#include "EditorMacro.h"
+#include "EditorStructure.h"
 
 
 

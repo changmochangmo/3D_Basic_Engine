@@ -28,7 +28,6 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "InputManager.h"
-#include "CameraComponent.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -210,136 +209,6 @@ void CEditorView::Engine_Start()
 	Engine::CFRC::GetInstance()->Start();
 }
 
-void CEditorView::ForwardSpawnObject()
-{
-	m_vPreCubePos = m_vCurCubePos;
-	m_vCurCubePos.z += 1.f;
-
-	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
-	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
-
-	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
-		m_vCurCubePos.y,
-		m_vCurCubePos.z));
-
-	m_vGameObjects.emplace_back(pObj);
-
-	pView->m_ListBox.AddString(m_vGameObjects.back()->GetObjectKey().c_str());
-
-}
-
-void CEditorView::LeftSpawnObject()
-{
-	m_vPreCubePos = m_vCurCubePos;
-	m_vCurCubePos.x -= 1.f;
-
-	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
-	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
-
-	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
-		m_vCurCubePos.y,
-		m_vCurCubePos.z));
-
-	m_vGameObjects.emplace_back(pObj);	
-
-	pView->m_ListBox.AddString(m_vGameObjects.back()->GetObjectKey().c_str());
-}
-
-void CEditorView::TopSpawnObject()
-{
-	m_vPreCubePos = m_vCurCubePos;
-	m_vCurCubePos.y += 1.f;
-
-	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
-	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
-
-
-	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
-		m_vCurCubePos.y,
-		m_vCurCubePos.z));
-	m_vGameObjects.emplace_back(pObj);
-
-	
-
-	pView->m_ListBox.AddString(m_vGameObjects.back()->GetObjectKey().c_str());
-}
-
-void CEditorView::RightSpawnObject()
-{
-	m_vPreCubePos = m_vCurCubePos;
-	m_vCurCubePos.x += 1.f;
-
-	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
-	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
-
-	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
-		m_vCurCubePos.y,
-		m_vCurCubePos.z));
-
-	m_vGameObjects.emplace_back(pObj);
-
-	
-
-	pView->m_ListBox.AddString(m_vGameObjects.back()->GetObjectKey().c_str());
-}
-
-void CEditorView::BottomSpawnObject()
-{
-	m_vPreCubePos = m_vCurCubePos;
-	m_vCurCubePos.y -= 1.f;
-
-	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
-	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
-
-	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
-		m_vCurCubePos.y,
-		m_vCurCubePos.z));
-
-	m_vGameObjects.emplace_back(pObj);
-	pView->m_ListBox.AddString(m_vGameObjects.back()->GetObjectKey().c_str());
-}
-
-void CEditorView::BackSpawnObject()
-{
-	m_vPreCubePos = m_vCurCubePos;
-	m_vCurCubePos.z -= 1.f;
-	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
-	CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
-
-	SP(Engine::CObject) pObj = Engine::CObjectFactory::GetInstance()->AddClone(pView->m_wsBlockType, pView->m_wsBlockColor);
-	pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(m_vCurCubePos.x,
-		m_vCurCubePos.y,
-		m_vCurCubePos.z));
-
-	m_vGameObjects.emplace_back(pObj);
-
-	pView->m_ListBox.AddString(m_vGameObjects.back()->GetObjectKey().c_str());
-}
-
-void CEditorView::Release_CubeData()
-{
-	for (auto& pObj : m_vGameObjects)
-	{
-		pObj->SetIsNeedToBeDeleted(true);
-		pObj.reset();
-	}	
-
-	m_vGameObjects.clear();
-}
-
-void CEditorView::Delete_Block(Engine::CObject & pObj)
-{
-}
-
-void CEditorView::Set_CubePos(_float3 vPos)
-{
-	m_vCurCubePos = vPos;
-}
 
 
 void CEditorView::OnTimer(UINT_PTR nIDEvent)
@@ -356,31 +225,6 @@ void CEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CView::OnLButtonDown(nFlags, point);
 
-#pragma region ReturnCubeObject
-
-	if (!m_vGameObjects.empty())
-	{
-		if (L"Cube" == m_vGameObjects.back()->GetLayerKey())
-		{			
-			// 오브젝트 삭제 구조 수정 후 고쳐야함
-			m_vGameObjects.back()->SetIsEnabled(false);
-
-			// 두번 되돌리기 했을 때 예외처리 수정해야함
-			m_vCurCubePos = m_vPreCubePos;
-
-			CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
-			CObjectListView* pView = dynamic_cast<CObjectListView*>(pMain->m_uiSplitter.GetPane(0, 0));
-
-			pView->m_ListBox.DeleteString(m_vGameObjects.size());
-		}		
-	}	
-
-	if (m_vGameObjects.empty())
-	{
-		m_vCurCubePos = { 0.f, 0.f, 0.f };
-	}
-
-#pragma endregion
 
 }
 

@@ -13,9 +13,6 @@
     <Filter Include="02.EditorDoc">
       <UniqueIdentifier>{5e14afb8-5db8-4178-bb6b-481991dcd6b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Cube">
-      <UniqueIdentifier>{bb5ca22a-39d7-487d-ac68-b230da8c5d79}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98.Include">
       <UniqueIdentifier>{7b23bbd8-f374-43aa-ac1d-927304a6c5c6}</UniqueIdentifier>
     </Filter>
@@ -45,44 +42,44 @@
     <ClInclude Include="targetver.h">
       <Filter>99.Default</Filter>
     </ClInclude>
-    <ClInclude Include="EditorView.h">
-      <Filter>01.EditorView</Filter>
-    </ClInclude>
     <ClInclude Include="MainFrm.h">
       <Filter>00.MainFrm</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDoc.h">
-      <Filter>02.EditorDoc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\EditorTypedef.h">
-      <Filter>98.Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CubeComponent.h">
-      <Filter>03.Cube</Filter>
-    </ClInclude>
-    <ClInclude Include="MainEditor.h">
-      <Filter>97.MainEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\EditorStruct.h">
-      <Filter>98.Include</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ShaderView.h">
       <Filter>01.EditorView\01.ShaderView</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EditorScene.h">
+      <Filter>04.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EditorDefine.h">
+      <Filter>98.Include</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\EditorStruct.h">
       <Filter>98.Include</Filter>
     </ClInclude>
-    <ClInclude Include="EditorScene.h">
-      <Filter>04.Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorExtern.h">
+    <ClInclude Include="..\Header\EditorTypedef.h">
       <Filter>98.Include</Filter>
     </ClInclude>
-    <ClInclude Include="EditorDefine.h">
-      <Filter>98.Include</Filter>
+    <ClInclude Include="..\Header\EditorDoc.h">
+      <Filter>02.EditorDoc</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectListView.h">
+    <ClInclude Include="..\Header\EditorView.h">
+      <Filter>01.EditorView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ObjectListView.h">
       <Filter>01.EditorView\00.ObjectListView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MainEditor.h">
+      <Filter>97.MainEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EditorEnum.h">
+      <Filter>98.Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EditorMacro.h">
+      <Filter>98.Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EditorStructure.h">
+      <Filter>98.Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -92,29 +89,26 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>99.Default</Filter>
     </ClCompile>
-    <ClCompile Include="EditorView.cpp">
-      <Filter>01.EditorView</Filter>
-    </ClCompile>
     <ClCompile Include="MainFrm.cpp">
       <Filter>00.MainFrm</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDoc.cpp">
-      <Filter>02.EditorDoc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CubeComponent.cpp">
-      <Filter>03.Cube</Filter>
-    </ClCompile>
-    <ClCompile Include="MainEditor.cpp">
-      <Filter>97.MainEditor</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ShaderView.cpp">
       <Filter>01.EditorView\01.ShaderView</Filter>
     </ClCompile>
-    <ClCompile Include="EditorScene.cpp">
+    <ClCompile Include="..\Code\EditorScene.cpp">
       <Filter>04.Scene</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectListView.cpp">
+    <ClCompile Include="..\Code\EditorDoc.cpp">
+      <Filter>02.EditorDoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EditorView.cpp">
+      <Filter>01.EditorView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ObjectListView.cpp">
       <Filter>01.EditorView\00.ObjectListView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MainEditor.cpp">
+      <Filter>97.MainEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

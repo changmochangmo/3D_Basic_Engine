@@ -53,17 +53,7 @@ private:
 public:
 	void Engine_Awake();
 	void Engine_Start();	
-	void ForwardSpawnObject();
-	void LeftSpawnObject();
-	void TopSpawnObject();
-	void RightSpawnObject();
-	void BottomSpawnObject();
-	void BackSpawnObject();
-	void Release_CubeData();
-	void Delete_Block(Engine::CObject& pObj);
-public:
-	void Set_CubeData(SP(Engine::CObject) pObj) { m_vGameObjects.emplace_back(pObj); }
-	void Set_CubePos(_float3 vPos);
+
 	
 	
 

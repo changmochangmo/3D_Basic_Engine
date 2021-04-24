@@ -7,7 +7,7 @@
 #include "EditorView.h"
 #include "MainFrm.h"
 #include "ObjectFactory.h"
-#include "GameObject.h"
+#include "Object.h"
 #include "InputManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
@@ -26,7 +26,7 @@ IMPLEMENT_DYNCREATE(CObjectListView, CFormView)
 CObjectListView::CObjectListView()
 	: CFormView(IDD_OBJECTLISTVIEW)
 {
-	int i = 0;
+	
 }
 
 CObjectListView::~CObjectListView()
@@ -53,6 +53,7 @@ BEGIN_MESSAGE_MAP(CObjectListView, CFormView)
 	ON_BN_CLICKED(IDC_RADIO2, &CObjectListView::OnBnClickedRed)
 	ON_BN_CLICKED(IDC_RADIO3, &CObjectListView::OnBnClickedBlue)
 	ON_BN_CLICKED(IDC_RADIO4, &CObjectListView::OnBnClickedGreen)
+	ON_BN_CLICKED(IDC_RADIO5, &CObjectListView::OnBnClickedYellow)
 END_MESSAGE_MAP()
 
 
@@ -80,7 +81,6 @@ void CObjectListView::OnBnClickedUP()
 {
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CEditorView* pView = dynamic_cast<CEditorView*>(pMain->m_mainSplitter.GetPane(0, 0));
-	pView->TopSpawnObject();
 }
 
 
@@ -88,7 +88,6 @@ void CObjectListView::OnBnClickedLeft()
 {
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CEditorView* pView = dynamic_cast<CEditorView*>(pMain->m_mainSplitter.GetPane(0, 0));
-	pView->LeftSpawnObject();
 }
 
 
@@ -96,7 +95,6 @@ void CObjectListView::OnBnClickedRight()
 {
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CEditorView* pView = dynamic_cast<CEditorView*>(pMain->m_mainSplitter.GetPane(0, 0));
-	pView->RightSpawnObject();
 }
 
 
@@ -104,7 +102,6 @@ void CObjectListView::OnBnClickedDown()
 {
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CEditorView* pView = dynamic_cast<CEditorView*>(pMain->m_mainSplitter.GetPane(0, 0));
-	pView->BottomSpawnObject();
 }
 
 
@@ -112,7 +109,6 @@ void CObjectListView::OnBnClickedForward()
 {
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CEditorView* pView = dynamic_cast<CEditorView*>(pMain->m_mainSplitter.GetPane(0, 0));
-	pView->ForwardSpawnObject();
 }
 
 
@@ -120,7 +116,6 @@ void CObjectListView::OnBnClickedBack()
 {
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CEditorView* pView = dynamic_cast<CEditorView*>(pMain->m_mainSplitter.GetPane(0, 0));
-	pView->BackSpawnObject();
 }
 
 
@@ -129,7 +124,7 @@ void CObjectListView::OnBnClickedSave()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CEditorView* pView = dynamic_cast<CEditorView*>(pMain->m_mainSplitter.GetPane(0, 0));
 
-	std::string filePath = "../../Data/Save.txt";
+	std::string filePath = "../../Data/Save_2.txt";
 	std::wofstream ofsSave(filePath.data());
 
 	if (ofsSave.is_open())
@@ -137,17 +132,12 @@ void CObjectListView::OnBnClickedSave()
 		for (auto& pObj : pView->GetGameObjects())
 		{
 			ofsSave << "m_objectKey=" << pObj->GetObjectKey() << "\n";
-
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetPosition().x << "\n";
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetPosition().y << "\n";
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetPosition().z << "\n";
-
-			// 수정 예정
-			/*ofsSave << "m_objectKey=" << pObj->GetObjectKey() << "\n";
-
-			ofsSave << "m_position=" << pObj->GetComponent<Engine::CTransformComponent>()->GetPosition().x << ",";
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetPosition().y << ",";
-			ofsSave << pObj->GetComponent<Engine::CTransformComponent>()->GetPosition().z << "\n";*/
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetPosition().x << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetPosition().y << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetPosition().z << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetRotation().x << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetRotation().y << "\n";
+			ofsSave << pObj->GetComponent<Engine::CTransformC>()->GetRotation().z << "\n";
 
 		}
 
@@ -162,13 +152,8 @@ void CObjectListView::OnBnClickedLoad()
 	CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	CEditorView* pView = dynamic_cast<CEditorView*>(pMain->m_mainSplitter.GetPane(0, 0));
 
-	if (!pView->GetGameObjects().empty())
-	{
-		pView->Release_CubeData();
-		m_ListBox.ResetContent();
-	}
 
-	std::string filePath = "../../Data/Save.txt";
+	std::string filePath = "../../Data/Save_3.txt";
 	std::ifstream ifsLoad(filePath.data());
 
 	if (ifsLoad.is_open())
@@ -185,6 +170,7 @@ void CObjectListView::OnBnClickedLoad()
 				break;
 
 			float xPos = 0.f, yPos = 0.f, zPos = 0.f;
+			float xRot = 0.f, yRot = 0.f, zRot = 0.f;
 
 			if (std::getline(ifsLoad, line))
 			{
@@ -209,44 +195,86 @@ void CObjectListView::OnBnClickedLoad()
 			}
 			else
 				break;
+			if (std::getline(ifsLoad, line))
+			{
+				std::stringstream ssr4(line);
+				ssr4 >> xRot;
+			}
+			else
+				break;
 
-			SHARED(Engine::CGameObject) pObj = nullptr;
+			if (std::getline(ifsLoad, line))
+			{
+				std::stringstream ssr5(line);
+				ssr5 >> yRot;
+			}
+			else
+				break;
+
+			if (std::getline(ifsLoad, line))
+			{
+				std::stringstream ssr6(line);
+				ssr6 >> zRot;
+			}
+			else
+				break;
+		
+
+			SP(Engine::CObject) pObj = nullptr;
 
 			if (ObjectKey == "m_objectKey=WhiteBlock")
 			{
 			    pObj = Engine::CObjectFactory::GetInstance()->AddClone(L"NormalBlock", L"WhiteBlock");
-				pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(xPos,
+				pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(xPos,
 					yPos,
 					zPos));
-
+				pObj->GetComponent<Engine::CTransformC>()->SetRotation(_float3(xRot,
+					yRot,
+					zRot));
 			}
 			else if (ObjectKey == "m_objectKey=RedBlock")
 			{
 				pObj = Engine::CObjectFactory::GetInstance()->AddClone(L"EventBlock", L"RedBlock");
-				pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(xPos,
+				pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(xPos,
 					yPos,
 					zPos));
-
+				pObj->GetComponent<Engine::CTransformC>()->SetRotation(_float3(xRot,
+					yRot,
+					zRot));
 			}
 			else if (ObjectKey == "m_objectKey=BlueBlock")
 			{
 				pObj = Engine::CObjectFactory::GetInstance()->AddClone(L"EventBlock", L"BlueBlock");
-				pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(xPos,
+				pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(xPos,
 					yPos,
 					zPos));
-
+				pObj->GetComponent<Engine::CTransformC>()->SetRotation(_float3(xRot,
+					yRot,
+					zRot));
+			}
+			else if (ObjectKey == "m_objectKey=YellowBlock")
+			{
+				pObj = Engine::CObjectFactory::GetInstance()->AddClone(L"EventBlock", L"YellowBlock");
+				pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(xPos,
+					yPos,
+					zPos));
+				pObj->GetComponent<Engine::CTransformC>()->SetRotation(_float3(xRot,
+					yRot,
+					zRot));
 			}
 			else if (ObjectKey == "m_objectKey=GreenBlock")
 			{
 				pObj = Engine::CObjectFactory::GetInstance()->AddClone(L"EventBlock", L"GreenBlock");
-				pObj->GetComponent<Engine::CTransformComponent>()->SetPosition(_float3(xPos,
+				pObj->GetComponent<Engine::CTransformC>()->SetPosition(_float3(xPos,
 					yPos,
 					zPos));
-
+				pObj->GetComponent<Engine::CTransformC>()->SetRotation(_float3(xRot,
+					yRot,
+					zRot));
 			}
 
-			pView->Set_CubeData(pObj);
-			pView->Set_CubePos(pObj->GetComponent<Engine::CTransformComponent>()->GetPosition());
+
+
 			m_ListBox.AddString(pObj->GetObjectKey().c_str());
 		}
 		AfxMessageBox(L"Load Success | ObjectListView.cpp");
@@ -260,34 +288,13 @@ void CObjectListView::OnBnClickedLoad()
 void CObjectListView::OnLbnSelchangeObjectList()
 {
 	UpdateData(TRUE);
-
+	int Idx = m_ListBox.GetCurSel() - 1;
 	++m_iCnt;
 
 	if (m_iCnt > 0)
 	{
-		int Idx = m_ListBox.GetCurSel();
 
-		if (LB_ERR == Idx)
-			return;
-		CMainFrame* pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
-		CEditorView* pView = dynamic_cast<CEditorView*>(pMain->m_mainSplitter.GetPane(0, 0));
-
-		Engine::GET_CUR_SCENE->GetMainCamera()->m_ptransform->SetPosition(_float3(
-			pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformComponent>()->GetPosition().x,
-			pView->GetGameObjects()[Idx]->GetComponent<Engine::CTransformComponent>()->GetPosition().y,
-			Engine::GET_CUR_SCENE->GetMainCamera()->m_ptransform->GetPosition().z));
-
-		Engine::GET_CUR_SCENE->GetMainCamera()->m_ptransform->SetRotation(_float3(0.f, 0.f, 0.f));
-
-		if (m_iSelect != Idx)
-		{
-		    pView->GetGameObjects()[Idx]->GetComponent<Engine::CGraphicsComponent>()->SetRenderID(Engine::ERenderID::WireFrame);
-			pView->GetGameObjects()[m_iSelect]->GetComponent<Engine::CGraphicsComponent>()->SetRenderID(Engine::ERenderID::Base);
-		}
 		
-		m_iSelect = Idx;
-
-		m_iCnt = 0;
 	}
 
 	UpdateData(FALSE);
@@ -311,4 +318,9 @@ void CObjectListView::OnBnClickedBlue()
 void CObjectListView::OnBnClickedGreen()
 {
 	m_wsBlockColor = L"GreenBlock";
+}
+
+void CObjectListView::OnBnClickedYellow()
+{
+	m_wsBlockColor = L"YellowBlock";
 }

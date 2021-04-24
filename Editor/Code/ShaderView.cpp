@@ -104,18 +104,6 @@ void CShaderView::OnBnClickedButtonCoord()
 	SP(Engine::CObject) target = pEditorView->m_curSelectedObject;
 	auto& pTargetTC = target->GetComponent<Engine::CTransformC>();
 
-	if (0.f != coord.x)
-	{
-		pTargetTC->SetPositionX(coord.x);
-	}
-	else if (0.f != coord.y)
-	{
-		pTargetTC->SetPositionY(coord.y);
-	}
-	else if (0.f != coord.z)
-	{
-		pTargetTC->SetPositionZ(coord.z);
-	}
 }
 
 void CShaderView::OnBnClickedButtonRotation()
@@ -143,18 +131,6 @@ void CShaderView::OnBnClickedButtonRotation()
 	SP(Engine::CObject) target = pEditorView->m_curSelectedObject;
 	auto& pTargetTC = target->GetComponent<Engine::CTransformC>();
 	
-	if (0.f != rotation.x)
-	{
-		pTargetTC->SetRotationX(D3DXToRadian(rotation.x));
-	}
-	else if (0.f != rotation.y)
-	{
-		pTargetTC->SetRotationY(D3DXToRadian(rotation.y));
-	}
-	else if (0.f != rotation.z)
-	{
-		pTargetTC->SetRotationZ(D3DXToRadian(rotation.z));
-	}
 }
 
 void CShaderView::OnBnClickedButtonSize()
