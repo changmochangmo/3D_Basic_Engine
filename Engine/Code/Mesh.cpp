@@ -11,3 +11,8 @@ CMesh::CMesh()
 CMesh::~CMesh()
 {
 }
+
+void CMesh::AddTexNameToList(std::wstring texName)
+{
+	m_vTexList.emplace_back(texName);
+}

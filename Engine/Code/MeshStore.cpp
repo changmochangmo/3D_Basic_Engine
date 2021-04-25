@@ -71,18 +71,21 @@ void CMeshStore::ParsingMesh(std::wstring filePath, std::wstring fileName)
 	
 	if (GetLastDirName(fullFilePath) == L"Static")
 	{	
+		CStaticMesh* pNewStaticMesh = CStaticMesh::Create(filePath, fileName);
 		if (m_isStatic)
-			m_mStaticMeshData[RemoveExtension(fileName)] = CStaticMesh::Create(filePath, fileName);
+			m_mStaticMeshData[RemoveExtension(fileName)] = pNewStaticMesh;
 		else
-			m_mCurSceneMeshData[RemoveExtension(fileName)] = CStaticMesh::Create(filePath, fileName);
+			m_mCurSceneMeshData[RemoveExtension(fileName)] = pNewStaticMesh;
 	}
 	else if (GetLastDirName(fullFilePath) == L"Dynamic")//Dynamic Mesh
 	{
+		CDynamicMesh* pNewDynamicMesh = CDynamicMesh::Create(filePath, fileName);
 		if (m_isStatic)
-			m_mStaticMeshData[RemoveExtension(fileName)] = CDynamicMesh::Create(filePath, fileName);
+			m_mStaticMeshData[RemoveExtension(fileName)] = pNewDynamicMesh;
 		else
-			m_mCurSceneMeshData[RemoveExtension(fileName)] = CDynamicMesh::Create(filePath, fileName);
+			m_mCurSceneMeshData[RemoveExtension(fileName)] = pNewDynamicMesh;
 	}
 
 }
+
 

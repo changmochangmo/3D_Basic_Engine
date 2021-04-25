@@ -22,10 +22,12 @@ private:
 			void				ParsingMesh			(std::wstring filePath, 
 													 std::wstring fileName);
 
+
 private:
 	typedef std::unordered_map<std::wstring, CMesh*> _MeshMap;
-					_MeshMap		m_mCurSceneMeshData;
-					_MeshMap		m_mStaticMeshData;
+	
+	GETTOR(_MeshMap,	m_mCurSceneMeshData,	{},		CurSceneMeshData)
+	GETTOR(_MeshMap,	m_mStaticMeshData,		{},		StaticMeshData)
 };
 END
 #endif // !MESHSTORE_H

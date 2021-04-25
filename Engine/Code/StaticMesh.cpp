@@ -89,6 +89,11 @@ void CStaticMesh::Awake(std::wstring const& filePath, std::wstring const& fileNa
 	}
 
 	m_pMtrl = (D3DXMATERIAL*)m_pSubset->GetBufferPointer();
+	for (_size i = 0; i < m_subsetCount; ++i)
+	{
+		if(m_pMtrl[i].pTextureFilename != nullptr)
+			AddTexNameToList(StrToWStr(m_pMtrl[i].pTextureFilename));
+	}
 }
 
 void CStaticMesh::Start(void)

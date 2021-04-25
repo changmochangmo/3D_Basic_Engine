@@ -8,6 +8,7 @@
 #include "EditorDoc.h"
 #include "Object.h"
 
+class CMenuView;
 class CEditorView : public CView
 {
 protected: // serialization에서만 만들어집니다.
@@ -42,19 +43,13 @@ protected:
 	LPDIRECT3DDEVICE9 m_pDevice = nullptr;
 	SP(CMainEditor) m_pMainEditor = nullptr;
 
-private:
-	_float3 m_vCurCubePos;
-	_float3 m_vPreCubePos;
-	_uint   m_iDirNum;
-	typedef std::vector<SP(Engine::CObject)> _GAMEOBJECTS;
-	GETTOR(_GAMEOBJECTS, m_vGameObjects, {}, GameObjects)
-	SP(Engine::CObject) m_curSelectedObject = nullptr;
 
 public:
 	void Engine_Awake();
 	void Engine_Start();	
 
-	
+public:
+	CMenuView*	m_pMenuview;
 	
 
 // 생성된 메시지 맵 함수

@@ -11,8 +11,8 @@
 
 #include "EditorDoc.h"
 #include "EditorView.h"
-#include "ObjectListView.h"
 #include "DeviceManager.h"
+#include "MenuView.h"
 
 #include "DataStore.h"
 #include "MeshStore.h"
@@ -53,7 +53,6 @@ HWND g_hWnd;
 
 CEditorView::CEditorView()
 {
-	m_vCurCubePos = { 0.f, 0.f, 0.f };
 }
 
 CEditorView::~CEditorView()
@@ -61,12 +60,6 @@ CEditorView::~CEditorView()
 	m_pMainEditor->OnDestroy();
 	m_pMainEditor.reset();
 
-	for (auto& pObj : m_vGameObjects)
-	{
-		pObj->OnDestroy();
-		pObj.reset();
-	}
-	m_vGameObjects.clear();
 	
 	Engine::CWndApp::GetInstance()->DestroyInstance();
 	Engine::CFRC::GetInstance()->DestroyInstance();
@@ -170,16 +163,17 @@ void CEditorView::OnInitialUpdate()
 
 	::SetRect(&rcMainRect, 0, 0, rcMainRect.right - rcMainRect.left, rcMainRect.bottom - rcMainRect.top);
 
-	//RECT rcView = {};
-	//GetClientRect(&rcView);
-	//int iGapX = rcMainRect.right - rcView.right;
-	//int iGapY = rcMainRect.bottom - rcView.bottom;
-	//
-	//pMain->SetWindowPos(nullptr, 0, 0, 1430 + iGapX, VIEWCY + iGapY, SWP_NOZORDER | SWP_NOMOVE);
+	RECT rcView = {};
+	GetClientRect(&rcView);
+	int iGapX = rcMainRect.right - rcView.right;
+	int iGapY = rcMainRect.bottom - rcView.bottom;
+	
+	pMain->SetWindowPos(nullptr, 0, 0, VIEWCX + 400 + iGapX, VIEWCY + iGapY, SWP_NOZORDER | SWP_NOMOVE);
 
 	SetTimer(0, 0, nullptr);
 
-	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	m_pMenuview = dynamic_cast<CMenuView*>(pMain->m_mainSplitter.GetPane(0, 1));
+	
 }
 
 void CEditorView::Engine_Awake()

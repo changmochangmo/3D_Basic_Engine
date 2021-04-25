@@ -89,6 +89,12 @@ STDMETHODIMP CHierarchyLoader::CreateMeshContainer(THIS_ LPCSTR Name,
 	{
 		memcpy(pDerivedMeshContainer->pMaterials, pMaterials, 
 			   sizeof(D3DXMATERIAL) * pDerivedMeshContainer->NumMaterials);
+
+		for (_size i = 0; i < pDerivedMeshContainer->NumMaterials; ++i)
+		{
+			if(pDerivedMeshContainer->pMaterials[i].pTextureFilename != nullptr)
+				m_pOwner->AddTexNameToList(StrToWStr(pDerivedMeshContainer->pMaterials[i].pTextureFilename));
+		}
 	}
 	else
 	{

@@ -7,7 +7,6 @@
 #include "TextureStore.h"
 #include "Layer.h"
 #include "MainFrm.h"
-#include "ObjectListView.h"
 #include "EditorView.h"
 #include "SceneManager.h"
 #include "MenuView.h"

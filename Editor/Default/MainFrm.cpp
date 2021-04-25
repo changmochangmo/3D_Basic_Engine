@@ -7,8 +7,6 @@
 
 #include "MainFrm.h"
 #include "EditorView.h"
-#include "ShaderView.h"
-#include "ObjectListView.h"
 #include "MenuView.h"
 
 
@@ -58,9 +56,6 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 	// TODO: CREATESTRUCT cs를 수정하여 여기에서
 	//  Window 클래스 또는 스타일을 수정합니다.
-	cs.cx = 1580;    //가로 크기
-	cs.cy = 720;     //세로 크기
-
 
 	cs.style &= ~WS_THICKFRAME; //창 크기 조절 기능 비활성화
 	cs.style &= ~WS_MAXIMIZEBOX; //창 최대화버튼 비활성화
@@ -93,10 +88,10 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	CPoint pos;
 
 	GetClientRect(&rect);
-	pos.x = GetSystemMetrics(SM_CXSCREEN) / 2.0f - rect.Width() / 2.0f;
-	pos.y = GetSystemMetrics(SM_CYSCREEN) / 2.0f - rect.Height() / 2.0f;;
+	pos.x = (LONG)(GetSystemMetrics(SM_CXSCREEN) / 2.0f - rect.Width() / 2.0f);
+	pos.y = (LONG)(GetSystemMetrics(SM_CYSCREEN) / 2.0f - rect.Height() / 2.0f);
 
-	SetWindowPos(NULL, pos.x, pos.y, 0, 0, SWP_NOSIZE);
+	SetWindowPos(NULL, 50, 50, 0, 0, SWP_NOSIZE);
 
 	/*
 	
@@ -106,8 +101,8 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	*/
 
 	m_mainSplitter.CreateStatic(this, 1, 2);
-	m_mainSplitter.CreateView(0, 0, RUNTIME_CLASS(CEditorView), CSize(1280, VIEWCY), pContext);
-	m_mainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMenuView), CSize(300, VIEWCY), pContext);
+	m_mainSplitter.CreateView(0, 0, RUNTIME_CLASS(CEditorView), CSize(VIEWCX, VIEWCY), pContext);
+	m_mainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMenuView), CSize(VIEWCX, VIEWCY), pContext);
 
 
 	//m_uiSplitter.CreateStatic(&m_mainSplitter, 2, 1, WS_VISIBLE | WS_CHILD, m_mainSplitter.IdFromRowCol(0, 1));

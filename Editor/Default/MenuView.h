@@ -2,8 +2,8 @@
 #define MENUVIEW_H
 // CMenuView Æû ºäÀÔ´Ï´Ù.
 
-class CObjectListView;
-
+class CObjectsTab;
+class CMeshTab;
 class CMenuView : public CFormView
 {
 	DECLARE_DYNCREATE(CMenuView)
@@ -28,13 +28,23 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OpenObjectTab();
 
 public:
+	void HideAllTabs(void);
 private:
-	GETTOR		(CObjectListView,		m_objectListView,		nullptr,	ObjectListView)
+	
 public:
 	virtual void OnInitialUpdate();
+
+public:
+	CTabCtrl		m_tabCtrl;
+
+	CObjectsTab*	m_pObjectsTab;
+	CMeshTab*		m_pMeshTab;
+
+	_int			m_curCursel;
+
+	afx_msg void OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 
