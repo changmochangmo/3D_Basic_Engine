@@ -29,9 +29,7 @@
 #include "Scene.h"
 #include "InputManager.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
+
 
 // CEditorView
 
@@ -82,8 +80,6 @@ BOOL CEditorView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: CREATESTRUCT cs를 수정하여 여기에서
 	//  Window 클래스 또는 스타일을 수정합니다.
-
-
 
 	return CView::PreCreateWindow(cs);
 }
@@ -174,13 +170,12 @@ void CEditorView::OnInitialUpdate()
 
 	::SetRect(&rcMainRect, 0, 0, rcMainRect.right - rcMainRect.left, rcMainRect.bottom - rcMainRect.top);
 
-	RECT rcView = {};
-	GetClientRect(&rcView);
-	int iGapX = rcMainRect.right - rcView.right;
-	int iGapY = rcMainRect.bottom - rcView.bottom;
-
-	pMain->SetWindowPos(nullptr,//순서를 바꿔서 생성하지 않겠다. nullptr을 넣어주게 되면. 
-		0, 0, 1430 + iGapX, VIEWCY + iGapY, SWP_NOZORDER | SWP_NOMOVE);
+	//RECT rcView = {};
+	//GetClientRect(&rcView);
+	//int iGapX = rcMainRect.right - rcView.right;
+	//int iGapY = rcMainRect.bottom - rcView.bottom;
+	//
+	//pMain->SetWindowPos(nullptr, 0, 0, 1430 + iGapX, VIEWCY + iGapY, SWP_NOZORDER | SWP_NOMOVE);
 
 	SetTimer(0, 0, nullptr);
 
@@ -190,11 +185,19 @@ void CEditorView::OnInitialUpdate()
 void CEditorView::Engine_Awake()
 {
 	Engine::CDataStore::GetInstance()->Awake();
+	Engine::CDataStore::GetInstance()->InitDataMap((_uint)EDataID::NumOfDataID);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"BasicObject", (_uint)EDataID::BasicObject);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Terrain", (_uint)EDataID::Terrain);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Decoration", (_uint)EDataID::Decoration);
+
+	Engine::CFRC::GetInstance()->Awake();
 	Engine::CWndApp::GetInstance()->Awake();
 	Engine::CDeviceManager::GetInstance()->Awake();
-	Engine::CMeshStore::GetInstance()->Awake();
 	Engine::CTextureStore::GetInstance()->Awake();
-	Engine::CFRC::GetInstance()->Awake();
+	Engine::CMeshStore::GetInstance()->Awake();
+	
+	
 }
 
 void CEditorView::Engine_Start()
@@ -204,9 +207,9 @@ void CEditorView::Engine_Start()
 	Engine::CWndApp::GetInstance()->SetWndWidth(VIEWCX);
 	Engine::CWndApp::GetInstance()->SetWndHeight(VIEWCY);
 	Engine::CDeviceManager::GetInstance()->Start();
-	Engine::CMeshStore::GetInstance()->Start();
-	Engine::CTextureStore::GetInstance()->Start();
 	Engine::CFRC::GetInstance()->Start();
+	Engine::CTextureStore::GetInstance()->Start();
+	Engine::CMeshStore::GetInstance()->Start();
 }
 
 
@@ -237,9 +240,7 @@ void CEditorView::OnMouseMove(UINT nFlags, CPoint point)
 	_int i = 0;
 	TCHAR szBuf[MAX_PATH] = L"";
 	swprintf_s(szBuf, L"%d", i);
-	//RECT rc = { 0,0,100,100 };
-	//Engine::GET_DEVICE->->Get_Font()->DrawTextW(nullptr, m_szFPS, lstrlen(m_szFPS), &rc, 0, D3DCOLOR_ARGB(255, 0, 0, 0));*/
-	
+
 	if (Engine::CInputManager::GetInstance()->KeyDown(MOUSE_LEFT))
 	{
 

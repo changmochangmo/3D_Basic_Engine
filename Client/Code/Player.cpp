@@ -37,26 +37,23 @@ void CPlayer::Awake(void)
 {
 	__super::Awake();
 
-	m_layerID = (_int)ELayerID::Player;
-	m_dataID = (_int)EDataID::Player;
+	m_layerID	= (_int)ELayerID::Player;
+	m_dataID	= (_int)EDataID::Player;
 
-	m_spTransform = AddComponent<Engine::CTransformC>();
-	m_spMesh = AddComponent<Engine::CMeshC>();
-	m_spTexture = AddComponent<Engine::CTextureC>();
-	m_spGraphics = AddComponent<Engine::CGraphicsC>();
-	m_spDebug = AddComponent<Engine::CDebugC>();
+	m_spMesh		= AddComponent<Engine::CMeshC>();
+	m_spTexture		= AddComponent<Engine::CTextureC>();
+	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
+	m_spDebug		= AddComponent<Engine::CDebugC>();
 }
 
 void CPlayer::Start(void)
 {
 	__super::Start();
-	m_spTransform = GetComponent<Engine::CTransformC>();
-	m_spMesh = GetComponent<Engine::CMeshC>();
-	m_spTexture = GetComponent<Engine::CTextureC>();
-	m_spGraphics = GetComponent<Engine::CGraphicsC>();
-	m_spDebug = GetComponent<Engine::CDebugC>();
-
-	m_spTransform->SetSize(_float3(0.5f, 0.5f, 0.5f));
+	
+	m_spMesh		= GetComponent<Engine::CMeshC>();
+	m_spTexture		= GetComponent<Engine::CTextureC>();
+	m_spGraphics	= GetComponent<Engine::CGraphicsC>();
+	m_spDebug		= GetComponent<Engine::CDebugC>();
 }
 
 void CPlayer::FixedUpdate(void)

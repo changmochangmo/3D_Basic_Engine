@@ -234,6 +234,13 @@ BEGIN
     PUSHBUTTON      "To the Top",IDC_BUTTON8,105,153,50,14
 END
 
+IDD_MENUVIEW DIALOGEX 0, 0, 320, 200
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 9, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Object Tab",IDC_BUTTON1,18,19,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -305,6 +312,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 422
     END
+
+    IDD_MENUVIEW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 193
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -320,6 +335,11 @@ BEGIN
 END
 
 IDD_OBJECTLISTVIEW AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_MENUVIEW AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

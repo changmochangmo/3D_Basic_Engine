@@ -1,77 +1,44 @@
-//**************************************************************//
-//  Effect File exported by RenderMonkey 1.6
-//
-//  - Although many improvements were made to RenderMonkey FX  
-//    file export, there are still situations that may cause   
-//    compilation problems once the file is exported, such as  
-//    occasional naming conflicts for methods, since FX format 
-//    does not support any notions of name spaces. You need to 
-//    try to create workspaces in such a way as to minimize    
-//    potential naming conflicts on export.                    
-//    
-//  - Note that to minimize resulting name collisions in the FX 
-//    file, RenderMonkey will mangle names for passes, shaders  
-//    and function names as necessary to reduce name conflicts. 
-//**************************************************************//
+matrix WorldMatrix;
+matrix ViewMatrix;
+matrix ProjMatrix;
+float4 Color;
 
-//--------------------------------------------------------------//
-// ColorShader
-//--------------------------------------------------------------//
-//--------------------------------------------------------------//
-// Pass 0
-//--------------------------------------------------------------//
-string ColorShader_Pass_0_Model : ModelData = "..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
-
-struct VS_INPUT 
+struct PS_INPUT
 {
-   float4 Position : POSITION;
-   
+	float4 position : POSITION;
 };
 
-struct VS_OUTPUT 
+struct VS_INPUT
 {
-   float4 Position : POSITION;
-   
+	float4 position : POSITION;
 };
 
-float4x4 matWorld : World;
-float4x4 matView : View;
-float4x4 matProj : Projection;
-
-
-VS_OUTPUT ColorShader_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
+PS_INPUT vs_main(VS_INPUT input)
 {
-   VS_OUTPUT Output;
+	PS_INPUT output;
 
-   Output.Position = mul(Input.Position, matWorld );
-   Output.Position = mul(Output.Position, matView);
-   Output.Position = mul(Output.Position, matProj);
-   
-   return Output;
-   
+	output.position.w = 1.0f;
+
+	output.position = mul(input.position, WorldMatrix);
+	output.position = mul(output.position, ViewMatrix);
+	output.position = mul(output.position, ProjMatrix);
+
+
+	return output;
 }
 
-
-
-
-float4 ColorShader_Pass_0_Pixel_Shader_ps_main() : COLOR
-{   
-   return( float4( 0.0f, 0.0f, 1.0f, 1.0f ) );   
-}
-
-
-
-
-//--------------------------------------------------------------//
-// Technique Section for ColorShader
-//--------------------------------------------------------------//
-technique ColorShader
+float4 ps_main(PS_INPUT input) : COLOR0
 {
-   pass Pass_0
-   {
-      VertexShader = compile vs_2_0 ColorShader_Pass_0_Vertex_Shader_vs_main();
-      PixelShader = compile ps_2_0 ColorShader_Pass_0_Pixel_Shader_ps_main();
-   }
-
+	float4 baseColor = Color;
+	return baseColor;
 }
 
+technique Default_Technique
+{
+	pass Default_Pass
+	{
+		VertexShader = compile vs_3_0 vs_main();
+		PixelShader = compile ps_3_0 ps_main();
+	}
+
+};

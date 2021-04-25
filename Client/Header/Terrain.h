@@ -1,17 +1,17 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef TERRAIN_H
+#define TERRAIN_H
 
 #include "Object.h"
 
-class CPlayer final : public Engine::CObject
+class CTerrain final : public Engine::CObject
 {
 	SMART_DELETER_REGISTER
 private:
-	explicit						CPlayer				(void);
-								   ~CPlayer				(void);
+	explicit						CTerrain			(void);
+								   ~CTerrain			(void);
 
 public:
-	static		SP(CPlayer)			Create				(_bool isStatic);
+	static		SP(CTerrain)		Create				(_bool isStatic);
 
 				SP(Engine::CObject)	MakeClone			(void) override;
 		
@@ -27,9 +27,6 @@ public:
 				void				OnEnable			(void) override;
 				void				OnDisable			(void) override;
 
-				void				OnCollisionEnter	(Engine::_CollisionInfo ci);
-				void				OnCollisionStay		(Engine::_CollisionInfo ci);
-				void				OnCollisionExit		(Engine::_CollisionInfo ci);
 public:
 				void				SetBasicName		(void) override;
 

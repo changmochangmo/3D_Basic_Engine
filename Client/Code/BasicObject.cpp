@@ -37,14 +37,11 @@ void CBasicObject::Awake(void)
 
 	m_layerID	= (_int)ELayerID::BasicObject;
 	m_dataID	= (_int)EDataID::BasicObject;
-
-	m_spTransform = AddComponent<Engine::CTransformC>();
 }
 
 void CBasicObject::Start(void)
 {
 	__super::Start();
-	m_spTransform = GetComponent<Engine::CTransformC>();
 }
 
 void CBasicObject::FixedUpdate(void)

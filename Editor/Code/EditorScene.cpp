@@ -10,6 +10,7 @@
 #include "ObjectListView.h"
 #include "EditorView.h"
 #include "SceneManager.h"
+#include "MenuView.h"
 
 CEditorScene::CEditorScene()
 {
@@ -43,7 +44,9 @@ void CEditorScene::Start(void)
 
 	m_pMain = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 	m_pEditorView = dynamic_cast<CEditorView*>(m_pMain->m_mainSplitter.GetPane(0, 0));
-	m_pListView = dynamic_cast<CObjectListView*>(m_pMain->m_uiSplitter.GetPane(0, 0));
+	m_pMenuView = dynamic_cast<CMenuView*>(m_pMain->m_mainSplitter.GetPane(0, 1));
+	//m_pListView = dynamic_cast<CObjectListView*>(m_pMain->m_uiSplitter.GetPane(0, 0));
+
 
 }
 

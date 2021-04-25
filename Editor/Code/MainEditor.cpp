@@ -28,24 +28,23 @@ SP(CMainEditor) CMainEditor::Create(void)
 
 void CMainEditor::Awake(void)
 {
-	Engine::CObjectFactory::GetInstance()->Awake();
-	Engine::CGraphicsManager::GetInstance()->Awake();
+	Engine::CTextManager::GetInstance()->Awake();
 	Engine::CInputManager::GetInstance()->Awake();
 	Engine::CSceneManager::GetInstance()->Awake();
+	Engine::CObjectFactory::GetInstance()->Awake();
+	Engine::CGraphicsManager::GetInstance()->Awake();
 	Engine::CShaderManager::GetInstance()->Awake();
-	Engine::CTextManager::GetInstance()->Awake();
 }
 
 void CMainEditor::Start(void)
 {
-	Engine::CObjectFactory::GetInstance()->Start();
-	Engine::CGraphicsManager::GetInstance()->Start();
-	Engine::CInputManager::GetInstance()->Start();
+	Engine::CTextManager::GetInstance()->Start();
+	Engine::CInputManager::GetInstance()->Start();	
 	Engine::CSceneManager::GetInstance()->Start();
 	Engine::CSceneManager::GetInstance()->SceneChange(CEditorScene::Create());
+	Engine::CObjectFactory::GetInstance()->Start();
+	Engine::CGraphicsManager::GetInstance()->Start();
 	Engine::CShaderManager::GetInstance()->Start();
-	Engine::CTextManager::GetInstance()->Start();
-
 }
 
 void CMainEditor::FixedUpdate(void)

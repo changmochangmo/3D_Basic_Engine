@@ -39,6 +39,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Engine::CDataStore::GetInstance()->InitDataMap((_uint)EDataID::NumOfDataID);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"BasicObject", (_uint)EDataID::BasicObject);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Terrain", (_uint)EDataID::Terrain);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Decoration", (_uint)EDataID::Decoration);
 
 	Engine::CFRC::GetInstance()->Awake();
 	Engine::CWndApp::GetInstance()->Awake();

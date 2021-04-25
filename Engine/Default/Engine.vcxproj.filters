@@ -511,5 +511,8 @@
     <FxCompile Include="..\..\Resource\Shader\TextureShader.fx">
       <Filter>00.Engine\01.Graphics\02.Shader\01.Shaders\TextureShader</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Resource\Shader\DebugShader.fx">
+      <Filter>00.Engine\01.Graphics\02.Shader\01.Shaders\DebugShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

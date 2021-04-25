@@ -8,9 +8,9 @@ class ENGINE_DLL CObject abstract
 	SMART_DELETER_REGISTER
 
 protected:
-	explicit							CObject			(void);
-	explicit							CObject			(const CObject& other);
-	virtual							   ~CObject			(void);
+	explicit						CObject				(void);
+	explicit						CObject				(const CObject& other);
+	virtual						   ~CObject				(void);
 
 public:
 	virtual			SP(CObject)		MakeClone			(void) PURE;
@@ -45,23 +45,24 @@ protected:
 protected:
 	typedef std::unordered_map<_uint, SP(CComponent)> _COMPONENTS;
 
-	GETTOR			(_COMPONENTS,		m_mComponents,		{},			Components)
+	GETTOR			(_COMPONENTS,				m_mComponents,	{},			Components)
 
-	GETTOR_SETTOR	(_bool,				m_isClone,			false,		IsClone)
-	GETTOR_SETTOR	(_bool,				m_addExtra,			false,		AddExtra)
+	GETTOR_SETTOR	(_bool,						m_isClone,		false,		IsClone)
+	GETTOR_SETTOR	(_bool,						m_addExtra,		false,		AddExtra)
 
-	GETTOR_SETTOR	(_bool,				m_isStatic,			false,		IsStatic)
-	GETTOR_SETTOR	(_bool,				m_isAwaked,			false,		IsAwaked)
-	GETTOR_SETTOR	(_bool,				m_isStarted,		false,		IsStarted)
+	GETTOR_SETTOR	(_bool,						m_isStatic,		false,		IsStatic)
+	GETTOR_SETTOR	(_bool,						m_isAwaked,		false,		IsAwaked)
+	GETTOR_SETTOR	(_bool,						m_isStarted,	false,		IsStarted)
 
-	GETTOR_SETTOR	(_bool,				m_isEnabled,		true,		IsEnabled)
-	GETTOR_SETTOR	(_bool,				m_deleteThis,		false,		DeleteThis)
+	GETTOR_SETTOR	(_bool,						m_isEnabled,	true,		IsEnabled)
+	GETTOR_SETTOR	(_bool,						m_deleteThis,	false,		DeleteThis)
 
-	GETTOR_SETTOR	(_int,				m_dataID,			-1,			DataID)						
-	GETTOR_SETTOR	(_int,				m_layerID,			-1,			LayerID)
-	GETTOR_SETTOR	(std::wstring,		m_objectKey,		L"",		ObjectKey)
+	GETTOR_SETTOR	(_int,						m_dataID,		-1,			DataID)						
+	GETTOR_SETTOR	(_int,						m_layerID,		-1,			LayerID)
+	GETTOR_SETTOR	(std::wstring,				m_objectKey,	L"",		ObjectKey)
 
-	GETTOR_SETTOR	(std::wstring,		m_name,				L"",		Name)
+	GETTOR_SETTOR	(std::wstring,				m_name,			L"",		Name)
+	GETTOR			(SP(Engine::CTransformC),	m_spTransform,	nullptr,	Transform)
 
 public:
 	//오브젝트에서 컴포넌트 가져오는 함수

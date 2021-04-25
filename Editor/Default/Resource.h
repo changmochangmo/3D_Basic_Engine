@@ -8,6 +8,7 @@
 #define IDR_EditorTYPE                  130
 #define IDD_OBJECTLISTVIEW              310
 #define IDD_SHADERVIEW                  311
+#define IDD_MENUVIEW                    317
 #define IDC_LIST1                       1000
 #define IDC_BUTTON1                     1001
 #define IDC_BUTTON2                     1002
@@ -40,9 +41,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        313
+#define _APS_NEXT_RESOURCE_VALUE        319
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1032
-#define _APS_NEXT_SYMED_VALUE           312
+#define _APS_NEXT_CONTROL_VALUE         1033
+#define _APS_NEXT_SYMED_VALUE           318
 #endif
 #endif

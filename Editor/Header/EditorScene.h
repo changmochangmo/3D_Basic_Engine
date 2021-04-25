@@ -36,5 +36,6 @@ private:
 	class CMainFrame * m_pMain;
 	class CEditorView* m_pEditorView;
 	class CObjectListView* m_pListView;
+	class CMenuView*		m_pMenuView;
 };
 

@@ -40,6 +40,12 @@
     <Filter Include="02.Objects\00.BasicObject">
       <UniqueIdentifier>{a25b9957-8289-4078-b187-08a8609d2e72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Objects\03.Decoration">
+      <UniqueIdentifier>{733aa3ea-d9c0-4645-aa7b-116519899d85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\02.Terrain">
+      <UniqueIdentifier>{cd91a14f-1822-4b39-bc89-e265bbc59be0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -81,6 +87,12 @@
     <ClInclude Include="..\Header\BasicObject.h">
       <Filter>02.Objects\00.BasicObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Decoration.h">
+      <Filter>02.Objects\03.Decoration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Terrain.h">
+      <Filter>02.Objects\02.Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -100,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\BasicObject.cpp">
       <Filter>02.Objects\00.BasicObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Decoration.cpp">
+      <Filter>02.Objects\03.Decoration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Terrain.cpp">
+      <Filter>02.Objects\02.Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

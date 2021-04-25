@@ -9,10 +9,9 @@
 #include "EditorView.h"
 #include "ShaderView.h"
 #include "ObjectListView.h"
+#include "MenuView.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
+
 
 // CMainFrame
 
@@ -39,7 +38,6 @@ static UINT indicators[] =
 CMainFrame::CMainFrame()
 {
 	// TODO: 여기에 멤버 초기화 코드를 추가합니다.
-	
 }
 
 CMainFrame::~CMainFrame()
@@ -60,6 +58,12 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 	// TODO: CREATESTRUCT cs를 수정하여 여기에서
 	//  Window 클래스 또는 스타일을 수정합니다.
+	cs.cx = 1580;    //가로 크기
+	cs.cy = 720;     //세로 크기
+
+
+	cs.style &= ~WS_THICKFRAME; //창 크기 조절 기능 비활성화
+	cs.style &= ~WS_MAXIMIZEBOX; //창 최대화버튼 비활성화
 
 	return TRUE;
 }
@@ -102,11 +106,13 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	*/
 
 	m_mainSplitter.CreateStatic(this, 1, 2);
-	m_mainSplitter.CreateView(0, 0, RUNTIME_CLASS(CEditorView), CSize(VIEWCX, VIEWCY), pContext);
+	m_mainSplitter.CreateView(0, 0, RUNTIME_CLASS(CEditorView), CSize(1280, VIEWCY), pContext);
+	m_mainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMenuView), CSize(300, VIEWCY), pContext);
 
-	m_uiSplitter.CreateStatic(&m_mainSplitter, 2, 1, WS_VISIBLE | WS_CHILD, m_mainSplitter.IdFromRowCol(0, 1));
-	m_uiSplitter.CreateView(0, 0, RUNTIME_CLASS(CObjectListView), CSize(150, 300), pContext);
-	m_uiSplitter.CreateView(1, 0, RUNTIME_CLASS(CShaderView), CSize(150, 760), pContext);
+
+	//m_uiSplitter.CreateStatic(&m_mainSplitter, 2, 1, WS_VISIBLE | WS_CHILD, m_mainSplitter.IdFromRowCol(0, 1));
+	//m_uiSplitter.CreateView(0, 0, RUNTIME_CLASS(CObjectListView), CSize(150, 300), pContext);
+	//m_uiSplitter.CreateView(1, 0, RUNTIME_CLASS(CShaderView), CSize(150, 760), pContext);
 
 	return TRUE;
 }

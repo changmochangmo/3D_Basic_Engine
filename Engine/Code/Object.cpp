@@ -19,13 +19,15 @@ CObject::~CObject(void)
 
 void CObject::Awake(void)
 {
-	m_isAwaked = true;
-	m_objectKey = GetCurClassName(this);
+	m_isAwaked		= true;
+	m_objectKey		= GetCurClassName(this);
+	m_spTransform	= AddComponent<Engine::CTransformC>();
 }
 
 void CObject::Start(void)
 {
-	m_isStarted = true;
+	m_isStarted		= true;
+	m_spTransform	= GetComponent<Engine::CTransformC>();
 }
 
 void CObject::FixedUpdate(void)

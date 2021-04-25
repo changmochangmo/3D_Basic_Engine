@@ -186,8 +186,10 @@
     <ClInclude Include="..\Header\ClientMacro.h" />
     <ClInclude Include="..\Header\ClientStructure.h" />
     <ClInclude Include="..\Header\ClientTypedef.h" />
+    <ClInclude Include="..\Header\Decoration.h" />
     <ClInclude Include="..\Header\MainApp.h" />
     <ClInclude Include="..\Header\Player.h" />
+    <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="stdafx.h" />
@@ -196,8 +198,10 @@
   <ItemGroup>
     <ClCompile Include="..\Code\BasicObject.cpp" />
     <ClCompile Include="..\Code\ChangmoScene.cpp" />
+    <ClCompile Include="..\Code\Decoration.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
+    <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

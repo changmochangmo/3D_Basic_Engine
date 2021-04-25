@@ -137,6 +137,7 @@
     <ClCompile Include="..\Code\WndApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\Resource\Shader\DebugShader.fx" />
     <FxCompile Include="..\..\Resource\Shader\TextureShader.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)Resource\Shader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
