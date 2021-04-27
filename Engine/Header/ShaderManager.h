@@ -9,16 +9,16 @@ class ENGINE_DLL CShaderManager final : public CEngine
 {
 	DECLARE_SINGLETON(CShaderManager)
 public:
-			void		Awake		(void) override;
-			void		Start		(void);
-			void		OnDestroy	(void);
-			void		OnEnable	(void);
-			void		OnDisable	(void);
+			void		Awake					(void) override;
+			void		Start					(void);
+			void		OnDestroy				(void);
+			void		OnEnable				(void);
+			void		OnDisable				(void);
 
-			CShader*	GetShader	(_int shaderKey);
-
+			CShader*	GetShader				(_int shaderKey);
+			_int		GetShaderKeyByRenderID	(_int renderID);
 private:
-			HRESULT		AddShader	(CShader* pShader);
+			HRESULT		AddShader				(CShader* pShader);
 
 private:
 	std::unordered_map<_int, CShader*> m_mShaders;

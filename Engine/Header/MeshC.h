@@ -33,7 +33,7 @@ private:
 	GETTOR_SETTOR	(CMesh*,		m_pMeshData,		nullptr,		MeshData)
 	GETTOR			(_float3,		m_minVertex,		MAX_VECTOR,		MinVertex)
 	GETTOR			(_float3,		m_maxVertex,		-MAX_VECTOR,	MaxVertex)
-	GETTOR			(_int,			m_renderID,			UNDEFINED,		RenderID)
+	GETTOR_SETTOR	(_int,			m_renderID,			UNDEFINED,		RenderID)
 };
 END
 #endif // !MESH_H

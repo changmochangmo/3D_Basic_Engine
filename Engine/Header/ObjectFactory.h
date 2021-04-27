@@ -9,25 +9,26 @@ class ENGINE_DLL CObjectFactory final : public CEngine
 {
 	DECLARE_SINGLETON(CObjectFactory)
 public:
-			void						Awake				(void) override;
-			void						Start				(void);
+			void			Awake				(void) override;
+			void			Start				(void);
 
-			void						OnDestroy			(void);
+			void			OnDestroy			(void);
 
-			void						OnEnable			(void);
-			void						OnDisable			(void);
+			void			OnEnable			(void);
+			void			OnDisable			(void);
 
-			HRESULT						AddPrototype		(SP(CObject) pPrototype);
-			SP(CObject)				AddClone			(const std::wstring& protoObjectKey,
-															 _bool isStatic = false,
-															 const std::wstring& name = L"");
+			HRESULT			AddPrototype		(SP(CObject) pPrototype);
+			SP(CObject)		AddClone			(const std::wstring& protoObjectKey,
+												 _bool isStatic = false,
+												 const std::wstring& name = L"");
 
-			void						ClearCurPrototype	(void);
-private:															 
+			void			ClearCurPrototype	(void);
+			void			InitPrototypes		(_uint sceneNum);
+private:
 	//여러개의 맵을 가지고 있을 것. 각 맵은 하나의 Scene을 의미. 프로토타입
 	typedef std::unordered_map<std::wstring, SP(CObject)> _PROTOTYPES;
-					_PROTOTYPES		m_mCurPrototypes;
-					_PROTOTYPES		m_mStaticPrototypes;
+	GETTOR	(_PROTOTYPES,	m_mCurPrototypes,		{},		CurPrototypes)
+	GETTOR	(_PROTOTYPES,	m_mStaticPrototypes,	{},		StaticPrototypes)
 };
 END
 #endif

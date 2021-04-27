@@ -24,8 +24,8 @@ public:
 	virtual		void					OnEnable			(void) PURE;
 	virtual		void					OnDisable			(void) PURE;
 				
-				SP(CObject)			FindObjectByName		(std::wstring name);
-				SP(CObject)			FindObjectWithKey		(std::wstring objectKey);
+				SP(CObject)				FindObjectByName		(std::wstring name);
+				SP(CObject)				FindObjectWithKey		(std::wstring objectKey);
 				_uint					FindObjectsWithKey		(std::wstring objectKey, 
 																 std::vector<SP(CObject)>& gameObjects);
 

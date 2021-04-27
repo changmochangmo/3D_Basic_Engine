@@ -158,7 +158,7 @@ void CInputManager::MoveMouseToCenter(void)
 	m_mousePos = _float3(0, 0, 0);
 }
 
-CObject * CInputManager::MousePicking(_int layerID, _float3& intersection)
+CObject* CInputManager::MousePicking(_int layerID, _float3& intersection)
 {
 	_float3 rayStartPos = GET_MAIN_CAM->GetTransform()->GetPosition(); // 원점
 	_float3 rayDir = GetPickingDirection(); // 방향

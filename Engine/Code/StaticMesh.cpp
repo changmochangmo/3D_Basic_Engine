@@ -21,6 +21,7 @@ CMesh* CStaticMesh::MakeClone(void)
 	pClone->m_pMtrl			= m_pMtrl;
 	pClone->m_subsetCount	= m_subsetCount;
 	pClone->m_meshType		= m_meshType;
+	pClone->m_vTexList		= m_vTexList;
 
 	return pClone;
 }

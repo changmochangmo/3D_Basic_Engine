@@ -25,13 +25,18 @@ public:
 					void				OnEnable			(void) override;
 					void				OnDisable			(void) override;
 
+public:
+					void				ChangeMesh			(std::wstring const& meshKey);
 private:
 					void				SetupBV				(void);
+					
 public:
 	static const	EComponentID		m_s_componentID = EComponentID::Debug;
 
 private:
-	GETTOR			(CMesh*,			m_pBV,				nullptr,		BV)
+	typedef std::vector<CMesh*> _MESHES;
+	
+	GETTOR			(_MESHES,			m_vMeshDatas,		{},				MeshDatas)
 	GETTOR			(_int,				m_debugType,		UNDEFINED,		DebugType)
 
 	GETTOR			(SP(CTransformC),	m_spTransform,		nullptr,		Transform)

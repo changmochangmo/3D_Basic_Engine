@@ -34,10 +34,11 @@ enum class EDataID
 
 enum class ELayerID
 {
-	BasicObject		= 0,
-	Player			= 1,
-	Terrain			= 2,
-	Decoration		= 3,
+	Grid			= 0,
+	BasicObject		= 1,
+	Player			= 2,
+	Terrain			= 3,
+	Decoration		= 4,
 	NumOfLayerID
 };
 #endif // CLIENTENUM_H

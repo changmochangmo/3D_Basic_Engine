@@ -45,9 +45,7 @@ protected:
 
 
 public:
-	void Engine_Awake();
-	void Engine_Start();	
-
+	//함수 선언
 public:
 	CMenuView*	m_pMenuview;
 	

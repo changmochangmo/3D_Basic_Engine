@@ -46,6 +46,16 @@ namespace Engine
 		NumOfDebugBV	= 2
 	};
 
+	enum class EDebugMT
+	{
+		BV				= 0,
+		ArrowR			= 1,
+		ArrowU			= 2,
+		ArrowF			= 3,
+		Mesh			= 4,
+		NumOfDebugMT	= 5
+	};
+
 	enum class EShaderType
 	{
 		Debug			= 0,
@@ -79,7 +89,6 @@ namespace Engine
 		FreezeAll			= 1 << 9
 	};
 #pragma endregion
-
 
 	enum class EComponentID
 	{

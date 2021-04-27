@@ -127,3 +127,7 @@ void CObjectFactory::ClearCurPrototype(void)
 	}
 	m_mCurPrototypes.clear();
 }
+
+void CObjectFactory::InitPrototypes(_uint sceneNum)
+{
+}

@@ -54,12 +54,19 @@ void CDebugShader::Render(CGraphicsC * pGC)
 				MSG_BOX(__FILE__, L"Shader BeginPass Failed");
 				ABORT;
 			}
-			CStaticMesh* pSM = dynamic_cast<CStaticMesh*>(pGC->GetDebug()->GetBV());
-			
-			for (_ulong i = 0; i < pSM->GetSubsetCount(); ++i)
+
+
+			std::vector<CMesh*> const& vMeshDatas = pGC->GetDebug()->GetMeshDatas();
+			for (_int i = 0; i < (_int)EDebugMT::NumOfDebugMT; ++i)
 			{
-				pSM->GetMesh()->DrawSubset(i);
+				if (vMeshDatas[i] != nullptr)
+				{
+					CStaticMesh* pSM = dynamic_cast<CStaticMesh*>(vMeshDatas[i]);
+					for (_ulong i = 0; i < pSM->GetSubsetCount(); ++i)
+						pSM->GetMesh()->DrawSubset(i);
+				}
 			}
+
 
 			m_pShader->EndPass();
 		}

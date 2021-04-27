@@ -3,7 +3,8 @@
 
 
 // CMeshTab 대화 상자입니다.
-class CObjectsTab;
+class CInifileTab;
+class CTextureTab;
 class CMeshTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(CMeshTab)
@@ -23,8 +24,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	CObjectsTab* m_pObjectsTab = nullptr;
-
+	CInifileTab*	m_pInifileTab = nullptr;
+	CTextureTab*	m_pTexTab = nullptr;
 public:
 	CListBox	m_meshList;
 	_uint		m_index		= 0;

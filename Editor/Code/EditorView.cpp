@@ -48,8 +48,6 @@ BEGIN_MESSAGE_MAP(CEditorView, CView)
 	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
-// CEditorView 생성/소멸
-HWND g_hWnd;
 
 CEditorView::CEditorView()
 {
@@ -145,11 +143,33 @@ CEditorDoc* CEditorView::GetDocument() const // 디버그되지 않은 버전은 인라인으�
 void CEditorView::OnInitialUpdate()
 {
 	CView::OnInitialUpdate();
-	g_hWnd = m_hWnd;
 
 
-	Engine_Awake();
-	Engine_Start();
+#pragma region SubEnginesAwake
+	Engine::CDataStore::GetInstance()->Awake();
+	Engine::CDataStore::GetInstance()->InitDataMap((_uint)EDataID::NumOfDataID);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"BasicObject", (_uint)EDataID::BasicObject);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Terrain", (_uint)EDataID::Terrain);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Decoration", (_uint)EDataID::Decoration);
+
+	Engine::CFRC::GetInstance()->Awake();
+	Engine::CWndApp::GetInstance()->Awake();
+	Engine::CDeviceManager::GetInstance()->Awake();
+	Engine::CTextureStore::GetInstance()->Awake();
+	Engine::CMeshStore::GetInstance()->Awake();
+#pragma endregion
+
+#pragma region SubEnginesStart
+	Engine::CDataStore::GetInstance()->Start();
+	Engine::CWndApp::GetInstance()->SetHWnd(m_hWnd);
+	Engine::CWndApp::GetInstance()->SetWndWidth(VIEWCX);
+	Engine::CWndApp::GetInstance()->SetWndHeight(VIEWCY);
+	Engine::CDeviceManager::GetInstance()->Start();
+	Engine::CFRC::GetInstance()->Start();
+	Engine::CTextureStore::GetInstance()->Start();
+	Engine::CMeshStore::GetInstance()->Start();
+#pragma endregion
 
 	m_pMainEditor = CMainEditor::Create();
 
@@ -174,36 +194,6 @@ void CEditorView::OnInitialUpdate()
 
 	m_pMenuview = dynamic_cast<CMenuView*>(pMain->m_mainSplitter.GetPane(0, 1));
 	
-}
-
-void CEditorView::Engine_Awake()
-{
-	Engine::CDataStore::GetInstance()->Awake();
-	Engine::CDataStore::GetInstance()->InitDataMap((_uint)EDataID::NumOfDataID);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"BasicObject", (_uint)EDataID::BasicObject);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"Terrain", (_uint)EDataID::Terrain);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"Decoration", (_uint)EDataID::Decoration);
-
-	Engine::CFRC::GetInstance()->Awake();
-	Engine::CWndApp::GetInstance()->Awake();
-	Engine::CDeviceManager::GetInstance()->Awake();
-	Engine::CTextureStore::GetInstance()->Awake();
-	Engine::CMeshStore::GetInstance()->Awake();
-	
-	
-}
-
-void CEditorView::Engine_Start()
-{
-	Engine::CDataStore::GetInstance()->Start();
-	Engine::CWndApp::GetInstance()->SetHWnd(g_hWnd);
-	Engine::CWndApp::GetInstance()->SetWndWidth(VIEWCX);
-	Engine::CWndApp::GetInstance()->SetWndHeight(VIEWCY);
-	Engine::CDeviceManager::GetInstance()->Start();
-	Engine::CFRC::GetInstance()->Start();
-	Engine::CTextureStore::GetInstance()->Start();
-	Engine::CMeshStore::GetInstance()->Start();
 }
 
 

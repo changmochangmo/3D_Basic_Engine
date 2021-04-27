@@ -1,17 +1,18 @@
 #include "stdafx.h"
 #include "MainApp.h"
 
-#include "GraphicsManager.h"
-#include "SceneManager.h"
-#include "InputManager.h"
+#include "CameraManager.h"
 #include "CollisionManager.h"
+#include "GraphicsManager.h"
+#include "InputManager.h"
+#include "ShaderManager.h"
+#include "SoundManager.h"
+#include "SceneManager.h"
+#include "TextManager.h"
 #include "ObjectFactory.h"
 #include "Object.h"
-#include "ShaderManager.h"
 #include "FRC.h"
-#include "TextManager.h"
-#include "SoundManager.h"
-#include "CameraManager.h"
+
 
 #pragma region IncludeScenes
 #include "ChangmoScene.h"
@@ -102,11 +103,7 @@ void CMainApp::LateUpdate(void)
 	
 	Engine::CCameraManager::GetInstance()->LateUpdate();
 	Engine::CCollisionManager::GetInstance()->LateUpdate();
-	Engine::CGraphicsManager::GetInstance()->LateUpdate();
-	
-	
-	
-	
+	Engine::CGraphicsManager::GetInstance()->LateUpdate();	
 
 	_float time = Engine::GET_ELAPSED_TIME;
 }

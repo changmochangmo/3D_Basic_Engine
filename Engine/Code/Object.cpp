@@ -37,10 +37,8 @@ void CObject::FixedUpdate(void)
 		if (component.second->GetIsStarted() == false)
 			continue;
 
-		if (component.second->GetIsStarted() && component.second->GetIsAwaked())
-		{
+		if (component.second->GetIsEnabled())
 			component.second->FixedUpdate(component.second);
-		}
 	}
 }
 
@@ -48,13 +46,11 @@ void CObject::Update(void)
 {
 	for (auto& component : m_mComponents)
 	{
-		if (m_mComponents.empty())
-			continue;
-
 		if (component.second->GetIsStarted() == false)
 			component.second->Start(component.second);
 
-		component.second->Update(component.second);
+		if(component.second->GetIsEnabled())
+			component.second->Update(component.second);
 	}
 }
 
@@ -65,7 +61,8 @@ void CObject::LateUpdate(void)
 		if (component.second->GetIsStarted() == false)
 			continue;
 
-		component.second->LateUpdate(component.second);
+		if (component.second->GetIsEnabled())
+			component.second->LateUpdate(component.second);
 	}
 }
 

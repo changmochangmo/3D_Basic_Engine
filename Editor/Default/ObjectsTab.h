@@ -22,6 +22,19 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CListBox m_texList;
-	CEdit m_meshKey;
+	GETTOR(CListBox,		m_staticPrototypeList,		{},			StaticPrototypeList)
+	GETTOR(CListBox,		m_scenePrototypeList,		{},			ScenePrototypeList)
+	GETTOR(CListBox,		m_objectList,				{},			ObjectList)
+
+	GETTOR(_int,			m_scenePrototypeIndex,		UNDEFINED,	ScenePrototypeIndex)
+	GETTOR(_int,			m_staticPrototypeIndex,		UNDEFINED,	StaticPrototypeIndex)
+	GETTOR(_int,			m_objectIndex,				UNDEFINED,	ObjectIndex)
+
+	GETTOR(std::wstring,	m_selectedObjKey,			L"",		SelectedObjKey)
+
+	GETTOR(_bool,			m_selectedIsStatic,			false,		SelectedIsStatic)
+
+	virtual BOOL OnInitDialog();
+	afx_msg void StaticPrototypeListSelChange();
+	afx_msg void ScenePrototypeListSelChange();
 };

@@ -4,9 +4,11 @@
 #include "stdafx.h"
 #include "Editor.h"
 #include "MeshTab.h"
+#include "TextureTab.h"
 #include "afxdialogex.h"
 #include "MeshStore.h"
-#include "ObjectsTab.h"
+#include "InifileTab.h"
+#include "Mesh.h"
 
 // CMeshTab 대화 상자입니다.
 
@@ -56,11 +58,22 @@ void CMeshTab::OnLbnSelchangeList1()
 	UpdateData(TRUE);
 	m_index = m_meshList.GetCurSel();
 	
-	if (m_pObjectsTab != nullptr)
+	if (m_pInifileTab != nullptr)
 	{
 		CString meshKey;
 		m_meshList.GetText(m_index, meshKey);
-		m_pObjectsTab->m_meshKey.SetWindowTextW(meshKey);		
+		m_pInifileTab->m_meshKey = meshKey;
+
+		Engine::CMesh* pMesh = Engine::CMeshStore::GetInstance()->GetMeshData(std::wstring(meshKey));
+		m_pTexTab->m_texList.ResetContent();
+		m_pInifileTab->m_texList.ResetContent();
+		m_pInifileTab->UpdateData(FALSE);
+
+		for (auto& texName : pMesh->GetTexList())
+		{
+			m_pInifileTab->m_texList.AddString(texName.c_str());
+			m_pTexTab->m_texList.AddString(texName.c_str());
+		}
 	}
 	UpdateData(FALSE);
 }

@@ -65,7 +65,7 @@ void CGraphicsC::LateUpdate(SP(CComponent) spThis)
 {
 	SP(CGraphicsC) spGraphicC = std::dynamic_pointer_cast<CGraphicsC>(spThis);
 
-	if(m_spMesh)
+	if (m_spMesh)
 		ADD_TO_RENDER_LIST(m_spMesh->GetRenderID(), spGraphicC);
 	if (m_spDebug)
 		ADD_TO_RENDER_LIST(m_spDebug->GetRenderID(), spGraphicC);

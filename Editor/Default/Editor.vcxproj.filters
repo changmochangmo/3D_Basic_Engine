@@ -10,9 +10,6 @@
     <Filter Include="98.Include">
       <UniqueIdentifier>{7b23bbd8-f374-43aa-ac1d-927304a6c5c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Scene">
-      <UniqueIdentifier>{be91114a-41f3-422e-9618-562e7bc914ef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97.MainEditor">
       <UniqueIdentifier>{a1a5d567-f7c8-4d5f-a0bc-8eb9a7738304}</UniqueIdentifier>
     </Filter>
@@ -25,11 +22,32 @@
     <Filter Include="01.FormViews\00.MenuView\00.Tabs">
       <UniqueIdentifier>{7acb21a0-1f2b-46d2-8d21-4033c3753dc8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.FormViews\00.MenuView\00.Tabs\ObjectsTab">
-      <UniqueIdentifier>{ce14a3df-ae63-4140-91a2-4bbd2176b8bf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.FormViews\00.MenuView\00.Tabs\MeshTab">
       <UniqueIdentifier>{67639986-3001-4fe4-9e75-9fdea3371246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.FormViews\00.MenuView\00.Tabs\TextureTab">
+      <UniqueIdentifier>{2b30785c-17d3-439b-be18-c10dbad0cecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.FormViews\00.MenuView\00.Tabs\InifileTab">
+      <UniqueIdentifier>{ce14a3df-ae63-4140-91a2-4bbd2176b8bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.FormViews\00.MenuView\00.Tabs\ObjectTab">
+      <UniqueIdentifier>{fa4b6a08-8642-4884-9551-4eb06e7c15f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene">
+      <UniqueIdentifier>{be91114a-41f3-422e-9618-562e7bc914ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Objects">
+      <UniqueIdentifier>{aff5b79d-c10b-4841-ae0a-80dca9fde4b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Objects\00.BasicObject">
+      <UniqueIdentifier>{d7065429-a250-4469-808b-e78f007edf3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Objects\01.Player">
+      <UniqueIdentifier>{f0cbe870-a149-4557-ae79-7c35910481ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Objects\NewFilter1">
+      <UniqueIdentifier>{603ba728-62c3-4b2b-8522-d62bb074340f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,7 +67,7 @@
       <Filter>00.MainFrm</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EditorScene.h">
-      <Filter>04.Scene</Filter>
+      <Filter>02.Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EditorDefine.h">
       <Filter>98.Include</Filter>
@@ -78,11 +96,23 @@
     <ClInclude Include="..\Header\EditorDoc.h">
       <Filter>99.Default</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectsTab.h">
-      <Filter>01.FormViews\00.MenuView\00.Tabs\ObjectsTab</Filter>
-    </ClInclude>
     <ClInclude Include="MeshTab.h">
       <Filter>01.FormViews\00.MenuView\00.Tabs\MeshTab</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureTab.h">
+      <Filter>01.FormViews\00.MenuView\00.Tabs\TextureTab</Filter>
+    </ClInclude>
+    <ClInclude Include="InifileTab.h">
+      <Filter>01.FormViews\00.MenuView\00.Tabs\InifileTab</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectsTab.h">
+      <Filter>01.FormViews\00.MenuView\00.Tabs\ObjectTab</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>03.Objects\01.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicObject.h">
+      <Filter>03.Objects\00.BasicObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +126,7 @@
       <Filter>00.MainFrm</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EditorScene.cpp">
-      <Filter>04.Scene</Filter>
+      <Filter>02.Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EditorView.cpp">
       <Filter>01.FormViews</Filter>
@@ -110,11 +140,23 @@
     <ClCompile Include="..\Code\EditorDoc.cpp">
       <Filter>99.Default</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectsTab.cpp">
-      <Filter>01.FormViews\00.MenuView\00.Tabs\ObjectsTab</Filter>
-    </ClCompile>
     <ClCompile Include="MeshTab.cpp">
       <Filter>01.FormViews\00.MenuView\00.Tabs\MeshTab</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureTab.cpp">
+      <Filter>01.FormViews\00.MenuView\00.Tabs\TextureTab</Filter>
+    </ClCompile>
+    <ClCompile Include="InifileTab.cpp">
+      <Filter>01.FormViews\00.MenuView\00.Tabs\InifileTab</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectsTab.cpp">
+      <Filter>01.FormViews\00.MenuView\00.Tabs\ObjectTab</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>03.Objects\01.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicObject.cpp">
+      <Filter>03.Objects\00.BasicObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

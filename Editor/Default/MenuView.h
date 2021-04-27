@@ -2,8 +2,10 @@
 #define MENUVIEW_H
 // CMenuView Æû ºäÀÔ´Ï´Ù.
 
-class CObjectsTab;
+class CInifileTab;
 class CMeshTab;
+class CTextureTab;
+class CObjectsTab;
 class CMenuView : public CFormView
 {
 	DECLARE_DYNCREATE(CMenuView)
@@ -39,8 +41,10 @@ public:
 public:
 	CTabCtrl		m_tabCtrl;
 
-	CObjectsTab*	m_pObjectsTab;
+	CInifileTab*	m_pInifileTab;
 	CMeshTab*		m_pMeshTab;
+	CTextureTab*	m_pTexTab;
+	CObjectsTab*	m_pObjectsTab;
 
 	_int			m_curCursel;
 

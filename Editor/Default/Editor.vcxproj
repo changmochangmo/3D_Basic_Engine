@@ -124,7 +124,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;EDITOR_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)../Code/;$(ProjectDir)../Header/;$(SolutionDir)Reference/Header/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)../Code/;$(ProjectDir)../Header/;$(SolutionDir)Reference/Header/;$(SolutionDir)Client/Header/;$(SolutionDir)Client/Code/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -206,31 +206,39 @@
     <ClInclude Include="..\Header\EditorTypedef.h" />
     <ClInclude Include="..\Header\EditorView.h" />
     <ClInclude Include="..\Header\MainEditor.h" />
+    <ClInclude Include="BasicObject.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MenuView.h" />
     <ClInclude Include="MeshTab.h" />
+    <ClInclude Include="InifileTab.h" />
     <ClInclude Include="ObjectsTab.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TextureTab.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\EditorDoc.cpp" />
     <ClCompile Include="..\Code\EditorScene.cpp" />
     <ClCompile Include="..\Code\EditorView.cpp" />
     <ClCompile Include="..\Code\MainEditor.cpp" />
+    <ClCompile Include="BasicObject.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MenuView.cpp" />
     <ClCompile Include="MeshTab.cpp" />
+    <ClCompile Include="InifileTab.cpp" />
     <ClCompile Include="ObjectsTab.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TextureTab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Editor.rc" />

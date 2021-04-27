@@ -17,12 +17,13 @@ CMesh * CDynamicMesh::MakeClone(void)
 {
 	CDynamicMesh* pClone = new CDynamicMesh;
 
-	pClone->m_pRootFrame = m_pRootFrame;
-	pClone->m_pHierarchyLoader = m_pHierarchyLoader;
-	pClone->m_pAniCtrl = m_pAniCtrl->MakeClone();
-	pClone->m_vMeshContainers = m_vMeshContainers;
-	pClone->m_meshType = m_meshType;
-	pClone->m_vMeshContainers = m_vMeshContainers;
+	pClone->m_pRootFrame		= m_pRootFrame;
+	pClone->m_pHierarchyLoader	= m_pHierarchyLoader;
+	pClone->m_pAniCtrl			= m_pAniCtrl->MakeClone();
+	pClone->m_vMeshContainers	= m_vMeshContainers;
+	pClone->m_meshType			= m_meshType;
+	pClone->m_vMeshContainers	= m_vMeshContainers;
+	pClone->m_vTexList			= m_vTexList;
 
 	return pClone;
 }

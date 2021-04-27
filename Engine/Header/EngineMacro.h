@@ -189,6 +189,7 @@ CTextManager::GetInstance()->AddText(key, text, position, color)
 
 //ShaderManager Macro
 #define GET_SHADER(shaderKey) CShaderManager::GetInstance()->GetShader(shaderKey)
+#define GET_SHADERKEY(renderID) CShaderManager::GetInstance()->GetShaderKeyByRenderID(renderID)
 
 
 #endif // ! MACRO_H	
