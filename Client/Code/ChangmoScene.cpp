@@ -7,6 +7,7 @@
 #include "SceneManager.h"
 #include "WndApp.h"
 #include "MeshStore.h"
+#include "BoundingVolume.h"
 
 CChangmoScene::CChangmoScene()
 {
@@ -46,12 +47,13 @@ void CChangmoScene::Start(void)
 		AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1)));
 	spPlayerClone->GetComponent<Engine::CCollisionC>()->SetCollisionID(1);
 	spPlayerClone->AddComponent<Engine::CRigidBodyC>()->SetUseGravity(false);
-
+	spPlayerClone->AddComponent<Engine::CDebugC>();
+	
 	SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"BasicObject", true);
 	spBasicClone->AddComponent<Engine::CMeshC>()->ChangeMesh(L"Cube");
-	spBasicClone->GetComponent<Engine::CMeshC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
+	spBasicClone->GetComponent<Engine::CMeshC>();
 	spBasicClone->AddComponent<Engine::CTextureC>()->ChangeTexture(0, L"BlueBlock");
-	spBasicClone->AddComponent<Engine::CGraphicsC>();
+	spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
 	spBasicClone->GetComponent<Engine::CTransformC>()->AddPositionX(3);
 	spBasicClone->AddComponent<Engine::CCollisionC>()->
 		AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1)));

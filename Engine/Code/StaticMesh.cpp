@@ -23,6 +23,14 @@ CMesh* CStaticMesh::MakeClone(void)
 	pClone->m_meshType		= m_meshType;
 	pClone->m_vTexList		= m_vTexList;
 
+	pClone->m_meshSize		= m_meshSize;
+	pClone->m_minVertex		= m_minVertex;
+	pClone->m_maxVertex		= m_maxVertex;
+	
+	pClone->m_pVertices		= m_pVertices;
+	pClone->m_numOfVtx		= m_numOfVtx;
+	pClone->m_stride		= m_stride;
+
 	return pClone;
 }
 
@@ -88,6 +96,8 @@ void CStaticMesh::Awake(std::wstring const& filePath, std::wstring const& fileNa
 		if (m_pVertices[i].z < m_minVertex.z)
 			m_minVertex.z = m_pVertices[i].z;
 	}
+
+	m_meshSize = m_maxVertex - m_minVertex;
 
 	m_pMtrl = (D3DXMATERIAL*)m_pSubset->GetBufferPointer();
 	for (_size i = 0; i < m_subsetCount; ++i)

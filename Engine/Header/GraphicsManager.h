@@ -38,6 +38,7 @@ private:
 			void					RenderUI			(void);
 			
 
+
 private:
 	typedef std::vector<SP(CGraphicsC)> _GRAPHICSCOMPONENTS;
 			_GRAPHICSCOMPONENTS		m_vRenderList[(_uint)ERenderID::NumOfRenderID];

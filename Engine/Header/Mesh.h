@@ -30,8 +30,10 @@ protected:
 protected:
 	typedef std::vector<std::wstring> _TEXLIST;
 	GETTOR		(_TEXLIST,		m_vTexList,			{},				TexList)
+	GETTOR		(_int,			m_meshType,			UNDEFINED,		MeshType) //Static or Dynamic
 
-	GETTOR		(_int,			m_meshType,			UNDEFINED,		MeshType)
+	GETTOR		(_float3,		m_meshSize,			ZERO_VECTOR,	MeshSize)
+
 	GETTOR		(_float3,		m_minVertex,		MAX_VECTOR,		MinVertex)
 	GETTOR		(_float3,		m_maxVertex,		-MAX_VECTOR,	MaxVertex)
 

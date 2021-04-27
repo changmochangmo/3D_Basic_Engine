@@ -34,10 +34,10 @@ enum class EDataID
 
 enum class ELayerID
 {
-	BasicObject		= 0,
-	Player			= 1,
-	Terrain			= 2,
-	Decoration		= 3,
-	NumOfLayerID
+	BasicObject		= 0 + (_int)Engine::ELayerID::NumOfEngineLayerID,
+	Player			= 1 + (_int)Engine::ELayerID::NumOfEngineLayerID,
+	Terrain			= 2 + (_int)Engine::ELayerID::NumOfEngineLayerID,
+	Decoration		= 3 + (_int)Engine::ELayerID::NumOfEngineLayerID,
+	NumOfLayerID	= 4 + (_int)Engine::ELayerID::NumOfEngineLayerID
 };
 #endif // CLIENTENUM_H

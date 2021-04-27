@@ -39,7 +39,6 @@ void CTerrain::Awake(void)
 	m_spMesh		= AddComponent<Engine::CMeshC>();
 	m_spTexture		= AddComponent<Engine::CTextureC>();
 	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
-	m_spDebug		= AddComponent<Engine::CDebugC>();
 }
 
 void CTerrain::Start(void)
@@ -49,7 +48,7 @@ void CTerrain::Start(void)
 	m_spMesh		= GetComponent<Engine::CMeshC>();
 	m_spTexture		= GetComponent<Engine::CTextureC>();
 	m_spGraphics	= GetComponent<Engine::CGraphicsC>();
-	m_spDebug		= GetComponent<Engine::CDebugC>();
+
 }
 
 void CTerrain::FixedUpdate(void)

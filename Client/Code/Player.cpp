@@ -17,17 +17,17 @@ CPlayer::~CPlayer()
 
 SP(CPlayer) CPlayer::Create(_bool isStatic)
 {
-	SP(CPlayer) spPlayer(new CPlayer, Engine::SmartDeleter<CPlayer>);
-	spPlayer->SetIsStatic(isStatic);
-	spPlayer->Awake();
+	SP(CPlayer) spInstance(new CPlayer, Engine::SmartDeleter<CPlayer>);
+	spInstance->SetIsStatic(isStatic);
+	spInstance->Awake();
 
-	return spPlayer;
+	return spInstance;
 }
 
 SP(Engine::CObject) CPlayer::MakeClone(void)
 {
 	SP(CPlayer) spClone(new CPlayer, Engine::SmartDeleter<CPlayer>);
-	__super::InitClone(spClone);
+	CObject::InitClone(spClone);
 
 	return spClone;
 }
@@ -43,7 +43,6 @@ void CPlayer::Awake(void)
 	m_spMesh		= AddComponent<Engine::CMeshC>();
 	m_spTexture		= AddComponent<Engine::CTextureC>();
 	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
-	m_spDebug		= AddComponent<Engine::CDebugC>();
 }
 
 void CPlayer::Start(void)
@@ -53,7 +52,6 @@ void CPlayer::Start(void)
 	m_spMesh		= GetComponent<Engine::CMeshC>();
 	m_spTexture		= GetComponent<Engine::CTextureC>();
 	m_spGraphics	= GetComponent<Engine::CGraphicsC>();
-	m_spDebug		= GetComponent<Engine::CDebugC>();
 }
 
 void CPlayer::FixedUpdate(void)

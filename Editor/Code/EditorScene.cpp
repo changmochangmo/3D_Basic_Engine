@@ -51,7 +51,6 @@ void CEditorScene::Start(void)
 	__super::Start();
 
 	SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"BasicObject", true);
-	spBasicClone->AddComponent<Engine::CDebugC>()->ChangeMesh(L"Plane");
 	spBasicClone->AddComponent<Engine::CGraphicsC>();
 }
 

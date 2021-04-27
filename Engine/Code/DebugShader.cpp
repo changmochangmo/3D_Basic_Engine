@@ -55,18 +55,9 @@ void CDebugShader::Render(CGraphicsC * pGC)
 				ABORT;
 			}
 
-
-			std::vector<CMesh*> const& vMeshDatas = pGC->GetDebug()->GetMeshDatas();
-			for (_int i = 0; i < (_int)EDebugMT::NumOfDebugMT; ++i)
-			{
-				if (vMeshDatas[i] != nullptr)
-				{
-					CStaticMesh* pSM = dynamic_cast<CStaticMesh*>(vMeshDatas[i]);
-					for (_ulong i = 0; i < pSM->GetSubsetCount(); ++i)
-						pSM->GetMesh()->DrawSubset(i);
-				}
-			}
-
+			CStaticMesh* pSM = dynamic_cast<CStaticMesh*>(pGC->GetMesh()->GetMeshData());
+			for (_ulong i = 0; i < pSM->GetSubsetCount(); ++i)
+				pSM->GetMesh()->DrawSubset(i);
 
 			m_pShader->EndPass();
 		}

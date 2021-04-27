@@ -5,12 +5,18 @@
 #include "Scene.h"
 #include "Layer.h"
 
+#pragma region EnginePrototypeHeaders
+#include "BoundingVolume.h"
+#pragma endregion
+
 USING(Engine)
 IMPLEMENT_SINGLETON(CObjectFactory)
 
 void CObjectFactory::Awake(void)
 {
 	__super::Awake();
+
+	InitPrototypes();
 }
 
 void CObjectFactory::Start(void)
@@ -128,6 +134,8 @@ void CObjectFactory::ClearCurPrototype(void)
 	m_mCurPrototypes.clear();
 }
 
-void CObjectFactory::InitPrototypes(_uint sceneNum)
+void CObjectFactory::InitPrototypes(void)
 {
+	SP(CObject) spBoundingVolumePrototype(CBoundingVolume::Create(true));
+	ADD_PROTOTYPE(spBoundingVolumePrototype);
 }

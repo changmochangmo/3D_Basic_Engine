@@ -23,7 +23,7 @@ public:
 												 const std::wstring& name = L"");
 
 			void			ClearCurPrototype	(void);
-			void			InitPrototypes		(_uint sceneNum);
+			void			InitPrototypes		(void);
 private:
 	//여러개의 맵을 가지고 있을 것. 각 맵은 하나의 Scene을 의미. 프로토타입
 	typedef std::unordered_map<std::wstring, SP(CObject)> _PROTOTYPES;

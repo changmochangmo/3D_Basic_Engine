@@ -1,18 +1,14 @@
 #include "EngineStdafx.h"
-
 #include "DeviceManager.h"
 #include "GraphicsManager.h"
-
 #include "ShaderManager.h"
 #include "Shader.h"
-
 #include "SceneManager.h"
 #include "Scene.h"
-
 #include "WndApp.h"
 #include "DataStore.h"
-
 #include "Object.h"
+#include "Mesh.h"
 
 USING(Engine)
 CGraphicsC::CGraphicsC(void)  
@@ -27,7 +23,8 @@ CGraphicsC::~CGraphicsC(void)
 SP(CComponent) CGraphicsC::MakeClone(CObject* pObject)
 {
 	SP(CGraphicsC) spClone(new CGraphicsC);
-	__super::InitClone(spClone, pObject);
+	CComponent::InitClone(spClone, pObject);
+	spClone->m_renderID = m_renderID;
 
 	return spClone;
 }
@@ -38,9 +35,11 @@ void CGraphicsC::Awake(void)
 
 	if (m_pOwner->GetAddExtra() == false)
 	{
-		_bool isStatic = m_pOwner->GetIsStatic();
-		_int dataID = m_pOwner->GetDataID();
-		std::wstring objectKey = m_pOwner->GetObjectKey();
+		_bool isStatic			= m_pOwner->GetIsStatic();
+		_int dataID				= m_pOwner->GetDataID();
+		std::wstring objectKey	= m_pOwner->GetObjectKey();
+
+		GET_VALUE(isStatic, dataID, objectKey, L"renderID", m_renderID);
 	}
 }
 
@@ -50,7 +49,8 @@ void CGraphicsC::Start(SP(CComponent) spThis)
 	m_spMesh		= m_pOwner->GetComponent<CMeshC>();
 	m_spTexture		= m_pOwner->GetComponent<CTextureC>();
 	m_spTransform	= m_pOwner->GetComponent<CTransformC>();
-	m_spDebug		= m_pOwner->GetComponent<CDebugC>();
+
+	GenerateBV();
 }
 
 void CGraphicsC::FixedUpdate(SP(CComponent) spThis)
@@ -65,10 +65,7 @@ void CGraphicsC::LateUpdate(SP(CComponent) spThis)
 {
 	SP(CGraphicsC) spGraphicC = std::dynamic_pointer_cast<CGraphicsC>(spThis);
 
-	if (m_spMesh)
-		ADD_TO_RENDER_LIST(m_spMesh->GetRenderID(), spGraphicC);
-	if (m_spDebug)
-		ADD_TO_RENDER_LIST(m_spDebug->GetRenderID(), spGraphicC);
+	ADD_TO_RENDER_LIST(m_renderID, spGraphicC);
 }
 
 void CGraphicsC::OnDestroy(void)
@@ -78,6 +75,20 @@ void CGraphicsC::OnDestroy(void)
 void CGraphicsC::OnEnable(void)
 {
 	__super::OnEnable();
+}
+
+void CGraphicsC::GenerateBV(void)
+{
+	CMesh* pMeshData = m_spMesh->GetMeshData();
+	_float3 meshSize	= pMeshData->GetMeshSize();
+	_float3 mySize		= m_spTransform->GetSize();
+
+	m_sizeBV.x = meshSize.x * mySize.x;
+	m_sizeBV.y = meshSize.y * mySize.y;
+	m_sizeBV.z = meshSize.z * mySize.z;
+
+	
+	m_offsetBV = (pMeshData->GetMaxVertex() + pMeshData->GetMinVertex()) / 2.f;
 }
 
 

@@ -80,11 +80,13 @@ void CObject::OnDestroy(void)
 
 void CObject::OnEnable(void)
 {
+	m_isEnabled = true;
 }
 
 
 void CObject::OnDisable(void)
 {
+	m_isEnabled = false;
 }
 
 void CObject::InitClone(SP(CObject) spClone)

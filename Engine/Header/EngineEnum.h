@@ -120,7 +120,15 @@ namespace Engine
 	{
 		Engine,
 		Component,
+		DebugObject,
 		NumOfEngineDataID
+	};
+
+	enum class ELayerID
+	{
+		BV					= 0,
+		DebugArrow			= 1,
+		NumOfEngineLayerID
 	};
 }
 #endif // !ENGINEENUM_H

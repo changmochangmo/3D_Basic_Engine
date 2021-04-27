@@ -31,8 +31,6 @@ public:
 
 private:
 	GETTOR_SETTOR	(CMesh*,		m_pMeshData,		nullptr,		MeshData)
-	GETTOR			(_float3,		m_minVertex,		MAX_VECTOR,		MinVertex)
-	GETTOR			(_float3,		m_maxVertex,		-MAX_VECTOR,	MaxVertex)
 	GETTOR_SETTOR	(_int,			m_renderID,			UNDEFINED,		RenderID)
 };
 END

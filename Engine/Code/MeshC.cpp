@@ -34,9 +34,9 @@ void CMeshC::Awake(void)
 
 	if (m_pOwner->GetAddExtra() == false)
 	{
-		_bool isStatic = m_pOwner->GetIsStatic();
-		_int dataID = m_pOwner->GetDataID();
-		std::wstring objectKey = m_pOwner->GetObjectKey();
+		_bool isStatic			= m_pOwner->GetIsStatic();
+		_int dataID				= m_pOwner->GetDataID();
+		std::wstring objectKey	= m_pOwner->GetObjectKey();
 
 		std::wstring meshKey;
 		GET_VALUE(isStatic, dataID, objectKey, L"meshKey", meshKey);

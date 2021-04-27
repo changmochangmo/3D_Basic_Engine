@@ -27,17 +27,19 @@ public:
 				void				OnEnable			(void) override;
 				void				OnDisable			(void) override;
 
+public:
+				void				SetBasicName		(void) override;
+
 				void				OnCollisionEnter	(Engine::_CollisionInfo ci);
 				void				OnCollisionStay		(Engine::_CollisionInfo ci);
 				void				OnCollisionExit		(Engine::_CollisionInfo ci);
-public:
-				void				SetBasicName		(void) override;
+
+				
 
 private:
 	static		_uint						m_s_uniqueID;
 
 	GETTOR		(SP(Engine::CMeshC),		m_spMesh,			nullptr,	Mesh)
-	GETTOR		(SP(Engine::CDebugC),		m_spDebug,			nullptr,	Debug)
 	GETTOR		(SP(Engine::CTextureC),		m_spTexture,		nullptr,	Texture)
 	GETTOR		(SP(Engine::CGraphicsC),	m_spGraphics,		nullptr,	Graphics)
 };
