@@ -29,7 +29,6 @@ void CMenuView::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CMenuView, CFormView)
-	
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, &CMenuView::OnTcnSelchangeTab1)
 END_MESSAGE_MAP()
 
@@ -59,6 +58,16 @@ void CMenuView::HideAllTabs(void)
 	m_pMeshTab->ShowWindow(SW_HIDE);
 	m_pTexTab->ShowWindow(SW_HIDE);
 	m_pInifileTab->ShowWindow(SW_HIDE);
+}
+
+void CMenuView::Update(void)
+{
+	UpdateData(TRUE);
+	m_pInifileTab->Update();
+	m_pMeshTab->Update();
+	m_pTexTab->Update();
+	m_pObjectsTab->Update();
+	UpdateData(FALSE);
 }
 
 void CMenuView::OnInitialUpdate()

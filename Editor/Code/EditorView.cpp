@@ -148,7 +148,7 @@ void CEditorView::OnInitialUpdate()
 #pragma region SubEnginesAwake
 	Engine::CDataStore::GetInstance()->Awake();
 	Engine::CDataStore::GetInstance()->InitDataMap((_uint)EDataID::NumOfDataID);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"BasicObject", (_uint)EDataID::BasicObject);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Grid", (_uint)EDataID::Grid);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Terrain", (_uint)EDataID::Terrain);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Decoration", (_uint)EDataID::Decoration);
@@ -221,12 +221,4 @@ void CEditorView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	CView::OnMouseMove(nFlags, point);
 
-	_int i = 0;
-	TCHAR szBuf[MAX_PATH] = L"";
-	swprintf_s(szBuf, L"%d", i);
-
-	if (Engine::CInputManager::GetInstance()->KeyDown(MOUSE_LEFT))
-	{
-
-	}
 }

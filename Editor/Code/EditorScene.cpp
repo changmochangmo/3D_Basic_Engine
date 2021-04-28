@@ -13,6 +13,7 @@
 
 #include "BasicObject.h"
 #include "Player.h"
+#include "Grid.h"
 
 CEditorScene::CEditorScene()
 {
@@ -50,8 +51,10 @@ void CEditorScene::Start(void)
 {
 	__super::Start();
 
-	SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"BasicObject", true);
-	spBasicClone->AddComponent<Engine::CGraphicsC>();
+	//SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"BasicObject", true);
+	//spBasicClone->AddComponent<Engine::CMeshC>()->ChangeMesh(L"Plane");
+	//spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::WireFrame);
+	
 }
 
 void CEditorScene::FixedUpdate(void)
@@ -61,6 +64,7 @@ void CEditorScene::FixedUpdate(void)
 void CEditorScene::Update(void)
 {
 	__super::Update();
+	m_pMenuView->Update();
 }
 
 void CEditorScene::LateUpdate(void)
@@ -83,5 +87,6 @@ void CEditorScene::OnDisable(void)
 
 void CEditorScene::InitPrototypes(void)
 {
-
+	SP(Engine::CObject) spGridPrototype(CGrid::Create(false));
+	Engine::ADD_PROTOTYPE(spGridPrototype);
 }

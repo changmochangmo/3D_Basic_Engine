@@ -79,8 +79,7 @@ void CGraphicsC::OnEnable(void)
 
 void CGraphicsC::GenerateBV(void)
 {
-	CMesh* pMeshData = m_spMesh->GetMeshData();
-	_float3 meshSize	= pMeshData->GetMeshSize();
+	_float3 meshSize	= m_spMesh->GetMeshSize();
 	_float3 mySize		= m_spTransform->GetSize();
 
 	m_sizeBV.x = meshSize.x * mySize.x;
@@ -88,7 +87,7 @@ void CGraphicsC::GenerateBV(void)
 	m_sizeBV.z = meshSize.z * mySize.z;
 
 	
-	m_offsetBV = (pMeshData->GetMaxVertex() + pMeshData->GetMinVertex()) / 2.f;
+	m_offsetBV = (m_spMesh->GetMaxVertex() + m_spMesh->GetMinVertex()) / 2.f;
 }
 
 

@@ -33,9 +33,8 @@ private:
 	class Engine::CObject* m_pPreSelectedObject = nullptr;
 	class Engine::CObject* m_pCurSelectedObject = nullptr;
 
-	class CMainFrame * m_pMain;
-	class CEditorView* m_pEditorView;
-	class CObjectListView* m_pListView;
-	class CMenuView*		m_pMenuView;
+	class CMainFrame *			m_pMain;
+	class CEditorView*			m_pEditorView;
+	class CMenuView*			m_pMenuView;
 };
 

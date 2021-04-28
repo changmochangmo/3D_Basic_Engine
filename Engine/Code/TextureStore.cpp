@@ -42,6 +42,9 @@ void CTextureStore::ClearCurResource(void)
 
 _TexData* CTextureStore::GetTextureData(std::wstring textureKey)
 {
+	if (textureKey == L"NoTex")
+		return nullptr;
+
 	auto iter_find_static = m_mStaticTextureData.find(textureKey);
 	if (iter_find_static != m_mStaticTextureData.end())
 		return iter_find_static->second;

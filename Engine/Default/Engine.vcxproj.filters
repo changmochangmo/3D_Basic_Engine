@@ -178,7 +178,7 @@
     <Filter Include="02.Objects\00.DebugObject\00.BV">
       <UniqueIdentifier>{c32e2fa6-4b2b-45b9-ae5e-6517e65db289}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Components\01.GraphicsComponent\03.Debug">
+    <Filter Include="03.Components\04.Debug">
       <UniqueIdentifier>{6c7de482-7414-4dad-b41e-2e0db8310d9f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -340,7 +340,7 @@
       <Filter>02.Objects\00.DebugObject\00.BV</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DebugC.cpp">
-      <Filter>03.Components\01.GraphicsComponent\03.Debug</Filter>
+      <Filter>03.Components\04.Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,7 +525,7 @@
       <Filter>02.Objects\00.DebugObject\00.BV</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DebugC.h">
-      <Filter>03.Components\01.GraphicsComponent\03.Debug</Filter>
+      <Filter>03.Components\04.Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

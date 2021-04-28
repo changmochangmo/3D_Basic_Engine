@@ -57,7 +57,7 @@ void CLayer::Update(void)
 	{
 		if ((*it)->GetDeleteThis())
 		{
-			it->reset();			
+			(*it).reset();			
 			it = m_vGameObjects.erase(it);
 		}
 		else

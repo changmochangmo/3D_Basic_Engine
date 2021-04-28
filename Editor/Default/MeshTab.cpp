@@ -30,6 +30,12 @@ void CMeshTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST1, m_meshList);
 }
 
+void CMeshTab::Update(void)
+{
+	UpdateData(TRUE);
+	UpdateData(FALSE);
+}
+
 
 BEGIN_MESSAGE_MAP(CMeshTab, CDialogEx)
 	ON_LBN_SELCHANGE(IDC_LIST1, &CMeshTab::OnLbnSelchangeList1)

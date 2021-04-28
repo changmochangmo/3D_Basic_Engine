@@ -36,7 +36,6 @@ void CBasicObject::Awake(void)
 	__super::Awake();
 
 	m_layerID	= (_int)ELayerID::BasicObject;
-	m_dataID	= (_int)EDataID::BasicObject;
 }
 
 void CBasicObject::Start(void)

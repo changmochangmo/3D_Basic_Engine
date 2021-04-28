@@ -33,6 +33,7 @@ public:
 
 public:
 	void HideAllTabs(void);
+	void Update(void);
 private:
 	
 public:

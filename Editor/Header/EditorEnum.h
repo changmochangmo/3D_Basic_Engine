@@ -24,7 +24,7 @@ enum class EColliderID
 
 enum class EDataID
 {
-	BasicObject			= 0 + (_uint)Engine::EDataID::NumOfEngineDataID,
+	Grid				= 0 + (_uint)Engine::EDataID::NumOfEngineDataID,
 	Player				= 1 + (_uint)Engine::EDataID::NumOfEngineDataID,
 	Terrain				= 2 + (_uint)Engine::EDataID::NumOfEngineDataID,
 	Decoration			= 3 + (_uint)Engine::EDataID::NumOfEngineDataID,

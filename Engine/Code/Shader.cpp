@@ -23,7 +23,7 @@ void CShader::Awake(void)
 
 void CShader::PreRender(CGraphicsC * pGC)
 {
-	m_pShader->SetMatrix("WorldMatrix", &pGC->GetTransform()->GetWorldMatrix());
+	m_pShader->SetMatrix("WorldMatrix", &pGC->GetTransform()->GetFinalWorldMat());
 	m_pShader->SetMatrix("ViewMatrix", &GET_MAIN_CAM->GetViewMatrix());
 	m_pShader->SetMatrix("ProjMatrix", &GET_MAIN_CAM->GetProjMatrix());
 }

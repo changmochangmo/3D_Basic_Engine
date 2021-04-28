@@ -27,7 +27,6 @@ void CObject::Awake(void)
 void CObject::Start(void)
 {
 	m_isStarted		= true;
-	m_spTransform	= GetComponent<Engine::CTransformC>();
 }
 
 void CObject::FixedUpdate(void)

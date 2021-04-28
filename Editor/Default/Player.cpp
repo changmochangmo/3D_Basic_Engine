@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "FRC.h"
 #include "DynamicMesh.h"
+#include "Mesh.h"
 
 _uint CPlayer::m_s_uniqueID = 0;
 
@@ -17,11 +18,11 @@ CPlayer::~CPlayer()
 
 SP(CPlayer) CPlayer::Create(_bool isStatic)
 {
-	SP(CPlayer) spPlayer(new CPlayer, Engine::SmartDeleter<CPlayer>);
-	spPlayer->SetIsStatic(isStatic);
-	spPlayer->Awake();
+	SP(CPlayer) spInstance(new CPlayer, Engine::SmartDeleter<CPlayer>);
+	spInstance->SetIsStatic(isStatic);
+	spInstance->Awake();
 
-	return spPlayer;
+	return spInstance;
 }
 
 SP(Engine::CObject) CPlayer::MakeClone(void)
@@ -29,6 +30,10 @@ SP(Engine::CObject) CPlayer::MakeClone(void)
 	SP(CPlayer) spClone(new CPlayer, Engine::SmartDeleter<CPlayer>);
 	__super::InitClone(spClone);
 
+	spClone->m_spTransform = spClone->GetComponent<Engine::CTransformC>();
+	spClone->m_spMesh = spClone->GetComponent<Engine::CMeshC>();
+	spClone->m_spTexture = spClone->GetComponent<Engine::CTextureC>();
+	spClone->m_spGraphics = spClone->GetComponent<Engine::CGraphicsC>();
 	return spClone;
 }
 
@@ -37,23 +42,17 @@ void CPlayer::Awake(void)
 {
 	__super::Awake();
 
-	m_layerID	= (_int)ELayerID::Player;
-	m_dataID	= (_int)EDataID::Player;
+	m_layerID = (_int)ELayerID::Player;
+	m_dataID = (_int)EDataID::Player;
 
-	m_spMesh		= AddComponent<Engine::CMeshC>();
-	m_spTexture		= AddComponent<Engine::CTextureC>();
-	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
-	m_spDebug		= AddComponent<Engine::CDebugC>();
+	m_spMesh = AddComponent<Engine::CMeshC>();
+	m_spTexture = AddComponent<Engine::CTextureC>();
+	m_spGraphics = AddComponent<Engine::CGraphicsC>();
 }
 
 void CPlayer::Start(void)
 {
 	__super::Start();
-	
-	m_spMesh		= GetComponent<Engine::CMeshC>();
-	m_spTexture		= GetComponent<Engine::CTextureC>();
-	m_spGraphics	= GetComponent<Engine::CGraphicsC>();
-	m_spDebug		= GetComponent<Engine::CDebugC>();
 }
 
 void CPlayer::FixedUpdate(void)
@@ -83,31 +82,38 @@ void CPlayer::Update(void)
 		m_spTransform->MoveBackward(3 * GET_DT);
 	}
 
+	const std::vector<Engine::CMesh*>& vMeshData = m_spMesh->GetMeshDatas();
 	if (Engine::IMKEY_PRESS(KEY_1))
 	{
-		dynamic_cast<Engine::CDynamicMesh*>(m_spMesh->GetMeshData())->PlayAnimation();
+		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
+			dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i])->PlayAnimation();
 	}
 	if (Engine::IMKEY_DOWN(KEY_2))
 	{
-		static int i = 0;
-		dynamic_cast<Engine::CDynamicMesh*>(m_spMesh->GetMeshData())->ChangeAniSet(i++);
+		static int aniIndex = 0;
+		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
+			dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i])->ChangeAniSet(aniIndex++);
 	}
 
 	if (Engine::IMKEY_PRESS(KEY_4))
 	{
-		Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(m_spMesh->GetMeshData());
-
-		pDM->PlayAnimation();
-
-		if (pDM->IsAnimationEnd())
+		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
 		{
-			pDM->ChangeAniSet(pDM->GetAniCtrl()->GetCurIndex() + 1);
+			Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i]);
+
+			pDM->PlayAnimation();
+
+			if (pDM->IsAnimationEnd())
+				pDM->ChangeAniSet(pDM->GetAniCtrl()->GetCurIndex() + 1);
 		}
 	}
 	if (Engine::IMKEY_DOWN(KEY_F2))
 	{
-		Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(m_spMesh->GetMeshData());
-		pDM->ChangeAniSet("Stand_Idle");
+		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
+		{
+			Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i]);
+			pDM->ChangeAniSet("Stand_Idle");
+		}
 	}
 }
 

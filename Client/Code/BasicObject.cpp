@@ -27,6 +27,7 @@ SP(Engine::CObject) CBasicObject::MakeClone(void)
 	SP(CBasicObject) spClone(new CBasicObject, Engine::SmartDeleter<CBasicObject>);
 	__super::InitClone(spClone);
 
+	spClone->m_spTransform = spClone->GetComponent<Engine::CTransformC>();
 
 	return spClone;
 }

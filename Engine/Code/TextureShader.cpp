@@ -56,22 +56,27 @@ void CTextureShader::Render(CGraphicsC * pGC)
 				MSG_BOX(__FILE__, L"Shader BeginPass Failed");
 				ABORT;
 			}
-			_int meshType = pGC->GetMesh()->GetMeshData()->GetMeshType();
 
-			switch (meshType)
+			const std::vector<CMesh*>& vMeshData = pGC->GetMesh()->GetMeshDatas();
+			for (_int i = 0; i < (_int)vMeshData.size(); ++i)
 			{
-			case (_int)EMeshType::Static:
-				RenderStaticMesh(pGC);
-				break;
 
-			case (_int)EMeshType::Dynamic:
-				RenderDynamicMesh(pGC);
-				break;
+				_int meshType = vMeshData[i]->GetMeshType();
 
-			default:
-				break;
+				switch (meshType)
+				{
+				case (_int)EMeshType::Static:
+					RenderStaticMesh(pGC, i);
+					break;
+
+				case (_int)EMeshType::Dynamic:
+					RenderDynamicMesh(pGC, i);
+					break;
+
+				default:
+					break;
+				}
 			}
-
 			m_pShader->EndPass();
 		}
 
@@ -101,9 +106,9 @@ void CTextureShader::LoadShader(void)
 	__super::LoadShader();
 }
 
-void CTextureShader::RenderStaticMesh(CGraphicsC * pGC)
+void CTextureShader::RenderStaticMesh(CGraphicsC * pGC, _int index)
 {
-	CStaticMesh* pSM = dynamic_cast<CStaticMesh*>(pGC->GetMesh()->GetMeshData());
+	CStaticMesh* pSM = dynamic_cast<CStaticMesh*>(pGC->GetMesh()->GetMeshDatas()[index]);
 
 	for (_ulong i = 0; i < pSM->GetSubsetCount(); ++i)
 	{
@@ -116,9 +121,9 @@ void CTextureShader::RenderStaticMesh(CGraphicsC * pGC)
 	}
 }
 
-void CTextureShader::RenderDynamicMesh(CGraphicsC * pGC)
+void CTextureShader::RenderDynamicMesh(CGraphicsC * pGC, _int index)
 {
-	CDynamicMesh* pDM = dynamic_cast<CDynamicMesh*>(pGC->GetMesh()->GetMeshData());
+	CDynamicMesh* pDM = dynamic_cast<CDynamicMesh*>(pGC->GetMesh()->GetMeshDatas()[index]);
 
 	pDM->GetAniCtrl()->GetAniCtrl()->AdvanceTime(0, NULL);
 	pDM->UpdateFrame();

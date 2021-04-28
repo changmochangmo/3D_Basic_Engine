@@ -22,6 +22,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	void Update(void);
+public:
 	CListBox m_texList;
 	CButton m_generate;
 	CString m_objectKey;

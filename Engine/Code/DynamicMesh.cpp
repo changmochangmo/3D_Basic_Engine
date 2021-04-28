@@ -24,6 +24,8 @@ CMesh * CDynamicMesh::MakeClone(void)
 	pClone->m_meshType			= m_meshType;
 	pClone->m_vMeshContainers	= m_vMeshContainers;
 	pClone->m_vTexList			= m_vTexList;
+	pClone->m_minVertex			= m_minVertex;
+	pClone->m_maxVertex			= m_maxVertex;
 
 	return pClone;
 }
@@ -52,6 +54,10 @@ void CDynamicMesh::Awake(std::wstring const& filePath, std::wstring const& fileN
 		MSG_BOX(__FILE__, L"Load Mesh Hierarchy failed in ParsingMesh");
 		ABORT;
 	}
+
+	//할일 : 나중에 GET_VALUE로 읽어와야함.
+	m_minVertex = ZERO_VECTOR;
+	m_maxVertex = ZERO_VECTOR;
 
 
 	m_pAniCtrl = CAniCtrl::Create(pAniCtrl);

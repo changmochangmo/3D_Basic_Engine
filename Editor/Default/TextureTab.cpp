@@ -27,6 +27,12 @@ void CTextureTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST1, m_texList);
 }
 
+void CTextureTab::Update(void)
+{
+	UpdateData(TRUE);
+	UpdateData(FALSE);
+}
+
 
 BEGIN_MESSAGE_MAP(CTextureTab, CDialogEx)
 END_MESSAGE_MAP()

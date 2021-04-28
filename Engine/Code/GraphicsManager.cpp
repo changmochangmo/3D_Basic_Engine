@@ -168,6 +168,7 @@ void CGraphicsManager::RenderWire(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GET_DEVICE;
 	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	CShader* pShader = GET_SHADER((_int)EShaderType::Debug);
 	for (auto& spGC : m_vRenderList[(_int)ERenderID::WireFrame])
@@ -185,7 +186,7 @@ void CGraphicsManager::RenderWire(void)
 		}
 		spGC.reset();
 	}
-
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 

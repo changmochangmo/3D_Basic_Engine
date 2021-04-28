@@ -50,14 +50,21 @@ void CChangmoScene::Start(void)
 	spPlayerClone->AddComponent<Engine::CDebugC>();
 	
 	SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"BasicObject", true);
-	spBasicClone->AddComponent<Engine::CMeshC>()->ChangeMesh(L"Cube");
-	spBasicClone->GetComponent<Engine::CMeshC>();
+	spBasicClone->AddComponent<Engine::CMeshC>()->ChangeMesh(L"Cube", 0);
 	spBasicClone->AddComponent<Engine::CTextureC>()->ChangeTexture(0, L"BlueBlock");
 	spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
 	spBasicClone->GetComponent<Engine::CTransformC>()->AddPositionX(3);
+	spBasicClone->GetComponent<Engine::CTransformC>()->AddRotationY(3.141592f / 4.f);
 	spBasicClone->AddComponent<Engine::CCollisionC>()->
 		AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1)));
 	spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID(0);
+
+	SP(Engine::CObject) spBasicClone1 = Engine::ADD_CLONE(L"BasicObject", true);
+	spBasicClone1->AddComponent<Engine::CMeshC>()->ChangeMesh(L"Cube", 0);
+	spBasicClone1->AddComponent<Engine::CTextureC>()->ChangeTexture(0, L"BlueBlock");
+	spBasicClone1->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
+	spBasicClone1->GetComponent<Engine::CTransformC>()->AddPositionX(3);
+	spBasicClone->GetTransform()->AddChild(spBasicClone1->GetTransform());
 }
 
 void CChangmoScene::FixedUpdate(void)

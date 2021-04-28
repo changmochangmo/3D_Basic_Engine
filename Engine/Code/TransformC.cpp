@@ -3,6 +3,7 @@
 #include "DataStore.h"
 #include "FRC.h"
 
+
 USING(Engine)
 CTransformC::CTransformC(void)  
 {
@@ -35,6 +36,9 @@ void CTransformC::Awake(void)
 void CTransformC::Start(SP(CComponent) spThis)
 {
 	__super::Start(spThis);
+
+	if (m_pParent == nullptr && m_vChildren.size() != 0)
+		UpdateFinalWorldMatrix();
 }
 
 void CTransformC::FixedUpdate(SP(CComponent) spThis)
@@ -43,13 +47,17 @@ void CTransformC::FixedUpdate(SP(CComponent) spThis)
 
 void CTransformC::Update(SP(CComponent) spThis)
 {
-	
+	if(m_pParent != nullptr)
+		m_parentChanged = m_pParent->GetHasChanged();
 }
 
 void CTransformC::LateUpdate(SP(CComponent) spThis)
 {
 	if (m_hasChanged)
 		UpdateWorldMatrix();
+	
+	if (m_parentChanged)
+		UpdateFinalWorldMatrix();
 }
 
 void CTransformC::OnDestroy(void)
@@ -63,6 +71,7 @@ void CTransformC::OnEnable(void)
 
 void CTransformC::OnDisable(void)
 {
+	__super::OnDisable();
 }
 
 #pragma region TransformSettors
@@ -72,6 +81,21 @@ void CTransformC::SetPosition(_float3 position)
 	m_hasChanged = true;
 }
 
+void CTransformC::SetPositionX(_float posX)
+{
+	m_position.x = posX;
+}
+
+void CTransformC::SetPositionY(_float posY)
+{
+	m_position.y = posY;
+}
+
+void CTransformC::SetPositionZ(_float posZ)
+{
+	m_position.z = posZ;
+}
+
 void CTransformC::SetRotation(_float3 rotation)
 {
 	m_rotation = rotation;
@@ -79,10 +103,40 @@ void CTransformC::SetRotation(_float3 rotation)
 	m_hasChanged = true;
 }
 
+void CTransformC::SetRotationX(_float rotationX)
+{
+	m_rotation.x = rotationX;
+}
+
+void CTransformC::SetRotationY(_float rotationY)
+{
+	m_rotation.y = rotationY;
+}
+
+void CTransformC::SetRotationZ(_float rotationZ)
+{
+	m_rotation.z = rotationZ;
+}
+
 void CTransformC::SetSize(_float3 size)
 {
 	m_size = size;
 	m_hasChanged = true;
+}
+
+void CTransformC::SetSizeX(_float sizeX)
+{
+	m_size.x = sizeX;
+}
+
+void CTransformC::SetSizeY(_float sizeY)
+{
+	m_size.y = sizeY;
+}
+
+void CTransformC::SetSizeZ(_float sizeZ)
+{
+	m_size.z = sizeZ;
 }
 
 void CTransformC::SetForward(_float3 lookAt)
@@ -92,6 +146,27 @@ void CTransformC::SetForward(_float3 lookAt)
 	D3DXVec3Normalize(&m_forward, &m_forward);
 	UpdateRotation();
 	m_hasChanged = true;
+}
+
+void CTransformC::AddChild(SP(CTransformC) spChild)
+{
+	m_vChildren.emplace_back(spChild);
+	spChild->SetParent(this);
+}
+
+void CTransformC::DeleteChild(CTransformC * pChild)
+{
+	for (auto& it = m_vChildren.begin(); it != m_vChildren.end(); )
+	{
+		if ((*it).get() == pChild)
+		{
+			(*it).reset();
+			it = m_vChildren.erase(it);
+			continue;
+		}
+
+		++it;
+	}
 }
 
 void CTransformC::AddPosition(_float3 position)
@@ -201,6 +276,25 @@ void CTransformC::MoveDown(_float magnitude)
 {
 	AddPosition(-m_up * magnitude);
 }
+
+void CTransformC::CopyTransform(CTransformC const & transform)
+{
+	*this = transform;
+}
+
+void CTransformC::operator=(CTransformC const & rhs)
+{
+	m_position	= rhs.m_position;
+	m_rotation	= rhs.m_rotation;
+	m_size		= rhs.m_size;
+
+	m_forward	= rhs.m_forward;
+	m_up		= rhs.m_up;
+	m_right		= rhs.m_right;
+
+	m_worldMat	= rhs.m_worldMat;
+}
+
 #pragma endregion
 
 void CTransformC::UpdateForward(void)
@@ -258,9 +352,92 @@ void CTransformC::UpdateWorldMatrix(void)
                                         m_position.y,
                                         m_position.z);
 
-	m_worldMat = size * rotateX * rotateY * rotateZ * translation;
-
-	m_hasChanged = false;
+	m_worldMat			= size * rotateX * rotateY * rotateZ * translation;
+	m_worldMatNoScale	= rotateX * rotateY * rotateZ * translation;
 }
 
+void CTransformC::UpdateFinalWorldMatrix(void)
+{
+	if (m_hasChanged)
+		UpdateWorldMatrix();
+
+	if (m_pParent == nullptr)
+	{
+		m_finalWorldMat			= m_worldMat;
+		m_finalWorldMatNoScale	= m_worldMatNoScale;
+	}
+	else if (m_parentChanged == true)
+	{
+		D3DXMatrixMultiply(&m_finalWorldMat, &m_worldMat, &m_pParent->GetFinalWorldMatNoScale());
+		D3DXMatrixMultiply(&m_finalWorldMatNoScale, &m_worldMatNoScale, &m_pParent->GetFinalWorldMatNoScale());
+	}
+		
+
+	if (m_hasChanged || m_parentChanged)
+	{
+		UpdateFinalPosition();
+		UpdateFinalRotation();
+		UpdateFinalAxis();
+
+		m_parentChanged = false;
+		m_hasChanged	= false;
+	}
+
+
+	for (auto& it = m_vChildren.begin(); it != m_vChildren.end(); )
+	{
+		if ((*it)->GetOwner() == nullptr)
+		{
+			(*it).reset();
+			it = m_vChildren.erase(it);
+			continue;
+		}
+
+		if ((*it)->GetIsEnabled())
+			(*it)->UpdateFinalWorldMatrix();
+
+		++it;
+	}
+}
+
+void CTransformC::UpdateFinalPosition(void)
+{
+	m_finalPos = _float3(m_finalWorldMat._41, m_finalWorldMat._42, m_finalWorldMat._43);
+}
+
+void CTransformC::UpdateFinalRotation(void)
+{
+	D3DXQUATERNION localQuat;
+	D3DXQuaternionRotationYawPitchRoll(&localQuat, m_rotation.y, m_rotation.x, m_rotation.z);
+
+	if (m_pParent != nullptr)
+	{
+		_float3 parentRot = m_pParent->GetFinalRot();
+		D3DXQUATERNION parentQuat;
+		D3DXQuaternionRotationYawPitchRoll(&parentQuat, parentRot.y, parentRot.x, parentRot.z);
+
+
+		localQuat = localQuat * parentQuat;
+	}
+
+	m_finalRot = GET_MATH->QuatToRad(localQuat);
+}
+
+void CTransformC::UpdateFinalAxis(void)
+{
+	_mat rot;
+	_float yaw, pitch, roll;
+	yaw		= m_finalRot.y;
+	pitch	= m_finalRot.x;
+	roll	= m_finalRot.z;
+
+	D3DXMatrixRotationYawPitchRoll(&rot, yaw, pitch, roll);
+	D3DXVec3TransformNormal(&m_finalForward, &FORWARD_VECTOR, &rot);
+	D3DXVec3TransformNormal(&m_finalUp, &UP_VECTOR, &rot);
+	D3DXVec3TransformNormal(&m_finalRight, &RIGHT_VECTOR, &rot);
+
+	D3DXVec3Normalize(&m_finalForward, &m_finalForward);
+	D3DXVec3Normalize(&m_finalUp, &m_finalUp);
+	D3DXVec3Normalize(&m_finalRight, &m_finalRight);
+}
 

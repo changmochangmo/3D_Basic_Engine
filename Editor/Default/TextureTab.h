@@ -22,5 +22,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	void Update(void);
+
 	CListBox m_texList;
 };

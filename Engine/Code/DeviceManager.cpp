@@ -75,15 +75,5 @@ void CDeviceManager::InitDevice(void)
 	}
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-	//m_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-	//m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);//Transparent
-	//m_pDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	//m_pDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	//
-	////Under code is really needed!! for the alpha blending
-	//m_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//m_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	//m_pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 }

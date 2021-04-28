@@ -29,6 +29,7 @@ SP(Engine::CObject) CBoundingVolume::MakeClone(void)
 	SP(CBoundingVolume) spClone(new CBoundingVolume, Engine::SmartDeleter<CBoundingVolume>);
 	CObject::InitClone(spClone);
 
+	spClone->m_spTransform	= spClone->GetComponent<Engine::CTransformC>();
 	return spClone;
 }
 

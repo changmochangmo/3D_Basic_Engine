@@ -40,6 +40,12 @@ void CInifileTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT3, m_renderID);
 }
 
+void CInifileTab::Update(void)
+{
+	UpdateData(TRUE);
+	UpdateData(FALSE);
+}
+
 
 BEGIN_MESSAGE_MAP(CInifileTab, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CInifileTab::OnBnClickedButton1)

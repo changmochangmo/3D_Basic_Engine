@@ -20,6 +20,7 @@
 #pragma region Prototypes
 #include "BasicObject.h"
 #include "Player.h"
+#include "Grid.h"
 #pragma endregion
 
 CMainEditor::CMainEditor()

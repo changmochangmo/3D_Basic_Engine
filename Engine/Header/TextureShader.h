@@ -27,8 +27,8 @@ public:
 
 private:
 				void				LoadShader			(void) override;
-				void				RenderStaticMesh	(CGraphicsC* pGC);
-				void				RenderDynamicMesh	(CGraphicsC* pGC);
+				void				RenderStaticMesh	(CGraphicsC* pGC, _int index);
+				void				RenderDynamicMesh	(CGraphicsC* pGC, _int index);
 };
 END
 #endif
