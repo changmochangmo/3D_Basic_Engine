@@ -32,16 +32,25 @@ void CTextureC::Awake(void)
 
 	if (m_pOwner->GetAddExtra() == false)
 	{
-		_bool isStatic = m_pOwner->GetIsStatic();
-		_int dataID = m_pOwner->GetDataID();
-		std::wstring objectKey = m_pOwner->GetObjectKey();
+		_bool isStatic			= m_pOwner->GetIsStatic();
+		_int dataID				= m_pOwner->GetDataID();
+		std::wstring objectKey	= m_pOwner->GetObjectKey();
 
-		GET_VALUE(isStatic, dataID, objectKey, L"numOfTex", m_numOfTex);
-		for (_int i = 0; i < m_numOfTex; ++i)
+		_int numOfTexSet;
+		GET_VALUE(isStatic, dataID, objectKey, L"numOfMeshData", numOfTexSet);
+
+		m_vTexData.resize(numOfTexSet);
+		for (_int i = 0; i < numOfTexSet; ++i)
 		{
-			std::wstring texKey;
-			GET_VALUE(isStatic, dataID, objectKey, L"textureKey" + std::to_wstring(i), texKey);
-			m_vTexData.emplace_back(CTextureStore::GetInstance()->GetTextureData(texKey));
+			_int numOfTex;
+			GET_VALUE(isStatic, dataID, objectKey, L"numOfTex_Set" + std::to_wstring(i), numOfTex);
+			m_numOfTex += numOfTex;
+			for (_int j = 0; j < numOfTex; ++j)
+			{
+				std::wstring texKey = L"textureKey" + std::to_wstring(i) + L'_' + std::to_wstring(j);
+				GET_VALUE(isStatic, dataID, objectKey, texKey, texKey);
+				m_vTexData[i].emplace_back(CTextureStore::GetInstance()->GetTextureData(texKey));
+			}
 		}
 	}
 }
@@ -79,21 +88,18 @@ void CTextureC::OnDisable(void)
 }
 
 
-void CTextureC::AddTexture(std::wstring const & textureKey)
+void CTextureC::AddTexture(std::wstring const & textureKey, _int index)
 {
-	m_vTexData.emplace_back(CTextureStore::GetInstance()->GetTextureData(textureKey));
-}
+	_size numOfMesh = m_pOwner->GetComponent<CMeshC>()->GetMeshDatas().size();
+	if(m_vTexData.size() != numOfMesh)
+		m_vTexData.resize(numOfMesh);
 
-void CTextureC::ChangeTexture(const _size index, std::wstring const & textureKey)
-{
-	_size size = m_vTexData.size();
-	if (size == index)
-		m_vTexData.push_back(CTextureStore::GetInstance()->GetTextureData(textureKey));
-	else if (size < index)
+
+	if(index < 0 || index >= numOfMesh)
 	{
-		MSG_BOX(__FILE__, L"index is broken in ChangeTexture");
+		MSG_BOX(__FILE__, L"index is broken in AddTexture");
 		ABORT;
 	}
-	else
-		m_vTexData[index] = CTextureStore::GetInstance()->GetTextureData(textureKey);
+
+	m_vTexData[index].emplace_back(CTextureStore::GetInstance()->GetTextureData(textureKey));
 }

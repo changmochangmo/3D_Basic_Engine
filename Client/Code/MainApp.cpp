@@ -19,7 +19,6 @@
 #pragma endregion
 
 #pragma region Prototypes
-#include "BasicObject.h"
 #include "Player.h"
 #pragma endregion
 
@@ -41,13 +40,12 @@ void CMainApp::Awake(void)
 {
 	srand((_uint)time(NULL));
 
-	Engine::CTextManager::GetInstance()->Awake();
 	Engine::CInputManager::GetInstance()->Awake();
 	Engine::CSoundManager::GetInstance()->Awake();
 	Engine::CSceneManager::GetInstance()->Awake();
+	Engine::CCameraManager::GetInstance()->Awake();
 	Engine::CObjectFactory::GetInstance()->Awake();
 	Engine::CGraphicsManager::GetInstance()->Awake();
-	Engine::CCameraManager::GetInstance()->Awake();
 	Engine::CShaderManager::GetInstance()->Awake();
 	Engine::CCollisionManager::GetInstance()->Awake();
 }
@@ -56,13 +54,12 @@ void CMainApp::Start(void)
 {
 	InitStaticPrototype();
 
-	Engine::CTextManager::GetInstance()->Start();
 	Engine::CInputManager::GetInstance()->Start();
 	Engine::CSceneManager::GetInstance()->Start();
 	Engine::CSceneManager::GetInstance()->SceneChange(CChangmoScene::Create());
+	Engine::CCameraManager::GetInstance()->Start();
 	Engine::CObjectFactory::GetInstance()->Start();
 	Engine::CGraphicsManager::GetInstance()->Start();
-	Engine::CCameraManager::GetInstance()->Start();
 	Engine::CShaderManager::GetInstance()->Start();
 	
 	Engine::CCollisionManager::GetInstance()->Start((_int)EColliderID::NumOfColliderID);
@@ -113,7 +110,7 @@ void CMainApp::PreRender(void)
 	Engine::TIME_MEASURE_START;
 
 	Engine::CGraphicsManager::GetInstance()->PreRender();
-	Engine::CTextManager::GetInstance()->Render();
+	Engine::CTextManager::GetInstance()->PreRender();
 
 	_float time = Engine::GET_ELAPSED_TIME;
 }
@@ -133,7 +130,7 @@ void CMainApp::PostRender(void)
 	Engine::TIME_MEASURE_START;
 
 	Engine::CGraphicsManager::GetInstance()->PostRender();
-	Engine::CTextManager::GetInstance()->Render();
+	Engine::CTextManager::GetInstance()->PostRender();
 
 	_float time = Engine::GET_ELAPSED_TIME;
 }
@@ -148,7 +145,6 @@ void CMainApp::OnDestroy(void)
 	Engine::CSoundManager::GetInstance()->DestroyInstance();
 	Engine::CCameraManager::GetInstance()->DestroyInstance();
 	Engine::CShaderManager::GetInstance()->DestroyInstance();
-	Engine::CTextManager::GetInstance()->DestroyInstance();
 }
 
 void CMainApp::OnEnable(void)
@@ -162,9 +158,6 @@ void CMainApp::OnDisable(void)
 
 void CMainApp::InitStaticPrototype(void)
 {
-	SP(Engine::CObject) spBasicObjectPrototype(CBasicObject::Create(true));
-	Engine::ADD_PROTOTYPE(spBasicObjectPrototype);
-
 	SP(Engine::CObject) spPlayerPrototype(CPlayer::Create(true));
 	Engine::ADD_PROTOTYPE(spPlayerPrototype);
 }

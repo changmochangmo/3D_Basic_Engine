@@ -54,7 +54,7 @@ void CDebugShader::Render(CGraphicsC * pGC)
 				MSG_BOX(__FILE__, L"Shader BeginPass Failed");
 				ABORT;
 			}
-			const std::vector<CMesh*>& vMeshData = pGC->GetMesh()->GetMeshDatas();
+			const std::vector<CMeshData*>& vMeshData = pGC->GetMesh()->GetMeshDatas();
 
 			for (_int i = 0; i < (_int)vMeshData.size(); ++i)
 			{

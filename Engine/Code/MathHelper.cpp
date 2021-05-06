@@ -13,6 +13,37 @@ _float CMathHelper::Min(_float num, _float standard)
 	return (num = (num < standard) ? standard : num);
 }
 
+_float CMathHelper::MinMax(_float num, _float stdMin, _float stdMax)
+{
+	num = Min(num, stdMin);
+	num = Max(num, stdMax);
+	return num;
+}
+
+_float CMathHelper::UpperRoundOff(_float num, _float stdMax)
+{
+	if (num > stdMax)
+		num -= abs(stdMax);
+
+	return num;
+}
+
+_float CMathHelper::LowerRoundOFf(_float num, _float stdMin)
+{
+	if (num < stdMin)
+		num += abs(stdMin);
+
+	return num;
+}
+
+_float CMathHelper::RoundOffRange(_float num, _float absRange)
+{
+	num = UpperRoundOff(num, absRange);
+	num = LowerRoundOFf(num, -absRange);
+
+	return num;
+}
+
 _float3 CMathHelper::AddX(_float3 & vec, _float num)
 {
 	return vec + _float3(num, 0, 0);

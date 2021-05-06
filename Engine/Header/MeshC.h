@@ -3,7 +3,7 @@
 
 BEGIN(Engine)
 
-class CMesh;
+class CMeshData;
 class ENGINE_DLL CMeshC final : public CComponent
 {
 public:
@@ -24,15 +24,15 @@ public:
 			void				OnEnable		(void) override;
 			void				OnDisable		(void) override;
 public:
-			void				AddMeshData		(CMesh* pMeshData);
-			void				ChangeMesh		(std::wstring const& meshKey, _int index);
+			void				AddMeshData		(CMeshData* pMeshData);
+			void				AddMeshData		(std::wstring meshKey);
 			void				GenMinMaxVtx	(void);
 
 public:
 	static const	EComponentID	m_s_componentID = EComponentID::Mesh;
 
 private:
-	typedef std::vector<CMesh*> _MESHES;
+	typedef std::vector<CMeshData*> _MESHES;
 	GETTOR_SETTOR	(_MESHES,	m_vMeshDatas,	{},				MeshDatas)
 
 	GETTOR			(_float3,	m_meshSize,		ZERO_VECTOR,	MeshSize)

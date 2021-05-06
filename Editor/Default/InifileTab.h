@@ -1,9 +1,11 @@
 #pragma once
 #include "afxwin.h"
+#include "afxcmn.h"
 
 
 // CInifileTab 대화 상자입니다.
-
+class CMeshTab;
+class CIniMeshTab;
 class CInifileTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(CInifileTab)
@@ -23,22 +25,24 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	void Update(void);
-public:
-	CListBox m_texList;
-	CButton m_generate;
-	CString m_objectKey;
-	CString m_sectionKey;
-	CString m_sceneName;
-	CString m_meshKey;
-	CString m_renderID;
-	CButton m_isStatic;
-	CButton m_needDebug;
+	void SetupScreen(void);
 
+	CMeshTab*	m_pMeshTab = nullptr;
+public:
+	CButton		m_generate;
+	
+	CString		m_objectKey;
+	CString		m_sectionKey;
+	CString		m_sceneName;
+	
+
+	_int		m_numOfMesh;
 
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedButton1();
-	
-	
-	
-	
+
+	CTabCtrl m_tabCtrl;
+
+	CIniMeshTab*	m_pIniMeshTab;
+	int m_renderID;
 };

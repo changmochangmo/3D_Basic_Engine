@@ -102,7 +102,7 @@ void CAniCtrl::ChangeAniSet(std::string name)
 	_int newTrack = m_curTrack == 0 ? 1 : 0;
 	LPD3DXANIMATIONSET pAS = NULL;
 	m_pAniCtrl->GetAnimationSet(m_curIndex, &pAS);
-	//pAS->
+	
 	if (pAS->GetName() == name)
 		return;
 
@@ -141,7 +141,7 @@ void CAniCtrl::ChangeAniSet(std::string name)
 void CAniCtrl::Play(void)
 {
 	_float deltaTime = GET_DT;
-	m_pAniCtrl->AdvanceTime(deltaTime, NULL);
+	m_pAniCtrl->AdvanceTime(deltaTime * m_speed, NULL);
 	m_timer += deltaTime;
 }
 

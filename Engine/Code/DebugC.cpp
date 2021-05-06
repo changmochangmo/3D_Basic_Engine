@@ -1,8 +1,11 @@
 #include "EngineStdafx.h"
 #include "DebugC.h"
-#include "BoundingVolume.h"
 #include "DataStore.h"
 #include "ObjectFactory.h"
+
+#include "BoundingVolume.h"
+#include "DebugCollider.h"
+
 
 USING(Engine)
 CDebugC::CDebugC(void)
@@ -26,21 +29,38 @@ void CDebugC::Awake(void)
 	__super::Awake();
 	m_componentID = (_int)m_s_componentID;;
 
-	if (m_pOwner->GetAddExtra() == false)
-	{
-		_bool isStatic			= m_pOwner->GetIsStatic();
-		_int dataID				= m_pOwner->GetDataID();
-		std::wstring objectKey	= m_pOwner->GetObjectKey();
-
-		std::wstring debugMeshKey;
-		GET_VALUE(isStatic, dataID, objectKey, L"debugMeshKey", debugMeshKey);
-	}
+	//if (m_pOwner->GetAddExtra() == false)
+	//{
+	//	_bool isStatic			= m_pOwner->GetIsStatic();
+	//	_int dataID				= m_pOwner->GetDataID();
+	//	std::wstring objectKey	= m_pOwner->GetObjectKey();
+	//
+	//	std::wstring debugMeshKey;
+	//	GET_VALUE(isStatic, dataID, objectKey, L"debugMeshKey", debugMeshKey);
+	//}
 }
 
 void CDebugC::Start(SP(CComponent) spThis)
 {
-	m_spBV = std::dynamic_pointer_cast<CBoundingVolume>(ADD_CLONE(L"BoundingVolume", true));
-	m_spBV->SetOwner(m_pOwner);
+	__super::Start(spThis);
+	if (m_pOwner->GetComponent<CMeshC>() != nullptr)
+	{
+		m_spBV = std::dynamic_pointer_cast<CBoundingVolume>(ADD_CLONE(L"BoundingVolume", true));
+		m_spBV->SetOwner(m_pOwner);
+	}
+
+	SP(CCollisionC) spOwnerCC = m_pOwner->GetComponent<CCollisionC>();
+	if (spOwnerCC != nullptr)
+	{
+		m_vDebugCollider.resize(spOwnerCC->GetColliders().size());
+		const std::vector<CCollider*>& vOwnerColliders = spOwnerCC->GetColliders();
+		for (_size i = 0; i < m_vDebugCollider.size(); ++i)
+		{
+			m_vDebugCollider[i] = std::dynamic_pointer_cast<CDebugCollider>(ADD_CLONE(L"DebugCollider", true));
+			m_vDebugCollider[i]->SetOwner(m_pOwner);
+			m_vDebugCollider[i]->SetCollider(vOwnerColliders[i]);
+		}
+	}
 }
 
 void CDebugC::FixedUpdate(SP(CComponent) spThis)
@@ -69,4 +89,12 @@ void CDebugC::OnEnable(void)
 void CDebugC::OnDisable(void)
 {
 	m_spBV->OnDisable();
+}
+
+void CDebugC::AddDebugCollider(CCollider* pCollider)
+{
+	SP(CDebugCollider) spDC = std::dynamic_pointer_cast<CDebugCollider>(ADD_CLONE(L"DebugCollider", true));
+	spDC->SetOwner(m_pOwner);
+	spDC->SetCollider(pCollider);
+	m_vDebugCollider.emplace_back(spDC);
 }

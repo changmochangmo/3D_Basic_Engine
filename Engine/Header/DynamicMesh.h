@@ -1,12 +1,12 @@
 #ifndef DYNAMICMESH_H
 #define DYNAMICMESH_H
 
-#include "Mesh.h"
+#include "MeshData.h"
 #include "HierarchyLoader.h"
 #include "AniCtrl.h"
 
 BEGIN(Engine)
-class ENGINE_DLL CDynamicMesh final : public CMesh
+class ENGINE_DLL CDynamicMesh final : public CMeshData
 {
 	friend class CMeshStore;
 private:
@@ -14,7 +14,7 @@ private:
 	virtual						   ~CDynamicMesh			(void);
 
 public:
-				CMesh*				MakeClone				(void) override;
+				CMeshData*			MakeClone				(void) override;
 				void				FreeClone				(void) override;
 
 				void				Awake					(std::wstring const& filePath, 

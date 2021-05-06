@@ -18,9 +18,9 @@
 #pragma endregion
 
 #pragma region Prototypes
-#include "BasicObject.h"
 #include "Player.h"
 #include "Grid.h"
+#include "EmptyObject.h"
 #pragma endregion
 
 CMainEditor::CMainEditor()
@@ -143,9 +143,6 @@ void CMainEditor::OnDisable(void)
 
 void CMainEditor::InitStaticPrototype(void)
 {
-	SP(Engine::CObject) spBasicObjectPrototype(CBasicObject::Create(true));
-	Engine::ADD_PROTOTYPE(spBasicObjectPrototype);
-
 	SP(Engine::CObject) spPlayerPrototype(CPlayer::Create(true));
 	Engine::ADD_PROTOTYPE(spPlayerPrototype);
 }

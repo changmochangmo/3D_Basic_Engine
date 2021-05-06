@@ -24,6 +24,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	void Update(void);
+	void ClearSelection(void);
 
 	CInifileTab*	m_pInifileTab = nullptr;
 	CTextureTab*	m_pTexTab = nullptr;

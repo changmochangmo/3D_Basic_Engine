@@ -3,7 +3,7 @@
 #include "InputManager.h"
 #include "FRC.h"
 #include "DynamicMesh.h"
-#include "Mesh.h"
+#include "MeshData.h"
 
 _uint CPlayer::m_s_uniqueID = 0;
 
@@ -42,12 +42,12 @@ void CPlayer::Awake(void)
 {
 	__super::Awake();
 
-	m_layerID = (_int)ELayerID::Player;
-	m_dataID = (_int)EDataID::Player;
+	m_layerID	= (_int)ELayerID::Player;
+	m_dataID	= (_int)EDataID::Player;
 
-	m_spMesh = AddComponent<Engine::CMeshC>();
-	m_spTexture = AddComponent<Engine::CTextureC>();
-	m_spGraphics = AddComponent<Engine::CGraphicsC>();
+	m_spMesh		= AddComponent<Engine::CMeshC>();
+	m_spTexture		= AddComponent<Engine::CTextureC>();
+	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
 }
 
 void CPlayer::Start(void)
@@ -82,7 +82,7 @@ void CPlayer::Update(void)
 		m_spTransform->MoveBackward(3 * GET_DT);
 	}
 
-	const std::vector<Engine::CMesh*>& vMeshData = m_spMesh->GetMeshDatas();
+	const std::vector<Engine::CMeshData*>& vMeshData = m_spMesh->GetMeshDatas();
 	if (Engine::IMKEY_PRESS(KEY_1))
 	{
 		for (_int i = 0; i < (_int)vMeshData.size(); ++i)

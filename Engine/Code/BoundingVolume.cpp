@@ -1,7 +1,7 @@
 #include "EngineStdafx.h"
 #include "BoundingVolume.h"
 #include "Object.h"
-#include "Mesh.h"
+#include "MeshData.h"
 
 USING(Engine)
 _uint CBoundingVolume::m_s_uniqueID = 0;
@@ -37,7 +37,6 @@ void CBoundingVolume::Awake(void)
 {
 	__super::Awake();
 	m_layerID	= (_int)ELayerID::BV;
-
 }
 
 void CBoundingVolume::Start(void)

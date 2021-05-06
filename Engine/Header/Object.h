@@ -57,8 +57,8 @@ protected:
 	GETTOR_SETTOR	(_bool,						m_isEnabled,	true,		IsEnabled)
 	GETTOR_SETTOR	(_bool,						m_deleteThis,	false,		DeleteThis)
 
-	GETTOR_SETTOR	(_int,						m_dataID,		-1,			DataID)						
-	GETTOR_SETTOR	(_int,						m_layerID,		-1,			LayerID)
+	GETTOR_SETTOR	(_int,						m_dataID,		UNDEFINED,	DataID)						
+	GETTOR_SETTOR	(_int,						m_layerID,		UNDEFINED,	LayerID)
 	GETTOR_SETTOR	(std::wstring,				m_objectKey,	L"",		ObjectKey)
 
 	GETTOR_SETTOR	(std::wstring,				m_name,			L"",		Name)
@@ -97,6 +97,26 @@ public:
 		}
 
 		return nullptr;
+	}
+
+	template <typename ComponentType>
+	void DeleteComponent(void)
+	{
+		SP(ComponentType) pComponent = GetComponent<ComponentType>();
+		if (pComponent != nullptr)
+		{
+			for (auto& comp : m_mComponents)
+			{
+				if (comp.second == pComponent)
+				{
+					m_mComponents.erase(comp.first);
+					pComponent->SetOwner(nullptr);
+					pComponent.reset();
+
+					break;
+				}
+			}
+		}
 	}
 private:
 	//클론에 컴포넌트 복제하는 함수

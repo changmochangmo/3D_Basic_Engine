@@ -16,10 +16,11 @@ namespace Engine
 	{
 		Base			= 0,
 		NonAlpha		= 1,
-		Alpha			= 2,
-		UI				= 3,
-		WireFrame		= 4,
-		NumOfRenderID	= 5
+		WireFrame		= 2,
+		AlphaTest		= 3,
+		AlphaBlend		= 4,
+		UI				= 5,
+		NumOfRenderID	= 6
 	};
 
 	//Camera Mdoe
@@ -28,7 +29,8 @@ namespace Engine
 		Fixed			= 0,
 		Edit			= 1,
 		FPS				= 2,
-		NumOfCameraMode	= 3
+		Follower		= 3,
+		NumOfCameraMode	= 4
 	};
 
 	//MeshType
@@ -95,13 +97,12 @@ namespace Engine
 		Transform				= 0,
 		Mesh					= 1,
 		Texture					= 2,
-		Debug					= 3,
-		Graphics				= 4,
-		RigidBody				= 5,
-		Collider				= 6,
-		Physics					= 7,
-		Camera					= 8,
-		NumOfEngineComponentID	= 9
+		Graphics				= 3,
+		RigidBody				= 4,
+		Collision				= 5,
+		Camera					= 6,
+		Debug					= 7,
+		NumOfEngineComponentID	= 8
 	};
 
 	enum class EChannelID
@@ -118,17 +119,21 @@ namespace Engine
 
 	enum class EDataID
 	{
-		Engine,
-		Component,
-		DebugObject,
+		Engine				= 0,
+		Component			= 1,
+		DebugObject			= 2,
+		Grid				= 3,
 		NumOfEngineDataID
 	};
 
 	enum class ELayerID
 	{
-		BV					= 0,
-		DebugArrow			= 1,
-		NumOfEngineLayerID
+		Camera				= 0,
+		BV					= 1,
+		DebugArrow			= 2,
+		DebugCollision		= 3,
+		Grid				= 4,
+		NumOfEngineLayerID	
 	};
 }
 #endif // !ENGINEENUM_H

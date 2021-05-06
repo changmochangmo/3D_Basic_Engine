@@ -4,8 +4,8 @@
 
 class CInifileTab;
 class CMeshTab;
-class CTextureTab;
 class CObjectsTab;
+class CEmptyObjectTab;
 class CMenuView : public CFormView
 {
 	DECLARE_DYNCREATE(CMenuView)
@@ -44,8 +44,8 @@ public:
 
 	CInifileTab*	m_pInifileTab;
 	CMeshTab*		m_pMeshTab;
-	CTextureTab*	m_pTexTab;
 	CObjectsTab*	m_pObjectsTab;
+	CEmptyObjectTab* m_pEmptyObjectTab;
 
 	_int			m_curCursel;
 

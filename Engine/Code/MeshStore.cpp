@@ -42,7 +42,7 @@ void CMeshStore::ClearCurResource(void)
 	m_mCurSceneMeshData.clear();
 }
 
-CMesh* CMeshStore::GetMeshData(std::wstring meshKey)
+CMeshData* CMeshStore::GetMeshData(std::wstring meshKey)
 {
 	auto iter_find_static = m_mStaticMeshData.find(meshKey);
 	if (iter_find_static != m_mStaticMeshData.end())
@@ -51,6 +51,9 @@ CMesh* CMeshStore::GetMeshData(std::wstring meshKey)
 	auto iter_find_cur = m_mCurSceneMeshData.find(meshKey);
 	if (iter_find_cur != m_mCurSceneMeshData.end())
 		return iter_find_cur->second->MakeClone();
+
+	MSG_BOX(__FILE__, L"meshKey is broken in GetMeshData");
+	ABORT;
 
 	return nullptr;
 }
@@ -67,23 +70,23 @@ void CMeshStore::InitResource(std::wstring sourcePath)
 
 void CMeshStore::ParsingMesh(std::wstring filePath, std::wstring fileName)
 {
-	std::wstring fullFilePath = filePath + L"\\" + fileName;
+	std::wstring fullFilePath = filePath + fileName;
 	
-	if (GetLastDirName(fullFilePath) == L"Static")
+	if (filePath.find(L"\\Static\\") != std::wstring::npos)
 	{	
 		CStaticMesh* pNewStaticMesh = CStaticMesh::Create(filePath, fileName);
 		if (m_isStatic)
-			m_mStaticMeshData[RemoveExtension(fileName)] = pNewStaticMesh;
+			m_mStaticMeshData[pNewStaticMesh->GetMeshKey()] = pNewStaticMesh;
 		else
-			m_mCurSceneMeshData[RemoveExtension(fileName)] = pNewStaticMesh;
+			m_mCurSceneMeshData[pNewStaticMesh->GetMeshKey()] = pNewStaticMesh;
 	}
-	else if (GetLastDirName(fullFilePath) == L"Dynamic")//Dynamic Mesh
+	else// if (GetLastDirName(fullFilePath) == L"Dynamic")//Dynamic Mesh
 	{
 		CDynamicMesh* pNewDynamicMesh = CDynamicMesh::Create(filePath, fileName);
 		if (m_isStatic)
-			m_mStaticMeshData[RemoveExtension(fileName)] = pNewDynamicMesh;
+			m_mStaticMeshData[pNewDynamicMesh->GetMeshKey()] = pNewDynamicMesh;
 		else
-			m_mCurSceneMeshData[RemoveExtension(fileName)] = pNewDynamicMesh;
+			m_mCurSceneMeshData[pNewDynamicMesh->GetMeshKey()] = pNewDynamicMesh;
 	}
 
 }

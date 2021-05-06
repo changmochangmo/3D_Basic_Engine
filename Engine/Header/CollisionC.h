@@ -43,7 +43,7 @@ private:
 					void			ProcessTriggers		(void);
 
 public:
-	static const	EComponentID	m_s_componentID = EComponentID::Collider;
+	static const	EComponentID	m_s_componentID = EComponentID::Collision;
 
 protected:
 	typedef std::vector<_CollisionInfo> _COLLISIONS;

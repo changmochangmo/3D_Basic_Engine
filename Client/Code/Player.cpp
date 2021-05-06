@@ -3,7 +3,8 @@
 #include "InputManager.h"
 #include "FRC.h"
 #include "DynamicMesh.h"
-#include "Mesh.h"
+#include "MeshData.h"
+#include "CameraManager.h"
 
 _uint CPlayer::m_s_uniqueID = 0;
 
@@ -48,11 +49,13 @@ void CPlayer::Awake(void)
 	m_spMesh		= AddComponent<Engine::CMeshC>();
 	m_spTexture		= AddComponent<Engine::CTextureC>();
 	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
+
+	m_spTransform->SetSize(_float3(0.01f, 0.01f, 0.01f));
 }
 
 void CPlayer::Start(void)
 {
-	__super::Start();	
+	__super::Start();
 }
 
 void CPlayer::FixedUpdate(void)
@@ -64,57 +67,11 @@ void CPlayer::Update(void)
 {
 	__super::Update();
 
-	if (Engine::IMKEY_PRESS(KEY_RIGHT))
-	{
-		m_spTransform->MoveRight(3 * GET_DT);
+	m_status = Idle;
 
-	}
-	if (Engine::IMKEY_PRESS(KEY_LEFT))
-	{
-		m_spTransform->MoveLeft(3 * GET_DT);
-	}
-	if (Engine::IMKEY_PRESS(KEY_UP))
-	{
-		m_spTransform->MoveForward(3 * GET_DT);
-	}
-	if (Engine::IMKEY_PRESS(KEY_DOWN))
-	{
-		m_spTransform->MoveBackward(3 * GET_DT);
-	}
-
-	const std::vector<Engine::CMesh*>& vMeshData = m_spMesh->GetMeshDatas();
-	if (Engine::IMKEY_PRESS(KEY_1))
-	{
-		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
-			dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i])->PlayAnimation();
-	}
-	if (Engine::IMKEY_DOWN(KEY_2))
-	{
-		static int aniIndex = 0;
-		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
-			dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i])->ChangeAniSet(aniIndex++);
-	}
-
-	if (Engine::IMKEY_PRESS(KEY_4))
-	{
-		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
-		{
-			Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i]);
-
-			pDM->PlayAnimation();
-
-			if (pDM->IsAnimationEnd())
-				pDM->ChangeAniSet(pDM->GetAniCtrl()->GetCurIndex() + 1);
-		}
-	}
-	if (Engine::IMKEY_DOWN(KEY_F2))
-	{
-		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
-		{
-			Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i]);
-			pDM->ChangeAniSet("Stand_Idle");
-		}
-	}
+	UpdateMovement();
+	UpdateAnimation();
+	m_lastStatus = m_status;
 }
 
 void CPlayer::LateUpdate(void)
@@ -137,6 +94,12 @@ void CPlayer::OnDisable(void)
 	__super::OnDisable();
 }
 
+void CPlayer::SetBasicName(void)
+{
+	m_name = m_objectKey + std::to_wstring(m_s_uniqueID++);
+}
+
+
 void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
 {
 }
@@ -149,7 +112,97 @@ void CPlayer::OnCollisionExit(Engine::_CollisionInfo ci)
 {
 }
 
-void CPlayer::SetBasicName(void)
+void CPlayer::UpdateAnimation(void)
 {
-	m_name = m_objectKey + std::to_wstring(m_s_uniqueID++);
+	const std::vector<Engine::CMeshData*>& vMeshData = m_spMesh->GetMeshDatas();
+
+	if (m_lastStatus != m_status)
+	{
+		_int aniIndex;
+		_float aniSpeed;
+		switch (m_status)
+		{
+		case Idle:
+			aniIndex = ANI_IDLE;
+			aniSpeed = 1.f;
+			break;
+
+		case Walk:
+			aniIndex = ANI_RUN;
+			aniSpeed = 2.f;
+			break;
+
+		case Run:
+			aniIndex = ANI_RUN;
+			aniSpeed = 3.f;
+			break;
+		}
+		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
+		{
+			Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i]);
+			pDM->ChangeAniSet(aniIndex);
+			pDM->GetAniCtrl()->SetSpeed(aniSpeed);
+		}
+	}
 }
+
+void CPlayer::UpdateMovement(void)
+{
+	SP(Engine::CTransformC) mainCamTransform = Engine::GET_MAIN_CAM->GetOwner()->GetTransform();
+
+	m_moveDir = ZERO_VECTOR;
+
+	if (Engine::IMKEY_PRESS(KEY_W))
+	{
+		_float3 dir = m_spTransform->GetPosition() - mainCamTransform->GetPosition();
+		dir.y = 0; 
+		D3DXVec3Normalize(&dir, &dir);
+		m_moveDir += dir;
+	}
+	if (Engine::IMKEY_PRESS(KEY_A))
+	{
+		_float3 dir = m_spTransform->GetPosition() - mainCamTransform->GetPosition();
+		dir.y = 0;
+		D3DXVec3Normalize(&dir, &dir);
+		D3DXVec3Cross(&dir, &dir, &UP_VECTOR);
+
+		m_moveDir += dir;
+	}
+	if (Engine::IMKEY_PRESS(KEY_S))
+	{
+		_float3 dir = mainCamTransform->GetPosition() - m_spTransform->GetPosition();
+		dir.y = 0;
+		D3DXVec3Normalize(&dir, &dir);
+
+		m_moveDir += dir;
+	}
+	if (Engine::IMKEY_PRESS(KEY_D))
+	{
+		_float3 dir = m_spTransform->GetPosition() - mainCamTransform->GetPosition();
+		dir.y = 0;
+		D3DXVec3Normalize(&dir, &dir);
+		D3DXVec3Cross(&dir, &UP_VECTOR, &dir);
+
+		m_moveDir += dir;
+	}
+	
+	
+	D3DXVec3Normalize(&m_moveDir, &m_moveDir);
+
+	if (D3DXVec3LengthSq(&m_moveDir) > EPSILON)
+	{
+		m_spTransform->SetGoalForward(m_moveDir);
+
+		_float moveSpeed;
+		m_status = Walk;
+		moveSpeed = m_walkSpeed;
+		if (Engine::IMKEY_PRESS(KEY_SHIFT))
+		{
+			m_status = Run;
+			moveSpeed = m_runSpeed;
+		}
+
+		m_spTransform->AddPosition(m_moveDir * moveSpeed * GET_DT);
+	}
+}
+

@@ -148,10 +148,9 @@ void CEditorView::OnInitialUpdate()
 #pragma region SubEnginesAwake
 	Engine::CDataStore::GetInstance()->Awake();
 	Engine::CDataStore::GetInstance()->InitDataMap((_uint)EDataID::NumOfDataID);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"Grid", (_uint)EDataID::Grid);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"Terrain", (_uint)EDataID::Terrain);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Decoration", (_uint)EDataID::Decoration);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Scene", (_uint)EDataID::Scene);
 
 	Engine::CFRC::GetInstance()->Awake();
 	Engine::CWndApp::GetInstance()->Awake();

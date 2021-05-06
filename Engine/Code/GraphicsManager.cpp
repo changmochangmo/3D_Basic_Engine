@@ -62,7 +62,8 @@ void CGraphicsManager::Render(void)
 	RenderBase();
 	RenderNonAlpha();
 	RenderWire();
-	RenderAlpha();
+	RenderAlphaTest();
+	RenderAlphaBlend();
 	RenderUI();
 
 	ClearRenderList();
@@ -71,7 +72,7 @@ void CGraphicsManager::Render(void)
 void CGraphicsManager::PostRender(void)
 {
 	GET_DEVICE->EndScene();
-	GET_DEVICE->Present(NULL, NULL, NULL, NULL);
+	//GET_DEVICE->Present(NULL, NULL, NULL, NULL);
 }
 
 void CGraphicsManager::OnDestroy(void)
@@ -190,7 +191,43 @@ void CGraphicsManager::RenderWire(void)
 	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
-void CGraphicsManager::RenderAlpha(void)
+void CGraphicsManager::RenderAlphaTest(void)
+{
+	LPDIRECT3DDEVICE9 pDevice = GET_DEVICE;
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	// 햇키드 얼굴 랜더링 할때 알파테스팅 해줘야됨
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 1); // 알파 기준 설정
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 테스팅 수행
+
+	CShader* pShader = GET_SHADER((_int)EShaderType::Texture);
+	for (auto& spGC : m_vRenderList[(_int)ERenderID::AlphaTest])
+	{
+		if (spGC->GetOwner() != nullptr && spGC->GetIsEnabled())
+		{
+			if (spGC->GetOwner() != nullptr && spGC->GetIsEnabled())
+			{
+				if (GET_MAIN_CAM->GetFrustum()->
+					CheckAabb(spGC->GetTransform()->GetPosition(),
+							  spGC->GetTransform()->GetSize() / 2.f))
+				{
+					pShader->PreRender(spGC.get());
+					pShader->Render(spGC.get());
+					pShader->PostRender(spGC.get());
+				}
+			}
+		}
+
+		spGC.reset();
+	}
+
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+}
+
+void CGraphicsManager::RenderAlphaBlend(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GET_DEVICE;
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -199,13 +236,13 @@ void CGraphicsManager::RenderAlpha(void)
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	CShader* pShader = GET_SHADER((_int)EShaderType::Texture);
-	for (auto& spGC : m_vRenderList[(_int)ERenderID::Alpha])
+	for (auto& spGC : m_vRenderList[(_int)ERenderID::AlphaBlend])
 	{
 		if (spGC->GetOwner() != nullptr && spGC->GetIsEnabled())
 		{
 			if (GET_MAIN_CAM->GetFrustum()->
 				CheckAabb(spGC->GetTransform()->GetPosition(),
-					spGC->GetTransform()->GetSize() / 2.f))
+						  spGC->GetTransform()->GetSize() / 2.f))
 			{
 				pShader->PreRender(spGC.get());
 				pShader->Render(spGC.get());

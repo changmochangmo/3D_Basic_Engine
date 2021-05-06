@@ -25,6 +25,7 @@ public:
 			void					OnEnable			(void);
 			void					OnDisable			(void);
 
+public:
 			void					AddToRenderList		(_int renderID, 
 														 SP(CGraphicsC) pGC);
 
@@ -34,7 +35,8 @@ private:
 			void					RenderBase			(void);
 			void					RenderNonAlpha		(void);
 			void					RenderWire			(void);
-			void					RenderAlpha			(void);
+			void					RenderAlphaTest		(void);
+			void					RenderAlphaBlend	(void);
 			void					RenderUI			(void);
 			
 

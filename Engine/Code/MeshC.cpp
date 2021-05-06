@@ -3,7 +3,7 @@
 #include "MeshStore.h"
 #include "DataStore.h"
 #include "Object.h"
-#include "Mesh.h"
+#include "MeshData.h"
 
 USING(Engine)
 CMeshC::CMeshC(void)
@@ -92,36 +92,22 @@ void CMeshC::OnDisable(void)
 {
 }
 
-void CMeshC::AddMeshData(CMesh * pMeshData)
+void CMeshC::AddMeshData(CMeshData * pMeshData)
 {
 	m_vMeshDatas.emplace_back(pMeshData);
 }
 
-void CMeshC::ChangeMesh(std::wstring const & meshKey, _int index)
+void CMeshC::AddMeshData(std::wstring meshKey)
 {
-	_int numOfMeshData = (_int)m_vMeshDatas.size();
-	if (index < 0 || index > numOfMeshData)
-	{
-		MSG_BOX(__FILE__, L"index is broken in ChangeMesh");
-		ABORT;
-	}
-	else if (index == numOfMeshData)
-		m_vMeshDatas.emplace_back(CMeshStore::GetInstance()->GetMeshData(meshKey));
-	else
-	{
-		if (m_vMeshDatas[index] != nullptr)
-			m_vMeshDatas[index]->FreeClone();
-
-		m_vMeshDatas[index] = CMeshStore::GetInstance()->GetMeshData(meshKey);
-	}
-
-	GenMinMaxVtx();
+	m_vMeshDatas.emplace_back(CMeshStore::GetInstance()->GetMeshData(meshKey));
 }
+
 
 void CMeshC::GenMinMaxVtx(void)
 {
 	m_minVertex = MAX_VECTOR;
 	m_maxVertex = -MAX_VECTOR;
+
 	for (auto& mesh : m_vMeshDatas)
 	{
 		_float3 minVtx = mesh->GetMinVertex();
@@ -142,5 +128,6 @@ void CMeshC::GenMinMaxVtx(void)
 			m_maxVertex.z = maxVtx.z;
 	}
 
-	m_meshSize = m_maxVertex - m_minVertex;
+	if(m_vMeshDatas.size() != 0)
+		m_meshSize = m_maxVertex - m_minVertex;
 }

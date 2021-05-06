@@ -63,7 +63,7 @@ void CDeviceManager::InitDevice(void)
 	m_d3dpParm.AutoDepthStencilFormat		= D3DFMT_D24S8;
 
 	m_d3dpParm.FullScreen_RefreshRateInHz	= D3DPRESENT_RATE_DEFAULT;
-	m_d3dpParm.PresentationInterval			= D3DPRESENT_INTERVAL_DEFAULT;
+	m_d3dpParm.PresentationInterval			= D3DPRESENT_INTERVAL_IMMEDIATE;
 
 	if(FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, 
 								   CWndApp::GetInstance()->GetHWnd(),

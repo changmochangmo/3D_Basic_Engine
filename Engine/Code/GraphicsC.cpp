@@ -8,7 +8,7 @@
 #include "WndApp.h"
 #include "DataStore.h"
 #include "Object.h"
-#include "Mesh.h"
+#include "MeshData.h"
 
 USING(Engine)
 CGraphicsC::CGraphicsC(void)  
@@ -31,7 +31,7 @@ SP(CComponent) CGraphicsC::MakeClone(CObject* pObject)
 void CGraphicsC::Awake(void)
 {
 	__super::Awake();
-	m_componentID = (_int)m_s_componentID;;
+	m_componentID = (_int)m_s_componentID;
 
 	if (m_pOwner->GetAddExtra() == false)
 	{

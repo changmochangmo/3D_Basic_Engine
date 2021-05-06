@@ -22,6 +22,8 @@ CTransformTab::CTransformTab(CWnd* pParent /*=NULL*/)
 	, m_rightX(0), m_rightY(0), m_rightZ(0)
 	, m_upX(0), m_upY(0), m_upZ(0)
 	, m_setByValue(FALSE)
+	, m_enableRot(FALSE)
+	, m_enableDir(FALSE)
 {
 
 }
@@ -76,27 +78,33 @@ void CTransformTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT12, m_zForwardCtrl);
 	DDX_Control(pDX, IDC_BUTTON1, m_modify);
 	DDX_Control(pDX, IDC_BUTTON3, m_rollback);
+
+	DDX_Check(pDX, IDC_CHECK2, m_enableRot);
+	DDX_Check(pDX, IDC_CHECK3, m_enableDir);
+	DDX_Control(pDX, IDC_CHECK2, m_enableRotCtrl);
+	DDX_Control(pDX, IDC_CHECK3, m_enableDirCtrl);
 }
 
 void CTransformTab::Update(void)
 {
 	Engine::CObject* pSelectedObject = m_pModifyDlg->m_pSelectedObject;
-	if (m_setByValue == true)
-	{
-		if (pSelectedObject != nullptr)
-			m_modify.EnableWindow(TRUE);
-		return;
-	}
+	//if (m_setByValue == TRUE)
+	//{
+	//	if (pSelectedObject != nullptr)
+	//		m_modify.EnableWindow(TRUE);
+	//	return;
+	//}
 
 	UpdateData(TRUE);
 	
 
 	if (pSelectedObject != nullptr)
 	{
+		Engine::CTransformC* pTransform = pSelectedObject->GetTransform().get();
 		if(m_setByValue == false)
 		{
 			m_modify.EnableWindow(FALSE);
-			Engine::CTransformC* pTransform = pSelectedObject->GetTransform().get();
+			
 			m_posX		= pTransform->GetPosition().x;
 			m_posY		= pTransform->GetPosition().y;
 			m_posZ		= pTransform->GetPosition().z;
@@ -105,21 +113,28 @@ void CTransformTab::Update(void)
 			m_sizeY		= pTransform->GetSize().y;
 			m_sizeZ		= pTransform->GetSize().z;
 
+		}
+		else
+			m_modify.EnableWindow(TRUE);
+		if (m_enableRot == false)
+		{
 			m_rotationX = pTransform->GetRotation().x;
 			m_rotationY = pTransform->GetRotation().y;
 			m_rotationZ = pTransform->GetRotation().z;
+		}
+		if (m_enableDir == false)
+		{
+			m_forwardX = pTransform->GetForward().x;
+			m_forwardY = pTransform->GetForward().y;
+			m_forwardZ = pTransform->GetForward().z;
 
-			m_forwardX	= pTransform->GetForward().x;
-			m_forwardY	= pTransform->GetForward().y;
-			m_forwardZ	= pTransform->GetForward().z;
+			m_rightX = pTransform->GetRight().x;
+			m_rightY = pTransform->GetRight().y;
+			m_rightZ = pTransform->GetRight().z;
 
-			m_rightX	= pTransform->GetRight().x;
-			m_rightY	= pTransform->GetRight().y;
-			m_rightZ	= pTransform->GetRight().z;
-
-			m_upX		= pTransform->GetUp().x;
-			m_upY		= pTransform->GetUp().y;
-			m_upZ		= pTransform->GetUp().z;
+			m_upX = pTransform->GetUp().x;
+			m_upY = pTransform->GetUp().y;
+			m_upZ = pTransform->GetUp().z;
 		}
 	}
 	else
@@ -150,6 +165,8 @@ void CTransformTab::Update(void)
 		m_upY		= 0;
 		m_upZ		= 0;
 	}
+
+
 	UpdateData(FALSE);
 }
 
@@ -157,6 +174,9 @@ void CTransformTab::Update(void)
 BEGIN_MESSAGE_MAP(CTransformTab, CDialogEx)
 	ON_BN_CLICKED(IDC_CHECK1, &CTransformTab::SetByValueClicked)
 	ON_BN_CLICKED(IDC_BUTTON1, &CTransformTab::ModifyButtonClicked)
+	ON_BN_CLICKED(IDC_BUTTON2, &CTransformTab::DoneButtonClicked)
+	ON_BN_CLICKED(IDC_CHECK2, &CTransformTab::RotButtonClicked)
+	ON_BN_CLICKED(IDC_CHECK3, &CTransformTab::DirButtonClicked)
 END_MESSAGE_MAP()
 
 
@@ -182,6 +202,9 @@ void CTransformTab::SetByValueClicked()
 		m_xForwardCtrl.EnableWindow(FALSE);
 		m_yForwardCtrl.EnableWindow(FALSE);
 		m_zForwardCtrl.EnableWindow(FALSE);
+
+		m_enableRotCtrl.EnableWindow(FALSE);
+		m_enableDirCtrl.EnableWindow(FALSE);
 	}
 	else
 	{
@@ -193,13 +216,8 @@ void CTransformTab::SetByValueClicked()
 		m_ySizeCtrl.EnableWindow(TRUE);
 		m_zSizeCtrl.EnableWindow(TRUE);
 
-		m_xRotationCtrl.EnableWindow(TRUE);
-		m_yRotationCtrl.EnableWindow(TRUE);
-		m_zRotationCtrl.EnableWindow(TRUE);
-
-		m_xForwardCtrl.EnableWindow(TRUE);
-		m_yForwardCtrl.EnableWindow(TRUE);
-		m_zForwardCtrl.EnableWindow(TRUE);
+		m_enableRotCtrl.EnableWindow(TRUE);
+		m_enableDirCtrl.EnableWindow(TRUE);
 	}
 	UpdateData(FALSE);
 }
@@ -215,8 +233,14 @@ void CTransformTab::ModifyButtonClicked()
 	Engine::CTransformC* pTransform = pSelectedObject->GetTransform().get();
 	pTransform->SetPosition(_float3(m_posX, m_posY, m_posZ));
 	pTransform->SetSize(_float3(m_sizeX, m_sizeY, m_sizeZ));
-	pTransform->SetRotation(_float3(m_rotationX, m_rotationY, m_rotationZ));
-	pTransform->SetForward(_float3(m_forwardX, m_forwardY, m_forwardZ));
+
+	if(m_enableRot)
+		pTransform->SetRotation(_float3(D3DXToRadian(m_rotationX), 
+										D3DXToRadian(m_rotationY), 
+										D3DXToRadian(m_rotationZ)));
+
+	if(m_enableDir)
+		pTransform->SetForward(_float3(m_forwardX, m_forwardY, m_forwardZ));
 	UpdateData(FALSE);
 }
 
@@ -241,6 +265,129 @@ BOOL CTransformTab::OnInitDialog()
 	m_yForwardCtrl.EnableWindow(FALSE);
 	m_zForwardCtrl.EnableWindow(FALSE);
 
+	m_enableRotCtrl.EnableWindow(FALSE);
+	m_enableDirCtrl.EnableWindow(FALSE);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+
+
+void CTransformTab::DoneButtonClicked()
+{
+	m_setByValue = FALSE;
+	m_enableRot = FALSE;
+	m_enableDir = FALSE;
+
+	m_pModifyDlg->ShowWindow(SW_HIDE);
+
+
+	m_xPosCtrl.EnableWindow(FALSE);
+	m_yPosCtrl.EnableWindow(FALSE);
+	m_zPosCtrl.EnableWindow(FALSE);
+
+	m_xSizeCtrl.EnableWindow(FALSE);
+	m_ySizeCtrl.EnableWindow(FALSE);
+	m_zSizeCtrl.EnableWindow(FALSE);
+
+	m_xRotationCtrl.EnableWindow(FALSE);
+	m_yRotationCtrl.EnableWindow(FALSE);
+	m_zRotationCtrl.EnableWindow(FALSE);
+
+	m_xForwardCtrl.EnableWindow(FALSE);
+	m_yForwardCtrl.EnableWindow(FALSE);
+	m_zForwardCtrl.EnableWindow(FALSE);
+
+	m_enableRotCtrl.EnableWindow(FALSE);
+	m_enableDirCtrl.EnableWindow(FALSE);
+
+	UpdateData(FALSE);
+}
+
+
+void CTransformTab::RotButtonClicked()
+{
+	UpdateData(TRUE);
+	Engine::CObject* pSelectedObject = m_pModifyDlg->m_pSelectedObject;
+	Engine::CTransformC* pTransform = pSelectedObject->GetTransform().get();
+
+	if (m_enableRot)
+	{
+		m_enableDir = FALSE;
+		m_xRotationCtrl.EnableWindow(TRUE);
+		m_yRotationCtrl.EnableWindow(TRUE);
+		m_zRotationCtrl.EnableWindow(TRUE);
+
+		m_xForwardCtrl.EnableWindow(FALSE);
+		m_yForwardCtrl.EnableWindow(FALSE);
+		m_zForwardCtrl.EnableWindow(FALSE);
+
+		m_forwardX = pTransform->GetForward().x;
+		m_forwardY = pTransform->GetForward().y;
+		m_forwardZ = pTransform->GetForward().z;
+
+		m_rightX = pTransform->GetRight().x;
+		m_rightY = pTransform->GetRight().y;
+		m_rightZ = pTransform->GetRight().z;
+
+		m_upX = pTransform->GetUp().x;
+		m_upY = pTransform->GetUp().y;
+		m_upZ = pTransform->GetUp().z;
+	}
+	else
+	{
+		m_xRotationCtrl.EnableWindow(FALSE);
+		m_yRotationCtrl.EnableWindow(FALSE);
+		m_zRotationCtrl.EnableWindow(FALSE);
+
+		m_rotationX = pTransform->GetRotation().x;
+		m_rotationY = pTransform->GetRotation().y;
+		m_rotationZ = pTransform->GetRotation().z;
+	}
+
+	UpdateData(FALSE);
+}
+
+
+void CTransformTab::DirButtonClicked()
+{
+	UpdateData(TRUE);
+	Engine::CObject* pSelectedObject = m_pModifyDlg->m_pSelectedObject;
+	Engine::CTransformC* pTransform = pSelectedObject->GetTransform().get();
+
+	if (m_enableDir)
+	{
+		m_enableRot = FALSE;
+		m_xForwardCtrl.EnableWindow(TRUE);
+		m_yForwardCtrl.EnableWindow(TRUE);
+		m_zForwardCtrl.EnableWindow(TRUE);
+
+		m_xRotationCtrl.EnableWindow(FALSE);
+		m_yRotationCtrl.EnableWindow(FALSE);
+		m_zRotationCtrl.EnableWindow(FALSE);
+
+		m_rotationX = pTransform->GetRotation().x;
+		m_rotationY = pTransform->GetRotation().y;
+		m_rotationZ = pTransform->GetRotation().z;
+	}
+	else
+	{
+		m_xForwardCtrl.EnableWindow(FALSE);
+		m_yForwardCtrl.EnableWindow(FALSE);
+		m_zForwardCtrl.EnableWindow(FALSE);
+
+		m_forwardX = pTransform->GetForward().x;
+		m_forwardY = pTransform->GetForward().y;
+		m_forwardZ = pTransform->GetForward().z;
+
+		m_rightX = pTransform->GetRight().x;
+		m_rightY = pTransform->GetRight().y;
+		m_rightZ = pTransform->GetRight().z;
+
+		m_upX = pTransform->GetUp().x;
+		m_upY = pTransform->GetUp().y;
+		m_upZ = pTransform->GetUp().z;
+	}
+
+	UpdateData(FALSE);
 }

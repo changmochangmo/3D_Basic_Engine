@@ -65,6 +65,7 @@ public:
 #pragma endregion
 //Interface
 public:
+					void				SlerpXZ					(void);
 					void				MoveForward				(_float magnitude);
 					void				MoveBackward			(_float magnitude);
 					void				MoveLeft				(_float magnitude);
@@ -108,6 +109,9 @@ protected:
 	GETTOR			(_float3,		m_up,						UP_VECTOR,			Up)
 	GETTOR			(_float3,		m_right,					RIGHT_VECTOR,		Right)
 
+	GETTOR_SETTOR	(_float3,		m_goalForward,				ZERO_VECTOR,		GoalForward)
+	GETTOR			(_float,		m_slerpSpeed,				PI / 0.5f,			SlerpSpeed)
+
 	GETTOR			(_float3,		m_position,					ZERO_VECTOR,		Position)
 	GETTOR			(_float3,		m_rotation,					ZERO_VECTOR,		Rotation)
 	GETTOR			(_float3,		m_size,						ONE_VECTOR,			Size)
@@ -121,11 +125,6 @@ protected:
 	GETTOR			(_float3,		m_finalForward,				FORWARD_VECTOR,		FinalForward)
 	GETTOR			(_float3,		m_finalUp,					UP_VECTOR,			FinalUp)
 	GETTOR			(_float3,		m_finalRight,				RIGHT_VECTOR,		FinalRight)
-
-	
-
-	GETTOR			(_bool,			m_hasChanged,				true,				HasChanged)
-	GETTOR			(_bool,			m_parentChanged,			true,				ParentChanged)
 };
 END
 #endif

@@ -14,6 +14,8 @@
 //Enum define
 #define UNDEFINED -1
 
+//NewLine
+#define NEW_LINE L'\n'
 
 
 #define KEY_LEFT	1 << 0
@@ -40,7 +42,7 @@
 #define KEY_3		1 << 21
 #define KEY_4		1 << 22
 #define KEY_TAB		1 << 23
-#define KEY_DELETE	1 << 24
+#define KEY_SHIFT	1 << 24
 #define KEY_Z		1 << 25
 #define KEY_X		1 << 26
 

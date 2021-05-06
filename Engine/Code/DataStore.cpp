@@ -49,6 +49,7 @@ void CDataStore::InitDataMap(_uint numOfDataID)
 	AddDataSection(L"Engine", (_uint)EDataID::Engine);
 	AddDataSection(L"Component", (_uint)EDataID::Component);
 	AddDataSection(L"DebugObject", (_uint)EDataID::DebugObject);
+	AddDataSection(L"Grid", (_uint)EDataID::Grid);
 }
 
 void CDataStore::AddDataSection(std::wstring sectionKey, _uint ID)
@@ -64,7 +65,7 @@ void CDataStore::InitResource(std::wstring sourcePath)
 void CDataStore::ParsingData(std::wstring filePath, std::wstring fileName)
 {
 	std::wifstream readFile;
-	std::wstring fullPath = filePath + L"\\" + fileName;
+	std::wstring fullPath = filePath + fileName;
 	readFile.open(fullPath.c_str());
 
 

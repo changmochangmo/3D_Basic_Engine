@@ -172,14 +172,23 @@
     <Filter Include="03.Components\03.Camera">
       <UniqueIdentifier>{00053be2-546b-4e96-b604-c531175c0889}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Objects\00.DebugObject">
-      <UniqueIdentifier>{e5f6a46e-0d11-412a-a026-2f9c4dd35f70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Objects\00.DebugObject\00.BV">
-      <UniqueIdentifier>{c32e2fa6-4b2b-45b9-ae5e-6517e65db289}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.Components\04.Debug">
       <UniqueIdentifier>{6c7de482-7414-4dad-b41e-2e0db8310d9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\01.DebugObject">
+      <UniqueIdentifier>{e5f6a46e-0d11-412a-a026-2f9c4dd35f70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\01.DebugObject\00.BV">
+      <UniqueIdentifier>{c32e2fa6-4b2b-45b9-ae5e-6517e65db289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\01.DebugObject\01.ColGraphis">
+      <UniqueIdentifier>{801dc3bd-8ba6-413a-8217-cc592e228cb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\00.EmptyObject">
+      <UniqueIdentifier>{cbd23a30-c754-4009-8851-6a2b11c6a611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\02.Grid">
+      <UniqueIdentifier>{e904f496-668c-40a2-acb2-3cb40d1225f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -315,9 +324,6 @@
     <ClCompile Include="..\Code\Object.cpp">
       <Filter>01.Structure\03.Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Mesh.cpp">
-      <Filter>00.Engine\01.Graphics\04.Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\StaticMesh.cpp">
       <Filter>00.Engine\01.Graphics\04.Mesh\00.StaticMesh</Filter>
     </ClCompile>
@@ -334,13 +340,25 @@
       <Filter>00.Engine\01.Graphics\02.Shader\01.Shaders\DebugShader</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DebugObject.cpp">
-      <Filter>02.Objects\00.DebugObject</Filter>
+      <Filter>02.Objects\01.DebugObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BoundingVolume.cpp">
-      <Filter>02.Objects\00.DebugObject\00.BV</Filter>
+      <Filter>02.Objects\01.DebugObject\00.BV</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DebugC.cpp">
       <Filter>03.Components\04.Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MeshData.cpp">
+      <Filter>00.Engine\01.Graphics\04.Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DebugCollider.cpp">
+      <Filter>02.Objects\01.DebugObject\01.ColGraphis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EmptyObject.cpp">
+      <Filter>02.Objects\00.EmptyObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Grid.cpp">
+      <Filter>02.Objects\02.Grid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -500,9 +518,6 @@
     <ClInclude Include="..\Header\Object.h">
       <Filter>01.Structure\03.Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Mesh.h">
-      <Filter>00.Engine\01.Graphics\04.Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\StaticMesh.h">
       <Filter>00.Engine\01.Graphics\04.Mesh\00.StaticMesh</Filter>
     </ClInclude>
@@ -519,13 +534,25 @@
       <Filter>00.Engine\01.Graphics\02.Shader\01.Shaders\DebugShader</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DebugObject.h">
-      <Filter>02.Objects\00.DebugObject</Filter>
+      <Filter>02.Objects\01.DebugObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\BoundingVolume.h">
-      <Filter>02.Objects\00.DebugObject\00.BV</Filter>
+      <Filter>02.Objects\01.DebugObject\00.BV</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DebugC.h">
       <Filter>03.Components\04.Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MeshData.h">
+      <Filter>00.Engine\01.Graphics\04.Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DebugCollider.h">
+      <Filter>02.Objects\01.DebugObject\01.ColGraphis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EmptyObject.h">
+      <Filter>02.Objects\00.EmptyObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Grid.h">
+      <Filter>02.Objects\02.Grid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

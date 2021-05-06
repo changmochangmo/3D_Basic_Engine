@@ -71,7 +71,7 @@ void CTextureStore::ParsingTexture(std::wstring filePath, std::wstring fileName)
 {
 	_TexData* pNewTex = new _TexData;
 	std::wstring texKey = RemoveExtension(fileName);
-	std::wstring fullPath = filePath + L"\\" + fileName;
+	std::wstring fullPath = filePath + fileName;
 
 	_TexDataMap* pCurMap = nullptr;
 	if (m_isStatic)

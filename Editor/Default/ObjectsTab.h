@@ -30,8 +30,8 @@ public:
 
 	SP(Engine::CObject) m_spSelectedObject;
 public:
+	CListBox m_scenePrototypeList;
 	GETTOR(CListBox,		m_staticPrototypeList,		{},			StaticPrototypeList)
-	GETTOR(CListBox,		m_scenePrototypeList,		{},			ScenePrototypeList)
 	GETTOR(CListBox,		m_objectList,				{},			ObjectList)
 
 	GETTOR(_int,			m_scenePrototypeIndex,		UNDEFINED,	ScenePrototypeIndex)
@@ -63,4 +63,6 @@ public:
 	
 	afx_msg void ModifyButtonClicked();
 	afx_msg void CopyButtonClicked();
+	afx_msg void SaveButtonClicked();
+	afx_msg void LoadButtonClicked();
 };

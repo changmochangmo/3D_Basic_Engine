@@ -164,10 +164,13 @@ CObjectFactory::GetInstance()->AddClone(objectKey, isStatic)
 #define ADD_CLONE3(objectKey, isStatic, name)										\
 CObjectFactory::GetInstance()->AddClone(objectKey, isStatic, name)
 
-#define GET_4TH_ARG(arg1, arg2, arg3, arg4, ...) arg4
+#define ADD_CLONE4(objectKey, isStatic, name, layerTag)								\
+CObjectFactory::GetInstance()->AddClone(objectKey, isStatic, name, layerTag)
+
+#define GET_5TH_ARG(arg1, arg2, arg3, arg4, arg5, ...) arg5
 
 #define ADD_CLONE_MACRO_CHOOSER(...)												\
-GET_4TH_ARG(__VA_ARGS__, ADD_CLONE3, ADD_CLONE2, ADD_CLONE1, )
+GET_5TH_ARG(__VA_ARGS__, ADD_CLONE4, ADD_CLONE3, ADD_CLONE2, ADD_CLONE1, )
 
 #define ADD_CLONE(...) ADD_CLONE_MACRO_CHOOSER(__VA_ARGS__)(__VA_ARGS__)
 

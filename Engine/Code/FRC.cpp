@@ -1,6 +1,7 @@
 #include "EngineStdafx.h"
 #include "FRC.h"
 #include "DataStore.h"
+#include "TextManager.h"
 
 USING(Engine)
 IMPLEMENT_SINGLETON(CFRC)
@@ -35,7 +36,6 @@ bool CFRC::FrameLock(void)
 {
 	QueryPerformanceCounter(&m_endTime);
 	m_spfLimit += float(m_endTime.QuadPart - m_beginTime.QuadPart) / m_cpuTick.QuadPart;
-
 	m_beginTime.QuadPart = m_endTime.QuadPart;
 
 	if ((1.f / m_FPS) < m_spfLimit)
@@ -43,11 +43,6 @@ bool CFRC::FrameLock(void)
 		m_deltaTime = m_spfLimit;
 		m_spfLimit = 0.f;
 		QueryPerformanceFrequency(&m_cpuTick);
-
-
-		if (m_deltaTime > 0.1)
-			return false;
-
 
 		return true;
 	}

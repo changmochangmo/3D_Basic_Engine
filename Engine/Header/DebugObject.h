@@ -33,6 +33,7 @@ protected:
 	GETTOR_SETTOR	(CObject*,					m_pOwner,		nullptr,		Owner)
 	GETTOR			(SP(Engine::CMeshC),		m_spMesh,		nullptr,		Mesh)
 	GETTOR			(SP(Engine::CGraphicsC),	m_spGraphics,	nullptr,		Graphics)
+
 	GETTOR			(_float3,					m_offset,		ZERO_VECTOR,	Offset)
 };
 END

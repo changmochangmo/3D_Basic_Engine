@@ -9,10 +9,12 @@
 #define IDD_MENUVIEW                    317
 #define IDD_INIFILETAB                  318
 #define IDD_MESHTAB                     319
-#define IDD_TEXTURETAB                  321
 #define IDD_OBJECTSTAB                  323
 #define IDD_MODIFYDLG                   326
 #define IDD_TRANSFORMTAB                327
+#define IDD_INIMESHTAB                  328
+#define IDD_INIMESHINFOTAB              329
+#define IDD_EMPTYOBJECTTAB              330
 #define IDC_BUTTON1                     1001
 #define IDC_TAB1                        1033
 #define IDC_LIST1                       1034
@@ -41,14 +43,18 @@
 #define IDC_EDIT16                      1065
 #define IDC_EDIT17                      1066
 #define IDC_EDIT18                      1067
+#define IDC_CHECK2                      1069
+#define IDC_LIST4                       1070
+#define IDC_BUTTON5                     1072
+#define IDC_BUTTON6                     1073
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        328
+#define _APS_NEXT_RESOURCE_VALUE        331
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1069
-#define _APS_NEXT_SYMED_VALUE           328
+#define _APS_NEXT_CONTROL_VALUE         1074
+#define _APS_NEXT_SYMED_VALUE           331
 #endif
 #endif

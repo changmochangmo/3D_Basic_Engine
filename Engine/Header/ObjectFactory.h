@@ -20,7 +20,8 @@ public:
 			HRESULT			AddPrototype		(SP(CObject) pPrototype);
 			SP(CObject)		AddClone			(const std::wstring& protoObjectKey,
 												 _bool isStatic = false,
-												 const std::wstring& name = L"");
+												 const std::wstring& name = L"",
+												 _int layerTag = UNDEFINED);
 
 			void			ClearCurPrototype	(void);
 			void			InitPrototypes		(void);

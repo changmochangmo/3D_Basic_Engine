@@ -1,10 +1,10 @@
 #ifndef STATICMESH_H
 #define STATICMESH_H
 
-#include "Mesh.h"
+#include "MeshData.h"
 
 BEGIN(Engine)
-class ENGINE_DLL CStaticMesh final : public CMesh
+class ENGINE_DLL CStaticMesh final : public CMeshData
 {
 	friend class CMeshStore;
 private:
@@ -12,7 +12,7 @@ private:
 	virtual						   ~CStaticMesh		(void);
 
 public:
-				CMesh*				MakeClone		(void) override;
+				CMeshData*			MakeClone		(void) override;
 				void				FreeClone		(void) override;
 
 				void				Awake			(std::wstring const& filePath, 

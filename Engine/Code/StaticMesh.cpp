@@ -12,7 +12,7 @@ CStaticMesh::~CStaticMesh()
 {
 }
 
-CMesh* CStaticMesh::MakeClone(void)
+CMeshData* CStaticMesh::MakeClone(void)
 {
 	CStaticMesh* pClone = new CStaticMesh;
 	pClone->m_pMesh			= m_pMesh;
@@ -26,11 +26,9 @@ CMesh* CStaticMesh::MakeClone(void)
 	pClone->m_meshSize		= m_meshSize;
 	pClone->m_minVertex		= m_minVertex;
 	pClone->m_maxVertex		= m_maxVertex;
-	
-	pClone->m_pVertices		= m_pVertices;
-	pClone->m_numOfVtx		= m_numOfVtx;
-	pClone->m_stride		= m_stride;
 
+	pClone->m_meshKey		= m_meshKey;
+	
 	return pClone;
 }
 
@@ -41,9 +39,11 @@ void CStaticMesh::FreeClone(void)
 
 void CStaticMesh::Awake(std::wstring const& filePath, std::wstring const& fileName)
 {
+	__super::Awake(filePath, fileName);
+	
 	m_meshType = (_int)EMeshType::Static;
 
-	if (FAILED(D3DXLoadMeshFromX((filePath + L"\\" + fileName).c_str(),
+	if (FAILED(D3DXLoadMeshFromX((filePath + fileName).c_str(),
 								 D3DXMESH_MANAGED,
 								 GET_DEVICE,
 								 &m_pAdjacency,
@@ -73,28 +73,27 @@ void CStaticMesh::Awake(std::wstring const& filePath, std::wstring const& fileNa
 		}
 	}
 
-	_ulong FVF = m_pMesh->GetFVF();
-	m_stride = D3DXGetFVFVertexSize(FVF);
-	m_numOfVtx = m_pMesh->GetNumVertices();
+	_ulong FVF		= m_pMesh->GetFVF();
+	_uint stride	= D3DXGetFVFVertexSize(FVF);
+	_uint numOfVtx	= m_pMesh->GetNumVertices();
 
-	m_pVertices = new _float3[m_numOfVtx];
 
-	for (_ulong i = 0; i < m_numOfVtx; ++i)
+	for (_ulong i = 0; i < numOfVtx; ++i)
 	{
-		m_pVertices[i] = *((_float3*)(((_ubyte*)pVertices) + (m_stride * i + byOffset)));
-		if (m_pVertices[i].x > m_maxVertex.x)
-			m_maxVertex.x = m_pVertices[i].x;
-		if (m_pVertices[i].y > m_maxVertex.y)
-			m_maxVertex.y = m_pVertices[i].y;
-		if (m_pVertices[i].z > m_maxVertex.z)
-			m_maxVertex.z = m_pVertices[i].z;
+		_float3 curPoint = *((_float3*)(((_ubyte*)pVertices) + (stride * i + byOffset)));
+		if (curPoint.x > m_maxVertex.x)
+			m_maxVertex.x = curPoint.x;
+		if (curPoint.y > m_maxVertex.y)
+			m_maxVertex.y = curPoint.y;
+		if (curPoint.z > m_maxVertex.z)
+			m_maxVertex.z = curPoint.z;
 
-		if (m_pVertices[i].x < m_minVertex.x)
-			m_minVertex.x = m_pVertices[i].x;
-		if (m_pVertices[i].y < m_minVertex.y)
-			m_minVertex.y = m_pVertices[i].y;
-		if (m_pVertices[i].z < m_minVertex.z)
-			m_minVertex.z = m_pVertices[i].z;
+		if (curPoint.x < m_minVertex.x)
+			m_minVertex.x = curPoint.x;
+		if (curPoint.y < m_minVertex.y)
+			m_minVertex.y = curPoint.y;
+		if (curPoint.z < m_minVertex.z)
+			m_minVertex.z = curPoint.z;
 	}
 
 	m_meshSize = m_maxVertex - m_minVertex;

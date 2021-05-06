@@ -4,7 +4,7 @@
 #include "ResourceStore.h"
 
 BEGIN(Engine)
-class CMesh;
+class CMeshData;
 class ENGINE_DLL CMeshStore final : public CResourceStore
 {
 	DECLARE_SINGLETON(CMeshStore)
@@ -15,7 +15,7 @@ public:
 
 			void				ClearCurResource	(void) override;
 
-			CMesh*				GetMeshData			(std::wstring meshKey);
+			CMeshData*				GetMeshData			(std::wstring meshKey);
 			void				InitMeshForScene	(std::wstring curScene);
 private:
 			void				InitResource		(std::wstring sourcePath) override;
@@ -24,7 +24,7 @@ private:
 
 
 private:
-	typedef std::unordered_map<std::wstring, CMesh*> _MeshMap;
+	typedef std::unordered_map<std::wstring, CMeshData*> _MeshMap;
 	
 	GETTOR(_MeshMap,	m_mCurSceneMeshData,	{},		CurSceneMeshData)
 	GETTOR(_MeshMap,	m_mStaticMeshData,		{},		StaticMeshData)

@@ -34,9 +34,9 @@ enum class EDataID
 
 enum class ELayerID
 {
-	BasicObject		= 0 + (_int)Engine::ELayerID::NumOfEngineLayerID,
-	Player			= 1 + (_int)Engine::ELayerID::NumOfEngineLayerID,
-	Terrain			= 2 + (_int)Engine::ELayerID::NumOfEngineLayerID,
+	Player			= 0 + (_int)Engine::ELayerID::NumOfEngineLayerID,
+	Terrain			= 1 + (_int)Engine::ELayerID::NumOfEngineLayerID,
+	Unit			= 2 + (_int)Engine::ELayerID::NumOfEngineLayerID,
 	Decoration		= 3 + (_int)Engine::ELayerID::NumOfEngineLayerID,
 	NumOfLayerID	= 4 + (_int)Engine::ELayerID::NumOfEngineLayerID
 };

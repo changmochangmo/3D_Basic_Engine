@@ -6,7 +6,10 @@
 #include "Layer.h"
 
 #pragma region EnginePrototypeHeaders
+#include "EmptyObject.h"
 #include "BoundingVolume.h"
+#include "DebugCollider.h"
+#include "Grid.h"
 #pragma endregion
 
 USING(Engine)
@@ -69,8 +72,9 @@ HRESULT CObjectFactory::AddPrototype(SP(CObject) pPrototype)
 }
 
 SP(CObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,
-										 _bool isStatic,
-										 const std::wstring & name)
+									 _bool isStatic,
+									 const std::wstring & name,
+									 _int layerTag)
 {
 	_PROTOTYPES* pCurPrototypes = nullptr;
 
@@ -95,6 +99,9 @@ SP(CObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,
 	}
 
 	_int layerID = spClone->GetLayerID();
+	if (layerID == UNDEFINED)
+		layerID = layerTag;
+
 	std::vector<CLayer*> const* pLayers = &GET_CUR_SCENE->GetLayers();
 	if (layerID < 0 || (_uint)layerID >= pLayers->size())
 	{
@@ -136,6 +143,15 @@ void CObjectFactory::ClearCurPrototype(void)
 
 void CObjectFactory::InitPrototypes(void)
 {
+	SP(CObject) spEmptyObjectPrototype(CEmptyObject::Create(true));
+	ADD_PROTOTYPE(spEmptyObjectPrototype);
+
 	SP(CObject) spBoundingVolumePrototype(CBoundingVolume::Create(true));
 	ADD_PROTOTYPE(spBoundingVolumePrototype);
+
+	SP(CObject) spDebugColliderPrototype(CDebugCollider::Create(true));
+	ADD_PROTOTYPE(spDebugColliderPrototype);
+
+	SP(CObject) spGridPrototype(CGrid::Create(true));
+	ADD_PROTOTYPE(spGridPrototype);
 }

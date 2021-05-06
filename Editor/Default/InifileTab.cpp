@@ -6,6 +6,11 @@
 #include "InifileTab.h"
 #include "afxdialogex.h"
 
+#include "MeshTab.h"
+
+//InifileTab's Tabs
+#include "IniMeshTab.h"
+#include "IniMeshInfoTab.h"
 
 // CInifileTab 대화 상자입니다.
 
@@ -16,8 +21,8 @@ CInifileTab::CInifileTab(CWnd* pParent /*=NULL*/)
 	, m_objectKey(_T(""))
 	, m_sectionKey(_T(""))
 	, m_sceneName(_T(""))
-	, m_meshKey(_T(""))
-	, m_renderID(_T(""))
+	
+	, m_renderID(0)
 {
 
 }
@@ -29,20 +34,47 @@ CInifileTab::~CInifileTab()
 void CInifileTab::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_LIST1, m_texList);
+
 	DDX_Control(pDX, IDC_BUTTON1, m_generate);
+
 	DDX_Text(pDX, IDC_EDIT4, m_objectKey);
 	DDX_Text(pDX, IDC_EDIT1, m_sectionKey);
 	DDX_Text(pDX, IDC_EDIT5, m_sceneName);
-	DDX_Text(pDX, IDC_EDIT2, m_meshKey);
-	DDX_Control(pDX, IDC_CHECK1, m_isStatic);
-	DDX_Control(pDX, IDC_CHECK3, m_needDebug);
+	DDX_Control(pDX, IDC_TAB1, m_tabCtrl);
 	DDX_Text(pDX, IDC_EDIT3, m_renderID);
 }
 
 void CInifileTab::Update(void)
 {
 	UpdateData(TRUE);
+	UpdateData(FALSE);
+}
+
+void CInifileTab::SetupScreen(void)
+{
+	UpdateData(TRUE);
+
+	if (m_pIniMeshTab->m_vIniMeshInfoTabs.size() == 0)
+	{
+		_int numOfSelected = 0;
+		HLOCAL selectedItems = NULL;
+		LPINT rgSelected = NULL;
+
+		numOfSelected = m_pMeshTab->m_meshList.GetSelCount();
+		selectedItems = LocalAlloc(LMEM_MOVEABLE | LMEM_ZEROINIT, numOfSelected * sizeof(INT));
+		rgSelected = (LPINT)LocalLock(selectedItems);
+		VERIFY(m_pMeshTab->m_meshList.GetSelItems(numOfSelected, rgSelected) == numOfSelected);
+
+
+		for (_int i = 0; i < numOfSelected; ++i)
+		{
+			CString meshKey;
+			m_pMeshTab->m_meshList.GetText(rgSelected[i], meshKey);
+
+			m_pIniMeshTab->AddTab(meshKey);
+		}
+	}
+
 	UpdateData(FALSE);
 }
 
@@ -61,10 +93,20 @@ BOOL CInifileTab::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+	m_tabCtrl.InsertItem(0, _T("Mesh"));
+	m_tabCtrl.SetCurSel(0);
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+
+	CRect rc;
+	m_tabCtrl.GetWindowRect(&rc);
+
+	m_pIniMeshTab = new CIniMeshTab;
+	m_pIniMeshTab->Create(IDD_INIMESHTAB, &m_tabCtrl);
+	m_pIniMeshTab->MoveWindow(0, 25, rc.Width(), rc.Height());
+	m_pIniMeshTab->ShowWindow(SW_SHOW);
+	
+
+	return TRUE; 
 }
 
 
@@ -74,33 +116,44 @@ void CInifileTab::OnBnClickedButton1()
 
 	if (m_objectKey == "" || m_sectionKey == "" || m_sceneName == "" || m_renderID == -1)
 		return;
-
+	
 	std::wstring filePath = L"../../Resource/Data/" + std::wstring(m_sceneName) + 
 					   L"/" + std::wstring(m_sectionKey) + L"/" + std::wstring(m_objectKey) +
 					   L".ini";
 	std::wofstream ofs(filePath);
+	
+	std::vector<CIniMeshInfoTab*>& vIniMeshInfoTabs = m_pIniMeshTab->m_vIniMeshInfoTabs;
 
 	ofs << L"//MeshComponent\n";
-	ofs << L"meshKey=" << m_meshKey << L'\n' << L'\n';
+	ofs << L"numOfMeshData=" << vIniMeshInfoTabs.size() << '\n';
 
-	ofs << L"//TextureComponent\n";
-	ofs << L"numOfTex=" << m_texList.GetCount() << L'\n';
-
-	for (_int i = 0; i < m_texList.GetCount(); ++i)
+	for (_size i = 0; i < vIniMeshInfoTabs.size(); ++i)
 	{
-		CString texKey;
-		m_texList.GetText(i, texKey);
-		ofs << L"textureKey" << i << L"=" << std::wstring(texKey) << '\n' << L'n';
+		std::wstring meshKey(m_pIniMeshTab->m_vIniMeshInfoTabs[i]->m_meshKey);
+		ofs << L"meshKey" << i << L'=' << meshKey << L'\n';
 	}
+	
+	ofs << L'\n';
+	ofs << L"//TextureComponent\n";
+	for (_size i = 0; i < vIniMeshInfoTabs.size(); ++i)
+	{
+		ofs << L"numOfTex_Set" << i << L'=' << vIniMeshInfoTabs[i]->m_texList.GetCount() << L'\n';
+		for (_int j = 0; j < vIniMeshInfoTabs[i]->m_texList.GetCount(); ++j)
+		{
+			CString texName;
+			vIniMeshInfoTabs[i]->m_texList.GetText(j, texName);
+			std::wstring texNameString(texName);
+			ofs << L"textureKey" << i << L'_' << j << L'=' << texNameString << L'\n';
+		}
 
-
+		ofs << L'\n';
+	}
+	
+	
 	ofs << L"\n//GraphicsComponent\n";
 	ofs << L"renderID=" << m_renderID << L'\n' << L'\n';
-
-
-	if (m_needDebug)
-		ofs << L"debugMeshKey=Cube\n";
-
+	
+	
 	ofs.close();
 	UpdateData(FALSE);
 }

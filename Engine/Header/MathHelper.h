@@ -9,6 +9,11 @@ class ENGINE_DLL CMathHelper final
 public:
 	_float		Max					(_float num, _float standard);
 	_float		Min					(_float num, _float standard);
+	_float		MinMax				(_float num, _float stdMin, _float stdMax);
+
+	_float		UpperRoundOff		(_float num, _float stdMax);
+	_float		LowerRoundOFf		(_float num, _float stdMin);
+	_float		RoundOffRange		(_float num, _float absRange);
 
 	_float3		AddX				(_float3& vec, _float num);
 	_float3		AddY				(_float3& vec, _float num);

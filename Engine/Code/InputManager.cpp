@@ -121,8 +121,8 @@ void CInputManager::KeyUpdate(void)
 		m_key |= KEY_4;
 	if (GetAsyncKeyState(VK_TAB) & 0x8000)
 		m_key |= KEY_TAB;
-	if (GetAsyncKeyState(VK_DELETE) & 0x8000)
-		m_key |= KEY_DELETE;
+	if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
+		m_key |= KEY_SHIFT;
 	if (GetAsyncKeyState('Z') & 0x8000)
 		m_key |= KEY_Z;
 	if (GetAsyncKeyState('X') & 0x8000)

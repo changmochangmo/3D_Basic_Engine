@@ -22,6 +22,12 @@ void CTextManager::Start(void)
 
 void CTextManager::PreRender(void)
 {
+	GET_DEVICE->Clear(0, nullptr,
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+		D3DCOLOR_ARGB(255, 125, 125, 125),
+		1.f, 0);
+
+	GET_DEVICE->BeginScene();
 }
 
 void CTextManager::Render(void)
@@ -32,6 +38,8 @@ void CTextManager::Render(void)
 
 void CTextManager::PostRender(void)
 {
+	GET_DEVICE->EndScene();
+	GET_DEVICE->Present(NULL, NULL, NULL, NULL);
 }
 
 void CTextManager::OnDestroy(void)

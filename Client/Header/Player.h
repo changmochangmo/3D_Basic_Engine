@@ -5,6 +5,19 @@
 
 class CPlayer final : public Engine::CObject
 {
+	enum EAniIndex
+	{
+		ANI_IDLE	= 14,
+		ANI_RUN		= 15
+	};
+
+	enum EStatus
+	{
+		Idle		= 0,
+		Walk		= 1,
+		Run			= 2
+	};
+
 	SMART_DELETER_REGISTER
 private:
 	explicit						CPlayer				(void);
@@ -27,21 +40,30 @@ public:
 				void				OnEnable			(void) override;
 				void				OnDisable			(void) override;
 
-public:
 				void				SetBasicName		(void) override;
 
+public:
 				void				OnCollisionEnter	(Engine::_CollisionInfo ci);
 				void				OnCollisionStay		(Engine::_CollisionInfo ci);
 				void				OnCollisionExit		(Engine::_CollisionInfo ci);
 
-				
+private:
+				void				UpdateAnimation		(void);
+				void				UpdateMovement		(void);
 
 private:
 	static		_uint						m_s_uniqueID;
 
-	GETTOR		(SP(Engine::CMeshC),		m_spMesh,			nullptr,	Mesh)
-	GETTOR		(SP(Engine::CTextureC),		m_spTexture,		nullptr,	Texture)
-	GETTOR		(SP(Engine::CGraphicsC),	m_spGraphics,		nullptr,	Graphics)
+	GETTOR		(SP(Engine::CMeshC),		m_spMesh,		nullptr,		Mesh)
+	GETTOR		(SP(Engine::CTextureC),		m_spTexture,	nullptr,		Texture)
+	GETTOR		(SP(Engine::CGraphicsC),	m_spGraphics,	nullptr,		Graphics)
+
+	GETTOR		(EStatus,					m_lastStatus,	Idle,			LastStatus)
+	GETTOR		(EStatus,					m_status,		Idle,			Status)
+
+	GETTOR_SETTOR	(_float,				m_walkSpeed,	6,				WalkSpeed)
+	GETTOR_SETTOR	(_float,				m_runSpeed,		9,				RunSpeed)
+	GETTOR_SETTOR	(_float3,				m_moveDir,		ZERO_VECTOR,	MoveDir)
 };
 
 #endif

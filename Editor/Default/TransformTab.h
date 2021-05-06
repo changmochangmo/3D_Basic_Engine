@@ -53,6 +53,8 @@ public:
 	float m_upZ;
 
 	BOOL m_setByValue;
+	BOOL m_enableRot;
+	BOOL m_enableDir;
 
 	CEdit m_xPosCtrl;
 	CEdit m_yPosCtrl;
@@ -77,4 +79,10 @@ public:
 	CButton m_modify;
 	CButton m_rollback;
 	virtual BOOL OnInitDialog();
+	afx_msg void DoneButtonClicked();
+	
+	afx_msg void RotButtonClicked();
+	afx_msg void DirButtonClicked();
+	CButton m_enableRotCtrl;
+	CButton m_enableDirCtrl;
 };

@@ -19,21 +19,6 @@
     <Filter Include="03.Objects">
       <UniqueIdentifier>{aff5b79d-c10b-4841-ae0a-80dca9fde4b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Objects\00.Grid">
-      <UniqueIdentifier>{df159a03-f381-492d-ad0a-c9aa6c797dcf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Objects\01.BasicObject">
-      <UniqueIdentifier>{d7065429-a250-4469-808b-e78f007edf3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Objects\02.Player">
-      <UniqueIdentifier>{f0cbe870-a149-4557-ae79-7c35910481ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Objects\03.Terrain">
-      <UniqueIdentifier>{1c16e959-ea36-4266-bb1b-0ea7e4c13749}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Objects\04.Decoration">
-      <UniqueIdentifier>{7e152ae7-e61e-4904-bc1a-89cf41eab10d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.ViewAndDlg">
       <UniqueIdentifier>{cf634b19-56b9-44db-a88e-752f3723cb4a}</UniqueIdentifier>
     </Filter>
@@ -51,12 +36,6 @@
     </Filter>
     <Filter Include="01.ViewAndDlg\01.MenuView\00.Tabs\01.MeshTab">
       <UniqueIdentifier>{67639986-3001-4fe4-9e75-9fdea3371246}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.ViewAndDlg\01.MenuView\00.Tabs\02.TextureTab">
-      <UniqueIdentifier>{2b30785c-17d3-439b-be18-c10dbad0cecf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.ViewAndDlg\01.MenuView\00.Tabs\03.InifileTab">
-      <UniqueIdentifier>{ce14a3df-ae63-4140-91a2-4bbd2176b8bf}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.ViewAndDlg\01.MenuView\00.Tabs\00.ObjectTab">
       <UniqueIdentifier>{fa4b6a08-8642-4884-9551-4eb06e7c15f6}</UniqueIdentifier>
@@ -81,6 +60,27 @@
     </Filter>
     <Filter Include="01.ViewAndDlg\01.ModifyDlg\00.Tabs\02.Graphics">
       <UniqueIdentifier>{db26c47e-e4e2-499d-8ced-b445a3b626fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Objects\01.Player">
+      <UniqueIdentifier>{f0cbe870-a149-4557-ae79-7c35910481ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Objects\03.Decoration">
+      <UniqueIdentifier>{7e152ae7-e61e-4904-bc1a-89cf41eab10d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.ViewAndDlg\01.MenuView\00.Tabs\02.InifileTab">
+      <UniqueIdentifier>{ce14a3df-ae63-4140-91a2-4bbd2176b8bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.ViewAndDlg\01.MenuView\00.Tabs\02.InifileTab\IniMeshTab">
+      <UniqueIdentifier>{993a91a2-83b2-47aa-8859-4f125f20e189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.ViewAndDlg\01.MenuView\00.Tabs\02.InifileTab\IniMeshTab\00.MeshInfoTab">
+      <UniqueIdentifier>{df6bf63f-6475-4e92-a97f-55e7234383fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Objects\02.Map">
+      <UniqueIdentifier>{1c16e959-ea36-4266-bb1b-0ea7e4c13749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.ViewAndDlg\01.MenuView\00.Tabs\03.EmptyObjectTab">
+      <UniqueIdentifier>{b4c1e939-fc7e-40bb-8b24-7bbeb5a436af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,26 +129,17 @@
     <ClInclude Include="MeshTab.h">
       <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\01.MeshTab</Filter>
     </ClInclude>
-    <ClInclude Include="TextureTab.h">
-      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\02.TextureTab</Filter>
-    </ClInclude>
     <ClInclude Include="InifileTab.h">
-      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\03.InifileTab</Filter>
+      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\02.InifileTab</Filter>
     </ClInclude>
     <ClInclude Include="ObjectsTab.h">
       <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\00.ObjectTab</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>03.Objects\02.Player</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicObject.h">
-      <Filter>03.Objects\01.BasicObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Grid.h">
-      <Filter>03.Objects\00.Grid</Filter>
+      <Filter>03.Objects\01.Player</Filter>
     </ClInclude>
     <ClInclude Include="Decoration.h">
-      <Filter>03.Objects\04.Decoration</Filter>
+      <Filter>03.Objects\03.Decoration</Filter>
     </ClInclude>
     <ClInclude Include="TransformTab.h">
       <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\00.ObjectTab\Tabs\00.Transform</Filter>
@@ -158,6 +149,18 @@
     </ClInclude>
     <ClInclude Include="ModifyDlg.h">
       <Filter>01.ViewAndDlg\01.ModifyDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="IniMeshTab.h">
+      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\02.InifileTab\IniMeshTab</Filter>
+    </ClInclude>
+    <ClInclude Include="IniMeshInfoTab.h">
+      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\02.InifileTab\IniMeshTab\00.MeshInfoTab</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyObjectTab.h">
+      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\03.EmptyObjectTab</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>03.Objects\02.Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -185,26 +188,17 @@
     <ClCompile Include="MeshTab.cpp">
       <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\01.MeshTab</Filter>
     </ClCompile>
-    <ClCompile Include="TextureTab.cpp">
-      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\02.TextureTab</Filter>
-    </ClCompile>
     <ClCompile Include="InifileTab.cpp">
-      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\03.InifileTab</Filter>
+      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\02.InifileTab</Filter>
     </ClCompile>
     <ClCompile Include="ObjectsTab.cpp">
       <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\00.ObjectTab</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>03.Objects\02.Player</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicObject.cpp">
-      <Filter>03.Objects\01.BasicObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Grid.cpp">
-      <Filter>03.Objects\00.Grid</Filter>
+      <Filter>03.Objects\01.Player</Filter>
     </ClCompile>
     <ClCompile Include="Decoration.cpp">
-      <Filter>03.Objects\04.Decoration</Filter>
+      <Filter>03.Objects\03.Decoration</Filter>
     </ClCompile>
     <ClCompile Include="TransformTab.cpp">
       <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\00.ObjectTab\Tabs\00.Transform</Filter>
@@ -214,6 +208,18 @@
     </ClCompile>
     <ClCompile Include="ModifyDlg.cpp">
       <Filter>01.ViewAndDlg\01.ModifyDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="IniMeshTab.cpp">
+      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\02.InifileTab\IniMeshTab</Filter>
+    </ClCompile>
+    <ClCompile Include="IniMeshInfoTab.cpp">
+      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\02.InifileTab\IniMeshTab\00.MeshInfoTab</Filter>
+    </ClCompile>
+    <ClCompile Include="EmptyObjectTab.cpp">
+      <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\03.EmptyObjectTab</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>03.Objects\02.Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -205,12 +205,14 @@
     <ClInclude Include="..\Header\EditorStructure.h" />
     <ClInclude Include="..\Header\EditorTypedef.h" />
     <ClInclude Include="..\Header\EditorView.h" />
-    <ClInclude Include="..\Header\Grid.h" />
     <ClInclude Include="..\Header\MainEditor.h" />
-    <ClInclude Include="BasicObject.h" />
     <ClInclude Include="Decoration.h" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="EmptyObjectTab.h" />
+    <ClInclude Include="IniMeshInfoTab.h" />
+    <ClInclude Include="IniMeshTab.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MapObject.h" />
     <ClInclude Include="MenuView.h" />
     <ClInclude Include="MeshTab.h" />
     <ClInclude Include="InifileTab.h" />
@@ -220,19 +222,20 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TextureTab.h" />
     <ClInclude Include="TransformTab.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\EditorDoc.cpp" />
     <ClCompile Include="..\Code\EditorScene.cpp" />
     <ClCompile Include="..\Code\EditorView.cpp" />
-    <ClCompile Include="..\Code\Grid.cpp" />
     <ClCompile Include="..\Code\MainEditor.cpp" />
-    <ClCompile Include="BasicObject.cpp" />
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="EmptyObjectTab.cpp" />
+    <ClCompile Include="IniMeshInfoTab.cpp" />
+    <ClCompile Include="IniMeshTab.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MenuView.cpp" />
     <ClCompile Include="MeshTab.cpp" />
     <ClCompile Include="InifileTab.cpp" />
@@ -245,7 +248,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TextureTab.cpp" />
     <ClCompile Include="TransformTab.cpp" />
   </ItemGroup>
   <ItemGroup>

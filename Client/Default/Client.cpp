@@ -20,6 +20,8 @@
 
 #include "WndApp.h"
 #include "FRC.h"
+
+#include "TextManager.h"
 #pragma endregion
 
 #include "MainApp.h"
@@ -47,6 +49,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Engine::CDeviceManager::GetInstance()->Awake();
 	Engine::CTextureStore::GetInstance()->Awake();
 	Engine::CMeshStore::GetInstance()->Awake();
+	CMath::CMathHelper::GetInstance();
+
+	Engine::CTextManager::GetInstance()->Awake();
 #pragma endregion
 
 #pragma region SubEnginesStart
@@ -56,6 +61,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Engine::CFRC::GetInstance()->Start();
 	Engine::CTextureStore::GetInstance()->Start();
 	Engine::CMeshStore::GetInstance()->Start();
+	Engine::CTextManager::GetInstance()->Start();
 #pragma endregion
 
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
@@ -67,7 +73,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	pMainApp->Awake();
 	pMainApp->Start();
 
+	Engine::ADD_TEXT(L"FRAME", L"FRAME", _float3(100, 25, 0), D3DXCOLOR(0, 0, 0, 1));
 
+
+	LARGE_INTEGER cpuTick, beginTime, endTime;
+	QueryPerformanceFrequency(&cpuTick);
+	QueryPerformanceCounter(&beginTime);
+	QueryPerformanceCounter(&endTime);
+
+	_float  timeGoesBy = 0.f;
+	_int	frameCount = 0;
 	while (msg.message != WM_QUIT)
 	{
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -78,10 +93,21 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				DispatchMessage(&msg);
 			}
 		}
+		
 
+		if (timeGoesBy >= 1.f)
+		{
+			Engine::REWRITE_TEXT(L"FRAME", std::to_wstring(frameCount));
+			timeGoesBy = 0.f;
+			frameCount = 0;
+			QueryPerformanceFrequency(&cpuTick);
+		}
 
 		if (Engine::CFRC::GetInstance()->FrameLock())
-		{
+		{			
+			frameCount++;
+
+			Engine::TIME_MEASURE_START;
 			pMainApp->FixedUpdate();
 			pMainApp->Update();
 			pMainApp->LateUpdate();
@@ -89,7 +115,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			pMainApp->PreRender();
 			pMainApp->Render();
 			pMainApp->PostRender();
+			_float time = Engine::GET_ELAPSED_TIME;
 		}
+		
+		QueryPerformanceCounter(&endTime);
+		timeGoesBy += (float)(endTime.QuadPart - beginTime.QuadPart)/cpuTick.QuadPart;
+		beginTime.QuadPart = endTime.QuadPart;
 	}
 	
 	pMainApp->OnDestroy();
@@ -103,6 +134,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Engine::CWndApp::GetInstance()->DestroyInstance();
 	Engine::CFRC::GetInstance()->DestroyInstance();
 	Engine::CDataStore::GetInstance()->DestroyInstance();
+	CMath::CMathHelper::GetInstance()->DestroyInstance();
+	Engine::CTextManager::GetInstance()->DestroyInstance();
 #pragma endregion
 	return (int)msg.wParam;
 }

@@ -24,10 +24,12 @@
     <ClInclude Include="..\Header\BitmapC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Header\BoundingVolume.h" />
     <ClInclude Include="..\Header\CameraC.h" />
     <ClInclude Include="..\Header\CameraManager.h" />
+    <ClInclude Include="..\Header\DebugCollider.h" />
     <ClInclude Include="..\Header\Collider.h" />
     <ClInclude Include="..\Header\CollisionC.h" />
     <ClInclude Include="..\Header\CollisionManager.h" />
@@ -39,14 +41,16 @@
     <ClInclude Include="..\Header\DebugShader.h" />
     <ClInclude Include="..\Header\DeviceManager.h" />
     <ClInclude Include="..\Header\DynamicMesh.h" />
+    <ClInclude Include="..\Header\EmptyObject.h" />
     <ClInclude Include="..\Header\Engine.h" />
     <ClInclude Include="..\Header\EngineComponents.h" />
     <ClInclude Include="..\Header\EngineExtern.h" />
     <ClInclude Include="..\Header\EngineTypedef.h" />
     <ClInclude Include="..\Header\Frustum.h" />
+    <ClInclude Include="..\Header\Grid.h" />
     <ClInclude Include="..\Header\HierarchyLoader.h" />
     <ClInclude Include="..\Header\MathHelper.h" />
-    <ClInclude Include="..\Header\Mesh.h" />
+    <ClInclude Include="..\Header\MeshData.h" />
     <ClInclude Include="..\Header\StaticMesh.h" />
     <ClInclude Include="..\Header\TextManager.h" />
     <ClInclude Include="..\Header\FRC.h" />
@@ -89,10 +93,12 @@
     <ClCompile Include="..\Code\BitmapC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\BoundingVolume.cpp" />
     <ClCompile Include="..\Code\CameraC.cpp" />
     <ClCompile Include="..\Code\CameraManager.cpp" />
+    <ClCompile Include="..\Code\DebugCollider.cpp" />
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\CollisionC.cpp" />
     <ClCompile Include="..\Code\CollisionManager.cpp" />
@@ -104,11 +110,13 @@
     <ClCompile Include="..\Code\DebugShader.cpp" />
     <ClCompile Include="..\Code\DeviceManager.cpp" />
     <ClCompile Include="..\Code\DynamicMesh.cpp" />
+    <ClCompile Include="..\Code\EmptyObject.cpp" />
     <ClCompile Include="..\Code\Engine.cpp" />
     <ClCompile Include="..\Code\Frustum.cpp" />
+    <ClCompile Include="..\Code\Grid.cpp" />
     <ClCompile Include="..\Code\HierarchyLoader.cpp" />
     <ClCompile Include="..\Code\MathHelper.cpp" />
-    <ClCompile Include="..\Code\Mesh.cpp" />
+    <ClCompile Include="..\Code\MeshData.cpp" />
     <ClCompile Include="..\Code\StaticMesh.cpp" />
     <ClCompile Include="..\Code\TextManager.cpp" />
     <ClCompile Include="..\Code\FRC.cpp" />
@@ -225,6 +233,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../../Bin/Engine/Release/x64/</OutDir>
     <IntDir>../../Log/Engine/Release/x64/</IntDir>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(SolutionDir)ExternalLibrary\FMOD\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -310,21 +320,32 @@ copy /Y "$(SolutionDir)Bin\Engine\Release\x86\Engine.lib" "$(SolutionDir)Referen
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS;ENGINE_MODE;EXPORTS_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../Code/;../Header/;</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>EngineStdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <NoEntryPoint>false</NoEntryPoint>
     </Link>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+      <ShaderModel>2.0</ShaderModel>
+    </FxCompile>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)Bin\Engine\Debug\x64\Engine.dll" "$(SolutionDir)Reference\Library\Debug\";
+copy /Y "$(SolutionDir)Bin\Engine\Debug\x64\Engine.lib" "$(SolutionDir)Reference\Library\Debug\";
+copy /Y "$(ProjectDir)..\Header\*.h" "$(SolutionDir)Reference\Header\";</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

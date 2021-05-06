@@ -98,6 +98,10 @@ void CCollisionC::AddCollider(CCollider* pCollider)
 	}
 	else
 		MergingBS(pCollider);
+
+	SP(CDebugC) spDebugC = m_pOwner->GetComponent<CDebugC>();
+	if (spDebugC != nullptr)
+		spDebugC->AddDebugCollider(pCollider);
 }
 
 void CCollisionC::AddColliderClone(CCollider* pCollider)
