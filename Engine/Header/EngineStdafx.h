@@ -61,7 +61,15 @@
 #include "EngineStructure.h"
 #include "EngineComponents.h"
 
+//
 #include "MathHelper.h"
+#include "Line.h"
+#include "Sphere.h"
+#include "Triangle.h"
+#include "Rect.h"
+#include "Tetrahedron.h"
+#include "Aabb.h"
+#include "Obb.h"
 //
 
 // »ç¿îµå

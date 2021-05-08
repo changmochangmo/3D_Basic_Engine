@@ -66,6 +66,6 @@
 #define PLAYER_RAY_DISTANCE 0.7f
 
 #define PI 3.141592f
-#define EPSILON 0.0003f
+#define EPSILON 0.0000003f
 
 #endif // !MYDEFINE_H

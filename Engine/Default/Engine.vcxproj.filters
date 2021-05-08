@@ -190,6 +190,30 @@
     <Filter Include="02.Objects\02.Grid">
       <UniqueIdentifier>{e904f496-668c-40a2-acb2-3cb40d1225f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.Engine\12.Geometry">
+      <UniqueIdentifier>{a9ad978b-b523-48ab-9c37-938eae00b4b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\12.Geometry\01.Line">
+      <UniqueIdentifier>{6bc19982-7698-404e-837f-de6bb6a3dc6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\12.Geometry\02.Sphere">
+      <UniqueIdentifier>{102fbfaf-174f-4389-9946-508ac715dc38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\12.Geometry\03.Triangle">
+      <UniqueIdentifier>{adbf502a-d193-42bc-a001-02708d68d02b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\12.Geometry\04.Rectangle">
+      <UniqueIdentifier>{417a0d69-a5bd-440d-9479-f2aed4ecc1d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\12.Geometry\05.Tetrahedron">
+      <UniqueIdentifier>{eafee226-e6cd-4db5-b083-043f44678f58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\12.Geometry\06.Aabb">
+      <UniqueIdentifier>{3affda45-13f0-4350-b6cc-48f2d4453f91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Engine\12.Geometry\07.Obb">
+      <UniqueIdentifier>{e2f6694b-1ef5-444f-8202-6d717a0ee4b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\WndApp.cpp">
@@ -359,6 +383,27 @@
     </ClCompile>
     <ClCompile Include="..\Code\Grid.cpp">
       <Filter>02.Objects\02.Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Line.cpp">
+      <Filter>00.Engine\12.Geometry\01.Line</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Sphere.cpp">
+      <Filter>00.Engine\12.Geometry\02.Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Triangle.cpp">
+      <Filter>00.Engine\12.Geometry\03.Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Rect.cpp">
+      <Filter>00.Engine\12.Geometry\04.Rectangle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Tetrahedron.cpp">
+      <Filter>00.Engine\12.Geometry\05.Tetrahedron</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Aabb.cpp">
+      <Filter>00.Engine\12.Geometry\06.Aabb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Obb.cpp">
+      <Filter>00.Engine\12.Geometry\07.Obb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -553,6 +598,27 @@
     </ClInclude>
     <ClInclude Include="..\Header\Grid.h">
       <Filter>02.Objects\02.Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Line.h">
+      <Filter>00.Engine\12.Geometry\01.Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Sphere.h">
+      <Filter>00.Engine\12.Geometry\02.Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Triangle.h">
+      <Filter>00.Engine\12.Geometry\03.Triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Rect.h">
+      <Filter>00.Engine\12.Geometry\04.Rectangle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Tetrahedron.h">
+      <Filter>00.Engine\12.Geometry\05.Tetrahedron</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Aabb.h">
+      <Filter>00.Engine\12.Geometry\06.Aabb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Obb.h">
+      <Filter>00.Engine\12.Geometry\07.Obb</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
