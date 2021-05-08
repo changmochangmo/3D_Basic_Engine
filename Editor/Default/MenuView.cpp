@@ -21,6 +21,10 @@ CMenuView::CMenuView()
 
 CMenuView::~CMenuView()
 {
+	delete m_pInifileTab;
+	delete m_pMeshTab;
+	delete m_pObjectsTab;
+	delete m_pEmptyObjectTab;
 }
 
 void CMenuView::DoDataExchange(CDataExchange* pDX)

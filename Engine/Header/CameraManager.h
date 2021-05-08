@@ -34,7 +34,6 @@ private:
 	std::unordered_map<std::wstring, SP(CCameraC)> m_mCameras;
 
 	GETTOR_SETTOR	(SP(CCameraC),	m_spMainCamera,	nullptr,	MainCamera)
-	GETTOR_SETTOR	(_bool,			m_updateProj,	false,		UpdateProj)
 };
 END
 #endif

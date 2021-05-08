@@ -33,6 +33,8 @@ CObjectsTab::CObjectsTab(CWnd* pParent /*=NULL*/)
 
 CObjectsTab::~CObjectsTab()
 {
+	m_vObjectList.clear();
+	delete m_pModifyDlg;
 }
 
 void CObjectsTab::DoDataExchange(CDataExchange* pDX)

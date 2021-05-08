@@ -28,26 +28,16 @@ void CDebugC::Awake(void)
 {
 	__super::Awake();
 	m_componentID = (_int)m_s_componentID;;
-
-	//if (m_pOwner->GetAddExtra() == false)
-	//{
-	//	_bool isStatic			= m_pOwner->GetIsStatic();
-	//	_int dataID				= m_pOwner->GetDataID();
-	//	std::wstring objectKey	= m_pOwner->GetObjectKey();
-	//
-	//	std::wstring debugMeshKey;
-	//	GET_VALUE(isStatic, dataID, objectKey, L"debugMeshKey", debugMeshKey);
-	//}
 }
 
 void CDebugC::Start(SP(CComponent) spThis)
 {
 	__super::Start(spThis);
-	if (m_pOwner->GetComponent<CMeshC>() != nullptr)
-	{
-		m_spBV = std::dynamic_pointer_cast<CBoundingVolume>(ADD_CLONE(L"BoundingVolume", true));
-		m_spBV->SetOwner(m_pOwner);
-	}
+	//if (m_pOwner->GetComponent<CMeshC>() != nullptr)
+	//{
+	//	m_spBV = std::dynamic_pointer_cast<CBoundingVolume>(ADD_CLONE(L"BoundingVolume", true));
+	//	m_spBV->SetOwner(m_pOwner);
+	//}
 
 	SP(CCollisionC) spOwnerCC = m_pOwner->GetComponent<CCollisionC>();
 	if (spOwnerCC != nullptr)

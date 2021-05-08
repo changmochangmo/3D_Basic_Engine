@@ -46,6 +46,7 @@ void CMapObject::Awake(void)
 	m_spTexture		= AddComponent<Engine::CTextureC>();
 	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
 	m_spGraphics->SetRenderID((_int)Engine::ERenderID::NonAlpha);
+	m_spTransform->SetSize(_float3(0.01f, 0.01f, 0.01f));
 }
 
 void CMapObject::Start(void)

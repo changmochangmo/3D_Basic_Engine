@@ -39,13 +39,11 @@ void CWndApp::OnDisable(void)
 void CWndApp::SetWndWidth(_int width)
 {
 	m_wndWidth = width;
-	CCameraManager::GetInstance()->SetUpdateProj(true);
 }
 
 void CWndApp::SetWndHeight(_int height)
 {
 	m_wndHeight = height;
-	CCameraManager::GetInstance()->SetUpdateProj(true);
 }
 
 ATOM CWndApp::RegisterWndClass(HINSTANCE hInstance)

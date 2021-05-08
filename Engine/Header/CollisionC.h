@@ -29,7 +29,6 @@ public:
 //interface			
 public:
 					void			AddCollider			(CCollider* pCollider);
-					void			AddColliderClone	(CCollider* pCollider);
 
 					void			AddCollisionInfo	(_CollisionInfo collisionInfo);
 

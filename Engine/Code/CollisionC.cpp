@@ -21,7 +21,11 @@ SP(CComponent) CCollisionC::MakeClone(CObject* pObject)
 
 	spClone->SetCollisionID(m_collisionID);
 	for (auto& collider : m_vColliders)
-		spClone->AddColliderClone(collider->MakeClone(spClone.get()));
+		spClone->m_vColliders.emplace_back(collider->MakeClone(spClone.get()));
+
+	spClone->m_isTrigger	= m_isTrigger;
+	spClone->m_offsetBS		= m_offsetBS;
+	spClone->m_radiusBS		= m_radiusBS;
 	
 	return spClone;
 }
@@ -33,9 +37,9 @@ void CCollisionC::Awake(void)
 
 	if (m_pOwner->GetAddExtra() == false)
 	{
-		_bool isStatic = m_pOwner->GetIsStatic();
-		_int dataID = m_pOwner->GetDataID();
-		std::wstring objectKey = m_pOwner->GetObjectKey();
+		_bool isStatic			= m_pOwner->GetIsStatic();
+		_int dataID				= m_pOwner->GetDataID();
+		std::wstring objectKey	= m_pOwner->GetObjectKey();
 
 		GET_VALUE(isStatic, dataID, objectKey, L"collisionID", m_collisionID);
 		AddColliderFromFile();
@@ -58,16 +62,14 @@ void CCollisionC::FixedUpdate(SP(CComponent) spThis)
 
 void CCollisionC::Update(SP(CComponent) spThis)
 {
-	if (m_spTransform->GetHasChanged())
-	{
-		UpdateOwnerRotMat();
-		for (auto& collider : m_vColliders)
-			collider->UpdatePosition();
-	}
+	
 }
 
 void CCollisionC::LateUpdate(SP(CComponent) spSelf)
 {
+	UpdateOwnerRotMat();
+	for (auto& collider : m_vColliders)
+		collider->UpdatePosition();
 }
 
 void CCollisionC::OnDestroy(void)
@@ -102,11 +104,6 @@ void CCollisionC::AddCollider(CCollider* pCollider)
 	SP(CDebugC) spDebugC = m_pOwner->GetComponent<CDebugC>();
 	if (spDebugC != nullptr)
 		spDebugC->AddDebugCollider(pCollider);
-}
-
-void CCollisionC::AddColliderClone(CCollider* pCollider)
-{
-	m_vColliders.emplace_back(pCollider);
 }
 
 void CCollisionC::AddCollisionInfo(_CollisionInfo collisionInfo)
@@ -179,6 +176,10 @@ void CCollisionC::AddColliderFromFile(void)
 				_float3 size, right, up, forward;
 				GET_VALUE(isStatic, dataID, objectKey, L"ObbCollider_" + index + L"_size", size);
 				GET_VALUE(isStatic, dataID, objectKey, L"ObbCollider_" + index + L"_offset", offset);
+				GET_VALUE(isStatic, dataID, objectKey, L"ObbCollider_" + index + L"_right", right);
+				GET_VALUE(isStatic, dataID, objectKey, L"ObbCollider_" + index + L"_up", up);
+				GET_VALUE(isStatic, dataID, objectKey, L"ObbCollider_" + index + L"_forward", forward);
+
 
 				pCollider = CObbCollider::Create(size, offset, right, up, forward);
 				break;

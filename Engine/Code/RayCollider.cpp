@@ -58,6 +58,11 @@ void CRayCollider::OnDisable(void)
 {
 }
 
+void CRayCollider::UpdatePosition(void)
+{
+	__super::UpdatePosition();
+}
+
 void CRayCollider::MakeBS(void)
 {
 	m_radiusBS = 0;

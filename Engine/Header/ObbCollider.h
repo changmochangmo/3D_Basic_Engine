@@ -21,6 +21,8 @@ public:
 					void			OnEnable			(void) override;
 					void			OnDisable			(void) override;
 
+					void			UpdatePosition		(void) override;
+public:
 					_float			SqDistFromPoint		(_float3 const& point);
 					_float3			ClosestFromPoint	(_float3 const& point);
 					_float3			SurfacePoint		(_float3 const& dir);

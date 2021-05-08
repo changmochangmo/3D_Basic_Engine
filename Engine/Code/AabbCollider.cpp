@@ -56,6 +56,11 @@ void CAabbCollider::OnDisable(void)
 {
 }
 
+void CAabbCollider::UpdatePosition(void)
+{
+	__super::UpdatePosition();
+}
+
 _float CAabbCollider::SqDistFromPoint(_float3 const& point)
 {
 	_float sqDist = 0.f;

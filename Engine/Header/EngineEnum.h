@@ -69,11 +69,11 @@ namespace Engine
 #pragma region PhysicsEnum
 	enum class EColliderType
 	{
-		Point,
-		Ray,
-		Sphere,
-		AABB,
-		OBB,
+		Point		= 0,
+		Ray			= 1,
+		Sphere		= 2,
+		AABB		= 3,
+		OBB			= 4,
 		NumOfCT
 	};
 

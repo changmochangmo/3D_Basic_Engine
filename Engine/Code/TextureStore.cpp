@@ -11,6 +11,8 @@ void CTextureStore::Awake(void)
 	__super::Awake();
 	m_fpResourceHandler = std::bind(&CTextureStore::ParsingTexture, this, std::placeholders::_1, std::placeholders::_2);
 	m_resourcePath = L"..\\..\\Resource\\Texture";
+
+	m_mStaticTextureData[L"NoTexture"] = nullptr;
 }
 
 void CTextureStore::Start(void)
@@ -22,15 +24,21 @@ void CTextureStore::OnDestroy(void)
 {
 	for (auto& texture : m_mCurSceneTextureData)
 	{
-		texture.second->pTexture->Release();
-		delete texture.second;
+		if (texture.second != nullptr)
+		{
+			texture.second->pTexture->Release();
+			delete texture.second;
+		}
 	}
 	m_mCurSceneTextureData.clear();
 
 	for(auto& texture : m_mStaticTextureData)
 	{
-		texture.second->pTexture->Release();
-		delete texture.second;
+		if (texture.second != nullptr)
+		{
+			texture.second->pTexture->Release();
+			delete texture.second;
+		}
 	}
 	m_mStaticTextureData.clear();
 }

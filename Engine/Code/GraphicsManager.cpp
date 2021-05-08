@@ -72,7 +72,7 @@ void CGraphicsManager::Render(void)
 void CGraphicsManager::PostRender(void)
 {
 	GET_DEVICE->EndScene();
-	//GET_DEVICE->Present(NULL, NULL, NULL, NULL);
+	GET_DEVICE->Present(NULL, NULL, NULL, NULL);
 }
 
 void CGraphicsManager::OnDestroy(void)

@@ -7,25 +7,25 @@ BEGIN(Engine)
 class ENGINE_DLL CCollider abstract
 {
 protected:
-	explicit						CCollider		(void);
-	virtual						   ~CCollider		(void);
+	explicit						CCollider			(void);
+	virtual						   ~CCollider			(void);
 
 public:
-					void			Free			(void);
-	virtual			CCollider*		MakeClone		(CCollisionC* pCC) PURE;
+					void			Free				(void);
+	virtual			CCollider*		MakeClone			(CCollisionC* pCC) PURE;
 
-	virtual			void			Awake			(void) PURE;
-	virtual			void			OnDestroy		(void) PURE;
+	virtual			void			Awake				(void) PURE;
+	virtual			void			OnDestroy			(void) PURE;
 
-	virtual			void			OnEnable		(void) PURE;
-	virtual			void			OnDisable		(void) PURE;
+	virtual			void			OnEnable			(void) PURE;
+	virtual			void			OnDisable			(void) PURE;
 
 //Interface
 public:
-					void			UpdatePosition	(void);
+	virtual			void			UpdatePosition		(void) PURE;
 
 protected:
-	virtual			void			MakeBS			(void) PURE;
+	virtual			void			MakeBS				(void) PURE;
 protected:
 	GETTOR_SETTOR	(_int,			m_colliderType,		-1,				ColliderType)
 	GETTOR_SETTOR	(CCollisionC*,	m_pOwner,			nullptr,		Owner)

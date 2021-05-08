@@ -59,9 +59,6 @@ public:
 
 					void				SetForward				(_float3 lookAt);
 
-					void				AddChild				(SP(CTransformC) spChild);
-					void				DeleteChild				(CTransformC* pChild);
-
 #pragma endregion
 //Interface
 public:
@@ -81,12 +78,6 @@ public:
 					void				UpdateRotation			(void);
 					void				UpdateWorldMatrix		(void);
 
-					void				UpdateFinalWorldMatrix	(void);
-
-					void				UpdateFinalPosition		(void);
-					void				UpdateFinalRotation		(void);
-
-					void				UpdateFinalAxis			(void);
 
 					
 					
@@ -95,14 +86,8 @@ public:
 	static const	EComponentID		m_s_componentID = EComponentID::Transform;
 
 protected:
-	typedef std::vector<SP(CTransformC)> _CHILDREN;
-	GETTOR			(_CHILDREN,		m_vChildren,				{},					Children)
-	GETTOR_SETTOR	(CTransformC*,	m_pParent,					nullptr,			Parent)
-
 	GETTOR			(_mat,			m_worldMat,					{},					WorldMatrix)
 	GETTOR			(_mat,			m_worldMatNoScale,			{},					WorldMatrixNoScale)
-	GETTOR			(_mat,			m_finalWorldMat,			{},					FinalWorldMat)
-	GETTOR			(_mat,			m_finalWorldMatNoScale,		{},					FinalWorldMatNoScale)
 
 	//Mine
 	GETTOR			(_float3,		m_forward,					FORWARD_VECTOR,		Forward)
@@ -118,13 +103,6 @@ protected:
 
 	//My size * mesh size
 	GETTOR			(_float3,		m_finalSize,				ONE_VECTOR,			FinalSize)
-	//After applying parent's transform
-	GETTOR			(_float3,		m_finalPos,					ZERO_VECTOR,		FinalPos)
-	GETTOR			(_float3,		m_finalRot,					ZERO_VECTOR,		FinalRot)
-	
-	GETTOR			(_float3,		m_finalForward,				FORWARD_VECTOR,		FinalForward)
-	GETTOR			(_float3,		m_finalUp,					UP_VECTOR,			FinalUp)
-	GETTOR			(_float3,		m_finalRight,				RIGHT_VECTOR,		FinalRight)
 };
 END
 #endif

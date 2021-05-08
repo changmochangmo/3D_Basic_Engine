@@ -17,6 +17,7 @@
 #include "DataStore.h"
 #include "MeshStore.h"
 #include "TextureStore.h"
+#include "MathHelper.h"
 
 #include "WndApp.h"
 #include "FRC.h"
@@ -65,6 +66,7 @@ CEditorView::~CEditorView()
 	Engine::CMeshStore::GetInstance()->DestroyInstance();
 	Engine::CTextureStore::GetInstance()->DestroyInstance();
 	Engine::CDeviceManager::GetInstance()->DestroyInstance();
+	GET_MATH->DestroyInstance();
 }
 
 BOOL CEditorView::PreCreateWindow(CREATESTRUCT& cs)

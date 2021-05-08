@@ -61,6 +61,7 @@ void CBoundingVolume::Update(void)
 void CBoundingVolume::LateUpdate(void)
 {
 	__super::LateUpdate();
+	m_spTransform->SetPosition(m_pOwner->GetTransform()->GetPosition() + m_offset);
 }
 
 void CBoundingVolume::OnDestroy(void)

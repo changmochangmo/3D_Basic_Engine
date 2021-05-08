@@ -55,6 +55,11 @@ void CSphereCollider::OnDisable(void)
 {
 }
 
+void CSphereCollider::UpdatePosition(void)
+{
+	__super::UpdatePosition();
+}
+
 void CSphereCollider::MakeBS(void)
 {
 	m_radiusBS = m_radius;

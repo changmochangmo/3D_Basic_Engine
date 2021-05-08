@@ -51,6 +51,11 @@ void CPointCollider::OnDisable(void)
 {
 }
 
+void CPointCollider::UpdatePosition(void)
+{
+	__super::UpdatePosition();
+}
+
 void CPointCollider::MakeBS(void)
 {
 	m_radiusBS = 0.f;

@@ -856,6 +856,9 @@ static bool ObbObb(CCollider* pC1, CCollider* pC2)
 	obb2OrientedAxis[2] = pOC2->GetForward();
 
 
+	_float	minDiff		= FLT_MAX;
+	_float3 minDiffAxis = ZERO_VECTOR;
+
 	_float ra, rb;
 
 	_float rotation[3][3] = { 0.f };
@@ -883,7 +886,15 @@ static bool ObbObb(CCollider* pC1, CCollider* pC2)
 			 pOC2->GetHalfSize()[2] * absRotation[i][2];
 
 		if (abs(translation[i]) > ra + rb) return false;
+
+		if (minDiff > ra + rb)
+		{
+			minDiff = ra + rb;
+			minDiffAxis = obb1OrientedAxis[i];
+		}
 	}
+
+	
 
 	for (int i = 0; i < 3; ++i)
 	{
@@ -895,6 +906,12 @@ static bool ObbObb(CCollider* pC1, CCollider* pC2)
 		if (abs(translation[0] * rotation[0][i] +
 				translation[1] * rotation[1][i] +
 				translation[2] * rotation[2][i]) > ra + rb) return false;
+
+		if (minDiff > ra + rb)
+		{
+			minDiff = ra + rb;
+			minDiffAxis = obb2OrientedAxis[i];
+		}
 	}
 
 	//A0 X B0
@@ -902,45 +919,99 @@ static bool ObbObb(CCollider* pC1, CCollider* pC2)
 	rb = pOC2->GetHalfSize()[1] * absRotation[0][2] + pOC2->GetHalfSize()[2] * absRotation[0][1];
 	if (abs(translation[2] * rotation[1][0] - translation[1] * rotation[2][0]) > ra + rb) return false;
 
+	if (minDiff > ra + rb)
+	{
+		minDiff	= ra + rb;
+		D3DXVec3Cross(&minDiffAxis, &obb1OrientedAxis[0], &obb2OrientedAxis[0]);
+	}
+
 	//A0 X B1
 	ra = pOC1->GetHalfSize()[1] * absRotation[2][1] + pOC1->GetHalfSize()[2] * absRotation[1][1];
 	rb = pOC2->GetHalfSize()[0] * absRotation[0][2] + pOC2->GetHalfSize()[2] * absRotation[0][0];
 	if (abs(translation[2] * rotation[1][1] - translation[1] * rotation[2][1]) > ra + rb) return false;
+
+	if (minDiff > ra + rb)
+	{
+		minDiff = ra + rb;
+		D3DXVec3Cross(&minDiffAxis, &obb1OrientedAxis[0], &obb2OrientedAxis[1]);
+	}
 
 	//A0 X B2
 	ra = pOC1->GetHalfSize()[1] * absRotation[2][2] + pOC1->GetHalfSize()[2] * absRotation[1][2];
 	rb = pOC2->GetHalfSize()[0] * absRotation[0][1] + pOC2->GetHalfSize()[1] * absRotation[0][0];
 	if (abs(translation[2] * rotation[1][2] - translation[1] * rotation[2][2]) > ra + rb) return false;
 
+	if (minDiff > ra + rb)
+	{
+		minDiff = ra + rb;
+		D3DXVec3Cross(&minDiffAxis, &obb1OrientedAxis[0], &obb2OrientedAxis[2]);
+	}
+
 	//A1 X B0
 	ra = pOC1->GetHalfSize()[0] * absRotation[2][0] + pOC1->GetHalfSize()[2] * absRotation[0][0];
 	rb = pOC2->GetHalfSize()[1] * absRotation[1][2] + pOC2->GetHalfSize()[2] * absRotation[1][1];
 	if (abs(translation[0] * rotation[2][0] - translation[2] * rotation[0][0]) > ra + rb) return false;
+
+	if (minDiff > ra + rb)
+	{
+		minDiff = ra + rb;
+		D3DXVec3Cross(&minDiffAxis, &obb1OrientedAxis[1], &obb2OrientedAxis[0]);
+	}
 
 	//A1 X B1
 	ra = pOC1->GetHalfSize()[0] * absRotation[2][1] + pOC1->GetHalfSize()[2] * absRotation[0][1];
 	rb = pOC2->GetHalfSize()[0] * absRotation[1][2] + pOC2->GetHalfSize()[2] * absRotation[1][0];
 	if (abs(translation[0] * rotation[2][1] - translation[2] * rotation[0][1]) > ra + rb) return false;
 
+	if (minDiff > ra + rb)
+	{
+		minDiff = ra + rb;
+		D3DXVec3Cross(&minDiffAxis, &obb1OrientedAxis[1], &obb2OrientedAxis[1]);
+	}
+
 	//A1 X B2
 	ra = pOC1->GetHalfSize()[0] * absRotation[2][2] + pOC1->GetHalfSize()[2] * absRotation[0][2];
 	rb = pOC2->GetHalfSize()[0] * absRotation[1][1] + pOC2->GetHalfSize()[1] * absRotation[1][0];
 	if (abs(translation[0] * rotation[2][2] - translation[2] * rotation[0][2]) > ra + rb) return false;
+
+	if (minDiff > ra + rb)
+	{
+		minDiff = ra + rb;
+		D3DXVec3Cross(&minDiffAxis, &obb1OrientedAxis[1], &obb2OrientedAxis[2]);
+	}
 
 	//A2 X B0
 	ra = pOC1->GetHalfSize()[0] * absRotation[1][0] + pOC1->GetHalfSize()[1] * absRotation[0][0];
 	rb = pOC2->GetHalfSize()[1] * absRotation[2][2] + pOC2->GetHalfSize()[2] * absRotation[2][1];
 	if (abs(translation[1] * rotation[0][0] - translation[0] * rotation[1][0]) > ra + rb) return false;
 
+	if (minDiff > ra + rb)
+	{
+		minDiff = ra + rb;
+		D3DXVec3Cross(&minDiffAxis, &obb1OrientedAxis[2], &obb2OrientedAxis[0]);
+	}
+
 	//A2 X B1
 	ra = pOC1->GetHalfSize()[0] * absRotation[1][1] + pOC1->GetHalfSize()[1] * absRotation[0][1];
 	rb = pOC2->GetHalfSize()[0] * absRotation[2][2] + pOC2->GetHalfSize()[2] * absRotation[2][0];
 	if (abs(translation[1] * rotation[0][1] - translation[0] * rotation[1][1]) > ra + rb) return false;
 
+	if (minDiff > ra + rb)
+	{
+		minDiff = ra + rb;
+		D3DXVec3Cross(&minDiffAxis, &obb1OrientedAxis[2], &obb2OrientedAxis[1]);
+	}
+
 	//A2 X B2
 	ra = pOC1->GetHalfSize()[0] * absRotation[1][2] + pOC1->GetHalfSize()[1] * absRotation[0][2];
 	rb = pOC2->GetHalfSize()[0] * absRotation[2][1] + pOC2->GetHalfSize()[1] * absRotation[2][0];
 	if (abs(translation[1] * rotation[0][2] - translation[0] * rotation[1][2]) > ra + rb) return false;
+
+	if (minDiff > ra + rb)
+	{
+		minDiff = ra + rb;
+		D3DXVec3Cross(&minDiffAxis, &obb1OrientedAxis[2], &obb2OrientedAxis[2]);
+	}
 
 
 	CCollisionC* pCC1 = pOC1->GetOwner();

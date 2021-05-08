@@ -37,7 +37,6 @@ void CDebugObject::FixedUpdate(void)
 void CDebugObject::Update(void)
 {
 	__super::Update();
-	m_spTransform->SetPosition(m_pOwner->GetTransform()->GetPosition() + m_offset);
 }
 
 void CDebugObject::LateUpdate(void)

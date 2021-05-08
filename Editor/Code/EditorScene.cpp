@@ -16,6 +16,8 @@
 #include "Player.h"
 #include "Grid.h"
 #include "MapObject.h"
+#include "MeshStore.h"
+#include "MeshData.h"
 
 CEditorScene::CEditorScene()
 {
@@ -93,6 +95,25 @@ void CEditorScene::OnDisable(void)
 
 void CEditorScene::InitPrototypes(void)
 {
-	SP(Engine::CObject) spMapObject(CMapObject::Create());
-	Engine::ADD_PROTOTYPE(spMapObject);
+	SP(CMapObject) spBasicMapObject(CMapObject::Create());
+	Engine::ADD_PROTOTYPE(spBasicMapObject);
+
+	for (auto& mesh : Engine::CMeshStore::GetInstance()->GetCurSceneMeshData())
+	{
+		SP(CMapObject) spMapObject(CMapObject::Create());
+		spMapObject->GetMesh()->AddMeshData(mesh.second->MakeClone());
+		spMapObject->SetObjectKey(mesh.first);
+
+		const std::vector<Engine::CMeshData*>& vMeshDatas = spMapObject->GetMesh()->GetMeshDatas();
+		for (_size i = 0; i < vMeshDatas.size(); ++i)
+		{
+			const std::vector<std::wstring>& vTexList =  vMeshDatas[i]->GetTexList();
+			for (_size j = 0; j < vTexList.size(); ++j)
+			{
+				spMapObject->GetTexture()->AddTexture(Engine::RemoveExtension(vTexList[j]), i);
+			}
+		}
+
+		Engine::ADD_PROTOTYPE(spMapObject);
+	}
 }

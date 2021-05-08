@@ -46,14 +46,12 @@ void CTransformC::FixedUpdate(SP(CComponent) spThis)
 
 void CTransformC::Update(SP(CComponent) spThis)
 {
-
 	SlerpXZ();
 }
 
 void CTransformC::LateUpdate(SP(CComponent) spThis)
 {
-	if (m_pParent == nullptr)
-		UpdateFinalWorldMatrix();
+	UpdateWorldMatrix();
 }
 
 void CTransformC::OnDestroy(void)
@@ -138,27 +136,6 @@ void CTransformC::SetForward(_float3 lookAt)
 
 	D3DXVec3Normalize(&m_forward, &m_forward);
 	UpdateRotation();
-}
-
-void CTransformC::AddChild(SP(CTransformC) spChild)
-{
-	m_vChildren.emplace_back(spChild);
-	spChild->SetParent(this);
-}
-
-void CTransformC::DeleteChild(CTransformC * pChild)
-{
-	for (auto& it = m_vChildren.begin(); it != m_vChildren.end(); )
-	{
-		if ((*it).get() == pChild)
-		{
-			(*it).reset();
-			it = m_vChildren.erase(it);
-			continue;
-		}
-
-		++it;
-	}
 }
 
 void CTransformC::AddPosition(_float3 position)
@@ -361,80 +338,4 @@ void CTransformC::UpdateWorldMatrix(void)
 
 	m_worldMat			= size * rotateX * rotateY * rotateZ * translation;
 	m_worldMatNoScale	= rotateX * rotateY * rotateZ * translation;
-}
-
-void CTransformC::UpdateFinalWorldMatrix(void)
-{
-	UpdateWorldMatrix();
-
-	if (m_pParent == nullptr)
-	{
-		m_finalWorldMat			= m_worldMat;
-		m_finalWorldMatNoScale	= m_worldMatNoScale;
-	}
-	else
-	{
-		D3DXMatrixMultiply(&m_finalWorldMat, &m_worldMat, &m_pParent->GetFinalWorldMatNoScale());
-		D3DXMatrixMultiply(&m_finalWorldMatNoScale, &m_worldMatNoScale, &m_pParent->GetFinalWorldMatNoScale());
-	}
-
-	UpdateFinalPosition();
-	UpdateFinalRotation();
-	UpdateFinalAxis();
-
-	for (auto& it = m_vChildren.begin(); it != m_vChildren.end(); )
-	{
-		if ((*it)->GetOwner() == nullptr)
-		{
-			(*it).reset();
-			it = m_vChildren.erase(it);
-			continue;
-		}
-
-		if ((*it)->GetIsEnabled())
-			(*it)->UpdateFinalWorldMatrix();
-
-		++it;
-	}
-}
-
-void CTransformC::UpdateFinalPosition(void)
-{
-	m_finalPos = _float3(m_finalWorldMat._41, m_finalWorldMat._42, m_finalWorldMat._43);
-}
-
-void CTransformC::UpdateFinalRotation(void)
-{
-	D3DXQUATERNION localQuat;
-	D3DXQuaternionRotationYawPitchRoll(&localQuat, m_rotation.y, m_rotation.x, m_rotation.z);
-
-	if (m_pParent != nullptr)
-	{
-		_float3 parentRot = m_pParent->GetFinalRot();
-		D3DXQUATERNION parentQuat;
-		D3DXQuaternionRotationYawPitchRoll(&parentQuat, parentRot.y, parentRot.x, parentRot.z);
-
-
-		localQuat = localQuat * parentQuat;
-	}
-
-	m_finalRot = GET_MATH->QuatToRad(localQuat);
-}
-
-void CTransformC::UpdateFinalAxis(void)
-{
-	_mat rot;
-	_float yaw, pitch, roll;
-	yaw		= m_finalRot.y;
-	pitch	= m_finalRot.x;
-	roll	= m_finalRot.z;
-
-	D3DXMatrixRotationYawPitchRoll(&rot, yaw, pitch, roll);
-	D3DXVec3TransformNormal(&m_finalForward, &FORWARD_VECTOR, &rot);
-	D3DXVec3TransformNormal(&m_finalUp, &UP_VECTOR, &rot);
-	D3DXVec3TransformNormal(&m_finalRight, &RIGHT_VECTOR, &rot);
-
-	D3DXVec3Normalize(&m_finalForward, &m_finalForward);
-	D3DXVec3Normalize(&m_finalUp, &m_finalUp);
-	D3DXVec3Normalize(&m_finalRight, &m_finalRight);
 }

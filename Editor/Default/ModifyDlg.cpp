@@ -21,6 +21,7 @@ CModifyDlg::CModifyDlg(CWnd* pParent /*=NULL*/)
 
 CModifyDlg::~CModifyDlg()
 {
+	delete m_pTransformTab;
 }
 
 void CModifyDlg::DoDataExchange(CDataExchange* pDX)

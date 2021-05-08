@@ -57,6 +57,7 @@ private:
 	GETTOR		(SP(Engine::CMeshC),		m_spMesh,		nullptr,		Mesh)
 	GETTOR		(SP(Engine::CTextureC),		m_spTexture,	nullptr,		Texture)
 	GETTOR		(SP(Engine::CGraphicsC),	m_spGraphics,	nullptr,		Graphics)
+	GETTOR		(SP(Engine::CCollisionC),	m_spCollision,	nullptr,		Collision)
 
 	GETTOR		(EStatus,					m_lastStatus,	Idle,			LastStatus)
 	GETTOR		(EStatus,					m_status,		Idle,			Status)

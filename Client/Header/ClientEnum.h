@@ -16,10 +16,9 @@ enum class EComponentID
 
 enum class EColliderID
 {
-	BasicObject			= 0,
-	Player				= 1,
-	Terrain				= 2,
-	NumOfColliderID		= 3
+	Player				= 0,
+	Terrain				= 1,
+	NumOfColliderID		= 2
 };
 
 enum class EDataID

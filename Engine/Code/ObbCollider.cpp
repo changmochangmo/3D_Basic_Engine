@@ -65,6 +65,16 @@ void CObbCollider::OnDisable(void)
 {
 }
 
+void CObbCollider::UpdatePosition(void)
+{
+	__super::UpdatePosition();
+	
+	SP(CTransformC) spOwnerTransform = m_pOwner->GetTransform();
+	m_right		= spOwnerTransform->GetRight();
+	m_up		= spOwnerTransform->GetUp();
+	m_forward	= spOwnerTransform->GetForward();
+}
+
 _float CObbCollider::SqDistFromPoint(_float3 const& point)
 {
 	_float3 closest = ClosestFromPoint(point);

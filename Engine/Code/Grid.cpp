@@ -47,8 +47,6 @@ void CGrid::Awake(void)
 void CGrid::Start(void)
 {
 	__super::Start();
-	
-	
 }
 
 void CGrid::FixedUpdate(void)

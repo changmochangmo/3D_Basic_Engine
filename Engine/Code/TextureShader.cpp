@@ -112,11 +112,13 @@ void CTextureShader::RenderStaticMesh(CGraphicsC * pGC, _int index)
 
 	for (_ulong i = 0; i < pSM->GetSubsetCount(); ++i)
 	{
-		if (FAILED(GET_DEVICE->SetTexture(0, pGC->GetTexture()->GetTexData()[index][i]->pTexture)))
-		{
-			MSG_BOX(__FILE__, L"SetTexture failed in RenderStaticMesh");
-			ABORT;
-		}
+		_TexData* pTexData = pGC->GetTexture()->GetTexData()[index][i];
+
+		if (pTexData != nullptr)
+			GET_DEVICE->SetTexture(0, pGC->GetTexture()->GetTexData()[index][i]->pTexture);
+		else
+			GET_DEVICE->SetTexture(0, nullptr);
+		
 		pSM->GetMesh()->DrawSubset(i);
 	}
 }
@@ -151,7 +153,11 @@ void CTextureShader::RenderDynamicMesh(CGraphicsC * pGC, _int index)
 		const std::vector<std::vector<_TexData*>>& pTexData = pGC->GetTexture()->GetTexData();
 		for (_ulong i = 0; i < meshContainer->NumMaterials; ++i)
 		{
-			GET_DEVICE->SetTexture(0, pTexData[index][i]->pTexture);
+			if (pTexData[index][i] != nullptr)
+				GET_DEVICE->SetTexture(0, pTexData[index][i]->pTexture);
+			else
+				GET_DEVICE->SetTexture(0, nullptr);
+
 			meshContainer->MeshData.pMesh->DrawSubset(i);
 		}
 	}

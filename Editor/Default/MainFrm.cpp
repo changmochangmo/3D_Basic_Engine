@@ -105,9 +105,5 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	m_mainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMenuView), CSize(VIEWCX, VIEWCY), pContext);
 
 
-	//m_uiSplitter.CreateStatic(&m_mainSplitter, 2, 1, WS_VISIBLE | WS_CHILD, m_mainSplitter.IdFromRowCol(0, 1));
-	//m_uiSplitter.CreateView(0, 0, RUNTIME_CLASS(CObjectListView), CSize(150, 300), pContext);
-	//m_uiSplitter.CreateView(1, 0, RUNTIME_CLASS(CShaderView), CSize(150, 760), pContext);
-
 	return TRUE;
 }

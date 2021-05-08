@@ -19,6 +19,8 @@ public:
 					void				OnEnable			(void) override;
 					void				OnDisable			(void) override;
 
+					void				UpdatePosition		(void) override;
+
 private:
 					void				MakeBS				(void) override;
 protected:

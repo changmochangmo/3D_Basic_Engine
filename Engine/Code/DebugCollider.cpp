@@ -52,6 +52,12 @@ void CDebugCollider::Start(void)
 		m_spTransform->SetSize(dynamic_cast<CAabbCollider*>(m_pCollider)->GetSize());
 		break;
 
+	case (_int)EColliderType::OBB:
+		m_spMesh->AddMeshData(L"Cube");
+		m_spTransform->SetSize(dynamic_cast<CObbCollider*>(m_pCollider)->GetSize());
+		m_spTransform->SetForward(dynamic_cast<CObbCollider*>(m_pCollider)->GetForward());
+		break;
+
 	case (_int)EColliderType::Sphere:
 	{
 		m_spMesh->AddMeshData(L"Sphere");
@@ -80,6 +86,11 @@ void CDebugCollider::Update(void)
 
 void CDebugCollider::LateUpdate(void)
 {
+	m_spTransform->SetPosition(m_pOwner->GetTransform()->GetPosition() + m_pCollider->GetOffset());
+
+	if (m_pCollider->GetColliderType() == (_int)EColliderType::OBB)
+		m_spTransform->SetForward(static_cast<CObbCollider*>(m_pCollider)->GetForward());
+
 	__super::LateUpdate();
 }
 

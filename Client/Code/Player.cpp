@@ -35,6 +35,7 @@ SP(Engine::CObject) CPlayer::MakeClone(void)
 	spClone->m_spMesh		= spClone->GetComponent<Engine::CMeshC>();
 	spClone->m_spTexture	= spClone->GetComponent<Engine::CTextureC>();
 	spClone->m_spGraphics	= spClone->GetComponent<Engine::CGraphicsC>();
+	spClone->m_spCollision	= spClone->GetComponent<Engine::CCollisionC>();
 	return spClone;
 }
 
@@ -49,6 +50,7 @@ void CPlayer::Awake(void)
 	m_spMesh		= AddComponent<Engine::CMeshC>();
 	m_spTexture		= AddComponent<Engine::CTextureC>();
 	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
+	m_spCollision	= AddComponent<Engine::CCollisionC>();
 
 	m_spTransform->SetSize(_float3(0.01f, 0.01f, 0.01f));
 }
@@ -102,6 +104,7 @@ void CPlayer::SetBasicName(void)
 
 void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
 {
+	int a = 5;
 }
 
 void CPlayer::OnCollisionStay(Engine::_CollisionInfo ci)

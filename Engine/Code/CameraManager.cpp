@@ -27,16 +27,7 @@ void CCameraManager::Start(void)
 }
 
 void CCameraManager::Update(void)
-{
-	if (m_updateProj)
-	{
-		for (auto& camera : m_mCameras)
-		{
-			camera.second->SetUpdateProj(true);
-		}
-		m_updateProj = false;
-	}
-	
+{	
 	SetMainCameraMode();
 }
 
@@ -104,27 +95,23 @@ void CCameraManager::SetMainCameraMode(void)
 		m_spMainCamera->SetMode(ECameraMode::Fixed);
 		m_spMainCamera->SetMoveable(false);
 		m_spMainCamera->SetRotatable(false);
-		m_spMainCamera->SetUpdateView(true);
 	}
 	else if (IMKEY_DOWN(KEY_F2))
 	{
 		m_spMainCamera->SetMode(ECameraMode::Edit);
 		m_spMainCamera->SetMoveable(true);
 		m_spMainCamera->SetRotatable(false);
-		m_spMainCamera->SetUpdateView(true);
 	}
 	else if (IMKEY_DOWN(KEY_F3))
 	{
 		m_spMainCamera->SetMode(ECameraMode::FPS);
 		m_spMainCamera->SetMoveable(true);
 		m_spMainCamera->SetRotatable(false);
-		m_spMainCamera->SetUpdateView(true);
 	}
 	else if (IMKEY_DOWN(KEY_F4))
 	{
 		m_spMainCamera->SetMode(ECameraMode::Follower);
 		m_spMainCamera->SetMoveable(false);
 		m_spMainCamera->SetRotatable(false);
-		m_spMainCamera->SetUpdateView(true);
 	}
 }

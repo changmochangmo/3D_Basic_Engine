@@ -29,6 +29,7 @@ CInifileTab::CInifileTab(CWnd* pParent /*=NULL*/)
 
 CInifileTab::~CInifileTab()
 {
+	delete m_pIniMeshTab;
 }
 
 void CInifileTab::DoDataExchange(CDataExchange* pDX)

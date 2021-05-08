@@ -45,31 +45,32 @@ void CChangmoScene::Start(void)
 	__super::Start();
 
 	SP(Engine::CObject) spPlayerClone = Engine::ADD_CLONE(L"Player", true);
-	//spPlayerClone->AddComponent<Engine::CDebugC>();
+	spPlayerClone->AddComponent<Engine::CDebugC>();
 	//spPlayerClone->AddComponent<Engine::CCollisionC>()->
 	//	AddCollider(Engine::CAabbCollider::Create(_float3(40, 75, 40), _float3(0, 37.5f, -5)));
 	//spPlayerClone->GetComponent<Engine::CCollisionC>()->SetCollisionID(1);
 	
 	
-	SP(Engine::CObject) spGridClone = Engine::ADD_CLONE(L"Grid", true);
+
+
+	//SP(Engine::CObject) spGridClone = Engine::ADD_CLONE(L"Grid", true);
 	//spPlayerClone->AddComponent<Engine::CRigidBodyC>()->SetUseGravity(false);
 	//spPlayerClone->AddComponent<Engine::CDebugC>();
 	
-	//SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Unit);
-	//spBasicClone->AddComponent<Engine::CMeshC>()->AddMeshData(L"Cube");
-	//spBasicClone->AddComponent<Engine::CTextureC>()->AddTexture(L"BlueBlock");
-	//spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
-	//spBasicClone->GetTransform()->SetSize(_float3(10, 10, 10));
-	//spBasicClone->AddComponent<Engine::CCollisionC>()->
-	//	AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1)));
-	//spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID(0);
-	//
-	//SP(Engine::CObject) spBasicClone1 = Engine::ADD_CLONE(L"BasicObject", true);
-	//spBasicClone1->AddComponent<Engine::CMeshC>()->AddMeshData(L"Cube");
-	//spBasicClone1->AddComponent<Engine::CTextureC>()->AddTexture(L"BlueBlock");
-	//spBasicClone1->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
-	//spBasicClone1->GetComponent<Engine::CTransformC>()->AddPositionX(3);
-	//spBasicClone->GetTransform()->AddChild(spBasicClone1->GetTransform());
+	SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Terrain);
+	spBasicClone->AddComponent<Engine::CCollisionC>()->
+		AddCollider(Engine::CAabbCollider::Create(_float3(10, 1, 10), _float3(0, -0.5, 0)));
+	spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Terrain);
+	spBasicClone->AddComponent<Engine::CDebugC>();
+
+	_float3 right(1, 0, 1); D3DXVec3Normalize(&right, &right);
+	_float3 forward(-1, 0, 1); D3DXVec3Normalize(&forward, &forward);
+	_float3 up(0, 1, 0);
+	SP(Engine::CObject) spBasicClone2 = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Terrain);
+	spBasicClone2->AddComponent<Engine::CCollisionC>()->
+		AddCollider(Engine::CObbCollider::Create(_float3(1, 1, 1), _float3(0, 0.5, 0), right, up, forward));
+	spBasicClone2->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Terrain);
+	spBasicClone2->AddComponent<Engine::CDebugC>();
 }
 
 void CChangmoScene::FixedUpdate(void)
