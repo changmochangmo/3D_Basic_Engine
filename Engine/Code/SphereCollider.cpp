@@ -16,7 +16,7 @@ CSphereCollider* CSphereCollider::Create(_float radius, _float3 offset)
 {
 	CSphereCollider* pSphere = new CSphereCollider();
 	pSphere->SetRadius(radius);
-	pSphere->SetOffset(offset);
+	pSphere->SetOffsetOrigin(offset);
 	pSphere->Awake();
 
 	return pSphere;
@@ -25,7 +25,7 @@ CSphereCollider* CSphereCollider::Create(_float radius, _float3 offset)
 CCollider * CSphereCollider::MakeClone(CCollisionC * pCC)
 {
 	CSphereCollider* pSphereClone = new CSphereCollider;
-	pSphereClone->SetOffset(m_offset);
+	pSphereClone->SetOffsetOrigin(m_offsetOrigin);
 	pSphereClone->SetRadius(m_radius);
 
 	pSphereClone->SetRadiusBS(m_radiusBS);

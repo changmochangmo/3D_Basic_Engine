@@ -15,7 +15,7 @@ CPointCollider::~CPointCollider()
 CPointCollider * CPointCollider::Create(_float3 offset)
 {
 	CPointCollider* pPoint = new CPointCollider;
-	pPoint->SetOffset(offset);
+	pPoint->SetOffsetOrigin(offset);
 	pPoint->Awake();
 
 	return pPoint;
@@ -24,7 +24,7 @@ CPointCollider * CPointCollider::Create(_float3 offset)
 CCollider * CPointCollider::MakeClone(CCollisionC * pCC)
 {
 	CPointCollider* pPointClone = new CPointCollider;
-	pPointClone->SetOffset(m_offset);
+	pPointClone->SetOffsetOrigin(m_offsetOrigin);
 	pPointClone->SetRadiusBS(m_radiusBS);
 	pPointClone->SetColliderType(m_colliderType);
 

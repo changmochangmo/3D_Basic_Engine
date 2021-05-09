@@ -16,7 +16,7 @@ CObbCollider * CObbCollider::Create(_float3 size, _float3 offset,
 									_float3 right, _float3 up, _float3 forward)
 {
 	CObbCollider* pObb = new CObbCollider;
-	pObb->SetOffset(offset);
+	pObb->SetOffsetOrigin(offset);
 	pObb->SetSize(size);
 	pObb->SetHalfSize(size / 2.f);
 	pObb->SetRight(right);
@@ -33,7 +33,7 @@ CCollider * CObbCollider::MakeClone(CCollisionC * pCC)
 	CObbCollider* pObbClone = new CObbCollider;
 	
 	//Create 
-	pObbClone->SetOffset(m_offset);
+	pObbClone->SetOffsetOrigin(m_offsetOrigin);
 	pObbClone->SetSize(m_size);
 	pObbClone->SetHalfSize(m_halfSize);
 
@@ -142,8 +142,8 @@ _float3 CObbCollider::SurfacePoint(_float3 const & dir)
 
 void CObbCollider::MakeBS(void)
 {
-	_float3 minPos = m_offset - m_halfSize;
-	_float3 maxPos = m_offset + m_halfSize;
+	_float3 minPos = m_offsetOrigin - m_halfSize;
+	_float3 maxPos = m_offsetOrigin + m_halfSize;
 
 	m_radiusBS = D3DXVec3Length(&(maxPos - minPos)) / 2.f;
 }

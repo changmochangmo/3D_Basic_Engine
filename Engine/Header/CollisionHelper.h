@@ -391,8 +391,8 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 	_float3 rayStartPos = spRayTransform->GetPosition() + pRC->GetOffset();
 	_float3 aabbPos = spAabbTransform->GetPosition() + pAC->GetOffset();
 
-	_float tMin = -FLT_MAX;
-	_float tMax = FLT_MAX;
+	_float tMin = 0.f;
+	_float tMax = pRC->GetLength();
 
 	_float3 aabbMinPos = aabbPos - pAC->GetHalfSize();
 	_float3 aabbMaxPos = aabbPos + pAC->GetHalfSize();
@@ -408,8 +408,8 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 		else
 		{
 			_float ood = 1.f / pRC->GetDirection()[i];
-			_float t1 = (aabbMinPos[i] - aabbPos[i]) * ood;
-			_float t2 = (aabbMaxPos[i] - aabbPos[i]) * ood;
+			_float t1 = (aabbMinPos[i] - rayStartPos[i]) * ood;
+			_float t2 = (aabbMaxPos[i] - rayStartPos[i]) * ood;
 
 			if (t1 > t2)
 			{
@@ -424,8 +424,7 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 			if (tMin > tMax) return false;
 		}
 	}
-	if (tMin > pRC->GetLength())
-		return false;
+
 
 	CCollisionC* pCC1 = pRC->GetOwner();
 	CCollisionC* pCC2 = pAC->GetOwner();
@@ -437,10 +436,15 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 	}
 	else
 	{
-		_float3 normal		= pRC->GetDirection();
-		_float3 hitPoint	= rayStartPos + pRC->GetDirection() * tMin;
-		pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pAC, hitPoint, normal, 0));
-		pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pRC, hitPoint, -normal, 0));
+		//여기 왜 두번들어오냐
+		_float3 normal			= pRC->GetDirection();
+		_float3 rayHitPoint		= rayStartPos + pRC->GetDirection() * tMin;
+		_float3 aabbHitPoint	= pAC->SurfacePointFromInside(-normal, rayHitPoint);
+		_float penet			= D3DXVec3Length(&(rayHitPoint - aabbHitPoint));
+		pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pAC, rayHitPoint, normal, penet));
+		pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pRC, aabbHitPoint, -normal, penet));
+
+		pRC->GetOwner()->GetOwner()->GetTransform()->AddPosition(-normal * penet);
 	}
 
 	return true; 

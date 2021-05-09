@@ -95,7 +95,7 @@ void CCollisionC::AddCollider(CCollider* pCollider)
 
 	if (m_radiusBS == UNDEFINED)
 	{
-		m_offsetBS = pCollider->GetOffset();
+		m_offsetBS = pCollider->GetOffsetOrigin();
 		m_radiusBS = pCollider->GetRadiusBS();
 	}
 	else
@@ -199,7 +199,7 @@ void CCollisionC::AddColliderFromFile(void)
 
 void CCollisionC::MergingBS(CCollider* pCollider)
 {
-	_float3 curOffset = pCollider->GetOffset();
+	_float3 curOffset = pCollider->GetOffsetOrigin();
 	_float curRadius = pCollider->GetRadiusBS();
 
 	_float3 delta = m_offsetBS - curOffset;

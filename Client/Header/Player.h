@@ -15,7 +15,9 @@ class CPlayer final : public Engine::CObject
 	{
 		Idle		= 0,
 		Walk		= 1,
-		Run			= 2
+		Run			= 2,
+		Jump		= 3,
+		Fall		= 4
 	};
 
 	SMART_DELETER_REGISTER
@@ -49,7 +51,8 @@ public:
 
 private:
 				void				UpdateAnimation		(void);
-				void				UpdateMovement		(void);
+				void				Movement			(void);
+				void				JumpAndFall			(void);
 
 private:
 	static		_uint						m_s_uniqueID;
@@ -65,6 +68,9 @@ private:
 	GETTOR_SETTOR	(_float,				m_walkSpeed,	3,				WalkSpeed)
 	GETTOR_SETTOR	(_float,				m_runSpeed,		9,				RunSpeed)
 	GETTOR_SETTOR	(_float3,				m_moveDir,		ZERO_VECTOR,	MoveDir)
+
+	GETTOR_SETTOR	(_bool,					m_onGround,		false,			OnGround)
+	GETTOR_SETTOR	(_int,					m_jumpChance,	2,				JumpChance)
 };
 
 #endif

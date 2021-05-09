@@ -65,15 +65,16 @@ void CChangmoScene::Start(void)
 		spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Terrain);
 		spBasicClone->AddComponent<Engine::CDebugC>();
 	}
-
-	//콜리젼 OBB
+	
+	//콜리젼 AABB2
+	for(_int i = 0; i < 1; ++i)
 	{
 		_float3 right(1, 0, 1); D3DXVec3Normalize(&right, &right);
 		_float3 forward(-1, 0, 1); D3DXVec3Normalize(&forward, &forward);
 		_float3 up(0, 1, 0);
 		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Terrain);
 		spBasicClone->AddComponent<Engine::CCollisionC>()->
-			AddCollider(Engine::CObbCollider::Create(_float3(1, 1, 1), _float3(0, 0.5, 0), right, up, forward));
+			AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1), _float3(i, 0.5, 3)));
 		spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Terrain);
 		spBasicClone->AddComponent<Engine::CDebugC>();
 	}

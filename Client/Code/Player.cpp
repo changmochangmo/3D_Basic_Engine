@@ -51,8 +51,6 @@ void CPlayer::Awake(void)
 	m_spTexture		= AddComponent<Engine::CTextureC>();
 	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
 	m_spCollision	= AddComponent<Engine::CCollisionC>();
-	
-	m_spCollision->GetColliders();
 
 	m_spTransform->SetSize(_float3(0.01f, 0.01f, 0.01f));
 }
@@ -73,8 +71,9 @@ void CPlayer::Update(void)
 
 	m_status = Idle;
 
-	UpdateMovement();
+	Movement();
 	UpdateAnimation();
+
 	m_lastStatus = m_status;
 }
 
@@ -106,11 +105,11 @@ void CPlayer::SetBasicName(void)
 
 void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
 {
-	int a = 5;
 }
 
 void CPlayer::OnCollisionStay(Engine::_CollisionInfo ci)
 {
+	//m_spTransform->AddPosition(-ci.normal * ci.penetLength);
 }
 
 void CPlayer::OnCollisionExit(Engine::_CollisionInfo ci)
@@ -151,7 +150,7 @@ void CPlayer::UpdateAnimation(void)
 	}
 }
 
-void CPlayer::UpdateMovement(void)
+void CPlayer::Movement(void)
 {
 	SP(Engine::CTransformC) mainCamTransform = Engine::GET_MAIN_CAM->GetOwner()->GetTransform();
 
@@ -190,7 +189,7 @@ void CPlayer::UpdateMovement(void)
 
 		m_moveDir += dir;
 	}
-	
+
 	
 	D3DXVec3Normalize(&m_moveDir, &m_moveDir);
 
@@ -209,5 +208,23 @@ void CPlayer::UpdateMovement(void)
 
 		m_spTransform->AddPosition(m_moveDir * moveSpeed * GET_DT);
 	}
+
+
+	if (Engine::IMKEY_PRESS(KEY_SPACE))
+		JumpAndFall();
+	if (Engine::IMKEY_PRESS(KEY_CONTROL))
+		m_spTransform->AddPosition(_float3(0, -10, 0) * GET_DT);
+}
+
+void CPlayer::JumpAndFall(void)
+{
+	m_spTransform->AddPosition(_float3(0, 10, 0) * GET_DT);
+	//if (m_onGround)
+	//{
+	//	if (m_jumpChance > 0)
+	//	{
+	//
+	//	}
+	//}
 }
 

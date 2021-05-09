@@ -5,18 +5,18 @@ USING(CMath)
 IMPLEMENT_SINGLETON(CMathHelper)
 _float CMathHelper::Max(_float num, _float standard)
 {
-	return (num = (num > standard) ? standard : num);
+	return (num = (num > standard) ? num : standard);
 }
 
 _float CMathHelper::Min(_float num, _float standard)
 {
-	return (num = (num < standard) ? standard : num);
+	return (num = (num < standard) ? num : standard);
 }
 
 _float CMathHelper::MinMax(_float num, _float stdMin, _float stdMax)
 {
-	num = Min(num, stdMin);
-	num = Max(num, stdMax);
+	num = Min(num, stdMax);
+	num = Max(num, stdMin);
 	return num;
 }
 

@@ -24,6 +24,5 @@ void CCollider::Awake(void)
 
 void CCollider::UpdatePosition(void)
 {
-	D3DXVec3TransformNormal(&m_position, &m_offset, &m_pOwner->GetOwnerRotMat());
-	m_position += m_pOwner->GetTransform()->GetPosition();
+	D3DXVec3TransformNormal(&m_offset, &m_offsetOrigin, &m_pOwner->GetOwnerRotMat());
 }

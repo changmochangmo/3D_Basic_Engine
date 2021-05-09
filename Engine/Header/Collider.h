@@ -31,9 +31,9 @@ protected:
 	GETTOR_SETTOR	(CCollisionC*,	m_pOwner,			nullptr,		Owner)
 
 	//부모 상대좌표
-	GETTOR_SETTOR	(_float3,		m_offset,			ZERO_VECTOR,	Offset)
+	GETTOR_SETTOR	(_float3,		m_offsetOrigin,		ZERO_VECTOR,	OffsetOrigin)
 	//실제 좌표
-	GETTOR_SETTOR	(_float3,		m_position,			ZERO_VECTOR,	Position)
+	GETTOR_SETTOR	(_float3,		m_offset,			ZERO_VECTOR,	Offset)
 	//BoundingSphere의 반지름.
 	GETTOR_SETTOR	(_float,		m_radiusBS,			0,				RadiusBS)	
 };

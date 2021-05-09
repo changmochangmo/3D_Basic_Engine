@@ -127,11 +127,10 @@ void CCollisionManager::CheckCollision(CCollisionC* pCC)
 
 					_int myCType = myCollider->GetColliderType();
 					_int checkCType = checkCollider->GetColliderType();
-					if (isItCollided = (m_fpCollisionChecker[myCType][checkCType])(myCollider, checkCollider))
-						break;
+					isItCollided = (m_fpCollisionChecker[myCType][checkCType])(myCollider, checkCollider);
 				}
-				if (isItCollided)
-					break;
+				//if (isItCollided)
+				//	break;
 			}
 		}
 	}

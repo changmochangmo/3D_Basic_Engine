@@ -47,16 +47,15 @@ void CDebugCollider::Start(void)
 
 	switch (m_pCollider->GetColliderType())
 	{
-	case (_int)EColliderType::AABB:
+	case (_int)EColliderType::Ray:
+	{
+		CRayCollider* pRayCollider = dynamic_cast<CRayCollider*>(m_pCollider);
 		m_spMesh->AddMeshData(L"Cube");
-		m_spTransform->SetSize(dynamic_cast<CAabbCollider*>(m_pCollider)->GetSize());
-		break;
 
-	case (_int)EColliderType::OBB:
-		m_spMesh->AddMeshData(L"Cube");
-		m_spTransform->SetSize(dynamic_cast<CObbCollider*>(m_pCollider)->GetSize());
-		m_spTransform->SetForward(dynamic_cast<CObbCollider*>(m_pCollider)->GetForward());
+		m_spTransform->SetSize(0.01f, 0.01f, pRayCollider->GetLength());
+		m_spTransform->SetForward(pRayCollider->GetDirection());
 		break;
+	}
 
 	case (_int)EColliderType::Sphere:
 	{
@@ -64,6 +63,21 @@ void CDebugCollider::Start(void)
 
 		_float radius = dynamic_cast<CSphereCollider*>(m_pCollider)->GetRadius();
 		m_spTransform->SetSize(_float3(radius, radius, radius));
+		break;
+	}
+
+	case (_int)EColliderType::AABB:
+	{
+		m_spMesh->AddMeshData(L"Cube");
+		m_spTransform->SetSize(dynamic_cast<CAabbCollider*>(m_pCollider)->GetSize());
+		break;
+	}
+
+	case (_int)EColliderType::OBB:
+	{
+		m_spMesh->AddMeshData(L"Cube");
+		m_spTransform->SetSize(dynamic_cast<CObbCollider*>(m_pCollider)->GetSize());
+		m_spTransform->SetForward(dynamic_cast<CObbCollider*>(m_pCollider)->GetForward());
 		break;
 	}
 

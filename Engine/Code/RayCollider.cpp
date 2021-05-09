@@ -18,7 +18,9 @@ CRayCollider::~CRayCollider()
 CRayCollider * CRayCollider::Create(_float3 offset, _float3 direction, _float length)
 {
 	CRayCollider* pRay = new CRayCollider;
+	pRay->SetOffsetOrigin(offset);
 	pRay->SetOffset(offset);
+	pRay->SetDirectionOrigin(direction);
 	pRay->SetDirection(direction);
 	pRay->SetLength(length);
 	pRay->Awake();
@@ -29,8 +31,10 @@ CRayCollider * CRayCollider::Create(_float3 offset, _float3 direction, _float le
 CCollider * CRayCollider::MakeClone(CCollisionC * pCC)
 {
 	CRayCollider* pRayClone = new CRayCollider;
-	pRayClone->SetOffset(m_offset);
-	pRayClone->SetDirection(m_direction);
+	pRayClone->SetOffsetOrigin(m_offsetOrigin);
+	pRayClone->SetOffset(m_offsetOrigin);
+	pRayClone->SetDirectionOrigin(m_directionOrigin);
+	pRayClone->SetDirection(m_directionOrigin);
 	pRayClone->SetLength(m_length);
 
 	pRayClone->SetColliderType(m_colliderType);
@@ -61,9 +65,10 @@ void CRayCollider::OnDisable(void)
 void CRayCollider::UpdatePosition(void)
 {
 	__super::UpdatePosition();
+	D3DXVec3TransformNormal(&m_direction, &m_directionOrigin, &m_pOwner->GetOwnerRotMat());
 }
 
 void CRayCollider::MakeBS(void)
 {
-	m_radiusBS = 0;
+	m_radiusBS = m_length;
 }
