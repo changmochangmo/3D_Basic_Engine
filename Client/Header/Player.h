@@ -62,7 +62,7 @@ private:
 	GETTOR		(EStatus,					m_lastStatus,	Idle,			LastStatus)
 	GETTOR		(EStatus,					m_status,		Idle,			Status)
 
-	GETTOR_SETTOR	(_float,				m_walkSpeed,	6,				WalkSpeed)
+	GETTOR_SETTOR	(_float,				m_walkSpeed,	3,				WalkSpeed)
 	GETTOR_SETTOR	(_float,				m_runSpeed,		9,				RunSpeed)
 	GETTOR_SETTOR	(_float3,				m_moveDir,		ZERO_VECTOR,	MoveDir)
 };

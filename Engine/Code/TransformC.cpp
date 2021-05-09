@@ -74,6 +74,13 @@ void CTransformC::SetPosition(_float3 position)
 	m_position = position;
 }
 
+void CTransformC::SetPosition(_float posX, _float posY, _float posZ)
+{
+	m_position.x = posX;
+	m_position.y = posY;
+	m_position.z = posZ;
+}
+
 void CTransformC::SetPositionX(_float posX)
 {
 	m_position.x = posX;
@@ -95,6 +102,13 @@ void CTransformC::SetRotation(_float3 rotation)
 	UpdateForward();
 }
 
+void CTransformC::SetRotation(_float rotX, _float rotY, _float rotZ)
+{
+	m_rotation.x = rotX;
+	m_rotation.y = rotY;
+	m_rotation.z = rotZ;
+}
+
 void CTransformC::SetRotationX(_float rotationX)
 {
 	m_rotation.x = rotationX;
@@ -113,6 +127,13 @@ void CTransformC::SetRotationZ(_float rotationZ)
 void CTransformC::SetSize(_float3 size)
 {
 	m_size = size;
+}
+
+void CTransformC::SetSize(_float sizeX, _float sizeY, _float sizeZ)
+{
+	m_size.x = sizeX;
+	m_size.y = sizeY;
+	m_size.z = sizeZ;
 }
 
 void CTransformC::SetSizeX(_float sizeX)

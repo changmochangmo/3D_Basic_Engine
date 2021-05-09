@@ -1,10 +1,12 @@
 #ifndef COLLISIONHELPER_H
 #define COLLISIONHELPER_H
 
+#include "SceneManager.h"
+#include "Layer.h"
+#include "Object.h"
+
 BEGIN(Engine)
 BEGIN(CollisionHelper)
-
-
 
 static _bool CollisionTypeSorting(CCollider* pC1, CCollider* pC2,
 								  EColliderType supposedType1, EColliderType supposedType2,
@@ -422,6 +424,8 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 			if (tMin > tMax) return false;
 		}
 	}
+	if (tMin > pRC->GetLength())
+		return false;
 
 	CCollisionC* pCC1 = pRC->GetOwner();
 	CCollisionC* pCC2 = pAC->GetOwner();
@@ -433,9 +437,10 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 	}
 	else
 	{
-		_float3 hitPoint = rayStartPos + pRC->GetDirection() * tMin;
-		pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pAC, hitPoint, ZERO_VECTOR, 0));
-		pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pRC, hitPoint, ZERO_VECTOR, 0));
+		_float3 normal		= pRC->GetDirection();
+		_float3 hitPoint	= rayStartPos + pRC->GetDirection() * tMin;
+		pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pAC, hitPoint, normal, 0));
+		pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pRC, hitPoint, -normal, 0));
 	}
 
 	return true; 
@@ -1024,6 +1029,12 @@ static bool ObbObb(CCollider* pC1, CCollider* pC2)
 	}
 	else
 	{
+		_float3 closestFromObb1 = pOC1->ClosestFromPoint(obb2Center);
+		_float3 closestFromObb2 = pOC2->ClosestFromPoint(obb1Center);
+
+		GET_CUR_SCENE->GetLayers()[8]->GetGameObjects()[0]->GetTransform()->SetPosition(closestFromObb1);
+		GET_CUR_SCENE->GetLayers()[8]->GetGameObjects()[1]->GetTransform()->SetPosition(closestFromObb2);
+
 		_float3 normal = obb2Center - obb1Center;
 		_float3 obb1HitPoint = pOC1->SurfacePoint(normal);
 		_float3 obb2HitPoint = pOC2->SurfacePoint(-normal);

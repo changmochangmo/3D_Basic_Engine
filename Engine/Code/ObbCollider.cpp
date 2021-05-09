@@ -91,10 +91,10 @@ _float3 CObbCollider::ClosestFromPoint(_float3 const& point)
 	
 	_mat worldMat = m_pOwner->GetTransform()->GetWorldMatrix();
 
-	_float3 orientedAxis[3] = {};
-	D3DXVec3TransformNormal(&orientedAxis[0], &m_right, &worldMat);
-	D3DXVec3TransformNormal(&orientedAxis[1], &m_up, &worldMat);
-	D3DXVec3TransformNormal(&orientedAxis[2], &m_forward, &worldMat);
+	_float3 orientedAxis[3] = {m_right, m_up, m_forward};
+	//D3DXVec3TransformNormal(&orientedAxis[0], &m_right, &worldMat);
+	//D3DXVec3TransformNormal(&orientedAxis[1], &m_up, &worldMat);
+	//D3DXVec3TransformNormal(&orientedAxis[2], &m_forward, &worldMat);
 	
 
 	for (int i = 0; i < 3; ++i)

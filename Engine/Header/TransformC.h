@@ -28,16 +28,19 @@ public:
 #pragma region Settors
 public:
 					void				SetPosition				(_float3 position);
+					void				SetPosition				(_float posX, _float posY, _float posZ);
 					void				SetPositionX			(_float posX);
 					void				SetPositionY			(_float posY);
 					void				SetPositionZ			(_float posZ);
 
 					void				SetRotation				(_float3 rotation);
+					void				SetRotation				(_float rotX, _float rotY, _float rotZ);
 					void				SetRotationX			(_float rotationX);
 					void				SetRotationY			(_float rotationY);
 					void				SetRotationZ			(_float rotationZ);
 
 					void				SetSize					(_float3 size);
+					void				SetSize					(_float sizeX, _float sizeY, _float sizeZ);
 					void				SetSizeX				(_float sizeX);
 					void				SetSizeY				(_float sizeY);
 					void				SetSizeZ				(_float sizeZ);

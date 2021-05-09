@@ -91,13 +91,6 @@ _float3 CAabbCollider::ClosestFromPoint(_float3 const& point)
 		else							closestPoint[i] = point[i];
 		
 	}
-	/*for (int i = 0; i < 3; ++i)
-	{
-		if (point[i] < minPos[i]) point[i] = minPos[i];
-		else if (point[i] > maxPos[i])	 point[i] = maxPos[i];
-
-		closestPoint[i] = point[i];
-	}*/
 
 	return closestPoint;
 }

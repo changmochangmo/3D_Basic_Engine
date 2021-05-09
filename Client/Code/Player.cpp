@@ -51,6 +51,8 @@ void CPlayer::Awake(void)
 	m_spTexture		= AddComponent<Engine::CTextureC>();
 	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
 	m_spCollision	= AddComponent<Engine::CCollisionC>();
+	
+	m_spCollision->GetColliders();
 
 	m_spTransform->SetSize(_float3(0.01f, 0.01f, 0.01f));
 }
