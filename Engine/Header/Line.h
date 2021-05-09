@@ -13,7 +13,7 @@ public:
 							   ~CLine				(void);
 
 public:
-				void			ClosestFromPoint	(_float3* pOut, const _float3* point);
+				void			ClosestFromPoint	(_float3* pOut, const _float3* p);
 
 				_float			Length				(void);
 				CLine&			operator =			(const CLine& rhs);

@@ -6,20 +6,20 @@ class CTriangle
 {
 public:
 	explicit					CTriangle			(void);
-								CTriangle			(_float givenX1, _float givenY1, _float givenZ1,
-													 _float givenX2, _float givenY2, _float givenZ2,
-													 _float givenX3, _float givenY3, _float givenZ3);
-								CTriangle			(const _float3& p1, const _float3& p2);
-								CTriangle			(const CLine& line);
+								CTriangle			(_float givenX0, _float givenY0, _float givenZ0,
+													 _float givenX1, _float givenY1, _float givenZ1,
+													 _float givenX2, _float givenY2, _float givenZ2);
+								CTriangle			(const _float3& p0, const _float3& p1, const _float3& p2);
+								CTriangle			(const CTriangle& triangle);
 							   ~CTriangle			(void);
 
 public:
-				void			ClosestFromPoint	(_float3* pOut, const _float3* point);
+				void			ClosestFromPoint	(_float3* pOut, const _float3* p);
+				_float			Area				(void);
 
-				_float			Length				(void);
-				CLine&			operator =			(const CLine& rhs);
+				CTriangle&		operator =			(const CTriangle& rhs);
 public:
-				_float3			point[2];
+				_float3			point[3];
 };
 END
 #endif

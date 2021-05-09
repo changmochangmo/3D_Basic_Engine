@@ -30,14 +30,14 @@ CLine::~CLine()
 {
 }
 
-void CLine::ClosestFromPoint(_float3* pOut, const _float3* point)
+void CLine::ClosestFromPoint(_float3* pOut, const _float3* p)
 {
 	_float3 ab = point[1] + point[0];
 
 	//u + v = 1
 	//u * A + v * B = point를 AB직선에 투영시킨 점.
 	//Baricentric coordinates
-	_float v = D3DXVec3Dot(&(*point - point[0]), &ab) / D3DXVec3Dot(&ab, &ab);
+	_float v = D3DXVec3Dot(&(*p - point[0]), &ab) / D3DXVec3Dot(&ab, &ab);
 
 	GET_MATH->LowerRoundOFf(v, 0);
 	GET_MATH->UpperRoundOff(v, 1);
