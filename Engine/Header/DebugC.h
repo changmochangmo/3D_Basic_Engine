@@ -31,7 +31,7 @@ public:
 
 private:
 	typedef std::vector<SP(CDebugCollider)> _DEBUG_COLLIDERS;
-	GETTOR	(_DEBUG_COLLIDERS,		m_vDebugCollider,	{},			CDebugCollider)
+	GETTOR	(_DEBUG_COLLIDERS,		m_vDebugCollider,	{},			DebugCollider)
 	GETTOR	(SP(CBoundingVolume),	m_spBV,				nullptr,	BV)
 	
 };

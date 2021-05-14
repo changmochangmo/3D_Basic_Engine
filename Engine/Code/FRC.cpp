@@ -26,14 +26,23 @@ void CFRC::OnDestroy(void)
 
 void CFRC::OnEnable(void)
 {
+	m_enable = true;
+	QueryPerformanceFrequency(&m_cpuTick);
+	QueryPerformanceCounter(&m_beginTime);
+	QueryPerformanceCounter(&m_endTime);
+	m_spfLimit = 0.f;
 }
 
 void CFRC::OnDisable(void)
 {
+	m_enable = false;
 }
 
-bool CFRC::FrameLock(void)
+_bool CFRC::FrameLock(void)
 {
+	if (m_enable == false)
+		return true;
+
 	QueryPerformanceCounter(&m_endTime);
 	m_spfLimit += float(m_endTime.QuadPart - m_beginTime.QuadPart) / m_cpuTick.QuadPart;
 	m_beginTime.QuadPart = m_endTime.QuadPart;

@@ -51,7 +51,7 @@
 #define new new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
 #endif
 
-#define GRAVITY			_float3(0,  -9.807f, 0)
+#define GRAVITY			_float3(0,  -15.807f, 0)
 
 #define ZERO_VECTOR		_float3(0,  0,  0)
 #define ONE_VECTOR		_float3(1,  1,  1)
@@ -66,6 +66,6 @@
 #define PLAYER_RAY_DISTANCE 0.7f
 
 #define PI 3.141592f
-#define EPSILON 0.0003f
+#define EPSILON 0.001f
 
 #endif // !MYDEFINE_H

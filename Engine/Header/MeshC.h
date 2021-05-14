@@ -1,9 +1,9 @@
 #ifndef MESHC_H
 #define MESHC_H
 
-BEGIN(Engine)
+#include "MeshData.h"
 
-class CMeshData;
+BEGIN(Engine)
 class ENGINE_DLL CMeshC final : public CComponent
 {
 public:

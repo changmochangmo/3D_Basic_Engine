@@ -15,6 +15,7 @@ typedef unsigned long	_ulong;
 typedef size_t			_size;
 
 typedef float			_float;
+typedef double			_double;
 
 typedef D3DXVECTOR2		_float2;
 typedef D3DXVECTOR3		_float3;

@@ -16,7 +16,7 @@ public:
 					void				OnEnable			(void);
 					void				OnDisable			(void);
 
-					bool				FrameLock			(void);
+					_bool				FrameLock			(void);
 
 					void				TimerStart			(void);
 					_float				GetElapsedTime		(void);

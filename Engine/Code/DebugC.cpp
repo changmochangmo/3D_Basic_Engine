@@ -14,6 +14,7 @@ CDebugC::CDebugC(void)
 
 CDebugC::~CDebugC(void)
 {
+	OnDestroy();
 }
 
 SP(CComponent) CDebugC::MakeClone(CObject * pObject)
@@ -67,8 +68,19 @@ void CDebugC::LateUpdate(SP(CComponent) spThis)
 
 void CDebugC::OnDestroy(void)
 {
-	m_spBV->SetDeleteThis(true);
-	m_spBV.reset();
+	if (m_spBV != nullptr)
+	{
+		m_spBV->SetDeleteThis(true);
+		m_spBV.reset();
+	}
+
+	for (auto& debugCollider : m_vDebugCollider)
+	{
+		debugCollider->SetDeleteThis(true);
+		debugCollider.reset();
+	}
+
+	m_vDebugCollider.clear();
 }
 
 void CDebugC::OnEnable(void)

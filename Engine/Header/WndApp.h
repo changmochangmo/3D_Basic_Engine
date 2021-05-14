@@ -75,6 +75,7 @@ private:
 	GETTOR			(_int,				m_wndHeight,		0,						WndHeight)
 
 	GETTOR_SETTOR	(EDisplayMdoe,		m_displayMode,		EDisplayMdoe::WinMode,	DisplayMode)
+	GETTOR_SETTOR	(_bool,				m_showCursor,		false,					ShowCursor);
 };
 END
 

@@ -77,6 +77,14 @@ namespace Engine
 		NumOfCT
 	};
 
+	enum class ERayType
+	{
+		LIMITED,
+		POSITIVE_INF,
+		NEGATIVE_INF,
+		ALL_INF
+	};
+
 	enum class EConstraint
 	{
 		None				= 1 << 0,

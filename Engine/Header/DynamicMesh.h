@@ -32,12 +32,19 @@ private:
 //interface
 public:
 				void				UpdateFrame				(void);
-				void				ChangeAniSet			(_uint index);
-				void				ChangeAniSet			(std::string name);
+				void				ChangeAniSet			(_uint index, 
+															 _bool fixTillEnd = false,
+															 _double smoothTime = 0.25,
+															 _float changeWeight = 0.9f);
+				void				ChangeAniSet			(std::string name,
+															 _bool fixTillEnd = false,
+															 _double smoothTime = 0.25,
+															 _float changeWeight = 0.9f);
 				void				PlayAnimation			(void);
 
 				_DerivedD3DXFRAME*	GetFrameByName			(std::string name);
 				_bool				IsAnimationEnd			(void);
+				void				SetAniFixTillEnd		(_bool isItFixed);
 
 private:
 				void				UpdateFrameMatrices		(_DerivedD3DXFRAME* pFrame, _mat* pParentMat);
@@ -50,6 +57,7 @@ private:
 	GETTOR		(D3DXFRAME*,			m_pRootFrame,			nullptr,	RootFrame)
 	GETTOR		(CHierarchyLoader*,		m_pHierarchyLoader,		nullptr,	HierarchyLoader)
 	GETTOR		(CAniCtrl*,				m_pAniCtrl,				nullptr,	AniCtrl)
+	GETTOR_SETTOR(_bool,				m_playAnimation,		true,		PlayAnimation)
 };
 END
 #endif

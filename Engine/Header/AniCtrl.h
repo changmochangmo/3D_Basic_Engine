@@ -22,8 +22,15 @@ public:
 					void		OnDisable			(void);
 
 public:
-					void		ChangeAniSet		(_uint index);
-					void		ChangeAniSet		(std::string name);
+					void		ChangeAniSet		(_uint index, 
+													 _bool fixTillEnd = false, 
+													 _double smoothTime = 0.25,
+													 _float changeWeight = 0.9f);
+					void		ChangeAniSet		(std::string name, 
+													 _bool fixTillEnd = false, 
+													 _double smoothTime = 0.25,
+													 _float changeWeight = 0.9f);
+
 					void		Play				(void);
 					_bool		IsItEnd				(void);
 
@@ -36,8 +43,9 @@ private:
 	GETTOR			(_float,						m_timer,		0.f,		Timer)
 	GETTOR_SETTOR	(_float,						m_speed,		1.f,		Speed)
 	GETTOR			(_double,						m_period,		0,			Period)
+	GETTOR_SETTOR	(_bool,							m_replay,		true,		Replay)
 	
-
+	GETTOR_SETTOR	(_bool,							m_fixTillEnd,	false,		FixTillEnd)
 };
 END
 

@@ -8,7 +8,7 @@
 #include "CameraManager.h"
 #include "FRC.h"
 #include "TextManager.h"
-
+#include "CollisionManager.h"
 
 USING(Engine)
 CCameraC::CCameraC()
@@ -37,7 +37,7 @@ SP(CComponent) CCameraC::MakeClone(CObject * pObject)
 void CCameraC::Awake(void)
 {
 	__super::Awake();
-	m_pFrustum = CFrustum::Create(this);
+	
 
 	m_componentID = (_int)m_s_componentID;
 }
@@ -45,7 +45,8 @@ void CCameraC::Awake(void)
 void CCameraC::Start(SP(CComponent) spThis)
 {
 	__super::Start(spThis);
-	m_spTransform = m_pOwner->GetComponent<CTransformC>();
+	m_pFrustum		= CFrustum::Create(this);
+	m_spTransform	= m_pOwner->GetComponent<CTransformC>();
 }
 
 void CCameraC::FixedUpdate(SP(CComponent) spThis)
@@ -54,7 +55,15 @@ void CCameraC::FixedUpdate(SP(CComponent) spThis)
 
 void CCameraC::Update(SP(CComponent) spThis)
 {	
-	
+	_float wheelDir = IMWHEEL_DIR();
+	if(wheelDir != 0)
+	{
+		m_spTransform->SetGoalPosition(m_spTransform->GetPosition() + 
+									   m_spTransform->GetForward() * 
+									   wheelDir * m_zoomSpeed * GET_DT);
+
+		m_spTransform->SetLerpOn(true);
+	}
 }
 
 void CCameraC::LateUpdate(SP(CComponent) spThis)
@@ -259,4 +268,19 @@ void CCameraC::Rotation(void)
 	default:
 		break;
 	}
+}
+
+void CCameraC::WallCheck(void)
+{
+	//_float3 targetPosition	= m_spTarget->GetTransform()->GetPosition();
+	//_float3 curTargetDist	= targetPosition - m_spTransform->GetPosition();
+	//m_pRayCollider->SetDirection(m_spTransform->GetForward());
+	//
+	//_int camColliderID = CCameraManager::GetInstance()->GetCamColliderID();
+	//std::vector<_int>& vLayersToCheck = CCollisionManager::GetInstance()->GetLayersToCheck(camColliderID);
+	//
+	//for (auto& layerNum : vLayersToCheck)
+	//{
+	//	CCollisionManager::GetInstance()->CheckCollisionInstant(m_pRayCollider, layerNum);
+	//}
 }

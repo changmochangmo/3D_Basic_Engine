@@ -5,6 +5,7 @@
 #include "DynamicMesh.h"
 #include "MeshData.h"
 #include "CameraManager.h"
+#include "TextManager.h"
 
 _uint CPlayer::m_s_uniqueID = 0;
 
@@ -15,6 +16,7 @@ CPlayer::CPlayer()
 
 CPlayer::~CPlayer()
 {
+	OnDestroy();
 }
 
 SP(CPlayer) CPlayer::Create(_bool isStatic)
@@ -36,6 +38,7 @@ SP(Engine::CObject) CPlayer::MakeClone(void)
 	spClone->m_spTexture	= spClone->GetComponent<Engine::CTextureC>();
 	spClone->m_spGraphics	= spClone->GetComponent<Engine::CGraphicsC>();
 	spClone->m_spCollision	= spClone->GetComponent<Engine::CCollisionC>();
+	spClone->m_spRigidBody	= spClone->GetComponent<Engine::CRigidBodyC>();
 	return spClone;
 }
 
@@ -51,6 +54,7 @@ void CPlayer::Awake(void)
 	m_spTexture		= AddComponent<Engine::CTextureC>();
 	m_spGraphics	= AddComponent<Engine::CGraphicsC>();
 	m_spCollision	= AddComponent<Engine::CCollisionC>();
+	m_spRigidBody	= AddComponent<Engine::CRigidBodyC>();
 
 	m_spTransform->SetSize(_float3(0.01f, 0.01f, 0.01f));
 }
@@ -58,6 +62,11 @@ void CPlayer::Awake(void)
 void CPlayer::Start(void)
 {
 	__super::Start();
+
+	Engine::ADD_TEXT(L"Status", L"STATUS", _float3(25, 25, 0), D3DXCOLOR(0, 0, 0, 1));
+	Engine::ADD_TEXT(L"JumpChance", L"JumpChance", _float3(25, 50, 0), D3DXCOLOR(0, 0, 0, 1));
+	Engine::ADD_TEXT(L"AniIndex", L"AniIndex", _float3(25, 75, 0), D3DXCOLOR(0, 0, 0, 1));
+	Engine::ADD_TEXT(L"PunchTimer", L"PunchTimer", _float3(25, 100, 0), D3DXCOLOR(0, 0, 0, 1));
 }
 
 void CPlayer::FixedUpdate(void)
@@ -69,16 +78,43 @@ void CPlayer::Update(void)
 {
 	__super::Update();
 
-	m_status = Idle;
-
-	Movement();
-	UpdateAnimation();
-
-	m_lastStatus = m_status;
+	if (Engine::IMKEY_DOWN(KEY_LEFT))
+	{
+		m_spRigidBody->SetUseGravity(true);
+	}
 }
 
 void CPlayer::LateUpdate(void)
 {
+	m_status = STATUS_IDLE;
+	if (m_controllable)
+	{
+		Move();
+		Attack();
+		Jump();
+		Slide();
+	}
+	else
+	{
+		m_punchTimer += GET_DT;
+		if (m_punchTimer >= m_punchLimit)
+		{
+			m_punchTimer = 0.f;
+			m_controllable = true;
+		}
+	}
+	Fall();
+	UpdateAnimation();
+
+	std::wstring curState;
+	CurStatusInStr(curState);
+	Engine::REWRITE_TEXT(L"Status", curState);
+	Engine::REWRITE_TEXT(L"JumpChance", std::to_wstring(m_jumpChance));
+	Engine::REWRITE_TEXT(L"AniIndex", std::to_wstring(m_aniIndex));
+	Engine::REWRITE_TEXT(L"PunchTimer", std::to_wstring(m_punchTimer));
+	m_lastStatus = m_status;
+
+	m_onGround = false;
 	__super::LateUpdate();
 }
 
@@ -105,57 +141,44 @@ void CPlayer::SetBasicName(void)
 
 void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
 {
+	if (ci.normal == -UP_VECTOR)
+	{
+		m_status = STATUS_IDLE;
+		m_onGround = true;
+		m_spRigidBody->SetVelocityY(0);
+	}
+	else if (ci.normal == UP_VECTOR)
+	{
+		m_jumpTimer = m_jumpLimit;
+		m_spRigidBody->SetVelocityY(0);
+	}
 }
 
 void CPlayer::OnCollisionStay(Engine::_CollisionInfo ci)
 {
-	//m_spTransform->AddPosition(-ci.normal * ci.penetLength);
+	if (ci.normal == -UP_VECTOR)
+	{
+		m_status = STATUS_IDLE;
+		m_onGround = true;
+	}
+	else if (ci.normal == UP_VECTOR)
+	{
+		m_jumpTimer = m_jumpLimit;
+	}
 }
 
 void CPlayer::OnCollisionExit(Engine::_CollisionInfo ci)
 {
 }
 
-void CPlayer::UpdateAnimation(void)
-{
-	const std::vector<Engine::CMeshData*>& vMeshData = m_spMesh->GetMeshDatas();
 
-	if (m_lastStatus != m_status)
-	{
-		_int aniIndex;
-		_float aniSpeed;
-		switch (m_status)
-		{
-		case Idle:
-			aniIndex = ANI_IDLE;
-			aniSpeed = 1.f;
-			break;
-
-		case Walk:
-			aniIndex = ANI_RUN;
-			aniSpeed = 2.f;
-			break;
-
-		case Run:
-			aniIndex = ANI_RUN;
-			aniSpeed = 3.f;
-			break;
-		}
-		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
-		{
-			Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i]);
-			pDM->ChangeAniSet(aniIndex);
-			pDM->GetAniCtrl()->SetSpeed(aniSpeed);
-		}
-	}
-}
-
-void CPlayer::Movement(void)
+void CPlayer::Move(void)
 {
 	SP(Engine::CTransformC) mainCamTransform = Engine::GET_MAIN_CAM->GetOwner()->GetTransform();
 
 	m_moveDir = ZERO_VECTOR;
 
+#pragma region FindMoveDir
 	if (Engine::IMKEY_PRESS(KEY_W))
 	{
 		_float3 dir = m_spTransform->GetPosition() - mainCamTransform->GetPosition();
@@ -189,42 +212,268 @@ void CPlayer::Movement(void)
 
 		m_moveDir += dir;
 	}
-
-	
 	D3DXVec3Normalize(&m_moveDir, &m_moveDir);
+#pragma endregion
 
+	_int saveStatus = m_status;
 	if (D3DXVec3LengthSq(&m_moveDir) > EPSILON)
 	{
 		m_spTransform->SetGoalForward(m_moveDir);
-
-		_float moveSpeed;
-		m_status = Walk;
-		moveSpeed = m_walkSpeed;
+		m_spTransform->SetSlerpOn(true);
+		m_status = STATUS_WALK;
+		m_moveSpeed = m_walkSpeed;
 		if (Engine::IMKEY_PRESS(KEY_SHIFT))
 		{
-			m_status = Run;
-			moveSpeed = m_runSpeed;
+			m_status = STATUS_RUN;
+			m_moveSpeed = m_runSpeed;
 		}
 
-		m_spTransform->AddPosition(m_moveDir * moveSpeed * GET_DT);
+		m_spTransform->AddPosition(m_moveDir * m_moveSpeed * GET_DT);
+	}
+	else
+		m_moveSpeed = 0.f;
+
+	if (m_onGround == false)
+		m_status = saveStatus;
+}
+
+void CPlayer::Attack(void)
+{
+	const std::vector<Engine::CMeshData*>& vMeshData = m_spMesh->GetMeshDatas();
+	Engine::CDynamicMesh* pFirstDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[0]);
+
+
+	//Normal attack
+	if (m_onGround && Engine::IMKEY_DOWN(MOUSE_LEFT))
+	{
+		if (m_lastStatus == STATUS_ATTACK && m_attackCombo == false)
+			m_attackCombo = true;
+
+		m_status = STATUS_ATTACK;
 	}
 
 
-	if (Engine::IMKEY_PRESS(KEY_SPACE))
-		JumpAndFall();
-	if (Engine::IMKEY_PRESS(KEY_CONTROL))
-		m_spTransform->AddPosition(_float3(0, -10, 0) * GET_DT);
+	if (m_lastStatus == STATUS_ATTACK)
+	{
+		m_status = STATUS_ATTACK;
+
+		if (pFirstDM->GetAniCtrl()->IsItEnd())
+		{
+			if (m_attackCombo)
+			{
+				if (m_punchCount >= 4)
+				{
+					m_punchCount = 0;
+					m_status = STATUS_IDLE;
+					m_controllable = false;
+				}
+				else
+					++m_punchCount;
+
+				m_attackCombo = false;
+			}
+			else
+			{
+				m_punchCount = 0;
+				m_status = STATUS_IDLE;
+				m_controllable = false;
+			}
+		}
+	}
+
+
+	if(m_status == STATUS_ATTACK)
+		m_spTransform->AddPosition(-m_moveDir * m_moveSpeed * GET_DT);
+
 }
 
-void CPlayer::JumpAndFall(void)
+void CPlayer::Jump(void)
 {
-	m_spTransform->AddPosition(_float3(0, 10, 0) * GET_DT);
-	//if (m_onGround)
-	//{
-	//	if (m_jumpChance > 0)
-	//	{
-	//
-	//	}
-	//}
+	if (Engine::IMKEY_PRESS(KEY_SPACE) && m_jumpTimer < m_jumpLimit && m_spRigidBody->GetVelocity().y >= 0.f)
+	{
+		m_spRigidBody->AddForceY(m_jumpAmount);
+
+		m_jumpTimer += GET_DT;
+		m_status = STATUS_JUMP;
+	}
+
+
+	if (m_onGround == false && m_jumpChance > 0 && Engine::IMKEY_DOWN(KEY_SPACE))
+	{
+		m_jumpTimer = m_jumpLimit;
+		m_spRigidBody->SetVelocityY(0);
+		m_spRigidBody->AddForceY(m_doubleJumpAmount);
+		m_jumpChance = 0;
+
+		m_status = STATUS_DOUBLEJUMP;
+	}
 }
 
+void CPlayer::Fall(void)
+{
+	if (m_status != STATUS_JUMP && m_status != STATUS_SLIDE)
+	{
+		if (m_onGround)
+		{
+			m_spRigidBody->AddForce(-GRAVITY);
+			m_jumpTimer = 0.f;
+			m_jumpChance = 1;
+		}
+		else
+		{
+			if (m_spRigidBody->GetVelocity().y <= 0 && m_status != STATUS_DOUBLEJUMP)
+				m_status = STATUS_FALL;
+			else
+			{
+				if (m_jumpChance == 1)
+					m_status = STATUS_JUMP;
+				else
+					m_status = STATUS_DOUBLEJUMP;
+			}
+		}
+	}
+}
+
+void CPlayer::Slide(void)
+{
+	if (m_lastStatus == STATUS_SLIDE)
+	{
+		if (m_onGround == false)
+		{
+			m_status = STATUS_SLIDE;
+			m_spTransform->AddPosition(m_spTransform->GetForward() * m_slideSpeed * GET_DT);
+		}
+		else
+		{
+			m_status = STATUS_SLIDEDONE;
+		}
+	}
+	if (Engine::IMKEY_DOWN(KEY_CONTROL) && m_status != STATUS_SLIDE)
+	{
+		m_jumpChance = 0;
+		m_spRigidBody->SetVelocityY(0);
+		m_spRigidBody->AddForceY(m_slideAmount);
+		m_status = STATUS_SLIDE;
+	}
+
+	const std::vector<Engine::CMeshData*>& vMeshData = m_spMesh->GetMeshDatas();
+	Engine::CDynamicMesh* pFirstDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[0]);
+
+	if (m_lastStatus == STATUS_SLIDEDONE && m_status != STATUS_JUMP)
+	{
+		m_status = STATUS_SLIDEDONE;
+	}
+	if (m_status == STATUS_SLIDE || m_status == STATUS_SLIDEDONE)
+		m_spTransform->AddPosition(-m_moveDir * m_moveSpeed * GET_DT);
+}
+
+
+void CPlayer::UpdateAnimation(void)
+{
+	const std::vector<Engine::CMeshData*>& vMeshData = m_spMesh->GetMeshDatas();
+	Engine::CDynamicMesh* pFirstDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[0]);
+	if (m_lastStatus != m_status || pFirstDM->IsAnimationEnd())
+	{
+		_float	aniSpeed		= 1.f;
+		_bool	fixTillEnd		= false;
+		_double smoothTime		= 0.45;
+		_float	changeWeight	= 0.9f;
+		_bool	replay			= true;
+		switch (m_status)
+		{
+		case STATUS_IDLE:
+			m_aniIndex	= ANI_IDLE;
+			smoothTime	= 0.2;
+			break;
+
+		case STATUS_WALK:
+			m_aniIndex	= ANI_RUN;
+			aniSpeed	= 2.f;
+			break;
+
+		case STATUS_RUN:
+			m_aniIndex	= ANI_RUN;
+			aniSpeed	= 3.f;
+			break;
+
+		case STATUS_JUMP:
+			m_aniIndex	= ANI_JUMP;
+			break;
+
+		case STATUS_DOUBLEJUMP:
+			m_aniIndex	= ANI_DOUBLEJUMP;
+			aniSpeed	= 2.f;
+			break;
+
+		case STATUS_FALL:
+			m_aniIndex = ANI_FALL;
+			smoothTime = 0.2;
+			break;
+
+		case STATUS_ATTACK:
+			m_aniIndex = ANI_ATTACK - m_punchCount;
+			fixTillEnd		= true;
+			aniSpeed		= 1.f;
+			smoothTime		= 0.1;
+			changeWeight	= 1.0;
+			break;
+
+		case STATUS_SLIDE:
+			m_aniIndex		= ANI_SLIDE;
+			break;
+
+		case STATUS_SLIDEDONE:
+			m_aniIndex		= ANI_SLIDEDONE;
+			replay			= false;
+		}
+		for (_int i = 0; i < (_int)vMeshData.size(); ++i)
+		{
+			Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[i]);
+			pDM->ChangeAniSet(m_aniIndex, fixTillEnd, smoothTime, changeWeight);
+			pDM->GetAniCtrl()->SetSpeed(aniSpeed);
+			pDM->GetAniCtrl()->SetReplay(replay);
+		}
+	}
+}
+
+void CPlayer::CurStatusInStr(std::wstring & pOut)
+{
+	switch (m_status)
+	{
+	case STATUS_IDLE:
+		pOut = L"Idle";
+		break;
+
+	case STATUS_WALK:
+		pOut = L"Walk";
+		break;
+
+	case STATUS_RUN:
+		pOut = L"Run";
+		break;
+
+	case STATUS_JUMP:
+		pOut = L"Jump";
+		break;
+
+	case STATUS_DOUBLEJUMP:
+		pOut = L"DoubleJump";
+		break;
+
+	case STATUS_FALL:
+		pOut = L"Fall";
+		break;
+
+	case STATUS_ATTACK:
+		pOut = L"Attack";
+		break;
+
+	case STATUS_SLIDE:
+		pOut = L"Slide";
+		break;
+
+	case STATUS_SLIDEDONE:
+		pOut = L"SlideDone";
+		break;
+	}
+}

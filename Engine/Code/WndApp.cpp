@@ -17,8 +17,9 @@ void CWndApp::Start(HINSTANCE hInstance, int nCmdShow)
 	GET_VALUE(true, m_dataID, m_objectKey, L"windowName", m_windowName);
 	GET_VALUE(true, m_dataID, m_objectKey, L"wndWidth", m_wndWidth);
 	GET_VALUE(true, m_dataID, m_objectKey, L"wndHeight", m_wndHeight);
+	GET_VALUE(true, m_dataID, m_objectKey, L"showCursor", m_showCursor);
 
-
+	ShowCursor(m_showCursor);
 	RegisterWndClass(hInstance);
 	CreateWndHandle(hInstance, nCmdShow);
 }

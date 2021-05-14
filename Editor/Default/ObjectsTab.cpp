@@ -303,7 +303,7 @@ void CObjectsTab::SaveButtonClicked()
 void CObjectsTab::LoadButtonClicked()
 {
 	UpdateData(TRUE);
-	_int numOfMapObject;
+	
 
 	for (auto& object : m_vObjectList)
 		object->SetDeleteThis(true);
@@ -311,6 +311,7 @@ void CObjectsTab::LoadButtonClicked()
 	m_objectList.ResetContent();
 	m_objectIndex = -1;
 
+	_int numOfMapObject;
 	Engine::GET_VALUE(false, (_int)EDataID::Scene, L"MapObjects", L"numOfMapObject", numOfMapObject);
 
 	for (_int i = 0; i < numOfMapObject; ++i)

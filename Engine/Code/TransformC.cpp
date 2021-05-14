@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "DataStore.h"
 #include "FRC.h"
-
+#include "TextManager.h"
 
 USING(Engine)
 CTransformC::CTransformC(void)  
@@ -46,6 +46,7 @@ void CTransformC::FixedUpdate(SP(CComponent) spThis)
 
 void CTransformC::Update(SP(CComponent) spThis)
 {
+	Lerp();
 	SlerpXZ();
 }
 
@@ -153,9 +154,12 @@ void CTransformC::SetSizeZ(_float sizeZ)
 
 void CTransformC::SetForward(_float3 lookAt)
 {
-	m_forward = lookAt;
+	D3DXVec3Normalize(&lookAt, &lookAt);
 
-	D3DXVec3Normalize(&m_forward, &m_forward);
+	if (lookAt == m_forward)
+		return;
+
+	m_forward = lookAt;
 	UpdateRotation();
 }
 
@@ -225,23 +229,58 @@ void CTransformC::AddSizeZ(_float adder)
 #pragma endregion
 
 #pragma region Move
+void CTransformC::Lerp(void)
+{
+	if (m_lerpOn)
+	{
+		_float3 dir = m_goalPosition - m_position;
+		_float length = D3DXVec3Length(&dir);
+		_float moveAmount = length * m_lerpProportion;
+		if (length < m_lerpSpeed * GET_DT)
+		{
+			m_position	= m_goalPosition;
+			m_lerpOn	= false;
+			return;
+		}
+		else if (moveAmount < m_lerpSpeed)
+			moveAmount = m_lerpSpeed;
+
+		dir /= length;
+		m_position += (dir * moveAmount * GET_DT);
+	}
+}
+//Vector3 SlerpVectors(const Vector3& from, const Vector3& to, float interval) 
+//{    // Get the axis of rotation between from and to    
+//	Vector3 axis = to.Cross(from);    
+//	axis.Normalise();    
+//	// Get the angle to rotate around the axis     
+//	// NOTE: from and to must be of unit length!!!   
+//	float angleRads = acosf(from.Dot(to));    
+//	// Build a quaternion to rotate between 'from' and 'to'    
+//	// NOTE: interval must be between 0 and 1!!    
+//	Quaternion rot;    
+//	rot.FromAxisAngle(axis, angleRads * interval);    
+//	Vector3 result = rot.MultiplyVector(from);    
+//
+//	return result;
+//}
 void CTransformC::SlerpXZ(void)
 {
-	if (D3DXVec3LengthSq(&m_goalForward) > EPSILON)
+	if (m_slerpOn)
 	{
 		_float dotTwoForward = D3DXVec3Dot(&m_goalForward, &m_forward);
 		GET_MATH->RoundOffRange(dotTwoForward, 1);
-
+	
 		_float includedAngle = acos(dotTwoForward);
-		if (dotTwoForward > 1.f || dotTwoForward < -1)
-			int a = 5;
+	
 		if (abs(includedAngle) < m_slerpSpeed * GET_DT)
 		{
 			SetForward(m_goalForward);
-			m_goalForward = ZERO_VECTOR;
+			m_goalForward	= ZERO_VECTOR;
+			m_slerpOn		= false;
 			return;
 		}
-
+	
 		_float3 determinant;
 		D3DXVec3Cross(&determinant, &m_forward, &m_goalForward);
 		
@@ -322,23 +361,68 @@ void CTransformC::UpdateForward(void)
 
 void CTransformC::UpdateRotation(void)
 {
-	D3DXVec3Cross(&m_right, &m_up, &m_forward);
-	D3DXVec3Normalize(&m_right, &m_right);
+	_float3 withoutY;
+	_mat yRot;
+	if (abs(m_forward.y) + EPSILON < 1.f)
+	{
+		withoutY = _float3(m_forward.x, 0.f, m_forward.z);
+		D3DXVec3Normalize(&withoutY, &withoutY);
+		_float yRotAngle = acosf(D3DXVec3Dot(&withoutY, &FORWARD_VECTOR));
+	
+		_float3 crossResult;
+		D3DXVec3Cross(&crossResult, &FORWARD_VECTOR, &withoutY);
+	
+		if (crossResult.y < 0)
+			yRotAngle *= -1;
+	
+		D3DXMatrixRotationAxis(&yRot, &UP_VECTOR, yRotAngle);
+	
+		D3DXVec3Cross(&m_right, &UP_VECTOR, &m_forward);
+		_float rightRotAngle = acosf(D3DXVec3Dot(&withoutY, &m_forward));
+		if (m_forward.y >= 0)
+			rightRotAngle *= -1;
+	
+		_mat rightRot;
+		D3DXMatrixRotationAxis(&rightRot, &m_right, rightRotAngle);
+	
+		_mat rotMatrix = yRot * rightRot;
+	
+		_quat rotQuat;
+		D3DXQuaternionRotationMatrix(&rotQuat, &rotMatrix);
+		D3DXQuaternionNormalize(&rotQuat, &rotQuat);
+	
+	
+		m_rotation = GET_MATH->QuatToRad(rotQuat);
+		if (abs(m_rotation.x) < EPSILON)
+			m_rotation.x = 0;
+		if (abs(m_rotation.z) < EPSILON)
+			m_rotation.z = 0;
+	}
+	else
+	{
+		if (m_forward.y > 0)
+			m_rotation = _float3(D3DXToRadian(90), 0, 0);
+		else
+			m_rotation = _float3(D3DXToRadian(-90), 0, 0);
+	}
 
-	D3DXVec3Cross(&m_up, &m_forward, &m_right);
-	D3DXVec3Normalize(&m_up, &m_up);
-
-	_mat rotMatrix(m_right.x,		m_right.y,		m_right.z,		0.f,
-				   m_up.x,			m_up.y,			m_up.z,			0.f,
-				   m_forward.x,		m_forward.y,	m_forward.z,	0.f,
-				   0.f,				0.f,			0.f,			1.f);
-
-	_quat rotQuat;
-	D3DXQuaternionRotationMatrix(&rotQuat, &rotMatrix);
-	D3DXQuaternionNormalize(&rotQuat, &rotQuat);
-
-
-	m_rotation = GET_MATH->QuatToRad(rotQuat);
+	//D3DXVec3Cross(&m_right, &m_up, &m_forward);
+	//D3DXVec3Normalize(&m_right, &m_right);
+	//
+	//D3DXVec3Cross(&m_up, &m_forward, &m_right);
+	//D3DXVec3Normalize(&m_up, &m_up);
+	//
+	//_mat rotMatrix(m_right.x,		m_right.y,		m_right.z,		0.f,
+	//			   m_up.x,			m_up.y,			m_up.z,			0.f,
+	//			   m_forward.x,		m_forward.y,	m_forward.z,	0.f,
+	//			   0.f,				0.f,			0.f,			1.f);
+	//
+	//_quat rotQuat;
+	//D3DXQuaternionRotationMatrix(&rotQuat, &rotMatrix);
+	//D3DXQuaternionNormalize(&rotQuat, &rotQuat);
+	//
+	//
+	//m_rotation = GET_MATH->QuatToRad(rotQuat);
 }
 
 void CTransformC::UpdateWorldMatrix(void)
@@ -357,6 +441,7 @@ void CTransformC::UpdateWorldMatrix(void)
                                         m_position.y,
                                         m_position.z);
 
+	m_rotMatrix			= rotateX * rotateY * rotateZ;
 	m_worldMat			= size * rotateX * rotateY * rotateZ * translation;
 	m_worldMatNoScale	= rotateX * rotateY * rotateZ * translation;
 }

@@ -19,10 +19,11 @@ SP(CComponent) CRigidBodyC::MakeClone(CObject * pObject)
 	InitClone(spClone, pObject);
 	__super::InitClone(spClone, pObject);
 
+	
 	spClone->SetMass(m_mass);
 	spClone->SetDrag(m_drag);
 	spClone->SetUseGravity(m_useGravity);
-	spClone->SetVelocity(m_velocity);
+	spClone->m_velocity = m_velocity;
 
 	return spClone;
 }
@@ -41,9 +42,6 @@ void CRigidBodyC::Start(SP(CComponent) spThis)
 
 void CRigidBodyC::FixedUpdate(SP(CComponent) spThis)
 {
-	UpdateLinear();
-	//아직 미구현
-	UpdateAngular();
 }
 
 void CRigidBodyC::Update(SP(CComponent) spThis)
@@ -52,6 +50,9 @@ void CRigidBodyC::Update(SP(CComponent) spThis)
 
 void CRigidBodyC::LateUpdate(SP(CComponent) spThis)
 {
+	UpdateLinear();
+	//아직 미구현
+	UpdateAngular();
 }
 
 void CRigidBodyC::OnDestroy(void)
@@ -79,17 +80,21 @@ void CRigidBodyC::AddForceX(_float adder)
 
 void CRigidBodyC::AddForceY(_float adder)
 {
-	m_force.x += adder;
+	m_force.y += adder;
 }
 
 void CRigidBodyC::AddForceZ(_float adder)
 {
-	m_force.y += adder;
+	m_force.z += adder;
 }
 
 void CRigidBodyC::AddTorque(_float3 torque)
 {
 	m_torque += torque;
+}
+void CRigidBodyC::SetVelocityY(_float num)
+{
+	m_velocity.y = num;
 }
 #pragma endregion
 
@@ -104,6 +109,8 @@ void CRigidBodyC::UpdateLinear(void)
 
 	m_velocity += (m_force / m_mass) * deltaTime;
 	m_spTransform->AddPosition(m_velocity * deltaTime);
+
+	m_force = ZERO_VECTOR;
 }
 
 void CRigidBodyC::UpdateAngular(void)

@@ -25,6 +25,7 @@
 #pragma endregion
 
 #include "MainApp.h"
+#include "InputManager.h"
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -41,8 +42,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Engine::CDataStore::GetInstance()->InitDataMap((_uint)EDataID::NumOfDataID);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"BasicObject", (_uint)EDataID::BasicObject);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"Terrain", (_uint)EDataID::Terrain);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"Decoration", (_uint)EDataID::Decoration);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Scene", (_uint)EDataID::Scene);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Camera", (_uint)EDataID::Camera);
 
 	Engine::CFRC::GetInstance()->Awake();
 	Engine::CWndApp::GetInstance()->Awake();
@@ -81,12 +82,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	QueryPerformanceCounter(&beginTime);
 	QueryPerformanceCounter(&endTime);
 
-	_float  timeGoesBy = 0.f;
-	_int	frameCount = 0;
+	_float  timeGoesBy	= 0.f;
+	_int	frameCount	= 0;
+	_float	wheelDir	= 0.f;
 	while (msg.message != WM_QUIT)
 	{
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
+			if (msg.message == WM_MOUSEWHEEL)
+			{
+				wheelDir = GET_WHEEL_DELTA_WPARAM(msg.wParam);
+				wheelDir = GET_MATH->MinMax(wheelDir, -1, 1);
+			}
+			Engine::CInputManager::GetInstance()->SetMouseWheelDir(wheelDir);
+
 			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
 			{
 				TranslateMessage(&msg);
@@ -116,6 +125,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			pMainApp->Render();
 			pMainApp->PostRender();
 			_float time = Engine::GET_ELAPSED_TIME;
+			wheelDir = 0.f;
 		}
 		
 		QueryPerformanceCounter(&endTime);

@@ -26,6 +26,7 @@ SP(CComponent) CCollisionC::MakeClone(CObject* pObject)
 	spClone->m_isTrigger	= m_isTrigger;
 	spClone->m_offsetBS		= m_offsetBS;
 	spClone->m_radiusBS		= m_radiusBS;
+	spClone->m_resolveIn	= m_resolveIn;
 	
 	return spClone;
 }
@@ -67,7 +68,6 @@ void CCollisionC::Update(SP(CComponent) spThis)
 
 void CCollisionC::LateUpdate(SP(CComponent) spSelf)
 {
-	UpdateOwnerRotMat();
 	for (auto& collider : m_vColliders)
 		collider->UpdatePosition();
 }
@@ -219,16 +219,6 @@ void CCollisionC::MergingBS(CCollider* pCollider)
 			m_offsetBS += ((m_radiusBS - curRadius) / dist) * delta;
 	}
 
-}
-
-void CCollisionC::UpdateOwnerRotMat(void)
-{
-	_mat rotateX, rotateY, rotateZ, rotate;
-	D3DXMatrixRotationX(&rotateX, m_spTransform->GetRotation().x);
-	D3DXMatrixRotationY(&rotateY, m_spTransform->GetRotation().y);
-	D3DXMatrixRotationZ(&rotateZ, m_spTransform->GetRotation().z);
-
-	m_ownerRotMat = rotateX * rotateY * rotateZ;
 }
 
 void CCollisionC::ProcessCollisions(void)

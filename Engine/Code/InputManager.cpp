@@ -72,6 +72,7 @@ bool CInputManager::KeyPress(DWORD key)
 	return false;
 }
 
+
 void CInputManager::KeyUpdate(void)
 {
 	m_lastFrameKey = m_key;

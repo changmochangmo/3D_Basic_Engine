@@ -21,9 +21,9 @@ public:
 					void					OnEnable				(void);
 					void					OnDisable				(void);
 
-					bool					KeyUp					(DWORD key);
-					bool					KeyDown					(DWORD key);
-					bool					KeyPress				(DWORD key);
+					_bool					KeyUp					(DWORD key);
+					_bool					KeyDown					(DWORD key);
+					_bool					KeyPress				(DWORD key);
 
 					void					MoveMouseToCenter		(void);
 					CObject*				MousePicking			(_int layerID, _float3& intersection);
@@ -43,9 +43,11 @@ private:
 					DWORD					m_key			= 0;
 					DWORD					m_lastFrameKey	= 0;
 
+	
 	GETTOR			(_float3,				m_mousePos,				ZERO_VECTOR,		MousePos)
 	GETTOR			(_float3,				m_mouseLastFramePos,	ZERO_VECTOR,		MouseLastFramePos)
 	GETTOR			(_float2,				m_mouseSensitivity,		_float2(PI, PI),	MouseSensitivity)
+	GETTOR_SETTOR	(_float,				m_mouseWheelDir,		0.f,				MouseWheelDir)
 };
 END
 

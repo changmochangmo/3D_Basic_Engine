@@ -19,6 +19,8 @@ public:
 	_float3		AddY				(_float3& vec, _float num);
 	_float3		AddZ				(_float3& vec, _float num);
 
+	void		MatrixForFromTo		(_mat* pOut, const _float3* fromDir, const _float3* toDir);
+
 	_float3		QuatToRad			(_quat& Q);
 	_float3		QuatToDegree		(_quat& Q);
 

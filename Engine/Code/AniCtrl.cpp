@@ -59,11 +59,14 @@ void CAniCtrl::OnDisable(void)
 {
 }
 
-void CAniCtrl::ChangeAniSet(_uint index)
+void CAniCtrl::ChangeAniSet(_uint index, _bool fixTillEnd, _double smoothTime, _float changeWeight)
 {
 	if (index > m_pAniCtrl->GetMaxNumAnimationSets() - 1)
 		index = 0;
 	if (m_curIndex == index)
+		return;
+
+	if (m_fixTillEnd && !IsItEnd())
 		return;
 
 	_int newTrack = m_curTrack == 0 ? 1 : 0;
@@ -78,16 +81,16 @@ void CAniCtrl::ChangeAniSet(_uint index)
 	m_pAniCtrl->UnkeyAllTrackEvents(newTrack);
 
 	//현재 트랙을 끈다.
-	m_pAniCtrl->KeyTrackEnable(m_curTrack, FALSE, m_timer + 0.25);
+	m_pAniCtrl->KeyTrackEnable(m_curTrack, FALSE, m_timer + smoothTime);
 	//꺼지는 동안 키 속도 세팅
-	m_pAniCtrl->KeyTrackSpeed(m_curTrack, 1.f, m_timer, 0.25, D3DXTRANSITION_LINEAR);
+	m_pAniCtrl->KeyTrackSpeed(m_curTrack, 1.f, m_timer, smoothTime, D3DXTRANSITION_LINEAR);
 	//꺼지는 동안 가중치
-	m_pAniCtrl->KeyTrackWeight(m_curTrack, 0.1f, m_timer, 0.25, D3DXTRANSITION_LINEAR);
+	m_pAniCtrl->KeyTrackWeight(m_curTrack, 1 - changeWeight, m_timer, smoothTime, D3DXTRANSITION_LINEAR);
 
 	//새 트랙 활성화
 	m_pAniCtrl->SetTrackEnable(newTrack, TRUE);
-	m_pAniCtrl->KeyTrackSpeed(newTrack, 1.f, m_timer, 0.25, D3DXTRANSITION_LINEAR);
-	m_pAniCtrl->KeyTrackWeight(newTrack, 0.9f, m_timer, 0.25, D3DXTRANSITION_LINEAR);
+	m_pAniCtrl->KeyTrackSpeed(newTrack, 1.f, m_timer, smoothTime, D3DXTRANSITION_LINEAR);
+	m_pAniCtrl->KeyTrackWeight(newTrack, changeWeight, m_timer, smoothTime, D3DXTRANSITION_LINEAR);
 
 	m_pAniCtrl->ResetTime();
 	m_timer = 0.f;
@@ -95,9 +98,10 @@ void CAniCtrl::ChangeAniSet(_uint index)
 	m_pAniCtrl->SetTrackPosition(newTrack, 0.0);
 	m_curIndex = index;
 	m_curTrack = newTrack;
+	m_fixTillEnd = fixTillEnd;
 }
 
-void CAniCtrl::ChangeAniSet(std::string name)
+void CAniCtrl::ChangeAniSet(std::string name, _bool fixTillEnd, _double smoothTime, _float changeWeight)
 {
 	_int newTrack = m_curTrack == 0 ? 1 : 0;
 	LPD3DXANIMATIONSET pAS = NULL;
@@ -121,28 +125,33 @@ void CAniCtrl::ChangeAniSet(std::string name)
 	//꺼지는 동안 키 속도 세팅
 	m_pAniCtrl->KeyTrackSpeed(m_curTrack, 1.f, m_timer, 0.25, D3DXTRANSITION_LINEAR);
 	//꺼지는 동안 가중치
-	m_pAniCtrl->KeyTrackWeight(m_curTrack, 0.1f, m_timer, 0.25, D3DXTRANSITION_LINEAR);
+	m_pAniCtrl->KeyTrackWeight(m_curTrack, 0.01f, m_timer, 0.25, D3DXTRANSITION_LINEAR);
 
 	//새 트랙 활성화
 	m_pAniCtrl->SetTrackEnable(newTrack, TRUE);
 	m_pAniCtrl->KeyTrackSpeed(newTrack, 1.f, m_timer, 0.25, D3DXTRANSITION_LINEAR);
-	m_pAniCtrl->KeyTrackWeight(newTrack, 0.9f, m_timer, 0.25, D3DXTRANSITION_LINEAR);
+	m_pAniCtrl->KeyTrackWeight(newTrack, 0.99f, m_timer, 0.25, D3DXTRANSITION_LINEAR);
 
 	m_pAniCtrl->ResetTime();
 	m_timer = 0.f;
 
 	m_pAniCtrl->SetTrackPosition(newTrack, 0.0);
 
-	
-
 	m_curTrack = newTrack;
+	m_fixTillEnd = fixTillEnd;
 }
 
 void CAniCtrl::Play(void)
 {
 	_float deltaTime = GET_DT;
+	m_timer += deltaTime * m_speed;
+	if (m_replay == false && m_timer > m_period)
+	{
+		m_timer = (_float)m_period;
+		return;
+	}
+
 	m_pAniCtrl->AdvanceTime(deltaTime * m_speed, NULL);
-	m_timer += deltaTime;
 }
 
 _bool CAniCtrl::IsItEnd(void)
@@ -153,7 +162,7 @@ _bool CAniCtrl::IsItEnd(void)
 	m_pAniCtrl->GetTrackDesc(m_curTrack, &TrackInfo);
 
 
-	if (TrackInfo.Position >= m_period - 0.1)
+	if (TrackInfo.Position >= m_period - 0.25)
 		return true;
 
 	

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CHANGMOSCENE_H
+#define CHANGMOSCENE_H
 
 #include "Scene.h"
 class CChangmoScene final : public Engine::CScene
@@ -27,3 +28,4 @@ private:
 					void				InitPrototypes		(void) override;
 };
 
+#endif

@@ -123,6 +123,7 @@ void ClassName::DestroyInstance(void)												\
 #define IMKEY_PRESS(key) CInputManager::GetInstance()->KeyPress(key)
 #define IMKEY_UP(key) CInputManager::GetInstance()->KeyUp(key)
 #define IMMOUSE_POS() CInputManager::GetInstance()->GetMousePos()
+#define IMWHEEL_DIR() CInputManager::GetInstance()->GetMouseWheelDir()
 
 
 //SceneMangager Macro

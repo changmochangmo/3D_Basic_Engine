@@ -102,8 +102,26 @@ void CDebugCollider::LateUpdate(void)
 {
 	m_spTransform->SetPosition(m_pOwner->GetTransform()->GetPosition() + m_pCollider->GetOffset());
 
-	if (m_pCollider->GetColliderType() == (_int)EColliderType::OBB)
+	switch (m_pCollider->GetColliderType())
+	{
+	case (_int)EColliderType::Ray:
+	{
+		CRayCollider* pRay = static_cast<CRayCollider*>(m_pCollider);
+		m_spTransform->AddPosition(pRay->GetDirection() * pRay->GetLength() / 2.f);
+		m_spTransform->SetForward(pRay->GetDirection());
+		m_spTransform->SetSize(0.01f, 0.01f, pRay->GetLength());
+		break;
+	}
+
+	case (_int)EColliderType::OBB:
+	{
 		m_spTransform->SetForward(static_cast<CObbCollider*>(m_pCollider)->GetForward());
+		break;
+	}
+
+	default:
+		break;
+	}
 
 	__super::LateUpdate();
 }

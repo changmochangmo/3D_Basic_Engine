@@ -4,6 +4,7 @@
 #include "SceneManager.h"
 #include "Layer.h"
 #include "Object.h"
+#include "TextManager.h"
 
 BEGIN(Engine)
 BEGIN(CollisionHelper)
@@ -70,9 +71,23 @@ static _bool CheckColliderBS(CCollider const* pCollider1, CCollider const* pColl
 	return CheckBS(colliderOnePos, colliderTwoPos, radiusOne, radiusTwo);
 }
 
+static _bool CheckCollisionComponentColliderBS(CCollisionC const* pCC, CCollider const* pCollider)
+{
+	_float3 objOnePos = pCC->GetTransform()->GetPosition();
+	_float3 objTwoPos = pCollider->GetOwner()->GetTransform()->GetPosition();
+
+	_float3 ccPos		= objOnePos + pCC->GetOffsetBS();
+	_float3 colliderPos = objTwoPos + pCollider->GetOffset();
+
+	_float radiusOne = pCC->GetRadiusBS();
+	_float radiusTwo = pCollider->GetRadiusBS();
+
+	return CheckBS(ccPos, colliderPos, radiusOne, radiusTwo);
+}
 
 
-static _bool PointPoint(CCollider* pC1, CCollider* pC2)
+
+static _bool PointPoint(CCollider* pC1, CCollider* pC2, _bool instant)
 {
 	SP(CTransformC) spTransform1 = pC1->GetOwner()->GetTransform();
 	SP(CTransformC) spTransform2 = pC2->GetOwner()->GetTransform();
@@ -86,16 +101,19 @@ static _bool PointPoint(CCollider* pC1, CCollider* pC2)
 		CCollisionC* pCC1 = pPC1->GetOwner();
 		CCollisionC* pCC2 = pPC2->GetOwner();
 
-		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		if (instant == false)
 		{
-			pCC1->AddTriggeredCC(pCC2);
-			pCC2->AddTriggeredCC(pCC1);
-		}
-		else
-		{
-			_float3 hitPoint = spTransform1->GetPosition() + pPC1->GetOffset();
-			pPC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC1, pPC2, hitPoint, ZERO_VECTOR, 0));
-			pPC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC2, pPC1, hitPoint, ZERO_VECTOR, 0));
+			if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+			{
+				pCC1->AddTriggeredCC(pCC2);
+				pCC2->AddTriggeredCC(pCC1);
+			}
+			else
+			{
+				_float3 hitPoint = spTransform1->GetPosition() + pPC1->GetOffset();
+				pPC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC1, pPC2, hitPoint, ZERO_VECTOR, 0));
+				pPC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC2, pPC1, hitPoint, ZERO_VECTOR, 0));
+			}
 		}
 		
 		return true;
@@ -103,7 +121,8 @@ static _bool PointPoint(CCollider* pC1, CCollider* pC2)
 
 	return false;
 }
-static bool PointRay(CCollider* pC1, CCollider* pC2)
+
+static _bool PointRay(CCollider* pC1, CCollider* pC2, _bool instant)
 {
 	CCollider* pSupposedPC = nullptr;
 	CCollider* pSupposedRC = nullptr;
@@ -132,15 +151,18 @@ static bool PointRay(CCollider* pC1, CCollider* pC2)
 		CCollisionC* pCC1 = pPC->GetOwner();
 		CCollisionC* pCC2 = pRC->GetOwner();
 
-		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		if (instant == false)
 		{
-			pCC1->AddTriggeredCC(pCC2);
-			pCC2->AddTriggeredCC(pCC1);
-		}
-		else
-		{
-			pPC->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC, pRC, pointPos, ZERO_VECTOR, 0));
-			pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pPC, pointPos, ZERO_VECTOR, 0));
+			if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+			{
+				pCC1->AddTriggeredCC(pCC2);
+				pCC2->AddTriggeredCC(pCC1);
+			}
+			else
+			{
+				pPC->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC, pRC, pointPos, ZERO_VECTOR, 0));
+				pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pPC, pointPos, ZERO_VECTOR, 0));
+			}
 		}
 		return true;
 	}
@@ -148,7 +170,7 @@ static bool PointRay(CCollider* pC1, CCollider* pC2)
 
 	return false;
 }
-static bool PointSphere(CCollider* pC1, CCollider* pC2)
+static _bool PointSphere(CCollider* pC1, CCollider* pC2, _bool instant)
 { 
 	CCollider* pSupposedPC = nullptr;
 	CCollider* pSupposedSC = nullptr;
@@ -170,15 +192,18 @@ static bool PointSphere(CCollider* pC1, CCollider* pC2)
 		CCollisionC* pCC1 = pPC->GetOwner();
 		CCollisionC* pCC2 = pSC->GetOwner();
 
-		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		if (instant == false)
 		{
-			pCC1->AddTriggeredCC(pCC2);
-			pCC2->AddTriggeredCC(pCC1);
-		}
-		else
-		{
-			pPC->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC, pSC, pcPosition, ZERO_VECTOR, 0));
-			pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pPC, pcPosition, ZERO_VECTOR, 0));
+			if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+			{
+				pCC1->AddTriggeredCC(pCC2);
+				pCC2->AddTriggeredCC(pCC1);
+			}
+			else
+			{
+				pPC->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC, pSC, pcPosition, ZERO_VECTOR, 0));
+				pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pPC, pcPosition, ZERO_VECTOR, 0));
+			}
 		}
 		return true;
 	}
@@ -186,7 +211,7 @@ static bool PointSphere(CCollider* pC1, CCollider* pC2)
 	return false; 
 }
 
-static bool PointAabb(CCollider* pC1, CCollider* pC2)
+static _bool PointAabb(CCollider* pC1, CCollider* pC2, _bool instant)
 { 
 	CCollider* pSupposedPC = nullptr;
 	CCollider* pSupposedAC = nullptr;
@@ -225,7 +250,7 @@ static bool PointAabb(CCollider* pC1, CCollider* pC2)
 	}
 	return true; 
 }
-static bool PointObb(CCollider* pC1, CCollider* pC2)
+static _bool PointObb(CCollider* pC1, CCollider* pC2, _bool instant)
 { 
 	CCollider* pSupposedPC = nullptr;
 	CCollider* pSupposedOC = nullptr;
@@ -264,23 +289,27 @@ static bool PointObb(CCollider* pC1, CCollider* pC2)
 		CCollisionC* pCC1 = pPC->GetOwner();
 		CCollisionC* pCC2 = pOC->GetOwner();
 
-		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		if (instant == false)
 		{
-			pCC1->AddTriggeredCC(pCC2);
-			pCC2->AddTriggeredCC(pCC1);
+			if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+			{
+				pCC1->AddTriggeredCC(pCC2);
+				pCC2->AddTriggeredCC(pCC1);
+			}
+			else
+			{
+				pPC->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC, pOC, pcPosition, ZERO_VECTOR, 0));
+				pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pPC, pcPosition, ZERO_VECTOR, 0));
+			}
 		}
-		else
-		{
-			pPC->GetOwner()->AddCollisionInfo(_CollisionInfo(pPC, pOC, pcPosition, ZERO_VECTOR, 0));
-			pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pPC, pcPosition, ZERO_VECTOR, 0));
-		}
+
 		return true;
 	}
 
 	return false; 
 }
 
-static bool RayRay(CCollider* pC1, CCollider* pC2)
+static _bool RayRay(CCollider* pC1, CCollider* pC2, _bool instant)
 { 
 	CRayCollider* pRC1 = static_cast<CRayCollider*>(pC1);
 	CRayCollider* pRC2 = static_cast<CRayCollider*>(pC2);
@@ -314,22 +343,25 @@ static bool RayRay(CCollider* pC1, CCollider* pC2)
 		CCollisionC* pCC1 = pRC1->GetOwner();
 		CCollisionC* pCC2 = pRC2->GetOwner();
 
-		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		if (instant == false)
 		{
-			pCC1->AddTriggeredCC(pCC2);
-			pCC2->AddTriggeredCC(pCC1);
-		}
-		else
-		{
-			pRC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC1, pRC2, closestOnRay1, ZERO_VECTOR, 0));
-			pRC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC2, pRC1, closestOnRay1, ZERO_VECTOR, 0));
+			if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+			{
+				pCC1->AddTriggeredCC(pCC2);
+				pCC2->AddTriggeredCC(pCC1);
+			}
+			else
+			{
+				pRC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC1, pRC2, closestOnRay1, ZERO_VECTOR, 0));
+				pRC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC2, pRC1, closestOnRay1, ZERO_VECTOR, 0));
+			}
 		}
 		return true;
 	}
 
 	return false; 
 }
-static bool RaySphere(CCollider* pC1, CCollider* pC2)
+static _bool RaySphere(CCollider* pC1, CCollider* pC2, _bool instant)
 { 
 	CCollider* pSupposedRC = nullptr;
 	CCollider* pSupposedSC = nullptr;
@@ -361,20 +393,23 @@ static bool RaySphere(CCollider* pC1, CCollider* pC2)
 	CCollisionC* pCC1 = pRC->GetOwner();
 	CCollisionC* pCC2 = pSC->GetOwner();
 
-	if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+	if (instant == false)
 	{
-		pCC1->AddTriggeredCC(pCC2);
-		pCC2->AddTriggeredCC(pCC1);
-	}
-	else
-	{
-		_float3 hitPoint = rayStartPos + t * pRC->GetDirection();
-		pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pSC, hitPoint, ZERO_VECTOR, 0));
-		pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pRC, hitPoint, ZERO_VECTOR, 0));
+		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		{
+			pCC1->AddTriggeredCC(pCC2);
+			pCC2->AddTriggeredCC(pCC1);
+		}
+		else
+		{
+			_float3 hitPoint = rayStartPos + t * pRC->GetDirection();
+			pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pSC, hitPoint, ZERO_VECTOR, 0));
+			pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pRC, hitPoint, ZERO_VECTOR, 0));
+		}
 	}
 	return true; 
 }
-static bool RayAabb(CCollider* pC1, CCollider* pC2)
+static _bool RayAabb(CCollider* pC1, CCollider* pC2, _bool instant)
 { 
 	CCollider* pSupposedRC = nullptr;
 	CCollider* pSupposedAC = nullptr;
@@ -391,11 +426,15 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 	_float3 rayStartPos = spRayTransform->GetPosition() + pRC->GetOffset();
 	_float3 aabbPos = spAabbTransform->GetPosition() + pAC->GetOffset();
 
+
 	_float tMin = 0.f;
 	_float tMax = pRC->GetLength();
 
 	_float3 aabbMinPos = aabbPos - pAC->GetHalfSize();
 	_float3 aabbMaxPos = aabbPos + pAC->GetHalfSize();
+
+	if (pRC->GetOwner()->GetResolveIn() == false)
+		int a = 6;
 
 	for (int i = 0; i < 3; ++i)
 	{
@@ -429,27 +468,34 @@ static bool RayAabb(CCollider* pC1, CCollider* pC2)
 	CCollisionC* pCC1 = pRC->GetOwner();
 	CCollisionC* pCC2 = pAC->GetOwner();
 
-	if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+	if (instant == false)
 	{
-		pCC1->AddTriggeredCC(pCC2);
-		pCC2->AddTriggeredCC(pCC1);
-	}
-	else
-	{
-		//여기 왜 두번들어오냐
-		_float3 normal			= pRC->GetDirection();
-		_float3 rayHitPoint		= rayStartPos + pRC->GetDirection() * tMin;
-		_float3 aabbHitPoint	= pAC->SurfacePointFromInside(-normal, rayHitPoint);
-		_float penet			= D3DXVec3Length(&(rayHitPoint - aabbHitPoint));
-		pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pAC, rayHitPoint, normal, penet));
-		pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pRC, aabbHitPoint, -normal, penet));
+		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		{
+			pCC1->AddTriggeredCC(pCC2);
+			pCC2->AddTriggeredCC(pCC1);
+		}
+		else
+		{
+			//여기 왜 두번들어오냐
+			_float3 normal = pRC->GetDirection();
 
-		pRC->GetOwner()->GetOwner()->GetTransform()->AddPosition(-normal * penet);
+			_float3 rayHitPoint = rayStartPos + pRC->GetDirection() * tMin;
+			_float3 aabbHitPoint = pAC->SurfacePointFromInside(-normal, rayHitPoint);
+			_float penet = D3DXVec3Length(&(rayHitPoint - aabbHitPoint));
+			pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pAC, rayHitPoint, normal, penet));
+			pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pRC, aabbHitPoint, -normal, penet));
+
+			if(pRC->GetOwner()->GetResolveIn())
+				pRC->GetOwner()->GetOwner()->GetTransform()->AddPosition(-normal * penet);
+			else
+				pRC->GetOwner()->GetOwner()->GetTransform()->AddPosition(normal * (tMax - EPSILON));
+		}//레이 오너(즉 카메라의 포지션)만 땡겼지 레이의 포지션과 길이는 조정한 적이 없음.
 	}
 
 	return true; 
 }
-static bool RayObb(CCollider* pC1, CCollider* pC2)
+static _bool RayObb(CCollider* pC1, CCollider* pC2, _bool instant)
 { 
 	CCollider* pSupposedRC = nullptr;
 	CCollider* pSupposedOC = nullptr;
@@ -514,22 +560,25 @@ static bool RayObb(CCollider* pC1, CCollider* pC2)
 	CCollisionC* pCC1 = pRC->GetOwner();
 	CCollisionC* pCC2 = pOC->GetOwner();
 
-	if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+	if (instant == false)
 	{
-		pCC1->AddTriggeredCC(pCC2);
-		pCC2->AddTriggeredCC(pCC1);
-	}
-	else
-	{
-		_float3 hitPoint = rayStartPos + tMin * pRC->GetDirection();
-		pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pOC, hitPoint, ZERO_VECTOR, 0));
-		pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pRC, hitPoint, ZERO_VECTOR, 0));
+		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		{
+			pCC1->AddTriggeredCC(pCC2);
+			pCC2->AddTriggeredCC(pCC1);
+		}
+		else
+		{
+			_float3 hitPoint = rayStartPos + tMin * pRC->GetDirection();
+			pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pOC, hitPoint, ZERO_VECTOR, 0));
+			pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pRC, hitPoint, ZERO_VECTOR, 0));
+		}
 	}
 
 	return true; 
 }
 
-static bool SphereSphere(CCollider* pC1, CCollider* pC2)
+static _bool SphereSphere(CCollider* pC1, CCollider* pC2, _bool instant)
 { 
 	CSphereCollider* pSC1 = static_cast<CSphereCollider*>(pC1);
 	CSphereCollider* pSC2 = static_cast<CSphereCollider*>(pC2);
@@ -544,24 +593,27 @@ static bool SphereSphere(CCollider* pC1, CCollider* pC2)
 
 	if (sqDistanceCenter <= pow(pSC1->GetRadius() + pSC2->GetRadius(), 2))
 	{
-		CCollisionC* pCC1 = pSC1->GetOwner();
-		CCollisionC* pCC2 = pSC2->GetOwner();
-
-		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		if (instant == false)
 		{
-			pCC1->AddTriggeredCC(pCC2);
-			pCC2->AddTriggeredCC(pCC1);
-		}
-		else
-		{
-			_float3 normal;
-			D3DXVec3Normalize(&normal, &(center2 - center1));
+			CCollisionC* pCC1 = pSC1->GetOwner();
+			CCollisionC* pCC2 = pSC2->GetOwner();
 
-			_float3 hitPoint1 = center1 + (normal * pSC1->GetRadius());
-			_float3 hitPoint2 = center2 + (-normal * pSC2->GetRadius());
-			_float	penet = D3DXVec3Length(&(hitPoint2 - hitPoint1));
-			pSC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC1, pSC2, hitPoint1, normal, penet));
-			pSC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC2, pSC1, hitPoint2, -normal, penet));
+			if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+			{
+				pCC1->AddTriggeredCC(pCC2);
+				pCC2->AddTriggeredCC(pCC1);
+			}
+			else
+			{
+				_float3 normal;
+				D3DXVec3Normalize(&normal, &(center2 - center1));
+
+				_float3 hitPoint1 = center1 + (normal * pSC1->GetRadius());
+				_float3 hitPoint2 = center2 + (-normal * pSC2->GetRadius());
+				_float	penet = D3DXVec3Length(&(hitPoint2 - hitPoint1));
+				pSC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC1, pSC2, hitPoint1, normal, penet));
+				pSC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC2, pSC1, hitPoint2, -normal, penet));
+			}
 		}
 		return true;
 	}
@@ -569,7 +621,7 @@ static bool SphereSphere(CCollider* pC1, CCollider* pC2)
 		return false;
 }
 
-static bool SphereAabb(CCollider* pC1, CCollider* pC2) 
+static _bool SphereAabb(CCollider* pC1, CCollider* pC2, _bool instant) 
 { 
 	CCollider* pSupposedAC = nullptr;
 	CCollider* pSupposedSC = nullptr;
@@ -590,32 +642,36 @@ static bool SphereAabb(CCollider* pC1, CCollider* pC2)
 
 	if (sqDist <= pSC->GetRadius() * pSC->GetRadius())
 	{
-		CCollisionC* pCC1 = pSC->GetOwner();
-		CCollisionC* pCC2 = pAC->GetOwner();
-
-		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		if (instant == false)
 		{
-			pCC1->AddTriggeredCC(pCC2);
-			pCC2->AddTriggeredCC(pCC1);
-		}
-		else
-		{
-			_float3 normal;
-			D3DXVec3Normalize(&normal, &(sphereCenter - aabbCenter));
+			CCollisionC* pCC1 = pSC->GetOwner();
+			CCollisionC* pCC2 = pAC->GetOwner();
 
-			_float3 aabbHitPoint = pAC->SurfacePoint(normal);
-			_float3 sphereHitPoint = sphereCenter + (-normal) * pSC->GetRadius();
-			_float penet = D3DXVec3Length(&(aabbHitPoint - sphereHitPoint));
+			if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+			{
+				pCC1->AddTriggeredCC(pCC2);
+				pCC2->AddTriggeredCC(pCC1);
+			}
+			else
+			{
+				_float3 normal;
+				D3DXVec3Normalize(&normal, &(sphereCenter - aabbCenter));
 
-			pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pSC, aabbHitPoint, normal, penet));
-			pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pAC, sphereHitPoint, -normal, penet));
+				_float3 aabbHitPoint = pAC->SurfacePoint(normal);
+				_float3 sphereHitPoint = sphereCenter + (-normal) * pSC->GetRadius();
+				_float penet = D3DXVec3Length(&(aabbHitPoint - sphereHitPoint));
+
+				pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pSC, aabbHitPoint, normal, penet));
+				pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pAC, sphereHitPoint, -normal, penet));
+			}
 		}
+
 		return true;
 	}
 	else
 		return false;
 }
-static bool SphereObb(CCollider* pC1, CCollider* pC2) 
+static _bool SphereObb(CCollider* pC1, CCollider* pC2, _bool instant) 
 {
 	CCollider* pSupposedOC = nullptr;
 	CCollider* pSupposedSC = nullptr;
@@ -637,33 +693,37 @@ static bool SphereObb(CCollider* pC1, CCollider* pC2)
 
 	if (D3DXVec3Dot(&sphereToClosest, &sphereToClosest) <= pSC->GetRadius() * pSC->GetRadius())
 	{
-		CCollisionC* pCC1 = pOC->GetOwner();
-		CCollisionC* pCC2 = pSC->GetOwner();
-
-		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		if (instant == false)
 		{
-			pCC1->AddTriggeredCC(pCC2);
-			pCC2->AddTriggeredCC(pCC1);
-		}
-		else
-		{
-			_float3 normal;
-			D3DXVec3Normalize(&normal, &(sphereCenter - obbCenter));
+			CCollisionC* pCC1 = pOC->GetOwner();
+			CCollisionC* pCC2 = pSC->GetOwner();
 
-			_float3 obbHitPoint = pOC->SurfacePoint(normal);
-			_float3 sphereHitPoint = sphereCenter + (-normal) * pSC->GetRadius();
-			_float	penet = D3DXVec3Length(&(obbHitPoint - sphereHitPoint));
+			if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+			{
+				pCC1->AddTriggeredCC(pCC2);
+				pCC2->AddTriggeredCC(pCC1);
+			}
+			else
+			{
+				_float3 normal;
+				D3DXVec3Normalize(&normal, &(sphereCenter - obbCenter));
 
-			pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pSC, obbHitPoint, normal, penet));
-			pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pOC, sphereHitPoint, -normal, penet));
+				_float3 obbHitPoint = pOC->SurfacePoint(normal);
+				_float3 sphereHitPoint = sphereCenter + (-normal) * pSC->GetRadius();
+				_float	penet = D3DXVec3Length(&(obbHitPoint - sphereHitPoint));
+
+				pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pSC, obbHitPoint, normal, penet));
+				pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pOC, sphereHitPoint, -normal, penet));
+			}
 		}
+
 		return true;
 	}
 	else
 		return false;
 }
 
-static bool AabbAabb(CCollider* pC1, CCollider* pC2) 
+static _bool AabbAabb(CCollider* pC1, CCollider* pC2, _bool instant) 
 { 
 	CAabbCollider* pAC1 = static_cast<CAabbCollider*>(pC1);
 	CAabbCollider* pAC2 = static_cast<CAabbCollider*>(pC2);
@@ -684,29 +744,32 @@ static bool AabbAabb(CCollider* pC1, CCollider* pC2)
 			return false;
 	}
 
-	CCollisionC* pCC1 = pAC1->GetOwner();
-	CCollisionC* pCC2 = pAC2->GetOwner();
-
-	if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+	if (instant == false)
 	{
-		pCC1->AddTriggeredCC(pCC2);
-		pCC2->AddTriggeredCC(pCC1);
-	}
-	else
-	{
-		_float3 normal;
-		D3DXVec3Normalize(&normal, &(aabb2Center - aabb1Center));
+		CCollisionC* pCC1 = pAC1->GetOwner();
+		CCollisionC* pCC2 = pAC2->GetOwner();
 
-		//Calculate HitPoint 
-		_float3 hitPoint1 = pAC1->SurfacePoint(normal);
-		_float3 hitPoint2 = pAC2->SurfacePoint(-normal);
-		_float	penet = D3DXVec3Length(&(hitPoint2 - hitPoint1));
-		pAC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC1, pAC2, hitPoint1, normal, penet));
-		pAC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC2, pAC1, hitPoint2, -normal, penet));
+		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		{
+			pCC1->AddTriggeredCC(pCC2);
+			pCC2->AddTriggeredCC(pCC1);
+		}
+		else
+		{
+			_float3 normal;
+			D3DXVec3Normalize(&normal, &(aabb2Center - aabb1Center));
+
+			//Calculate HitPoint 
+			_float3 hitPoint1 = pAC1->SurfacePoint(normal);
+			_float3 hitPoint2 = pAC2->SurfacePoint(-normal);
+			_float	penet = D3DXVec3Length(&(hitPoint2 - hitPoint1));
+			pAC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC1, pAC2, hitPoint1, normal, penet));
+			pAC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC2, pAC1, hitPoint2, -normal, penet));
+		}
 	}
 	return true; 
 }
-static bool AabbObb(CCollider* pC1, CCollider* pC2) 
+static _bool AabbObb(CCollider* pC1, CCollider* pC2, _bool instant) 
 { 
 	CCollider* pSupposedOC = nullptr;
 	CCollider* pSupposedAC = nullptr;
@@ -820,30 +883,32 @@ static bool AabbObb(CCollider* pC1, CCollider* pC2)
 	rb = pOC->GetHalfSize()[0] * absRotation[2][1] + pOC->GetHalfSize()[1] * absRotation[2][0];
 	if (abs(translation[1] * rotation[0][2] - translation[0] * rotation[1][2]) > ra + rb) return false;
 
-	
-	CCollisionC* pCC1 = pAC->GetOwner();
-	CCollisionC* pCC2 = pOC->GetOwner();
-
-	if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+	if (instant == false)
 	{
-		pCC1->AddTriggeredCC(pCC2);
-		pCC2->AddTriggeredCC(pCC1);
-	}
-	else
-	{
-		_float3 normal = obbCenter - aabbCenter;
-		_float3 aabbHitPoint = pAC->SurfacePoint(normal);
-		_float3 obbHitPoint = pOC->SurfacePoint(-normal);
+		CCollisionC* pCC1 = pAC->GetOwner();
+		CCollisionC* pCC2 = pOC->GetOwner();
 
-		_float penet = D3DXVec3Length(&(aabbHitPoint - obbHitPoint));
+		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		{
+			pCC1->AddTriggeredCC(pCC2);
+			pCC2->AddTriggeredCC(pCC1);
+		}
+		else
+		{
+			_float3 normal = obbCenter - aabbCenter;
+			_float3 aabbHitPoint = pAC->SurfacePoint(normal);
+			_float3 obbHitPoint = pOC->SurfacePoint(-normal);
 
-		pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pOC, aabbHitPoint, normal, penet));
-		pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pAC, obbHitPoint, -normal, penet));
+			_float penet = D3DXVec3Length(&(aabbHitPoint - obbHitPoint));
+
+			pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pOC, aabbHitPoint, normal, penet));
+			pOC->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC, pAC, obbHitPoint, -normal, penet));
+		}
 	}
 	return true;
 }
 
-static bool ObbObb(CCollider* pC1, CCollider* pC2) 
+static _bool ObbObb(CCollider* pC1, CCollider* pC2, _bool instant) 
 { 
 	CObbCollider* pOC1 = static_cast<CObbCollider*>(pC1);
 	CObbCollider* pOC2 = static_cast<CObbCollider*>(pC2);
@@ -1022,31 +1087,33 @@ static bool ObbObb(CCollider* pC1, CCollider* pC2)
 		D3DXVec3Cross(&minDiffAxis, &obb1OrientedAxis[2], &obb2OrientedAxis[2]);
 	}
 
-
-	CCollisionC* pCC1 = pOC1->GetOwner();
-	CCollisionC* pCC2 = pOC2->GetOwner();
-
-	if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+	if (instant == false)
 	{
-		pCC1->AddTriggeredCC(pCC2);
-		pCC2->AddTriggeredCC(pCC1);
-	}
-	else
-	{
-		_float3 closestFromObb1 = pOC1->ClosestFromPoint(obb2Center);
-		_float3 closestFromObb2 = pOC2->ClosestFromPoint(obb1Center);
+		CCollisionC* pCC1 = pOC1->GetOwner();
+		CCollisionC* pCC2 = pOC2->GetOwner();
 
-		GET_CUR_SCENE->GetLayers()[8]->GetGameObjects()[0]->GetTransform()->SetPosition(closestFromObb1);
-		GET_CUR_SCENE->GetLayers()[8]->GetGameObjects()[1]->GetTransform()->SetPosition(closestFromObb2);
+		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
+		{
+			pCC1->AddTriggeredCC(pCC2);
+			pCC2->AddTriggeredCC(pCC1);
+		}
+		else
+		{
+			_float3 closestFromObb1 = pOC1->ClosestFromPoint(obb2Center);
+			_float3 closestFromObb2 = pOC2->ClosestFromPoint(obb1Center);
 
-		_float3 normal = obb2Center - obb1Center;
-		_float3 obb1HitPoint = pOC1->SurfacePoint(normal);
-		_float3 obb2HitPoint = pOC2->SurfacePoint(-normal);
+			GET_CUR_SCENE->GetLayers()[8]->GetGameObjects()[0]->GetTransform()->SetPosition(closestFromObb1);
+			GET_CUR_SCENE->GetLayers()[8]->GetGameObjects()[1]->GetTransform()->SetPosition(closestFromObb2);
 
-		_float penet = D3DXVec3Length(&(obb1HitPoint - obb2HitPoint));
+			_float3 normal = obb2Center - obb1Center;
+			_float3 obb1HitPoint = pOC1->SurfacePoint(normal);
+			_float3 obb2HitPoint = pOC2->SurfacePoint(-normal);
 
-		pOC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC1, pOC2, obb1HitPoint, normal, penet));
-		pOC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC2, pOC1, obb2HitPoint, -normal, penet));
+			_float penet = D3DXVec3Length(&(obb1HitPoint - obb2HitPoint));
+
+			pOC1->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC1, pOC2, obb1HitPoint, normal, penet));
+			pOC2->GetOwner()->AddCollisionInfo(_CollisionInfo(pOC2, pOC1, obb2HitPoint, -normal, penet));
+		}
 	}
 	return true; 
 }

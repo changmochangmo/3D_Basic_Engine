@@ -36,7 +36,6 @@ public:
 private:
 					void			AddColliderFromFile	(void);
 					void			MergingBS			(CCollider* pCollider);
-					void			UpdateOwnerRotMat	(void);
 
 					void			ProcessCollisions	(void);
 					void			ProcessTriggers		(void);
@@ -62,11 +61,10 @@ protected:
 	GETTOR			(_float3,			m_offsetBS,			ZERO_VECTOR,	OffsetBS)
 	GETTOR			(_float,			m_radiusBS,			UNDEFINED,		RadiusBS)
 
-	GETTOR			(_mat,				m_ownerRotMat,		{},				OwnerRotMat)
 	GETTOR			(SP(CTransformC),	m_spTransform,		nullptr,		Transform)
 	GETTOR			(SP(CRigidBodyC),	m_spRigidbody,		nullptr,		Rigidbody)
 	
-
+	GETTOR_SETTOR	(_bool,				m_resolveIn,		true,			ResolveIn)
 
 	
 };

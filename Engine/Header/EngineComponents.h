@@ -11,8 +11,7 @@
 #include "DebugC.h"
 #include "GraphicsC.h"
 
-// Camera-------------------------------------------
-#include "CameraC.h"
+
 
 // Physics------------------------------------------
 #include "RigidBodyC.h"
@@ -24,6 +23,9 @@
 #include "SphereCollider.h"
 #include "AabbCollider.h"
 #include "ObbCollider.h"
-//#include "BitmapComponent.h"
+
+// Camera-------------------------------------------
+#include "CameraC.h"
+
 
 #endif

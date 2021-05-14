@@ -119,15 +119,15 @@ void CCollisionManager::CheckCollision(CCollisionC* pCC)
 			isItCollided = false;
 			for (auto& checkCollider : ccIt->GetColliders())
 			{
-				for (auto& myCollider : pCC->GetColliders())
+				for (auto& itMyCC = pCC->GetColliders().begin(); itMyCC != pCC->GetColliders().end(); ++itMyCC)
 				{
 					//콜라이더 간의 BS 체크
-					if (CollisionHelper::CheckColliderBS(myCollider, checkCollider) == false)
+					if (CollisionHelper::CheckColliderBS(*itMyCC, checkCollider) == false)
 						continue;
 
-					_int myCType = myCollider->GetColliderType();
+					_int myCType = (*itMyCC)->GetColliderType();
 					_int checkCType = checkCollider->GetColliderType();
-					isItCollided = (m_fpCollisionChecker[myCType][checkCType])(myCollider, checkCollider);
+					isItCollided = (m_fpCollisionChecker[myCType][checkCType])(*itMyCC, checkCollider, false);
 				}
 				//if (isItCollided)
 				//	break;
@@ -144,6 +144,31 @@ void CCollisionManager::AddCollisionToManager(SP(CCollisionC) colliderComponent)
 	m_vCollisionComponents[colliderComponent->GetCollisionID()].emplace_back(colliderComponent);
 }
 
+_bool CCollisionManager::CheckCollisionInstant(CCollider * pCollider, _int checkingLayer)
+{
+	_bool isItCollided = false;
+	for (auto& ccIt : m_vCollisionComponents[checkingLayer])
+	{
+		//콜리션 컴포넌트 간의 BS 체크
+		if (CollisionHelper::CheckCollisionComponentColliderBS(ccIt.get(), pCollider) == false)
+			continue;
+
+		isItCollided = false;
+		for (auto& checkCollider : ccIt->GetColliders())
+		{
+			//콜라이더 간의 BS 체크
+			if (CollisionHelper::CheckColliderBS(pCollider, checkCollider) == false)
+				continue;
+
+			_int myCType = pCollider->GetColliderType();
+			_int checkCType = checkCollider->GetColliderType();
+			isItCollided = (m_fpCollisionChecker[myCType][checkCType])(pCollider, checkCollider, true);
+		}
+	}
+
+	return isItCollided;
+}
+
 std::vector<_int>& CCollisionManager::GetLayersToCheck(_int colliderID)
 {
 	return m_vCollisionMap[colliderID];
@@ -156,25 +181,25 @@ void CCollisionManager::InitCollisionChecker(void)
 	m_fpCollisionChecker[(_int)EColliderType::Point][(_int)EColliderType::Sphere]	= CollisionHelper::PointSphere;
 	m_fpCollisionChecker[(_int)EColliderType::Point][(_int)EColliderType::AABB]		= CollisionHelper::PointAabb;
 	m_fpCollisionChecker[(_int)EColliderType::Point][(_int)EColliderType::OBB]		= CollisionHelper::PointObb;
-
+	
 	m_fpCollisionChecker[(_int)EColliderType::Ray][(_int)EColliderType::Point]		= CollisionHelper::PointRay;
 	m_fpCollisionChecker[(_int)EColliderType::Ray][(_int)EColliderType::Ray]		= CollisionHelper::RayRay;
 	m_fpCollisionChecker[(_int)EColliderType::Ray][(_int)EColliderType::Sphere]		= CollisionHelper::RaySphere;
 	m_fpCollisionChecker[(_int)EColliderType::Ray][(_int)EColliderType::AABB]		= CollisionHelper::RayAabb;
 	m_fpCollisionChecker[(_int)EColliderType::Ray][(_int)EColliderType::OBB]		= CollisionHelper::RayObb;
-
+	
 	m_fpCollisionChecker[(_int)EColliderType::Sphere][(_int)EColliderType::Point]	= CollisionHelper::PointSphere;
 	m_fpCollisionChecker[(_int)EColliderType::Sphere][(_int)EColliderType::Ray]		= CollisionHelper::RaySphere;
 	m_fpCollisionChecker[(_int)EColliderType::Sphere][(_int)EColliderType::Sphere]	= CollisionHelper::SphereSphere;
 	m_fpCollisionChecker[(_int)EColliderType::Sphere][(_int)EColliderType::AABB]	= CollisionHelper::SphereAabb;
 	m_fpCollisionChecker[(_int)EColliderType::Sphere][(_int)EColliderType::OBB]		= CollisionHelper::SphereObb;
-
+	
 	m_fpCollisionChecker[(_int)EColliderType::AABB][(_int)EColliderType::Point]		= CollisionHelper::PointAabb;
 	m_fpCollisionChecker[(_int)EColliderType::AABB][(_int)EColliderType::Ray]		= CollisionHelper::RayAabb;
 	m_fpCollisionChecker[(_int)EColliderType::AABB][(_int)EColliderType::Sphere]	= CollisionHelper::SphereAabb;
 	m_fpCollisionChecker[(_int)EColliderType::AABB][(_int)EColliderType::AABB]		= CollisionHelper::AabbAabb;
 	m_fpCollisionChecker[(_int)EColliderType::AABB][(_int)EColliderType::OBB]		= CollisionHelper::AabbObb;
-
+	
 	m_fpCollisionChecker[(_int)EColliderType::OBB][(_int)EColliderType::Point]		= CollisionHelper::PointObb;
 	m_fpCollisionChecker[(_int)EColliderType::OBB][(_int)EColliderType::Ray]		= CollisionHelper::RayObb;
 	m_fpCollisionChecker[(_int)EColliderType::OBB][(_int)EColliderType::Sphere]		= CollisionHelper::SphereObb;

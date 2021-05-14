@@ -41,6 +41,9 @@ void CLayer::FixedUpdate(void)
 {
 	for (auto& gameObject : m_vGameObjects)
 	{
+		if (gameObject->GetDeleteThis())
+			continue;
+
 		if (gameObject->GetIsEnabled())
 		{
 			if (gameObject->GetIsStarted() == false)
@@ -78,6 +81,9 @@ void CLayer::LateUpdate(void)
 {
 	for (auto& gameObject : m_vGameObjects)
 	{
+		if (gameObject->GetDeleteThis()) 
+			continue;
+
 		if (gameObject->GetIsEnabled())
 		{
 			if (gameObject->GetIsStarted() == false)

@@ -3,6 +3,7 @@
 #include "Layer.h"
 #include "Object.h"
 #include "SceneManager.h"
+#include "FRC.h"
 
 #include "DataStore.h"
 #include "MeshStore.h"
@@ -19,6 +20,8 @@ CScene::~CScene(void)
 
 void CScene::Awake(_int numOfLayers)
 {
+	CFRC::GetInstance()->OnDisable();
+
 	m_isAwaked = true;
 
 	InitLayers(numOfLayers);
@@ -31,7 +34,7 @@ void CScene::Awake(_int numOfLayers)
 
 void CScene::Start(void)
 {
-	
+	CFRC::GetInstance()->OnEnable();
 }
 
 void CScene::FixedUpdate(void)

@@ -5,6 +5,7 @@
 #include "Object.h"
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "WndApp.h"
 
 USING(Engine)
 IMPLEMENT_SINGLETON(CCameraManager)
@@ -14,12 +15,13 @@ void CCameraManager::Awake(void)
 	__super::Awake();
 }
 
-void CCameraManager::Start(void)
+void CCameraManager::Start(_int collisionID)
 {
+	m_camColliderID = collisionID;
 	if (m_spMainCamera == nullptr)
 	{
-		SP(CObject) spBasicObject = ADD_CLONE(L"EmptyObject", true, L"BasicCamera", (_int)ELayerID::Camera);
-		m_spMainCamera = spBasicObject->AddComponent<CCameraC>();
+		SP(CObject) spCameraObject = ADD_CLONE(L"Camera", true, L"BasicCamera", (_int)ELayerID::Camera);
+		m_spMainCamera = spCameraObject->GetComponent<CCameraC>();
 
 		AddCamera(L"FreeCamera", m_spMainCamera);
 		m_spMainCamera->SetTarget(GET_CUR_SCENE->FindObjectWithKey(L"Player"));
@@ -93,25 +95,30 @@ void CCameraManager::SetMainCameraMode(void)
 	if (IMKEY_DOWN(KEY_F1))
 	{
 		m_spMainCamera->SetMode(ECameraMode::Fixed);
+		m_spMainCamera->GetTransform()->SetPosition(-7.75f, 0.67f, 55.1f);
 		m_spMainCamera->SetMoveable(false);
 		m_spMainCamera->SetRotatable(false);
+		ShowCursor(true);
 	}
 	else if (IMKEY_DOWN(KEY_F2))
 	{
 		m_spMainCamera->SetMode(ECameraMode::Edit);
 		m_spMainCamera->SetMoveable(true);
 		m_spMainCamera->SetRotatable(false);
+		ShowCursor(true);
 	}
 	else if (IMKEY_DOWN(KEY_F3))
 	{
 		m_spMainCamera->SetMode(ECameraMode::FPS);
 		m_spMainCamera->SetMoveable(true);
 		m_spMainCamera->SetRotatable(false);
+		ShowCursor(false);
 	}
 	else if (IMKEY_DOWN(KEY_F4))
 	{
 		m_spMainCamera->SetMode(ECameraMode::Follower);
 		m_spMainCamera->SetMoveable(false);
 		m_spMainCamera->SetRotatable(false);
+		ShowCursor(false);
 	}
 }

@@ -16,10 +16,13 @@
 
 #pragma region IncludeScenes
 #include "ChangmoScene.h"
+#include "BossScene.h"
 #pragma endregion
 
 #pragma region Prototypes
 #include "Player.h"
+#include "MapObject.h"
+#include "Camera.h"
 #pragma endregion
 
 CMainApp::CMainApp(void)
@@ -48,6 +51,9 @@ void CMainApp::Awake(void)
 	Engine::CGraphicsManager::GetInstance()->Awake();
 	Engine::CShaderManager::GetInstance()->Awake();
 	Engine::CCollisionManager::GetInstance()->Awake();
+
+	Engine::ADD_TEXT(L"Test0", L"", _float3(100, 150, 0), D3DXCOLOR(0, 0, 0, 1));
+	Engine::ADD_TEXT(L"Test1", L"", _float3(100, 170, 0), D3DXCOLOR(0, 0, 0, 1));
 }
 
 void CMainApp::Start(void)
@@ -57,7 +63,7 @@ void CMainApp::Start(void)
 	Engine::CInputManager::GetInstance()->Start();
 	Engine::CSceneManager::GetInstance()->Start();
 	Engine::CSceneManager::GetInstance()->SceneChange(CChangmoScene::Create());
-	Engine::CCameraManager::GetInstance()->Start();
+	Engine::CCameraManager::GetInstance()->Start((_int)EColliderID::CameraRay);
 	Engine::CObjectFactory::GetInstance()->Start();
 	Engine::CGraphicsManager::GetInstance()->Start();
 	Engine::CShaderManager::GetInstance()->Start();
@@ -81,10 +87,11 @@ void CMainApp::Update(void)
 	Engine::TIME_MEASURE_START;
 
 	Engine::CInputManager::GetInstance()->Update();
-	Engine::CSceneManager::GetInstance()->Update();
 	
-	Engine::CCameraManager::GetInstance()->Update();
+	Engine::CSceneManager::GetInstance()->Update();
 	Engine::CCollisionManager::GetInstance()->Update();
+
+	Engine::CCameraManager::GetInstance()->Update();
 	Engine::CGraphicsManager::GetInstance()->Update();
 	
 
@@ -96,10 +103,10 @@ void CMainApp::LateUpdate(void)
 	Engine::TIME_MEASURE_START;
 
 	Engine::CInputManager::GetInstance()->LateUpdate();
+	Engine::CCollisionManager::GetInstance()->LateUpdate();
 	Engine::CSceneManager::GetInstance()->LateUpdate();
 	
 	Engine::CCameraManager::GetInstance()->LateUpdate();
-	Engine::CCollisionManager::GetInstance()->LateUpdate();
 	Engine::CGraphicsManager::GetInstance()->LateUpdate();	
 
 	_float time = Engine::GET_ELAPSED_TIME;
@@ -160,4 +167,10 @@ void CMainApp::InitStaticPrototype(void)
 {
 	SP(Engine::CObject) spPlayerPrototype(CPlayer::Create(true));
 	Engine::ADD_PROTOTYPE(spPlayerPrototype);
+
+	SP(CMapObject) spMapObjectPrototype(CMapObject::Create());
+	Engine::ADD_PROTOTYPE(spMapObjectPrototype);
+
+	SP(CCamera) spCameraPrototype(CCamera::Create());
+	Engine::ADD_PROTOTYPE(spCameraPrototype);
 }

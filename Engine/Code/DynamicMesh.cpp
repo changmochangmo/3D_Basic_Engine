@@ -93,7 +93,8 @@ void CDynamicMesh::Start(void)
 
 void CDynamicMesh::Update(void)
 {
-	m_pAniCtrl->Play();
+	if(m_playAnimation)
+		m_pAniCtrl->Play();
 }
 
 void CDynamicMesh::OnDestory(void)
@@ -125,14 +126,14 @@ void CDynamicMesh::UpdateFrame(void)
 
 }
 
-void CDynamicMesh::ChangeAniSet(_uint index)
+void CDynamicMesh::ChangeAniSet(_uint index, _bool fixTillEnd, _double smoothTime, _float changeWeight)
 {
-	m_pAniCtrl->ChangeAniSet(index);
+	m_pAniCtrl->ChangeAniSet(index, fixTillEnd, smoothTime, changeWeight);
 }
 
-void CDynamicMesh::ChangeAniSet(std::string name)
+void CDynamicMesh::ChangeAniSet(std::string name, _bool fixTillEnd, _double smoothTime, _float changeWeight)
 {
-	m_pAniCtrl->ChangeAniSet(name);
+	m_pAniCtrl->ChangeAniSet(name, fixTillEnd, smoothTime, changeWeight);
 }
 
 void CDynamicMesh::PlayAnimation(void)
@@ -150,6 +151,11 @@ _DerivedD3DXFRAME * CDynamicMesh::GetFrameByName(std::string name)
 _bool CDynamicMesh::IsAnimationEnd(void)
 {
 	return m_pAniCtrl->IsItEnd();
+}
+
+void CDynamicMesh::SetAniFixTillEnd(_bool isItFixed)
+{
+	m_pAniCtrl->SetFixTillEnd(isItFixed);
 }
 
 void CDynamicMesh::UpdateFrameMatrices(_DerivedD3DXFRAME* pFrame, _mat* pParentMat)

@@ -11,7 +11,7 @@ class ENGINE_DLL CCameraManager final : public CEngine
 
 public:
 			void					Awake				(void) override;
-			void					Start				(void);
+			void					Start				(_int collisionID);
 
 			void					Update				(void);
 			void					LateUpdate			(void);	
@@ -33,7 +33,9 @@ private:
 private:
 	std::unordered_map<std::wstring, SP(CCameraC)> m_mCameras;
 
-	GETTOR_SETTOR	(SP(CCameraC),	m_spMainCamera,	nullptr,	MainCamera)
+	GETTOR			(_int,			m_camColliderID,	UNDEFINED,		CamColliderID)
+	GETTOR_SETTOR	(SP(CCameraC),	m_spMainCamera,		nullptr,		MainCamera)
+	
 };
 END
 #endif
