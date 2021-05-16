@@ -45,7 +45,7 @@ void CChangmoScene::Start(void)
 	__super::Start();
 
 	SP(Engine::CObject) spPlayerClone = Engine::ADD_CLONE(L"Player", true);
-	//spPlayerClone->AddComponent<Engine::CDebugC>();
+	spPlayerClone->AddComponent<Engine::CDebugC>();
 	//spPlayerClone->AddComponent<Engine::CCollisionC>()->
 	//	AddCollider(Engine::CAabbCollider::Create(_float3(40, 75, 40), _float3(0, 37.5f, -5)));
 	//spPlayerClone->GetComponent<Engine::CCollisionC>()->SetCollisionID(1);
@@ -61,20 +61,19 @@ void CChangmoScene::Start(void)
 	{
 		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Map);
 		spBasicClone->AddComponent<Engine::CCollisionC>()->
-			AddCollider(Engine::CAabbCollider::Create(_float3(10, 1, 10), _float3(0, -0.5, 0)));
+			AddCollider(Engine::CAabbCollider::Create(_float3(10, 1, 10), _float3(0, 0, 0)));
+		spBasicClone->GetTransform()->SetPosition(0, -0.5, 0);
 		spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Map);
 		spBasicClone->AddComponent<Engine::CDebugC>();
 	}
 	
 	//ÄÝ¸®Á¯ AABB2
-	for(_int i = 0; i < 15; ++i)
+	for(_int i = 0; i < 1; ++i)
 	{
-		_float3 right(1, 0, 1); D3DXVec3Normalize(&right, &right);
-		_float3 forward(-1, 0, 1); D3DXVec3Normalize(&forward, &forward);
-		_float3 up(0, 1, 0);
 		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Map);
+		spBasicClone->GetTransform()->SetPosition(0, 0.5, 3);
 		spBasicClone->AddComponent<Engine::CCollisionC>()->
-			AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1), _float3((_float)i, 0.5, 3)));
+			AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1)));
 		spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Map);
 		spBasicClone->AddComponent<Engine::CDebugC>();
 	}

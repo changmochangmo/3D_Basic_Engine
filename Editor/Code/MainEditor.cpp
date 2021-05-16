@@ -21,6 +21,7 @@
 #include "Player.h"
 #include "Grid.h"
 #include "EmptyObject.h"
+#include "Camera.h"
 #pragma endregion
 
 CMainEditor::CMainEditor()
@@ -65,7 +66,7 @@ void CMainEditor::Start(void)
 	Engine::CSceneManager::GetInstance()->SceneChange(CEditorScene::Create());
 	Engine::CObjectFactory::GetInstance()->Start();
 	Engine::CGraphicsManager::GetInstance()->Start();
-	Engine::CCameraManager::GetInstance()->Start();
+	Engine::CCameraManager::GetInstance()->Start((_int)EColliderID::CameraRay);
 	Engine::CShaderManager::GetInstance()->Start();
 
 	Engine::CCollisionManager::GetInstance()->Start((_int)EColliderID::NumOfColliderID);
@@ -145,4 +146,7 @@ void CMainEditor::InitStaticPrototype(void)
 {
 	SP(Engine::CObject) spPlayerPrototype(CPlayer::Create(true));
 	Engine::ADD_PROTOTYPE(spPlayerPrototype);
+
+	SP(CCamera) spCameraPrototype(CCamera::Create());
+	Engine::ADD_PROTOTYPE(spCameraPrototype);
 }

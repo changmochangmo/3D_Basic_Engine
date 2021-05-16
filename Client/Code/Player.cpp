@@ -6,6 +6,7 @@
 #include "MeshData.h"
 #include "CameraManager.h"
 #include "TextManager.h"
+#include "ObjectFactory.h"
 
 _uint CPlayer::m_s_uniqueID = 0;
 
@@ -62,11 +63,14 @@ void CPlayer::Awake(void)
 void CPlayer::Start(void)
 {
 	__super::Start();
+	m_spCollision->SetOffsetBS(_float3(0, 0.5f, 0));
+	m_spCollision->SetRadiusBS(1.1f);
 
-	Engine::ADD_TEXT(L"Status", L"STATUS", _float3(25, 25, 0), D3DXCOLOR(0, 0, 0, 1));
-	Engine::ADD_TEXT(L"JumpChance", L"JumpChance", _float3(25, 50, 0), D3DXCOLOR(0, 0, 0, 1));
-	Engine::ADD_TEXT(L"AniIndex", L"AniIndex", _float3(25, 75, 0), D3DXCOLOR(0, 0, 0, 1));
-	Engine::ADD_TEXT(L"PunchTimer", L"PunchTimer", _float3(25, 100, 0), D3DXCOLOR(0, 0, 0, 1));
+	m_spSCObject = Engine::ADD_CLONE(L"EmptyObject", true, L"PlayerSC", (_int)ELayerID::Player);
+	m_spSCObject->AddComponent<Engine::CCollisionC>()->
+		AddCollider(Engine::CSphereCollider::Create(0.325f, _float3(0, 0.35f, 0)));
+	m_spSCObject->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Player);
+	m_spSCObject->AddComponent<Engine::CDebugC>();
 }
 
 void CPlayer::FixedUpdate(void)
@@ -77,11 +81,8 @@ void CPlayer::FixedUpdate(void)
 void CPlayer::Update(void)
 {
 	__super::Update();
-
-	if (Engine::IMKEY_DOWN(KEY_LEFT))
-	{
-		m_spRigidBody->SetUseGravity(true);
-	}
+	m_spSCObject->GetTransform()->SetPosition(m_spTransform->GetPosition());
+	Engine::REWRITE_TEXT(L"Test0", std::to_wstring(m_spTransform->GetPosition().x));
 }
 
 void CPlayer::LateUpdate(void)
@@ -108,14 +109,12 @@ void CPlayer::LateUpdate(void)
 
 	std::wstring curState;
 	CurStatusInStr(curState);
-	Engine::REWRITE_TEXT(L"Status", curState);
-	Engine::REWRITE_TEXT(L"JumpChance", std::to_wstring(m_jumpChance));
-	Engine::REWRITE_TEXT(L"AniIndex", std::to_wstring(m_aniIndex));
-	Engine::REWRITE_TEXT(L"PunchTimer", std::to_wstring(m_punchTimer));
 	m_lastStatus = m_status;
 
 	m_onGround = false;
 	__super::LateUpdate();
+
+	
 }
 
 void CPlayer::OnDestroy(void)

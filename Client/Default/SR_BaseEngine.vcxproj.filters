@@ -46,7 +46,10 @@
     <Filter Include="02.Objects\02.MapObject">
       <UniqueIdentifier>{e779260b-ade1-4f35-bef5-75d97fde29b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Objects\03.CameraObject">
+    <Filter Include="02.Objects\04.Boss">
+      <UniqueIdentifier>{a6aaa3f5-76d1-4810-b1f2-ff7d8fbb4637}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\03.Camera">
       <UniqueIdentifier>{8338b040-e35b-49d8-a627-32dbc33767d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -93,7 +96,12 @@
     <ClInclude Include="..\Header\MapObject.h">
       <Filter>02.Objects\02.MapObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Camera.h" />
+    <ClInclude Include="..\Header\Camera.h">
+      <Filter>02.Objects\03.Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss.h">
+      <Filter>02.Objects\04.Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -117,7 +125,12 @@
     <ClCompile Include="..\Code\MapObject.cpp">
       <Filter>02.Objects\02.MapObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Camera.cpp" />
+    <ClCompile Include="..\Code\Camera.cpp">
+      <Filter>02.Objects\03.Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss.cpp">
+      <Filter>02.Objects\04.Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">

@@ -197,6 +197,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Client\Header\Camera.h" />
     <ClInclude Include="..\Header\EditorDefine.h" />
     <ClInclude Include="..\Header\EditorDoc.h" />
     <ClInclude Include="..\Header\EditorEnum.h" />
@@ -206,7 +207,6 @@
     <ClInclude Include="..\Header\EditorTypedef.h" />
     <ClInclude Include="..\Header\EditorView.h" />
     <ClInclude Include="..\Header\MainEditor.h" />
-    <ClInclude Include="Decoration.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EmptyObjectTab.h" />
     <ClInclude Include="IniMeshInfoTab.h" />
@@ -225,11 +225,11 @@
     <ClInclude Include="TransformTab.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Client\Code\Camera.cpp" />
     <ClCompile Include="..\Code\EditorDoc.cpp" />
     <ClCompile Include="..\Code\EditorScene.cpp" />
     <ClCompile Include="..\Code\EditorView.cpp" />
     <ClCompile Include="..\Code\MainEditor.cpp" />
-    <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EmptyObjectTab.cpp" />
     <ClCompile Include="IniMeshInfoTab.cpp" />

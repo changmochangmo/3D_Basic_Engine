@@ -108,6 +108,8 @@ void CTransformC::SetRotation(_float rotX, _float rotY, _float rotZ)
 	m_rotation.x = rotX;
 	m_rotation.y = rotY;
 	m_rotation.z = rotZ;
+
+	UpdateForward();
 }
 
 void CTransformC::SetRotationX(_float rotationX)

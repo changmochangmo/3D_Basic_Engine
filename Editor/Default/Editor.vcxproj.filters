@@ -64,9 +64,6 @@
     <Filter Include="03.Objects\01.Player">
       <UniqueIdentifier>{f0cbe870-a149-4557-ae79-7c35910481ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Objects\03.Decoration">
-      <UniqueIdentifier>{7e152ae7-e61e-4904-bc1a-89cf41eab10d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.ViewAndDlg\01.MenuView\00.Tabs\02.InifileTab">
       <UniqueIdentifier>{ce14a3df-ae63-4140-91a2-4bbd2176b8bf}</UniqueIdentifier>
     </Filter>
@@ -81,6 +78,9 @@
     </Filter>
     <Filter Include="01.ViewAndDlg\01.MenuView\00.Tabs\03.EmptyObjectTab">
       <UniqueIdentifier>{b4c1e939-fc7e-40bb-8b24-7bbeb5a436af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Objects\03.Camera">
+      <UniqueIdentifier>{54e82c62-5164-4cb1-ab77-c8e05ed2f23d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +138,6 @@
     <ClInclude Include="Player.h">
       <Filter>03.Objects\01.Player</Filter>
     </ClInclude>
-    <ClInclude Include="Decoration.h">
-      <Filter>03.Objects\03.Decoration</Filter>
-    </ClInclude>
     <ClInclude Include="TransformTab.h">
       <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\00.ObjectTab\Tabs\00.Transform</Filter>
     </ClInclude>
@@ -161,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="MapObject.h">
       <Filter>03.Objects\02.Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Client\Header\Camera.h">
+      <Filter>03.Objects\03.Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +197,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>03.Objects\01.Player</Filter>
     </ClCompile>
-    <ClCompile Include="Decoration.cpp">
-      <Filter>03.Objects\03.Decoration</Filter>
-    </ClCompile>
     <ClCompile Include="TransformTab.cpp">
       <Filter>01.ViewAndDlg\01.MenuView\00.Tabs\00.ObjectTab\Tabs\00.Transform</Filter>
     </ClCompile>
@@ -220,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="MapObject.cpp">
       <Filter>03.Objects\02.Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Client\Code\Camera.cpp">
+      <Filter>03.Objects\03.Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

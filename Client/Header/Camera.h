@@ -45,6 +45,8 @@ private:
 	GETTOR		(SP(Engine::CDebugC),		m_spDebug,			nullptr,	Debug)
 
 	GETTOR		(Engine::CRayCollider*,		m_pCamRayCollider,	nullptr,	CamRayCollider)
+
+	GETTOR		(_bool,						m_wallCollided,		false,		WallCollided)
 };
 
 #endif

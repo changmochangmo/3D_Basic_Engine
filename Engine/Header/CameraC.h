@@ -37,7 +37,6 @@ private:
 					void			Move				(void);
 					void			Translation			(void);
 					void			Rotation			(void);
-					void			WallCheck			(void);
 
 public:
 	static const	EComponentID	m_s_componentID = EComponentID::Camera;

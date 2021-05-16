@@ -83,6 +83,8 @@ private:
 	GETTOR		(SP(Engine::CCollisionC),	m_spCollision,			nullptr,		Collision)
 	GETTOR		(SP(Engine::CRigidBodyC),	m_spRigidBody,			nullptr,		RigidBody)
 
+	GETTOR		(SP(Engine::CObject),		m_spSCObject,			nullptr,		SCObject)
+
 	GETTOR_SETTOR	(_int,					m_lastStatus,			STATUS_IDLE,	LastStatus)
 	GETTOR_SETTOR	(_int,					m_status,				STATUS_IDLE,	Status)
 
@@ -112,8 +114,6 @@ private:
 
 	GETTOR_SETTOR	(_bool,					m_onGround,				false,			OnGround)
 	GETTOR_SETTOR	(_bool,					m_controllable,			true,			ControlAble)
-
-	
 };
 
 #endif

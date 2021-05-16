@@ -8,6 +8,8 @@
 #pragma region ObjectsHeader
 #include "Player.h"
 #include "MapObject.h"
+
+#include "Boss.h"
 #pragma endregion
 
 CBossScene::CBossScene()
@@ -41,6 +43,9 @@ void CBossScene::Awake(_int numOfLayers)
 
 void CBossScene::Start(void)
 {
+	SP(Engine::CObject) spBossClone = Engine::ADD_CLONE(L"Boss", false);
+	spBossClone->AddComponent<Engine::CDebugC>();
+
 	SP(Engine::CObject) spPlayerClone = Engine::ADD_CLONE(L"Player", true);
 	spPlayerClone->GetTransform()->SetPosition(-8, 1.8f, 65.75f);
 	spPlayerClone->AddComponent<Engine::CDebugC>();
@@ -91,9 +96,18 @@ void CBossScene::Start(void)
 	spStageCollisionClone->AddComponent<Engine::CCollisionC>()->
 		AddCollider(Engine::CAabbCollider::Create(_float3(24, 1, 1.5f)));
 	spStageCollisionClone->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Map);
-	//spStageCollisionClone->AddComponent<Engine::CDebugC>();
-	spStageCollisionClone->GetTransform()->SetPosition(-8, -1.8f, 65.75f);
+	spStageCollisionClone->AddComponent<Engine::CDebugC>();
+	spStageCollisionClone->GetTransform()->SetPosition(-7.7f, -1.8f, 65.75f);
 	
+
+	spStageCollisionClone =
+		Engine::ADD_CLONE(L"EmptyObject", true, L"StageCollision", (_int)ELayerID::Map);
+
+	spStageCollisionClone->AddComponent<Engine::CCollisionC>()->
+		AddCollider(Engine::CAabbCollider::Create(_float3(3.35f, 0.25, 3.f)));
+	spStageCollisionClone->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Map);
+	spStageCollisionClone->AddComponent<Engine::CDebugC>();
+	spStageCollisionClone->GetTransform()->SetPosition(-7.7f, 1.95f, 69.f);
 
 	__super::Start();
 }
@@ -133,4 +147,6 @@ void CBossScene::OnDisable(void)
 
 void CBossScene::InitPrototypes(void)
 {
+	SP(Engine::CObject) spBossPrototype(CBoss::Create(false));
+	Engine::ADD_PROTOTYPE(spBossPrototype);
 }

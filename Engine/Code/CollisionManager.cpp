@@ -5,6 +5,7 @@
 #include "CollisionHelper.h"
 #include "DataStore.h"
 #include "FRC.h"
+#include "TextManager.h"
 
 
 USING(Engine)
@@ -108,9 +109,7 @@ void CCollisionManager::CheckCollision(CCollisionC* pCC)
 		for (auto& ccIt : m_vCollisionComponents[layerID])
 		{
 			if (ccIt.get() == pCC)
-				continue;
-
-			
+				continue;	
 			
 			//콜리션 컴포넌트 간의 BS 체크
 			if (CollisionHelper::CheckCollisionComponentBS(pCC, ccIt.get()) == false)
@@ -123,14 +122,12 @@ void CCollisionManager::CheckCollision(CCollisionC* pCC)
 				{
 					//콜라이더 간의 BS 체크
 					if (CollisionHelper::CheckColliderBS(*itMyCC, checkCollider) == false)
-						continue;
+						continue;					
 
 					_int myCType = (*itMyCC)->GetColliderType();
 					_int checkCType = checkCollider->GetColliderType();
 					isItCollided = (m_fpCollisionChecker[myCType][checkCType])(*itMyCC, checkCollider, false);
 				}
-				//if (isItCollided)
-				//	break;
 			}
 		}
 	}

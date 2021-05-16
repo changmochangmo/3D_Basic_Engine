@@ -62,7 +62,7 @@ void CDebugCollider::Start(void)
 		m_spMesh->AddMeshData(L"Sphere");
 
 		_float radius = dynamic_cast<CSphereCollider*>(m_pCollider)->GetRadius();
-		m_spTransform->SetSize(_float3(radius, radius, radius));
+		m_spTransform->SetSize(_float3(radius * 2.f, radius * 2.f, radius * 2.f));
 		break;
 	}
 

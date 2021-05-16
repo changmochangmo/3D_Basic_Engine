@@ -180,6 +180,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\Boss.h" />
     <ClInclude Include="..\Header\BossScene.h" />
     <ClInclude Include="..\Header\Camera.h" />
     <ClInclude Include="..\Header\ChangmoScene.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\Boss.cpp" />
     <ClCompile Include="..\Code\BossScene.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\ChangmoScene.cpp" />

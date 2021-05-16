@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "Camera.h"
 
+#include "FRC.h"
 #include "DebugCollider.h"
+#include "TextManager.h"
 _uint CCamera::m_s_uniqueID = 0;
 
 CCamera::CCamera()
@@ -30,7 +32,6 @@ SP(Engine::CObject) CCamera::MakeClone(void)
 	spClone->m_spTransform	= spClone->GetComponent<Engine::CTransformC>();
 	spClone->m_spCamera		= spClone->GetComponent<Engine::CCameraC>();
 	spClone->m_spCollision	= spClone->GetComponent<Engine::CCollisionC>();
-	spClone->m_spDebug		= spClone->GetComponent<Engine::CDebugC>();
 
 	return spClone;
 }
@@ -43,7 +44,6 @@ void CCamera::Awake(void)
 
 	m_spCamera		= AddComponent<Engine::CCameraC>();
 	m_spCollision	= AddComponent<Engine::CCollisionC>();
-	m_spDebug		= AddComponent<Engine::CDebugC>();
 	
 	m_spTransform->SetPosition(100, 100, 100);
 	m_spCollision->SetResolveIn(false);
@@ -66,18 +66,20 @@ void CCamera::Update(void)
 {
 	__super::Update();
 	
-	m_spCamera->SetTargetDist(3.f);
-	
+	_float curTargetDist = m_spCamera->GetTargetDist();
+	if (m_wallCollided == false && curTargetDist < 3)
+	{
+		_float newTargetDist = m_spCamera->GetTargetDist() + GET_DT;
+
+		newTargetDist = GET_MATH->Min(newTargetDist, 3);
+		m_spCamera->SetTargetDist(newTargetDist);		
+	}
 }
 
 void CCamera::LateUpdate(void)
 {
 	__super::LateUpdate();
 
-	_float3 playerPos = m_spCamera->GetTarget()->GetTransform()->GetPosition() + m_spCamera->GetTargetOffset();
-	_float3 myPos = m_spTransform->GetPosition();
-	_float3 dir = playerPos - myPos;
-	D3DXVec3Normalize(&dir, &dir);
 	if (m_spCamera->GetMode() == Engine::ECameraMode::Follower)
 		m_pCamRayCollider->SetLength(m_spCamera->GetTargetDist());
 	else
@@ -109,18 +111,38 @@ void CCamera::SetBasicName(void)
 
 void CCamera::OnCollisionEnter(Engine::_CollisionInfo ci)
 {
-	_float length = D3DXVec3Length(&(m_spCamera->GetTarget()->GetTransform()->GetPosition() - m_spTransform->GetPosition()));
-	m_pCamRayCollider->SetLength(length);
-	m_spCamera->SetTargetDist(length);
+	m_wallCollided = true;
+	if (m_spCamera->GetTarget() != nullptr)
+	{
+		_float3 targetPos = m_spCamera->GetTarget()->GetTransform()->GetPosition() + _float3(0, 0.5f, 0);
+		_float3 targetDir = targetPos - m_spTransform->GetPosition();
+		D3DXVec3Normalize(&targetDir, &targetDir);
+
+		_float targetDist = D3DXVec3Length(&(targetPos - m_spTransform->GetPosition()));
+
+		m_pCamRayCollider->SetLength(targetDist);
+		m_pCamRayCollider->SetDirection(targetDir);
+		m_spCamera->SetTargetDist(targetDist);
+	}
 }
 
 void CCamera::OnCollisionStay(Engine::_CollisionInfo ci)
 {
-	_float length = D3DXVec3Length(&(m_spCamera->GetTarget()->GetTransform()->GetPosition() - m_spTransform->GetPosition()));
-	m_pCamRayCollider->SetLength(length);
-	m_spCamera->SetTargetDist(length);
+	if (m_spCamera->GetTarget() != nullptr)
+	{
+		_float3 targetPos = m_spCamera->GetTarget()->GetTransform()->GetPosition() + _float3(0, 0.5f, 0);
+		_float3 targetDir = targetPos - m_spTransform->GetPosition();
+		D3DXVec3Normalize(&targetDir, &targetDir);
+
+		_float targetDist = D3DXVec3Length(&(targetPos - m_spTransform->GetPosition()));
+
+		m_pCamRayCollider->SetLength(targetDist);
+		m_pCamRayCollider->SetDirection(targetDir);
+		m_spCamera->SetTargetDist(targetDist);
+	}
 }
 
 void CCamera::OnCollisionExit(Engine::_CollisionInfo ci)
 {
+	m_wallCollided = false;
 }

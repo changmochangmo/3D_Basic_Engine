@@ -62,7 +62,7 @@ private:
 	GETTOR_SETTOR	(_float,			m_drag,					0.f,				Drag)
 	GETTOR_SETTOR	(_float,			m_angularDrag,			0.f,				AngularDrag)
 
-	GETTOR			(_float3,			m_velocity,				ZERO_VECTOR,		Velocity)
+	GETTOR_SETTOR	(_float3,			m_velocity,				ZERO_VECTOR,		Velocity)
 	GETTOR_SETTOR	(_float3,			m_angularVelocity,		ZERO_VECTOR,		AngularVelocity)
 
 	GETTOR_SETTOR	(_float,			m_maxVelocity,			UNDEFINED,			MaxVelocity)

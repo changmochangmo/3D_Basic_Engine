@@ -151,8 +151,8 @@ void CEditorView::OnInitialUpdate()
 	Engine::CDataStore::GetInstance()->Awake();
 	Engine::CDataStore::GetInstance()->InitDataMap((_uint)EDataID::NumOfDataID);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"Decoration", (_uint)EDataID::Decoration);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Scene", (_uint)EDataID::Scene);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Camera", (_uint)EDataID::Camera);
 
 	Engine::CFRC::GetInstance()->Awake();
 	Engine::CWndApp::GetInstance()->Awake();

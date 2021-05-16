@@ -62,7 +62,7 @@ protected:
 	GETTOR_SETTOR	(std::wstring,				m_objectKey,	L"",		ObjectKey)
 
 	GETTOR_SETTOR	(std::wstring,				m_name,			L"",		Name)
-	GETTOR			(SP(Engine::CTransformC),	m_spTransform,	nullptr,	Transform)
+	GETTOR_SETTOR	(SP(Engine::CTransformC),	m_spTransform,	nullptr,	Transform)
 
 public:
 	//오브젝트에서 컴포넌트 가져오는 함수

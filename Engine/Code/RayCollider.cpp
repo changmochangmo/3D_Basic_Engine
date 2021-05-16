@@ -39,6 +39,7 @@ CCollider * CRayCollider::MakeClone(CCollisionC * pCC)
 	pRayClone->SetLength(m_length);
 	pRayClone->SetRayType(m_rayType);
 	pRayClone->SetColliderType(m_colliderType);
+	pRayClone->SetRadiusBS(m_radiusBS);
 
 	pRayClone->SetOwner(pCC);
 

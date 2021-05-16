@@ -58,8 +58,8 @@ protected:
 
 	GETTOR_SETTOR	(_bool,				m_isTrigger,		false,			IsTrigger)
 	
-	GETTOR			(_float3,			m_offsetBS,			ZERO_VECTOR,	OffsetBS)
-	GETTOR			(_float,			m_radiusBS,			UNDEFINED,		RadiusBS)
+	GETTOR_SETTOR	(_float3,			m_offsetBS,			ZERO_VECTOR,	OffsetBS)
+	GETTOR_SETTOR	(_float,			m_radiusBS,			UNDEFINED,		RadiusBS)
 
 	GETTOR			(SP(CTransformC),	m_spTransform,		nullptr,		Transform)
 	GETTOR			(SP(CRigidBodyC),	m_spRigidbody,		nullptr,		Rigidbody)

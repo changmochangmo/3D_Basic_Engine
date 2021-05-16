@@ -55,15 +55,6 @@ void CCameraC::FixedUpdate(SP(CComponent) spThis)
 
 void CCameraC::Update(SP(CComponent) spThis)
 {	
-	_float wheelDir = IMWHEEL_DIR();
-	if(wheelDir != 0)
-	{
-		m_spTransform->SetGoalPosition(m_spTransform->GetPosition() + 
-									   m_spTransform->GetForward() * 
-									   wheelDir * m_zoomSpeed * GET_DT);
-
-		m_spTransform->SetLerpOn(true);
-	}
 }
 
 void CCameraC::LateUpdate(SP(CComponent) spThis)
@@ -73,7 +64,7 @@ void CCameraC::LateUpdate(SP(CComponent) spThis)
 
 	UpdateViewMatrix();
 	UpdateProjMatrix();
-
+							
 	m_pFrustum->Update();
 }
 
@@ -270,17 +261,3 @@ void CCameraC::Rotation(void)
 	}
 }
 
-void CCameraC::WallCheck(void)
-{
-	//_float3 targetPosition	= m_spTarget->GetTransform()->GetPosition();
-	//_float3 curTargetDist	= targetPosition - m_spTransform->GetPosition();
-	//m_pRayCollider->SetDirection(m_spTransform->GetForward());
-	//
-	//_int camColliderID = CCameraManager::GetInstance()->GetCamColliderID();
-	//std::vector<_int>& vLayersToCheck = CCollisionManager::GetInstance()->GetLayersToCheck(camColliderID);
-	//
-	//for (auto& layerNum : vLayersToCheck)
-	//{
-	//	CCollisionManager::GetInstance()->CheckCollisionInstant(m_pRayCollider, layerNum);
-	//}
-}

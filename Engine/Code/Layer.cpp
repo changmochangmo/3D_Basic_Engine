@@ -56,11 +56,28 @@ void CLayer::FixedUpdate(void)
 
 void CLayer::Update(void)
 {
+	for (_size i = 0; i < m_vGameObjects.size(); ++i)
+	{
+		if (m_vGameObjects[i]->GetDeleteThis())
+			continue;
+
+		if (m_vGameObjects[i]->GetIsEnabled())
+		{
+			if (m_vGameObjects[i]->GetIsStarted() == false)
+				m_vGameObjects[i]->Start();
+
+			m_vGameObjects[i]->Update();
+		}
+	}
+}
+
+void CLayer::LateUpdate(void)
+{
 	for (auto& it = m_vGameObjects.begin(); it != m_vGameObjects.end();)
 	{
 		if ((*it)->GetDeleteThis())
 		{
-			(*it).reset();			
+			(*it).reset();
 			it = m_vGameObjects.erase(it);
 		}
 		else
@@ -68,28 +85,14 @@ void CLayer::Update(void)
 			if ((*it)->GetIsEnabled())
 			{
 				if ((*it)->GetIsStarted() == false)
-					(*it)->Start();
+				{
+					++it;
+					continue;
+				}
 
-				(*it)->Update();
+				(*it)->LateUpdate();
 			}
 			++it;
-		}
-	}
-}
-
-void CLayer::LateUpdate(void)
-{
-	for (auto& gameObject : m_vGameObjects)
-	{
-		if (gameObject->GetDeleteThis()) 
-			continue;
-
-		if (gameObject->GetIsEnabled())
-		{
-			if (gameObject->GetIsStarted() == false)
-				continue;
-
-			gameObject->LateUpdate();
 		}
 	}
 }

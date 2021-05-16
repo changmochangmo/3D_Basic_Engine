@@ -5,6 +5,7 @@
 #include "Layer.h"
 #include "Object.h"
 #include "TextManager.h"
+#include "CameraManager.h"
 
 BEGIN(Engine)
 BEGIN(CollisionHelper)
@@ -393,6 +394,9 @@ static _bool RaySphere(CCollider* pC1, CCollider* pC2, _bool instant)
 	CCollisionC* pCC1 = pRC->GetOwner();
 	CCollisionC* pCC2 = pSC->GetOwner();
 
+	if (t < 0 || t > pRC->GetLength())
+		return false;
+
 	if (instant == false)
 	{
 		if (pCC1->GetIsTrigger() || pCC2->GetIsTrigger())
@@ -419,6 +423,8 @@ static _bool RayAabb(CCollider* pC1, CCollider* pC2, _bool instant)
 
 	CRayCollider* pRC = static_cast<CRayCollider*>(pSupposedRC);
 	CAabbCollider* pAC = static_cast<CAabbCollider*>(pSupposedAC);
+	if (!pRC->GetOwner()->GetResolveIn())
+		int a = 5;
 
 	SP(CTransformC) spRayTransform = pRC->GetOwner()->GetTransform();
 	SP(CTransformC) spAabbTransform = pAC->GetOwner()->GetTransform();
@@ -429,6 +435,10 @@ static _bool RayAabb(CCollider* pC1, CCollider* pC2, _bool instant)
 
 	_float tMin = 0.f;
 	_float tMax = pRC->GetLength();
+	if (tMax >= 3)
+		int a = 5;
+	else
+		int a = 6;
 
 	_float3 aabbMinPos = aabbPos - pAC->GetHalfSize();
 	_float3 aabbMaxPos = aabbPos + pAC->GetHalfSize();
@@ -460,6 +470,11 @@ static _bool RayAabb(CCollider* pC1, CCollider* pC2, _bool instant)
 			tMin = GET_MATH->Max(tMin, t1);
 			tMax = GET_MATH->Min(tMax, t2);
 
+			if (abs(tMax) < EPSILON)
+				tMax = 0;
+			if (abs(tMin) < EPSILON)
+				tMin = 0;
+
 			if (tMin > tMax) return false;
 		}
 	}
@@ -477,9 +492,12 @@ static _bool RayAabb(CCollider* pC1, CCollider* pC2, _bool instant)
 		}
 		else
 		{
-			//여기 왜 두번들어오냐
 			_float3 normal = pRC->GetDirection();
 
+			if (pRC->GetOwner()->GetOwner()->GetObjectKey() == L"Camera")
+				int a = 5;
+
+			_float3 asd = GET_MAIN_CAM->GetTransform()->GetPosition();
 			_float3 rayHitPoint = rayStartPos + pRC->GetDirection() * tMin;
 			_float3 aabbHitPoint = pAC->SurfacePointFromInside(-normal, rayHitPoint);
 			_float penet = D3DXVec3Length(&(rayHitPoint - aabbHitPoint));
@@ -489,11 +507,14 @@ static _bool RayAabb(CCollider* pC1, CCollider* pC2, _bool instant)
 			if(pRC->GetOwner()->GetResolveIn())
 				pRC->GetOwner()->GetOwner()->GetTransform()->AddPosition(-normal * penet);
 			else
-				pRC->GetOwner()->GetOwner()->GetTransform()->AddPosition(normal * (tMax - EPSILON));
-		}//레이 오너(즉 카메라의 포지션)만 땡겼지 레이의 포지션과 길이는 조정한 적이 없음.
+			{
+				_float3 newCamPos = rayStartPos + normal * tMax;
+				pRC->GetOwner()->GetOwner()->GetTransform()->SetPosition(newCamPos);
+			}
+		}
 	}
 
-	return true; 
+	return true;
 }
 static _bool RayObb(CCollider* pC1, CCollider* pC2, _bool instant)
 { 
@@ -591,7 +612,8 @@ static _bool SphereSphere(CCollider* pC1, CCollider* pC2, _bool instant)
 
 	_float sqDistanceCenter = D3DXVec3LengthSq(&(center1 - center2));
 
-	if (sqDistanceCenter <= pow(pSC1->GetRadius() + pSC2->GetRadius(), 2))
+	_float radiusSumSqr = pow(pSC1->GetRadius() + pSC2->GetRadius(), 2);
+	if (sqDistanceCenter <= radiusSumSqr)
 	{
 		if (instant == false)
 		{
@@ -654,15 +676,30 @@ static _bool SphereAabb(CCollider* pC1, CCollider* pC2, _bool instant)
 			}
 			else
 			{
-				_float3 normal;
-				D3DXVec3Normalize(&normal, &(sphereCenter - aabbCenter));
+				_float3 closestFromAabb = pAC->ClosestFromPoint(sphereCenter);
 
-				_float3 aabbHitPoint = pAC->SurfacePoint(normal);
-				_float3 sphereHitPoint = sphereCenter + (-normal) * pSC->GetRadius();
+				_float3 normal;
+				if (closestFromAabb == sphereCenter)
+				{
+					_float3 surfaceDir = sphereCenter - aabbCenter;
+					D3DXVec3Normalize(&surfaceDir, &surfaceDir);
+					closestFromAabb = pAC->SurfacePointFromInside(surfaceDir, sphereCenter);
+					normal = aabbCenter - sphereCenter;
+				}
+				else
+					normal = closestFromAabb - sphereCenter;
+					
+				
+				D3DXVec3Normalize(&normal, &normal);
+
+				_float3 aabbHitPoint = closestFromAabb;
+				_float3 sphereHitPoint = sphereCenter + (normal) * pSC->GetRadius();
 				_float penet = D3DXVec3Length(&(aabbHitPoint - sphereHitPoint));
 
-				pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pSC, aabbHitPoint, normal, penet));
-				pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pAC, sphereHitPoint, -normal, penet));
+				pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pSC, aabbHitPoint, -normal, penet));
+				pSC->GetOwner()->AddCollisionInfo(_CollisionInfo(pSC, pAC, sphereHitPoint, normal, penet));
+
+				pSC->GetOwner()->GetOwner()->GetTransform()->AddPosition(-normal * penet);
 			}
 		}
 

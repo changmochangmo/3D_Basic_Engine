@@ -53,7 +53,7 @@ void CMainApp::Awake(void)
 	Engine::CCollisionManager::GetInstance()->Awake();
 
 	Engine::ADD_TEXT(L"Test0", L"", _float3(100, 150, 0), D3DXCOLOR(0, 0, 0, 1));
-	Engine::ADD_TEXT(L"Test1", L"", _float3(100, 170, 0), D3DXCOLOR(0, 0, 0, 1));
+	Engine::ADD_TEXT(L"Test1", L"", _float3(100, 200, 0), D3DXCOLOR(0, 0, 0, 1));
 }
 
 void CMainApp::Start(void)
@@ -62,7 +62,7 @@ void CMainApp::Start(void)
 
 	Engine::CInputManager::GetInstance()->Start();
 	Engine::CSceneManager::GetInstance()->Start();
-	Engine::CSceneManager::GetInstance()->SceneChange(CChangmoScene::Create());
+	Engine::CSceneManager::GetInstance()->SceneChange(CBossScene::Create());
 	Engine::CCameraManager::GetInstance()->Start((_int)EColliderID::CameraRay);
 	Engine::CObjectFactory::GetInstance()->Start();
 	Engine::CGraphicsManager::GetInstance()->Start();

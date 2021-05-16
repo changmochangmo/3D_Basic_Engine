@@ -96,6 +96,7 @@ void CCameraManager::SetMainCameraMode(void)
 	{
 		m_spMainCamera->SetMode(ECameraMode::Fixed);
 		m_spMainCamera->GetTransform()->SetPosition(-7.75f, 0.67f, 55.1f);
+		m_spMainCamera->GetTransform()->SetRotation(0, 0, 0);
 		m_spMainCamera->SetMoveable(false);
 		m_spMainCamera->SetRotatable(false);
 		ShowCursor(true);
