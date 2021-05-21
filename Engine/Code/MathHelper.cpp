@@ -122,6 +122,18 @@ _bool CMathHelper::SeparateAxisTest(_float3 const& axis,
 	return true;
 }
 
+_float CMathHelper::RandomFloatRange(_float min, _float max)
+{
+	srand(static_cast <unsigned> (time(0)));
+	return min + static_cast<_float>(rand()) / (static_cast<_float>(RAND_MAX / (max - min)));
+}
+
+_int CMathHelper::RandomIntRange(_int min, _int max)
+{
+	srand(static_cast <unsigned> (time(0)));
+	return min + static_cast<_int>(rand()) / (static_cast<_int>(INT_MAX / (max - min)));
+}
+
 void CMathHelper::OnDestroy(void)
 {
 }

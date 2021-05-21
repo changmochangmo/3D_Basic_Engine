@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "TextureStore.h"
 #include "DataStore.h"
-
+#include "FRC.h"
 USING(Engine)
 CTextureC::CTextureC()  
 {
@@ -21,6 +21,7 @@ SP(CComponent) CTextureC::MakeClone(CObject* pObject)
 
 	spClone->m_vTexData = m_vTexData;
 	spClone->m_color	= m_color;
+	spClone->m_changeTex = m_changeTex;
 
 	return spClone;
 }
@@ -67,6 +68,18 @@ void CTextureC::FixedUpdate(SP(CComponent) spThis)
 
 void CTextureC::Update(SP(CComponent) spThis)
 {
+	if (m_changeTex)
+	{
+		m_changeTimer += GET_DT;
+		if (m_changeTimer > m_changeDuration)
+		{
+			m_texIndex++;
+			if (m_vTexData[m_meshIndex].size() == m_texIndex)
+				m_texIndex = 0;
+
+			m_changeTimer = 0.f;
+		}
+	}
 }
 
 void CTextureC::LateUpdate(SP(CComponent) spThis)

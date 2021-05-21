@@ -37,6 +37,8 @@ void CDebugObject::FixedUpdate(void)
 void CDebugObject::Update(void)
 {
 	__super::Update();
+
+	m_isEnabled = m_pOwner->GetIsEnabled();
 }
 
 void CDebugObject::LateUpdate(void)

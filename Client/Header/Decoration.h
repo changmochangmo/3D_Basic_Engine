@@ -3,7 +3,7 @@
 
 #include "Object.h"
 
-class CDecoration abstract : public Engine::CObject
+class CDecoration : public Engine::CObject
 {
 	SMART_DELETER_REGISTER
 private:
@@ -11,21 +11,28 @@ private:
 								   ~CDecoration			(void);
 
 public:
-				SP(Engine::CObject)	MakeClone			(void) PURE;
+	static		SP(CDecoration)		Create				(_bool isStatic);
+				SP(Engine::CObject)	MakeClone			(void) override;
 		
-	virtual		void				Awake				(void) PURE;
-	virtual		void				Start				(void) PURE;
+				void				Awake				(void) override;
+				void				Start				(void) override;
+		
+				void				FixedUpdate			(void) override;
+				void				Update				(void) override;
+				void				LateUpdate			(void) override;
+		
+				void				OnDestroy			(void) override;
+		
+				void				OnEnable			(void) override;
+				void				OnDisable			(void) override;
+				void				SetBasicName		(void) override;
 
-	virtual		void				FixedUpdate			(void) PURE;
-	virtual		void				Update				(void) PURE;
-	virtual		void				LateUpdate			(void) PURE;
-
-	virtual		void				OnDestroy			(void) PURE;
-
-	virtual		void				OnEnable			(void) PURE;
-	virtual		void				OnDisable			(void) PURE;
-
+				void				AddAnimationIndex	(_int index);
 private:
+	static		_uint						m_s_uniqueID;
+
+	std::vector<_int> m_vAnimationIndices;
+	GETTOR		(_int,						m_aniIndex,			0,			AniIndex)
 	GETTOR		(SP(Engine::CMeshC),		m_spMesh,			nullptr,	Mesh)
 	GETTOR		(SP(Engine::CTextureC),		m_spTexture,		nullptr,	Texture)
 	GETTOR		(SP(Engine::CGraphicsC),	m_spGraphics,		nullptr,	Graphics)

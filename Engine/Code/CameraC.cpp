@@ -64,6 +64,7 @@ void CCameraC::LateUpdate(SP(CComponent) spThis)
 
 	UpdateViewMatrix();
 	UpdateProjMatrix();
+	UpdateOrthoMatrix();
 							
 	m_pFrustum->Update();
 }
@@ -134,6 +135,11 @@ void CCameraC::UpdateProjMatrix(void)
 	D3DXMatrixPerspectiveFovLH(&m_projMat, m_FOV, 
 							   (_float)GET_WND_WIDTH / GET_WND_HEIGHT, 
 							   m_near, m_far);
+}
+
+void CCameraC::UpdateOrthoMatrix(void)
+{
+	D3DXMatrixOrthoLH(&m_orthoMat, _float(GET_WND_WIDTH), _float(GET_WND_HEIGHT), 0.f, 1.f);
 }
 
 void CCameraC::Move(void)

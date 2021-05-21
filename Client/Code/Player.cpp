@@ -65,12 +65,13 @@ void CPlayer::Start(void)
 	__super::Start();
 	m_spCollision->SetOffsetBS(_float3(0, 0.5f, 0));
 	m_spCollision->SetRadiusBS(1.1f);
-
+	m_spTransform->AddPositionY(0.2);
 	m_spSCObject = Engine::ADD_CLONE(L"EmptyObject", true, L"PlayerSC", (_int)ELayerID::Player);
 	m_spSCObject->AddComponent<Engine::CCollisionC>()->
 		AddCollider(Engine::CSphereCollider::Create(0.325f, _float3(0, 0.35f, 0)));
 	m_spSCObject->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Player);
 	m_spSCObject->AddComponent<Engine::CDebugC>();
+	//m_spRigidBody->SetUseGravity(false);
 }
 
 void CPlayer::FixedUpdate(void)
@@ -82,7 +83,6 @@ void CPlayer::Update(void)
 {
 	__super::Update();
 	m_spSCObject->GetTransform()->SetPosition(m_spTransform->GetPosition());
-	Engine::REWRITE_TEXT(L"Test0", std::to_wstring(m_spTransform->GetPosition().x));
 }
 
 void CPlayer::LateUpdate(void)
@@ -107,14 +107,13 @@ void CPlayer::LateUpdate(void)
 	Fall();
 	UpdateAnimation();
 
-	std::wstring curState;
-	CurStatusInStr(curState);
-	m_lastStatus = m_status;
+	//std::wstring curState;
+	//CurStatusInStr(curState);
+	//Engine::REWRITE_TEXT(L"Test0", curStateStr);
 
+	m_lastStatus = m_status;
 	m_onGround = false;
 	__super::LateUpdate();
-
-	
 }
 
 void CPlayer::OnDestroy(void)
@@ -140,13 +139,13 @@ void CPlayer::SetBasicName(void)
 
 void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
 {
-	if (ci.normal == -UP_VECTOR)
+	if (ci.normal.y - EPSILON <= -1)
 	{
 		m_status = STATUS_IDLE;
 		m_onGround = true;
 		m_spRigidBody->SetVelocityY(0);
 	}
-	else if (ci.normal == UP_VECTOR)
+	else if (ci.normal.y + EPSILON >= 1)
 	{
 		m_jumpTimer = m_jumpLimit;
 		m_spRigidBody->SetVelocityY(0);
@@ -155,12 +154,12 @@ void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
 
 void CPlayer::OnCollisionStay(Engine::_CollisionInfo ci)
 {
-	if (ci.normal == -UP_VECTOR)
+	if (ci.normal.y - EPSILON <= -1)
 	{
 		m_status = STATUS_IDLE;
 		m_onGround = true;
 	}
-	else if (ci.normal == UP_VECTOR)
+	else if (ci.normal.y + EPSILON >= 1)
 	{
 		m_jumpTimer = m_jumpLimit;
 	}
@@ -176,61 +175,94 @@ void CPlayer::Move(void)
 	SP(Engine::CTransformC) mainCamTransform = Engine::GET_MAIN_CAM->GetOwner()->GetTransform();
 
 	m_moveDir = ZERO_VECTOR;
-
-#pragma region FindMoveDir
-	if (Engine::IMKEY_PRESS(KEY_W))
+	_int saveStatus = UNDEFINED;
+	if (Engine::GET_MAIN_CAM->GetMode() == Engine::ECameraMode::Follower)
 	{
-		_float3 dir = m_spTransform->GetPosition() - mainCamTransform->GetPosition();
-		dir.y = 0; 
-		D3DXVec3Normalize(&dir, &dir);
-		m_moveDir += dir;
-	}
-	if (Engine::IMKEY_PRESS(KEY_A))
-	{
-		_float3 dir = m_spTransform->GetPosition() - mainCamTransform->GetPosition();
-		dir.y = 0;
-		D3DXVec3Normalize(&dir, &dir);
-		D3DXVec3Cross(&dir, &dir, &UP_VECTOR);
-
-		m_moveDir += dir;
-	}
-	if (Engine::IMKEY_PRESS(KEY_S))
-	{
-		_float3 dir = mainCamTransform->GetPosition() - m_spTransform->GetPosition();
-		dir.y = 0;
-		D3DXVec3Normalize(&dir, &dir);
-
-		m_moveDir += dir;
-	}
-	if (Engine::IMKEY_PRESS(KEY_D))
-	{
-		_float3 dir = m_spTransform->GetPosition() - mainCamTransform->GetPosition();
-		dir.y = 0;
-		D3DXVec3Normalize(&dir, &dir);
-		D3DXVec3Cross(&dir, &UP_VECTOR, &dir);
-
-		m_moveDir += dir;
-	}
-	D3DXVec3Normalize(&m_moveDir, &m_moveDir);
-#pragma endregion
-
-	_int saveStatus = m_status;
-	if (D3DXVec3LengthSq(&m_moveDir) > EPSILON)
-	{
-		m_spTransform->SetGoalForward(m_moveDir);
-		m_spTransform->SetSlerpOn(true);
-		m_status = STATUS_WALK;
-		m_moveSpeed = m_walkSpeed;
-		if (Engine::IMKEY_PRESS(KEY_SHIFT))
+		if (Engine::IMKEY_PRESS(KEY_W))
 		{
-			m_status = STATUS_RUN;
-			m_moveSpeed = m_runSpeed;
+			_float3 dir = m_spTransform->GetPosition() - mainCamTransform->GetPosition();
+			dir.y = 0;
+			D3DXVec3Normalize(&dir, &dir);
+			m_moveDir += dir;
+		}
+		if (Engine::IMKEY_PRESS(KEY_A))
+		{
+			_float3 dir = m_spTransform->GetPosition() - mainCamTransform->GetPosition();
+			dir.y = 0;
+			D3DXVec3Normalize(&dir, &dir);
+			D3DXVec3Cross(&dir, &dir, &UP_VECTOR);
+
+			m_moveDir += dir;
+		}
+		if (Engine::IMKEY_PRESS(KEY_S))
+		{
+			_float3 dir = mainCamTransform->GetPosition() - m_spTransform->GetPosition();
+			dir.y = 0;
+			D3DXVec3Normalize(&dir, &dir);
+
+			m_moveDir += dir;
+		}
+		if (Engine::IMKEY_PRESS(KEY_D))
+		{
+			_float3 dir = m_spTransform->GetPosition() - mainCamTransform->GetPosition();
+			dir.y = 0;
+			D3DXVec3Normalize(&dir, &dir);
+			D3DXVec3Cross(&dir, &UP_VECTOR, &dir);
+
+			m_moveDir += dir;
 		}
 
-		m_spTransform->AddPosition(m_moveDir * m_moveSpeed * GET_DT);
+		D3DXVec3Normalize(&m_moveDir, &m_moveDir);
+
+		saveStatus = m_status;
+		if (D3DXVec3LengthSq(&m_moveDir) > EPSILON)
+		{
+			m_spTransform->SetGoalForward(m_moveDir);
+			m_spTransform->SetSlerpOn(true);
+			m_status = STATUS_WALK;
+			m_moveSpeed = m_walkSpeed;
+			if (Engine::IMKEY_PRESS(KEY_SHIFT))
+			{
+				m_status = STATUS_RUN;
+				m_moveSpeed = m_runSpeed;
+			}
+
+			m_spTransform->AddPosition(m_moveDir * m_moveSpeed * GET_DT);
+		}
+		else
+			m_moveSpeed = 0.f;
 	}
-	else
-		m_moveSpeed = 0.f;
+	else if (Engine::GET_MAIN_CAM->GetMode() == Engine::ECameraMode::Fixed)
+	{
+		if (Engine::IMKEY_PRESS(KEY_A))
+		{
+			m_moveDir += _float3(-1, 0, 0);
+		}
+		if (Engine::IMKEY_PRESS(KEY_D))
+		{
+			m_moveDir += _float3(1, 0, 0);
+		}
+
+		D3DXVec3Normalize(&m_moveDir, &m_moveDir);
+
+		saveStatus = m_status;
+		if (D3DXVec3LengthSq(&m_moveDir) > EPSILON)
+		{
+			m_spTransform->SetForward(m_moveDir);
+			m_status = STATUS_WALK;
+			m_moveSpeed = m_walkSpeed;
+			if (Engine::IMKEY_PRESS(KEY_SHIFT))
+			{
+				m_status = STATUS_RUN;
+				m_moveSpeed = m_runSpeed;
+			}
+
+			m_spTransform->AddPosition(m_moveDir * m_moveSpeed * GET_DT);
+		}
+		else
+			m_moveSpeed = 0.f;
+	}
+	
 
 	if (m_onGround == false)
 		m_status = saveStatus;
@@ -314,7 +346,7 @@ void CPlayer::Fall(void)
 	{
 		if (m_onGround)
 		{
-			m_spRigidBody->AddForce(-GRAVITY);
+			m_spRigidBody->AddForce(-GRAVITY * m_spRigidBody->GetGravityConstant());
 			m_jumpTimer = 0.f;
 			m_jumpChance = 1;
 		}

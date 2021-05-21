@@ -103,7 +103,7 @@ void CRigidBodyC::UpdateLinear(void)
 	_float deltaTime = GET_DT;
 
 	if (m_useGravity)
-		AddForce(GRAVITY * m_mass);
+		AddForce(GRAVITY * m_gravityConstant * m_mass);
 
 	m_force *= (1 - m_drag);
 

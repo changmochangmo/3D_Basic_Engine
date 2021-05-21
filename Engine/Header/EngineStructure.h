@@ -5,6 +5,11 @@
 namespace Engine
 {
 #pragma region GraphicsStructure
+	typedef struct _tagIndex16
+	{
+		WORD _0, _1, _2;
+	}INDEX16;
+
 	typedef struct _CustomVertex
 	{
 		_float3	position;

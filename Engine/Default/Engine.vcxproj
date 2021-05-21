@@ -21,11 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\AabbCollider.h" />
     <ClInclude Include="..\Header\AniCtrl.h" />
-    <ClInclude Include="..\Header\BitmapC.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="..\Header\BitmapC.h" />
     <ClInclude Include="..\Header\BoundingVolume.h" />
     <ClInclude Include="..\Header\CameraC.h" />
     <ClInclude Include="..\Header\CameraManager.h" />
@@ -85,16 +81,13 @@
     <ClInclude Include="..\Header\TextureShader.h" />
     <ClInclude Include="..\Header\TextureStore.h" />
     <ClInclude Include="..\Header\TransformC.h" />
+    <ClInclude Include="..\Header\UIShader.h" />
     <ClInclude Include="..\Header\WndApp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\AabbCollider.cpp" />
     <ClCompile Include="..\code\AniCtrl.cpp" />
-    <ClCompile Include="..\Code\BitmapC.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="..\Code\BitmapC.cpp" />
     <ClCompile Include="..\Code\BoundingVolume.cpp" />
     <ClCompile Include="..\Code\CameraC.cpp" />
     <ClCompile Include="..\Code\CameraManager.cpp" />
@@ -146,6 +139,7 @@
     <ClCompile Include="..\Code\TextureShader.cpp" />
     <ClCompile Include="..\Code\TextureStore.cpp" />
     <ClCompile Include="..\Code\TransformC.cpp" />
+    <ClCompile Include="..\Code\UIShader.cpp" />
     <ClCompile Include="..\Code\WndApp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +150,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="..\..\Resource\Shader\UIShader.fx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4C76B4D7-D8D2-497D-A46B-BCF80ADFC40A}</ProjectGuid>

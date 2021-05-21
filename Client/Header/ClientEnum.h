@@ -19,7 +19,7 @@ enum class EColliderID
 	PlayerRay			= 0,
 	Map					= 1,
 	CameraRay			= 2,
-	Boss				= 3,
+	Enemy				= 3,
 	Player				= 4,
 	NumOfColliderID		= 5
 };
@@ -30,8 +30,9 @@ enum class EDataID
 	Player				= 1 + (_uint)Engine::EDataID::NumOfEngineDataID,
 	Scene				= 2 + (_uint)Engine::EDataID::NumOfEngineDataID,
 	Camera				= 3 + (_uint)Engine::EDataID::NumOfEngineDataID,
-	Boss				= 4 + (_uint)Engine::EDataID::NumOfEngineDataID,
-	NumOfDataID			= 5 + (_uint)Engine::EDataID::NumOfEngineDataID
+	Enemy				= 4 + (_uint)Engine::EDataID::NumOfEngineDataID,
+	UI					= 5 + (_uint)Engine::EDataID::NumOfEngineDataID,
+	NumOfDataID			= 6 + (_uint)Engine::EDataID::NumOfEngineDataID
 };
 
 
@@ -41,6 +42,7 @@ enum class ELayerID
 	Map				= 1 + (_int)Engine::ELayerID::NumOfEngineLayerID,
 	Enemy			= 2 + (_int)Engine::ELayerID::NumOfEngineLayerID,
 	Camera			= 3 + (_int)Engine::ELayerID::NumOfEngineLayerID,
-	NumOfLayerID	= 4 + (_int)Engine::ELayerID::NumOfEngineLayerID
+	UI				= 4 + (_int)Engine::ELayerID::NumOfEngineLayerID,
+	NumOfLayerID	= 5 + (_int)Engine::ELayerID::NumOfEngineLayerID
 };
 #endif // CLIENTENUM_H

@@ -20,7 +20,9 @@ CObject::~CObject(void)
 void CObject::Awake(void)
 {
 	m_isAwaked		= true;
-	m_objectKey		= GetCurClassName(this);
+
+	if(m_objectKey == L"")
+		m_objectKey		= GetCurClassName(this);
 	m_spTransform	= AddComponent<Engine::CTransformC>();
 }
 
@@ -98,6 +100,7 @@ void CObject::InitClone(SP(CObject) spClone)
 	spClone->SetObjectKey(m_objectKey);
 	spClone->SetDataID(m_dataID);
 	spClone->SetLayerID(m_layerID);
+	spClone->SetIsEnabled(m_isEnabled);
 	
 	for (auto& component : m_mComponents)
 	{

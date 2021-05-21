@@ -27,6 +27,8 @@ public:
 			void					ChangeCameraKey		(const std::wstring& cameraKey, 
 														 const std::wstring& newKey);
 
+			void					DeleteMainCam		(void);
+
 private:
 			void					SetMainCameraMode	(void);
 

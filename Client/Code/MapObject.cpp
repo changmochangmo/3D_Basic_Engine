@@ -92,3 +92,17 @@ void CMapObject::SetBasicName(void)
 {
 	m_name = m_objectKey + std::to_wstring(m_s_uniqueID++);
 }
+
+void CMapObject::OnCollisionEnter(Engine::_CollisionInfo ci)
+{
+	if (ci.pOtherCollider->GetOwner()->GetCollisionID() == (_int)EColliderID::PlayerRay)
+		ci.pOtherCollider->GetOwner()->GetTransform()->AddPosition(ci.normal * ci.penetLength);
+}
+
+void CMapObject::OnCollisionStay(Engine::_CollisionInfo ci)
+{
+}
+
+void CMapObject::OnCollisionExit(Engine::_CollisionInfo ci)
+{
+}

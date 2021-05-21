@@ -52,6 +52,24 @@
     <Filter Include="02.Objects\03.Camera">
       <UniqueIdentifier>{8338b040-e35b-49d8-a627-32dbc33767d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Objects\04.Boss\00.RollerBlade">
+      <UniqueIdentifier>{4804cade-c62d-4756-81e4-22d655c040ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\04.Boss\01.SandBag">
+      <UniqueIdentifier>{864fbf90-2f5e-441c-b286-3c7cfb822e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\04.Boss\02.MafiaBall">
+      <UniqueIdentifier>{d34a0a1b-71a4-4fdd-860e-d8efa3b5c195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\05.Mafia">
+      <UniqueIdentifier>{9c0a6cd1-a70b-417e-a635-95a8bcbe1e65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\05.UserInterface">
+      <UniqueIdentifier>{7c0343b6-e53b-4968-80b1-acd86bec3f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\06.Decoration">
+      <UniqueIdentifier>{52935e98-0417-474c-a2e8-c988f701cf57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -102,6 +120,24 @@
     <ClInclude Include="..\Header\Boss.h">
       <Filter>02.Objects\04.Boss</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\RollerBlade.h">
+      <Filter>02.Objects\04.Boss\00.RollerBlade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SandBag.h">
+      <Filter>02.Objects\04.Boss\01.SandBag</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MafiaBall.h">
+      <Filter>02.Objects\04.Boss\02.MafiaBall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\LogoScene.h">
+      <Filter>01.Scene\00.Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UserInterface.h">
+      <Filter>02.Objects\05.UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Decoration.h">
+      <Filter>02.Objects\06.Decoration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -130,6 +166,24 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss.cpp">
       <Filter>02.Objects\04.Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\RollerBlade.cpp">
+      <Filter>02.Objects\04.Boss\00.RollerBlade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SandBag.cpp">
+      <Filter>02.Objects\04.Boss\01.SandBag</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MafiaBall.cpp">
+      <Filter>02.Objects\04.Boss\02.MafiaBall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\LogoScene.cpp">
+      <Filter>01.Scene\00.Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UserInterface.cpp">
+      <Filter>02.Objects\05.UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Decoration.cpp">
+      <Filter>02.Objects\06.Decoration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

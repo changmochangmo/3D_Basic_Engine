@@ -27,6 +27,9 @@ public:
 	_bool		SeparateAxisTest	(_float3 const& axis, 
 									 _float const& minA, _float const& maxA, 
 									 _float const& minB, _float const& maxB);
+
+	_float		RandomFloatRange	(_float min, _float max);
+	_int		RandomIntRange		(_int min, _int max);
 private:
 	void		OnDestroy		(void);
 };

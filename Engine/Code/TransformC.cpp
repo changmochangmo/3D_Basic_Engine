@@ -115,16 +115,19 @@ void CTransformC::SetRotation(_float rotX, _float rotY, _float rotZ)
 void CTransformC::SetRotationX(_float rotationX)
 {
 	m_rotation.x = rotationX;
+	UpdateForward();
 }
 
 void CTransformC::SetRotationY(_float rotationY)
 {
 	m_rotation.y = rotationY;
+	UpdateForward();
 }
 
 void CTransformC::SetRotationZ(_float rotationZ)
 {
 	m_rotation.z = rotationZ;
+	UpdateForward();
 }
 
 void CTransformC::SetSize(_float3 size)
@@ -446,4 +449,9 @@ void CTransformC::UpdateWorldMatrix(void)
 	m_rotMatrix			= rotateX * rotateY * rotateZ;
 	m_worldMat			= size * rotateX * rotateY * rotateZ * translation;
 	m_worldMatNoScale	= rotateX * rotateY * rotateZ * translation;
+}
+
+void CTransformC::UpdateParentMatrix(const _mat * pMat)
+{
+	m_worldMat *= *pMat;
 }

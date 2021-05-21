@@ -10,7 +10,7 @@
 #include "BoundingVolume.h"
 #include "CameraManager.h"
 #include "Player.h"
-
+#include "UserInterface.h"
 CChangmoScene::CChangmoScene()
 {
 }
@@ -37,13 +37,13 @@ void CChangmoScene::Free(void)
 void CChangmoScene::Awake(_int numOfLayers)
 {
 	__super::Awake(numOfLayers);
-	InitPrototypes();
+	
 }
 
 void CChangmoScene::Start(void)
 {
 	__super::Start();
-
+	InitPrototypes();
 	SP(Engine::CObject) spPlayerClone = Engine::ADD_CLONE(L"Player", true);
 	spPlayerClone->AddComponent<Engine::CDebugC>();
 	//spPlayerClone->AddComponent<Engine::CCollisionC>()->
@@ -51,7 +51,7 @@ void CChangmoScene::Start(void)
 	//spPlayerClone->GetComponent<Engine::CCollisionC>()->SetCollisionID(1);
 
 
-
+	SP(Engine::CObject) spWhatever = Engine::ADD_CLONE(L"Background", false);
 
 	//SP(Engine::CObject) spGridClone = Engine::ADD_CLONE(L"Grid", true);
 	//spPlayerClone->AddComponent<Engine::CRigidBodyC>()->SetUseGravity(false);
@@ -72,39 +72,48 @@ void CChangmoScene::Start(void)
 	{
 		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Map);
 		spBasicClone->GetTransform()->SetPosition(0, 0.5, 3);
+		spBasicClone->GetTransform()->SetRotationX(PI / 8.f);
 		spBasicClone->AddComponent<Engine::CCollisionC>()->
-			AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1)));
+			AddCollider(Engine::CObbCollider::Create(_float3(1, 1, 1), ZERO_VECTOR, RIGHT_VECTOR,
+				UP_VECTOR, FORWARD_VECTOR));
 		spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Map);
 		spBasicClone->AddComponent<Engine::CDebugC>();
 	}
 
 	{
-		_float3 right(1, 0, 1); D3DXVec3Normalize(&right, &right);
-		_float3 forward(-1, 0, 1); D3DXVec3Normalize(&forward, &forward);
-		_float3 up(0, 1, 0);
 		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Map);
+		spBasicClone->GetTransform()->SetPositionY(2.5);
 		spBasicClone->AddComponent<Engine::CCollisionC>()->
-			AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1), _float3(0, 2.5, 0)));
+			AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1), _float3(0, 0, 0)));
+		spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Map);
+		spBasicClone->AddComponent<Engine::CDebugC>();
+	}
+
+	{
+		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Map);
+		spBasicClone->GetTransform()->SetPosition(-1, 0.5, 0);
+		spBasicClone->AddComponent<Engine::CCollisionC>()->
+			AddCollider(Engine::CAabbCollider::Create(_float3(1, 1, 1), _float3(0, 0, 0)));
 		spBasicClone->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Map);
 		spBasicClone->AddComponent<Engine::CDebugC>();
 	}
 
 	//»¡°£Á¡
-	{
-		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Map);
-		spBasicClone->AddComponent<Engine::CMeshC>()->AddMeshData(L"Sphere");
-		spBasicClone->AddComponent<Engine::CTextureC>()->AddTexture(L"RedBlock");
-		spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::UI);
-		spBasicClone->GetTransform()->SetSize(_float3(0.05f, 0.05f, 0.05f));
-	}
-
-	{
-		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Map);
-		spBasicClone->AddComponent<Engine::CMeshC>()->AddMeshData(L"Sphere");
-		spBasicClone->AddComponent<Engine::CTextureC>()->AddTexture(L"BlueBlock");
-		spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::UI);
-		spBasicClone->GetTransform()->SetSize(_float3(0.05f, 0.05f, 0.05f));
-	}
+	//{
+	//	SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Map);
+	//	spBasicClone->AddComponent<Engine::CMeshC>()->AddMeshData(L"Sphere");
+	//	spBasicClone->AddComponent<Engine::CTextureC>()->AddTexture(L"RedBlock");
+	//	spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::UI);
+	//	spBasicClone->GetTransform()->SetSize(_float3(0.05f, 0.05f, 0.05f));
+	//}
+	//
+	//{
+	//	SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Map);
+	//	spBasicClone->AddComponent<Engine::CMeshC>()->AddMeshData(L"Sphere");
+	//	spBasicClone->AddComponent<Engine::CTextureC>()->AddTexture(L"BlueBlock");
+	//	spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::UI);
+	//	spBasicClone->GetTransform()->SetSize(_float3(0.05f, 0.05f, 0.05f));
+	//}
 }
 
 void CChangmoScene::FixedUpdate(void)
@@ -140,4 +149,6 @@ void CChangmoScene::OnDisable(void)
 
 void CChangmoScene::InitPrototypes(void)
 {
+	//SP(CUserInterface) spUIPrototype(CUserInterface::Create(L"Background"));
+	//Engine::ADD_PROTOTYPE(spUIPrototype);
 }

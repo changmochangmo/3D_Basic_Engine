@@ -82,6 +82,7 @@ public:
 					void				UpdateRotation			(void);
 					void				UpdateWorldMatrix		(void);
 
+					void				UpdateParentMatrix		(const _mat* pMat);
 
 					
 					
@@ -105,7 +106,7 @@ protected:
 
 	GETTOR_SETTOR	(_bool,			m_lerpOn,					false,				LerpOn)
 	GETTOR_SETTOR	(_float3,		m_goalPosition,				ZERO_VECTOR,		GoalPosition)
-	GETTOR			(_float,		m_lerpSpeed,				5.f,				LerpSpeed)
+	GETTOR_SETTOR	(_float,		m_lerpSpeed,				5.f,				LerpSpeed)
 	GETTOR			(_float,		m_lerpProportion,			0.15f,				LerpProportion)
 
 	GETTOR			(_float3,		m_position,					ZERO_VECTOR,		Position)

@@ -126,7 +126,7 @@ void CGraphicsManager::RenderBase(void)
 	CShader* pShader = GET_SHADER((_int)EShaderType::Texture);
 	for (auto& spGC : m_vRenderList[(_int)ERenderID::Base])
 	{
-		if (spGC->GetOwner() != nullptr && spGC->GetIsEnabled())
+		if (spGC->GetOwner() != nullptr && spGC->GetOwner()->GetIsEnabled())
 		{
 			if (GET_MAIN_CAM->GetFrustum()->
 				CheckAabb(spGC->GetTransform()->GetPosition(),
@@ -255,7 +255,7 @@ void CGraphicsManager::RenderAlphaBlend(void)
 
 void CGraphicsManager::RenderUI(void)
 {
-	CShader* pShader = GET_SHADER((_int)EShaderType::Texture);
+	CShader* pShader = GET_SHADER((_int)EShaderType::UI);
 	for (auto& spGC : m_vRenderList[(_int)ERenderID::UI])
 	{
 		if (spGC->GetOwner() != nullptr && spGC->GetIsEnabled())

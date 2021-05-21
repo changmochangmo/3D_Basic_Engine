@@ -62,7 +62,8 @@ namespace Engine
 	{
 		Debug			= 0,
 		Texture			= 1,
-		NumOfShdaerType	= 2
+		UI				= 2,
+		NumOfShdaerType	= 3
 	};
 #pragma endregion
 
@@ -110,7 +111,8 @@ namespace Engine
 		Collision				= 5,
 		Camera					= 6,
 		Debug					= 7,
-		NumOfEngineComponentID	= 8
+		Bitmap					= 8,
+		NumOfEngineComponentID	= 9
 	};
 
 	enum class EChannelID

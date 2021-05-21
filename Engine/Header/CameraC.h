@@ -34,6 +34,7 @@ public:
 private:
 					void			UpdateViewMatrix	(void);
 					void			UpdateProjMatrix	(void);
+					void			UpdateOrthoMatrix	(void);
 					void			Move				(void);
 					void			Translation			(void);
 					void			Rotation			(void);
@@ -53,6 +54,7 @@ private:
 
 	GETTOR_SETTOR	(_mat,				m_viewMat,				{},						ViewMatrix)
 	GETTOR_SETTOR	(_mat,				m_projMat,				{},						ProjMatrix)
+	GETTOR_SETTOR	(_mat,				m_orthoMat,				{},						OrthoMatrix)
 
 	GETTOR			(_float,			m_near,					0.1f,					Near)
 	GETTOR			(_float,			m_far,					1000.f,					Far)

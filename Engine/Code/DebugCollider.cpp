@@ -101,7 +101,7 @@ void CDebugCollider::Update(void)
 void CDebugCollider::LateUpdate(void)
 {
 	m_spTransform->SetPosition(m_pOwner->GetTransform()->GetPosition() + m_pCollider->GetOffset());
-
+	m_spTransform->SetRotation(m_pCollider->GetOwner()->GetTransform()->GetRotation());
 	switch (m_pCollider->GetColliderType())
 	{
 	case (_int)EColliderType::Ray:

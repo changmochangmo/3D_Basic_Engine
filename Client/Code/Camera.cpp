@@ -45,7 +45,7 @@ void CCamera::Awake(void)
 	m_spCamera		= AddComponent<Engine::CCameraC>();
 	m_spCollision	= AddComponent<Engine::CCollisionC>();
 	
-	m_spTransform->SetPosition(100, 100, 100);
+	m_spTransform->SetPosition(0, 0, -360);
 	m_spCollision->SetResolveIn(false);
 }
 
@@ -111,6 +111,7 @@ void CCamera::SetBasicName(void)
 
 void CCamera::OnCollisionEnter(Engine::_CollisionInfo ci)
 {
+	m_spTransform->AddPosition(ci.normal * ci.penetLength);
 	m_wallCollided = true;
 	if (m_spCamera->GetTarget() != nullptr)
 	{
@@ -128,6 +129,7 @@ void CCamera::OnCollisionEnter(Engine::_CollisionInfo ci)
 
 void CCamera::OnCollisionStay(Engine::_CollisionInfo ci)
 {
+	m_spTransform->AddPosition(ci.normal * ci.penetLength);
 	if (m_spCamera->GetTarget() != nullptr)
 	{
 		_float3 targetPos = m_spCamera->GetTarget()->GetTransform()->GetPosition() + _float3(0, 0.5f, 0);

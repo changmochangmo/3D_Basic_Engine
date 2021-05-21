@@ -190,6 +190,9 @@
     <Filter Include="02.Objects\02.Grid">
       <UniqueIdentifier>{e904f496-668c-40a2-acb2-3cb40d1225f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.Engine\01.Graphics\02.Shader\01.Shaders\UIShader">
+      <UniqueIdentifier>{3ae9e793-84be-4eff-8295-e81743d27d1a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\WndApp.cpp">
@@ -300,9 +303,6 @@
     <ClCompile Include="..\Code\TextureC.cpp">
       <Filter>03.Components\01.GraphicsComponent\01.Texture</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BitmapC.cpp">
-      <Filter>03.Components\01.GraphicsComponent\02.Bitmap</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\GraphicsC.cpp">
       <Filter>03.Components\01.GraphicsComponent</Filter>
     </ClCompile>
@@ -359,6 +359,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Grid.cpp">
       <Filter>02.Objects\02.Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BitmapC.cpp">
+      <Filter>03.Components\01.GraphicsComponent\02.Bitmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIShader.cpp">
+      <Filter>00.Engine\01.Graphics\02.Shader\01.Shaders\UIShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -494,9 +500,6 @@
     <ClInclude Include="..\Header\TextureC.h">
       <Filter>03.Components\01.GraphicsComponent\01.Texture</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BitmapC.h">
-      <Filter>03.Components\01.GraphicsComponent\02.Bitmap</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\GraphicsC.h">
       <Filter>03.Components\01.GraphicsComponent</Filter>
     </ClInclude>
@@ -554,6 +557,12 @@
     <ClInclude Include="..\Header\Grid.h">
       <Filter>02.Objects\02.Grid</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\BitmapC.h">
+      <Filter>03.Components\01.GraphicsComponent\02.Bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIShader.h">
+      <Filter>00.Engine\01.Graphics\02.Shader\01.Shaders\UIShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resource\Shader\TextureShader.fx">
@@ -561,6 +570,9 @@
     </FxCompile>
     <FxCompile Include="..\..\Resource\Shader\DebugShader.fx">
       <Filter>00.Engine\01.Graphics\02.Shader\01.Shaders\DebugShader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resource\Shader\UIShader.fx">
+      <Filter>00.Engine\01.Graphics\02.Shader\01.Shaders\UIShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

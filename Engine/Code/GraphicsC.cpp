@@ -49,8 +49,10 @@ void CGraphicsC::Start(SP(CComponent) spThis)
 	m_spMesh		= m_pOwner->GetComponent<CMeshC>();
 	m_spTexture		= m_pOwner->GetComponent<CTextureC>();
 	m_spTransform	= m_pOwner->GetComponent<CTransformC>();
+	m_spBitmap		= m_pOwner->GetComponent<CBitmapC>();
 
-	GenerateBV();
+	if(m_spMesh != nullptr)
+		GenerateBV();
 }
 
 void CGraphicsC::FixedUpdate(SP(CComponent) spThis)

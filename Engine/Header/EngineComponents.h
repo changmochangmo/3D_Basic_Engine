@@ -9,6 +9,7 @@
 #include "TextureC.h"
 #include "MeshC.h"
 #include "DebugC.h"
+#include "BitmapC.h"
 #include "GraphicsC.h"
 
 

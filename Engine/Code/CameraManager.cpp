@@ -90,6 +90,12 @@ void CCameraManager::ChangeCameraKey(const std::wstring & cameraKey, const std::
 	m_mCameras.erase(cameraKey);
 }
 
+void CCameraManager::DeleteMainCam(void)
+{
+	m_mCameras.clear();
+	m_spMainCamera.reset();
+}
+
 void CCameraManager::SetMainCameraMode(void)
 {
 	if (IMKEY_DOWN(KEY_F1))

@@ -76,3 +76,19 @@ void CEmptyObject::SetBasicName(void)
 {
 	m_name = m_objectKey + std::to_wstring(m_s_uniqueID++);
 }
+
+void CEmptyObject::OnCollisionEnter(Engine::_CollisionInfo ci)
+{
+	//if (ci.pOtherCollider->GetOwner()->GetCollisionID() == 0)
+	//	ci.pOtherCollider->GetOwner()->GetTransform()->AddPosition(ci.normal * ci.penetLength);
+}
+
+void CEmptyObject::OnCollisionStay(Engine::_CollisionInfo ci)
+{
+	//if (ci.pOtherCollider->GetOwner()->GetCollisionID() == 0)
+	//	ci.pOtherCollider->GetOwner()->GetTransform()->AddPosition(ci.normal * ci.penetLength);
+}
+
+void CEmptyObject::OnCollisionExit(Engine::_CollisionInfo ci)
+{
+}

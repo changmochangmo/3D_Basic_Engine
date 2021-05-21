@@ -44,7 +44,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Player", (_uint)EDataID::Player);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Scene", (_uint)EDataID::Scene);
 	Engine::CDataStore::GetInstance()->AddDataSection(L"Camera", (_uint)EDataID::Camera);
-	Engine::CDataStore::GetInstance()->AddDataSection(L"Boss", (_uint)EDataID::Boss);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"Enemy", (_uint)EDataID::Enemy);
+	Engine::CDataStore::GetInstance()->AddDataSection(L"UI", (_uint)EDataID::UI);
 
 	Engine::CFRC::GetInstance()->Awake();
 	Engine::CWndApp::GetInstance()->Awake();

@@ -28,9 +28,12 @@ public:
 				void						OnEnable		(void) override;
 				void						OnDisable		(void) override;
 
-public:
 				void						SetBasicName	(void)  override;
 
+public:
+				void						OnCollisionEnter	(Engine::_CollisionInfo ci);
+				void						OnCollisionStay		(Engine::_CollisionInfo ci);
+				void						OnCollisionExit		(Engine::_CollisionInfo ci);
 
 private:
 	static		_uint						m_s_uniqueID;

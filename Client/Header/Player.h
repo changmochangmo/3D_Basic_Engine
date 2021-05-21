@@ -89,7 +89,6 @@ private:
 	GETTOR_SETTOR	(_int,					m_status,				STATUS_IDLE,	Status)
 
 	GETTOR_SETTOR	(_int,					m_aniIndex,				0,				AniIndex)
-	GETTOR_SETTOR	(_float,				m_aniPeriod,			0.f,			AniPeriod)
 
 	GETTOR_SETTOR	(_float,				m_walkSpeed,			3,				WalkSpeed)
 	GETTOR_SETTOR	(_float,				m_runSpeed,				9,				RunSpeed)
