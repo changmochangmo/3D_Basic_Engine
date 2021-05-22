@@ -58,7 +58,7 @@ private:
 
 	GETTOR			(_float,			m_near,					0.1f,					Near)
 	GETTOR			(_float,			m_far,					1000.f,					Far)
-	GETTOR			(_float,			m_FOV,					45.f,					FOV)
+	GETTOR			(_float,			m_FOV,					PI / 4,					FOV)
 
 	GETTOR_SETTOR	(_float,			m_zoomSpeed,			300.f,					ZoomSpeed)
 

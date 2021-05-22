@@ -44,7 +44,7 @@ DECLARE_SINGLETON	(CWndApp)
 
 public:
 					void				Awake				(void) override;
-					void				Start				(HINSTANCE hInstance, int nCmdShow);
+					void				Start				(HINSTANCE hInstance, _int nCmdShow);
 
 					void				OnDestroy			(void);
 
@@ -57,7 +57,7 @@ public:
 	
 private:
 					ATOM				RegisterWndClass	(HINSTANCE hInstance);
-					bool				CreateWndHandle		(HINSTANCE hInstance, int nCmdShow);
+					bool				CreateWndHandle		(HINSTANCE hInstance, _int nCmdShow);
 	
 	static			LRESULT	CALLBACK	WndProc				(HWND hWnd, UINT msg, 
 															 WPARAM wParam, LPARAM lParam);	

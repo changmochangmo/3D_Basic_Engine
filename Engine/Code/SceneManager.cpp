@@ -8,6 +8,7 @@
 #include "Object.h"
 #include "WndApp.h"
 #include "FRC.h"
+#include "CameraManager.h"
 
 USING(Engine)
 IMPLEMENT_SINGLETON(CSceneManager)
@@ -30,6 +31,7 @@ void CSceneManager::FixedUpdate(void)
 
 void CSceneManager::Update(void)
 {
+	m_sceneChanged = false;
 	if (m_pCurScene != nullptr && m_pCurScene->GetEnable())
 	{
 		m_pCurScene->Update();
@@ -64,15 +66,16 @@ void CSceneManager::OnDisable(void)
 }
 
 
-void CSceneManager::SceneChange(CScene* pScene, _bool deleteCurScene/* = true */)
+void CSceneManager::SceneChange(CScene* pScene, _bool alreadyStarted, _bool deleteCurScene/* = true */)
 {
+	CFRC::GetInstance()->OnDisable();
 	if (m_pCurScene && deleteCurScene)
 	{
 		m_sScene.top()->Free();
-		CObjectFactory::GetInstance()->ClearCurPrototype();
-		CMeshStore::GetInstance()->ClearCurResource();
-		CTextureStore::GetInstance()->ClearCurResource();
-		CDataStore::GetInstance()->ClearCurResource();
+		//CObjectFactory::GetInstance()->ClearCurPrototype();
+		//CMeshStore::GetInstance()->ClearCurResource();
+		//CTextureStore::GetInstance()->ClearCurResource();
+		//CDataStore::GetInstance()->ClearCurResource();
 		m_sScene.pop();
 	}
 	else if (m_pCurScene)
@@ -83,7 +86,15 @@ void CSceneManager::SceneChange(CScene* pScene, _bool deleteCurScene/* = true */
 
 	m_sScene.push(pScene);
 	m_pCurScene = pScene;
-	m_pCurScene->Start();
+
+	if (m_pCurScene->GetSceneCamera() != nullptr)
+		CCameraManager::GetInstance()->SetMainCamera(m_pCurScene->GetSceneCamera());
+	
+	if(alreadyStarted == false)
+		m_pCurScene->Start();
+
+	CFRC::GetInstance()->OnEnable();
+	m_sceneChanged = true;
 }
 
 void CSceneManager::OrganizeScene(_bool deleteCurScene)

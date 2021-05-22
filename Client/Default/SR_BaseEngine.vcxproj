@@ -189,7 +189,9 @@
     <ClInclude Include="..\Header\ClientMacro.h" />
     <ClInclude Include="..\Header\ClientStructure.h" />
     <ClInclude Include="..\Header\ClientTypedef.h" />
+    <ClInclude Include="..\Header\CreditScene.h" />
     <ClInclude Include="..\Header\Decoration.h" />
+    <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\LogoScene.h" />
     <ClInclude Include="..\Header\MafiaBall.h" />
     <ClInclude Include="..\Header\MainApp.h" />
@@ -197,7 +199,9 @@
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\RollerBlade.h" />
     <ClInclude Include="..\Header\SandBag.h" />
+    <ClInclude Include="..\Header\StaticScene.h" />
     <ClInclude Include="..\Header\UserInterface.h" />
+    <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="stdafx.h" />
@@ -208,7 +212,9 @@
     <ClCompile Include="..\Code\BossScene.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\ChangmoScene.cpp" />
+    <ClCompile Include="..\Code\CreditScene.cpp" />
     <ClCompile Include="..\Code\Decoration.cpp" />
+    <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\LogoScene.cpp" />
     <ClCompile Include="..\Code\MafiaBall.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
@@ -216,7 +222,9 @@
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\RollerBlade.cpp" />
     <ClCompile Include="..\Code\SandBag.cpp" />
+    <ClCompile Include="..\Code\StaticScene.cpp" />
     <ClCompile Include="..\Code\UserInterface.cpp" />
+    <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

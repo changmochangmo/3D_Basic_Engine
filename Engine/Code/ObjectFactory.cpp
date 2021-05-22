@@ -72,6 +72,7 @@ HRESULT CObjectFactory::AddPrototype(SP(CObject) pPrototype)
 }
 
 SP(CObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,
+									 CScene* pScene,
 									 _bool isStatic,
 									 const std::wstring & name,
 									 _int layerTag)
@@ -102,7 +103,7 @@ SP(CObject) CObjectFactory::AddClone(const std::wstring & protoObjectKey,
 	if (layerID == UNDEFINED)
 		layerID = layerTag;
 
-	std::vector<CLayer*> const* pLayers = &GET_CUR_SCENE->GetLayers();
+	std::vector<CLayer*> const* pLayers = &pScene->GetLayers();
 	if (layerID < 0 || (_uint)layerID >= pLayers->size())
 	{
 		MSG_BOX(__FILE__, std::wstring(L"LayerID is out of range").c_str());

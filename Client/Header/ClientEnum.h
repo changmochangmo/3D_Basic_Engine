@@ -45,4 +45,10 @@ enum class ELayerID
 	UI				= 4 + (_int)Engine::ELayerID::NumOfEngineLayerID,
 	NumOfLayerID	= 5 + (_int)Engine::ELayerID::NumOfEngineLayerID
 };
+
+enum class ELoadingID
+{
+	StaticResource,
+	BossSceneResource
+};
 #endif // CLIENTENUM_H

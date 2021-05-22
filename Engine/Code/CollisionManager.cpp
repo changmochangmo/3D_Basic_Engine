@@ -225,6 +225,5 @@ void CCollisionManager::InitCollisionMap(void)
 			m_vCollisionMap[i].push_back(checkLayer);
 		}
 	}
-	int a = 0;
 	return;
 }

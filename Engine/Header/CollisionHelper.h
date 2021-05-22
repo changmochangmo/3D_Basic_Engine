@@ -520,7 +520,7 @@ static _bool RayAabb(CCollider* pC1, CCollider* pC2, _bool instant)
 					penet = 0.f;
 				pRC->GetOwner()->AddCollisionInfo(_CollisionInfo(pRC, pAC, hitPoint, normal, penet));
 				pAC->GetOwner()->AddCollisionInfo(_CollisionInfo(pAC, pRC, hitPoint, -normal, penet));
-				pRC->GetOwner()->GetOwner()->GetTransform()->AddPosition(-normal * penet);
+				pRC->GetOwner()->GetOwner()->GetTransform()->AddPosition(-normal * (penet - EPSILON));
 			}
 			else
 			{

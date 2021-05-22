@@ -1,6 +1,5 @@
 #include "EngineStdafx.h"
 #include "FRC.h"
-#include "DataStore.h"
 #include "TextManager.h"
 
 USING(Engine)
@@ -17,7 +16,7 @@ void CFRC::Awake(void)
 
 void CFRC::Start(void)
 {
-	GET_VALUE(true, m_dataID, m_objectKey, L"FPS", m_FPS);
+	m_FPS = 140;
 }
 
 void CFRC::OnDestroy(void)

@@ -20,13 +20,12 @@ CScene::~CScene(void)
 
 void CScene::Awake(_int numOfLayers)
 {
-	CFRC::GetInstance()->OnDisable();
-
 	m_isAwaked = true;
 
 	InitLayers(numOfLayers);
 
 	std::wstring className = GetCurClassName(this);
+
 	CDataStore::GetInstance()->InitDataForScene(className);
 	CMeshStore::GetInstance()->InitMeshForScene(className);
 	CTextureStore::GetInstance()->InitTextureForScene(className);
@@ -34,7 +33,7 @@ void CScene::Awake(_int numOfLayers)
 
 void CScene::Start(void)
 {
-	CFRC::GetInstance()->OnEnable();
+	
 }
 
 void CScene::FixedUpdate(void)

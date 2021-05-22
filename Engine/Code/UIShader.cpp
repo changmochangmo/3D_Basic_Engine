@@ -50,10 +50,7 @@ void CUIShader::PreRender(CGraphicsC * pGC)
 	GET_DEVICE->SetTransform(D3DTS_WORLD, &pGC->GetOwner()->GetTransform()->GetWorldMatrix());
 	GET_DEVICE->SetTransform(D3DTS_VIEW, &identityMatrix);
 	GET_DEVICE->SetTransform(D3DTS_PROJECTION, &GET_MAIN_CAM->GetOrthoMatrix());
-	// 	if (spTexture != nullptr)
-	// 		GET_DEVICE->SetTexture(0, spTexture->GetTexData()->pTexture);
-	// 	else
-	// 		GET_DEVICE->SetTexture(0, nullptr);
+
 
 	GET_DEVICE->
 		SetTexture(0, spTexture->GetTexData()[spTexture->GetMeshIndex()][spTexture->GetTexIndex()]->pTexture);

@@ -11,14 +11,15 @@ void CWndApp::Awake(void)
 	__super::Awake();
 }
 
-void CWndApp::Start(HINSTANCE hInstance, int nCmdShow)
+void CWndApp::Start(HINSTANCE hInstance, _int nCmdShow)
 {
-	GET_VALUE(true, m_dataID, m_objectKey, L"className", m_className);
-	GET_VALUE(true, m_dataID, m_objectKey, L"windowName", m_windowName);
-	GET_VALUE(true, m_dataID, m_objectKey, L"wndWidth", m_wndWidth);
-	GET_VALUE(true, m_dataID, m_objectKey, L"wndHeight", m_wndHeight);
-	GET_VALUE(true, m_dataID, m_objectKey, L"showCursor", m_showCursor);
-
+	m_className		= L"3D_Engine";
+	m_windowName	= L"A HAT IN TIME";
+	m_wndWidth		= 800;
+	m_wndHeight		= 600;
+	m_showCursor	= false;
+	
+	
 	ShowCursor(m_showCursor);
 	RegisterWndClass(hInstance);
 	CreateWndHandle(hInstance, nCmdShow);
@@ -69,7 +70,7 @@ ATOM CWndApp::RegisterWndClass(HINSTANCE hInstance)
 	return RegisterClassExW(&wcex);
 }
 
-bool CWndApp::CreateWndHandle(HINSTANCE hInstance, int nCmdShow)
+bool CWndApp::CreateWndHandle(HINSTANCE hInstance, _int nCmdShow)
 {
 	RECT rc = { 0, 0, m_wndWidth, m_wndHeight };
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);

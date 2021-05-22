@@ -7,6 +7,8 @@
 #include "CameraManager.h"
 #include "TextManager.h"
 #include "ObjectFactory.h"
+#include "UserInterface.h"
+#include "SceneManager.h"
 
 _uint CPlayer::m_s_uniqueID = 0;
 
@@ -66,11 +68,18 @@ void CPlayer::Start(void)
 	m_spCollision->SetOffsetBS(_float3(0, 0.5f, 0));
 	m_spCollision->SetRadiusBS(1.1f);
 	m_spTransform->AddPositionY(0.2);
-	m_spSCObject = Engine::ADD_CLONE(L"EmptyObject", true, L"PlayerSC", (_int)ELayerID::Player);
+
+	m_spSCObject = Engine::ADD_CLONE(L"EmptyObject", Engine::GET_CUR_SCENE, true, L"PlayerSC", (_int)ELayerID::Player);
 	m_spSCObject->AddComponent<Engine::CCollisionC>()->
 		AddCollider(Engine::CSphereCollider::Create(0.325f, _float3(0, 0.35f, 0)));
 	m_spSCObject->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Player);
-	m_spSCObject->AddComponent<Engine::CDebugC>();
+
+
+	//m_spLifeUI = 
+	//	std::dynamic_pointer_cast<CUserInterface>(Engine::ADD_CLONE(L"PlayerLife", Engine::GET_CUR_SCENE, false, L"", (_int)ELayerID::UI));
+
+
+	//m_spSCObject->AddComponent<Engine::CDebugC>();
 	//m_spRigidBody->SetUseGravity(false);
 }
 
@@ -83,6 +92,7 @@ void CPlayer::Update(void)
 {
 	__super::Update();
 	m_spSCObject->GetTransform()->SetPosition(m_spTransform->GetPosition());
+	//m_spLifeUI->GetTexture()->SetTexIndex(m_life);
 }
 
 void CPlayer::LateUpdate(void)
@@ -107,9 +117,9 @@ void CPlayer::LateUpdate(void)
 	Fall();
 	UpdateAnimation();
 
-	//std::wstring curState;
-	//CurStatusInStr(curState);
-	//Engine::REWRITE_TEXT(L"Test0", curStateStr);
+	std::wstring curState;
+	CurStatusInStr(curState);
+	Engine::REWRITE_TEXT(L"Test0", curState);
 
 	m_lastStatus = m_status;
 	m_onGround = false;
@@ -139,13 +149,13 @@ void CPlayer::SetBasicName(void)
 
 void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
 {
-	if (ci.normal.y - EPSILON <= -1)
+	if (ci.normal.y - EPSILON <= -0.7f)
 	{
 		m_status = STATUS_IDLE;
 		m_onGround = true;
 		m_spRigidBody->SetVelocityY(0);
 	}
-	else if (ci.normal.y + EPSILON >= 1)
+	else if (ci.normal.y + EPSILON >= 0.7)
 	{
 		m_jumpTimer = m_jumpLimit;
 		m_spRigidBody->SetVelocityY(0);
@@ -154,12 +164,12 @@ void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
 
 void CPlayer::OnCollisionStay(Engine::_CollisionInfo ci)
 {
-	if (ci.normal.y - EPSILON <= -1)
+	if (ci.normal.y - EPSILON <= -0.7)
 	{
 		m_status = STATUS_IDLE;
 		m_onGround = true;
 	}
-	else if (ci.normal.y + EPSILON >= 1)
+	else if (ci.normal.y + EPSILON >= 0.7)
 	{
 		m_jumpTimer = m_jumpLimit;
 	}

@@ -18,14 +18,14 @@ void CCameraManager::Awake(void)
 void CCameraManager::Start(_int collisionID)
 {
 	m_camColliderID = collisionID;
-	if (m_spMainCamera == nullptr)
-	{
-		SP(CObject) spCameraObject = ADD_CLONE(L"Camera", true, L"BasicCamera", (_int)ELayerID::Camera);
-		m_spMainCamera = spCameraObject->GetComponent<CCameraC>();
-
-		AddCamera(L"FreeCamera", m_spMainCamera);
-		m_spMainCamera->SetTarget(GET_CUR_SCENE->FindObjectWithKey(L"Player"));
-	}
+	//if (m_spMainCamera == nullptr)
+	//{
+	//	SP(CObject) spCameraObject = ADD_CLONE(L"Camera", true, L"BasicCamera", (_int)ELayerID::Camera);
+	//	m_spMainCamera = spCameraObject->GetComponent<CCameraC>();
+	//
+	//	AddCamera(L"FreeCamera", m_spMainCamera);
+	//	m_spMainCamera->SetTarget(GET_CUR_SCENE->FindObjectWithKey(L"Player"));
+	//}
 }
 
 void CCameraManager::Update(void)

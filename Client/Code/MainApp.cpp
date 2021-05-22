@@ -18,6 +18,7 @@
 #include "ChangmoScene.h"
 #include "BossScene.h"
 #include "LogoScene.h"
+#include "CreditScene.h"
 #pragma endregion
 
 #pragma region Prototypes
@@ -64,7 +65,7 @@ void CMainApp::Start(void)
 
 	Engine::CInputManager::GetInstance()->Start();
 	Engine::CSceneManager::GetInstance()->Start();
-	Engine::CSceneManager::GetInstance()->SceneChange(CBossScene::Create());
+	Engine::CSceneManager::GetInstance()->SceneChange(CLogoScene::Create());
 	Engine::CCameraManager::GetInstance()->Start((_int)EColliderID::CameraRay);
 	Engine::CObjectFactory::GetInstance()->Start();
 	Engine::CGraphicsManager::GetInstance()->Start();
@@ -116,6 +117,9 @@ void CMainApp::LateUpdate(void)
 
 void CMainApp::PreRender(void)
 {
+	if (Engine::CSceneManager::GetInstance()->GetSceneChanged())
+		return;
+
 	Engine::TIME_MEASURE_START;
 
 	Engine::CGraphicsManager::GetInstance()->PreRender();
@@ -126,6 +130,9 @@ void CMainApp::PreRender(void)
 
 void CMainApp::Render(void)
 {
+	if (Engine::CSceneManager::GetInstance()->GetSceneChanged())
+		return;
+
 	Engine::TIME_MEASURE_START;
 
 	Engine::CGraphicsManager::GetInstance()->Render();
@@ -136,6 +143,9 @@ void CMainApp::Render(void)
 
 void CMainApp::PostRender(void)
 {
+	if (Engine::CSceneManager::GetInstance()->GetSceneChanged())
+		return;
+
 	Engine::TIME_MEASURE_START;
 
 	Engine::CGraphicsManager::GetInstance()->PostRender();

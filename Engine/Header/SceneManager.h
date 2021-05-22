@@ -22,7 +22,8 @@ public:
 					void				OnEnable			(void);
 					void				OnDisable			(void);
 
-					void				SceneChange			(CScene* pScene, 
+					void				SceneChange			(CScene* pScene,
+															 _bool alreadyStarted = false,
 															 _bool deleteThis = true);
 
 
@@ -33,6 +34,7 @@ private:
 private:
 	std::stack<CScene*>	m_sScene;
 
+	GETTOR			(_bool,		m_sceneChanged,		false,			SceneChanged)
 	GETTOR_SETTOR	(CScene*,	m_pPrevScene,		nullptr,		PrevScene)
 	GETTOR_SETTOR	(CScene*,	m_pCurScene,		nullptr,		CurScene)
 };

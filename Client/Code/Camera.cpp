@@ -42,11 +42,16 @@ void CCamera::Awake(void)
 	m_layerID	= (_int)ELayerID::Camera;
 	m_dataID	= (_int)EDataID::Camera;
 
+	m_addExtra  = true;
+
 	m_spCamera		= AddComponent<Engine::CCameraC>();
 	m_spCollision	= AddComponent<Engine::CCollisionC>();
 	
-	m_spTransform->SetPosition(0, 0, -360);
+	m_spCollision->SetCollisionID((_int)EColliderID::CameraRay);
+	m_spCollision->AddCollider(Engine::CRayCollider::Create(_float3(0, 0, -0.3), FORWARD_VECTOR, 3.3));
 	m_spCollision->SetResolveIn(false);
+	
+	m_spTransform->SetPosition(0, 0, -360);
 }
 
 void CCamera::Start(void)

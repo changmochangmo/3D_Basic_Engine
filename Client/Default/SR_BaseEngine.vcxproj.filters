@@ -13,24 +13,6 @@
     <Filter Include="01.Scene">
       <UniqueIdentifier>{fb3559bc-5e87-4c5b-b57e-9625bdbbf03c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Scene\00.Logo">
-      <UniqueIdentifier>{6a386415-26f7-4728-b213-7a2e84e8d514}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\01.Loading">
-      <UniqueIdentifier>{ea353fc7-3e80-41cf-9933-6e363a009886}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\02.MainMenu">
-      <UniqueIdentifier>{8967a7f5-feb6-4e5a-ae2f-59b5d5adf89b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\03.Stage">
-      <UniqueIdentifier>{e972338a-2b35-4069-a365-a960da9798c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\04.Option">
-      <UniqueIdentifier>{4c29e47a-2786-48a4-8975-a8a64d319ba9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\05.Changmo">
-      <UniqueIdentifier>{b5ddb26e-4a5e-42e9-a402-6ccf5eefef78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Objects">
       <UniqueIdentifier>{50f5935f-2a42-4e51-81e7-19417db711ed}</UniqueIdentifier>
     </Filter>
@@ -39,9 +21,6 @@
     </Filter>
     <Filter Include="02.Objects\01.Player\00.PlayerAttack">
       <UniqueIdentifier>{611b31c8-985c-44c5-89f3-4f9e77334f80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\03.Stage\00.BossScene">
-      <UniqueIdentifier>{65c10c7e-ce0a-4ca8-908f-bb1278ff37cc}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.Objects\02.MapObject">
       <UniqueIdentifier>{e779260b-ade1-4f35-bef5-75d97fde29b5}</UniqueIdentifier>
@@ -70,6 +49,27 @@
     <Filter Include="02.Objects\06.Decoration">
       <UniqueIdentifier>{52935e98-0417-474c-a2e8-c988f701cf57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Scene\02.Stage">
+      <UniqueIdentifier>{e972338a-2b35-4069-a365-a960da9798c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\02.Stage\00.BossScene">
+      <UniqueIdentifier>{65c10c7e-ce0a-4ca8-908f-bb1278ff37cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\99.Changmo">
+      <UniqueIdentifier>{b5ddb26e-4a5e-42e9-a402-6ccf5eefef78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\03.Credit">
+      <UniqueIdentifier>{ec33032f-dc5e-4b9d-a922-a48c159ca6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\99.Loading">
+      <UniqueIdentifier>{ea353fc7-3e80-41cf-9933-6e363a009886}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\01.Logo">
+      <UniqueIdentifier>{6a386415-26f7-4728-b213-7a2e84e8d514}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\00.Static">
+      <UniqueIdentifier>{2c5f86b9-d149-45db-bce2-0a2adc67aee6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -88,7 +88,7 @@
       <Filter>00.MainApp</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ChangmoScene.h">
-      <Filter>01.Scene\05.Changmo</Filter>
+      <Filter>01.Scene\99.Changmo</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ClientEnum.h">
       <Filter>98.Include</Filter>
@@ -109,7 +109,7 @@
       <Filter>02.Objects\01.Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\BossScene.h">
-      <Filter>01.Scene\03.Stage\00.BossScene</Filter>
+      <Filter>01.Scene\02.Stage\00.BossScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MapObject.h">
       <Filter>02.Objects\02.MapObject</Filter>
@@ -130,7 +130,7 @@
       <Filter>02.Objects\04.Boss\02.MafiaBall</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\LogoScene.h">
-      <Filter>01.Scene\00.Logo</Filter>
+      <Filter>01.Scene\01.Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UserInterface.h">
       <Filter>02.Objects\05.UserInterface</Filter>
@@ -138,6 +138,16 @@
     <ClInclude Include="..\Header\Decoration.h">
       <Filter>02.Objects\06.Decoration</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CreditScene.h">
+      <Filter>01.Scene\03.Credit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StaticScene.h">
+      <Filter>01.Scene\00.Static</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Loading.h">
+      <Filter>01.Scene\99.Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -150,13 +160,13 @@
       <Filter>00.MainApp</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ChangmoScene.cpp">
-      <Filter>01.Scene\05.Changmo</Filter>
+      <Filter>01.Scene\99.Changmo</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Player.cpp">
       <Filter>02.Objects\01.Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossScene.cpp">
-      <Filter>01.Scene\03.Stage\00.BossScene</Filter>
+      <Filter>01.Scene\02.Stage\00.BossScene</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MapObject.cpp">
       <Filter>02.Objects\02.MapObject</Filter>
@@ -177,7 +187,7 @@
       <Filter>02.Objects\04.Boss\02.MafiaBall</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\LogoScene.cpp">
-      <Filter>01.Scene\00.Logo</Filter>
+      <Filter>01.Scene\01.Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UserInterface.cpp">
       <Filter>02.Objects\05.UserInterface</Filter>
@@ -185,6 +195,16 @@
     <ClCompile Include="..\Code\Decoration.cpp">
       <Filter>02.Objects\06.Decoration</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\CreditScene.cpp">
+      <Filter>01.Scene\03.Credit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StaticScene.cpp">
+      <Filter>01.Scene\00.Static</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Loading.cpp">
+      <Filter>01.Scene\99.Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">

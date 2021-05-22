@@ -53,16 +53,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Engine::CTextureStore::GetInstance()->Awake();
 	Engine::CMeshStore::GetInstance()->Awake();
 	CMath::CMathHelper::GetInstance();
-
 	Engine::CTextManager::GetInstance()->Awake();
 #pragma endregion
 
 #pragma region SubEnginesStart
-	Engine::CDataStore::GetInstance()->Start();
+	
 	Engine::CWndApp::GetInstance()->Start(hInstance, nCmdShow);
 	Engine::CDeviceManager::GetInstance()->Start();
 	Engine::CFRC::GetInstance()->Start();
 	Engine::CTextureStore::GetInstance()->Start();
+	Engine::CDataStore::GetInstance()->Start();
 	Engine::CMeshStore::GetInstance()->Start();
 	Engine::CTextManager::GetInstance()->Start();
 #pragma endregion

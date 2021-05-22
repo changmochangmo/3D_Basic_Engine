@@ -5,8 +5,11 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "BossScene.h"
+#include "CameraManager.h"
+#include "SceneManager.h"
 
 #include "UserInterface.h"
+#include "Loading.h"
 CLogoScene::CLogoScene()
 {
 }
@@ -33,15 +36,20 @@ void CLogoScene::Free(void)
 void CLogoScene::Awake(_int numOfLayers)
 {
 	__super::Awake(numOfLayers);
-	
+	m_pLoading = CLoading::Create((_int)ELoadingID::BossSceneResource);
 }
 
 void CLogoScene::Start(void)
 {
 	__super::Start();
 	InitPrototypes();
+
+	SP(Engine::CObject) spCameraObject = Engine::ADD_CLONE(L"Camera", this, true, L"BasicCamera", (_int)ELayerID::Camera);
+	Engine::CCameraManager::GetInstance()->SetMainCamera(spCameraObject->GetComponent<Engine::CCameraC>());
+	Engine::CCameraManager::GetInstance()->AddCamera(L"FreeCamera", spCameraObject->GetComponent<Engine::CCameraC>());
+
 	{
-		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", true, L"", (_int)ELayerID::Map);
+		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", this, true, L"", (_int)ELayerID::Map);
 		spBasicClone->AddComponent<Engine::CMeshC>()->AddMeshData(L"Cube");
 		spBasicClone->GetTransform()->SetSize(800, 400, 1);
 		spBasicClone->AddComponent<Engine::CTextureC>()->AddTexture(L"Background");
@@ -49,12 +57,10 @@ void CLogoScene::Start(void)
 	}
 
 	{
-		SP(Engine::CObject) spTitleClone = Engine::ADD_CLONE(L"Title", false, L"", (_int)ELayerID::UI);
-		SP(Engine::CObject) spPressAnyKeyClone = Engine::ADD_CLONE(L"PressAnyKey", false, L"", (_int)ELayerID::UI);
+		SP(Engine::CObject) spTitleClone = Engine::ADD_CLONE(L"Title", this, false, L"", (_int)ELayerID::UI);
+		m_pPressAny= Engine::ADD_CLONE(L"PressAnyKey", this, false, L"", (_int)ELayerID::UI);
 
-		//spPressAnyKeyClone->GetTransform()->SetGoalPosition(_float3(0, -190, 0));
-		//spPressAnyKeyClone->GetTransform()->SetLerpOn(true);
-		//spPressAnyKeyClone->GetTransform()->SetLerpSpeed(60);
+		
 	}
 
 	
@@ -70,8 +76,20 @@ void CLogoScene::Update(void)
 {
 	__super::Update();
 	
-	if (Engine::IMKEY_DOWN(KEY_RIGHT))
-		Engine::CSceneManager::GetInstance()->SceneChange(CBossScene::Create());
+	if (m_pLoading->GetFinish())
+	{
+		if (m_pPressAny->GetTransform()->GetPosition().y == -500)
+		{
+			m_pPressAny->GetTransform()->SetGoalPosition(_float3(0, -190, 0));
+			m_pPressAny->GetTransform()->SetLerpOn(true);
+			m_pPressAny->GetTransform()->SetLerpSpeed(100);
+		}
+		if (Engine::IMKEY_DOWN(KEY_RIGHT))
+		{
+			Engine::CSceneManager::GetInstance()->SceneChange(m_pLoading->GetNextScene(), true);
+		}
+	}
+	
 }
 
 void CLogoScene::LateUpdate(void)
@@ -83,7 +101,7 @@ void CLogoScene::LateUpdate(void)
 void CLogoScene::OnDestroy(void)
 {
 	__super::OnDestroy();
-	
+	delete m_pLoading;
 }
 
 void CLogoScene::OnEnable(void)

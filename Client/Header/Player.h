@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "Object.h"
-
+class CUserInterface;
 class CPlayer final : public Engine::CObject
 {
 	enum EAniIndex
@@ -84,6 +84,10 @@ private:
 	GETTOR		(SP(Engine::CRigidBodyC),	m_spRigidBody,			nullptr,		RigidBody)
 
 	GETTOR		(SP(Engine::CObject),		m_spSCObject,			nullptr,		SCObject)
+
+	GETTOR		(SP(CUserInterface),		m_spLifeUI,				nullptr,		LifeUI)
+
+	GETTOR_SETTOR	(_int,					m_life,					4,				Life)
 
 	GETTOR_SETTOR	(_int,					m_lastStatus,			STATUS_IDLE,	LastStatus)
 	GETTOR_SETTOR	(_int,					m_status,				STATUS_IDLE,	Status)

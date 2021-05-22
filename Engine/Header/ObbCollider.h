@@ -11,8 +11,10 @@ private:
 	virtual						   ~CObbCollider		(void);
 
 public:
-	static			CObbCollider*	Create				(_float3 size, _float3 offset, 
-														 _float3 right, _float3 up, _float3 forward);
+	static			CObbCollider*	Create				(_float3 size, _float3 offset = ZERO_VECTOR, 
+														 _float3 right = RIGHT_VECTOR, 
+														 _float3 up = UP_VECTOR, 
+														 _float3 forward = FORWARD_VECTOR);
 					CCollider*		MakeClone			(CCollisionC* pCC) override;
 
 					void			Awake				(void) override;

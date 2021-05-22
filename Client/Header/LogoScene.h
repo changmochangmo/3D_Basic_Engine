@@ -2,30 +2,34 @@
 #define LOGOSCENE_H
 
 #include "Scene.h"
+class CLoading;
 class CLogoScene final : public Engine::CScene
 {
 private:
-	explicit							CLogoScene			(void);
-									   ~CLogoScene			(void);
+	explicit								CLogoScene			(void);
+										   ~CLogoScene			(void);
 
 public:
-	static			Engine::CScene*		Create				(void);
-					void				Free				(void) override;
+	static			Engine::CScene*			Create				(void);
+					void					Free				(void) override;
 
-					void				Awake				(_int numOfLayers) override;
-					void				Start				(void) override;
-															   
-					void				FixedUpdate			(void) override;
-					void				Update				(void) override;
-					void				LateUpdate			(void) override;	
+					void					Awake				(_int numOfLayers) override;
+					void					Start				(void) override;
+																   
+					void					FixedUpdate			(void) override;
+					void					Update				(void) override;
+					void					LateUpdate			(void) override;	
 					
-					void				OnDestroy			(void) override;
+					void					OnDestroy			(void) override;
 
-					void				OnEnable			(void) override;	 
-					void				OnDisable			(void) override;
+					void					OnEnable			(void) override;	 
+					void					OnDisable			(void) override;
 
 private:
-					void				InitPrototypes		(void) override;
+					void					InitPrototypes		(void) override;
+
+	GETTOR			(CLoading*,				m_pLoading,			nullptr,		Loading)
+	GETTOR			(SP(Engine::CObject),	m_pPressAny,		nullptr,		PressAny)
 };
 
 #endif

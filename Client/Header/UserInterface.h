@@ -30,11 +30,6 @@ protected:
 	GETTOR			(SP(Engine::CBitmapC),		m_spBitmap,		nullptr,	Bitmap)
 	GETTOR			(SP(Engine::CTextureC),		m_spTexture,	nullptr,	Texture)
 
-	GETTOR_SETTOR	(_float,			m_positionX,	0.f,	PositionX)
-	GETTOR_SETTOR	(_float,			m_positionY,	0.f,	PositionY)
-	GETTOR_SETTOR	(_float,			m_ScaleX,		0.f,	ScaleX)
-	GETTOR_SETTOR	(_float,			m_ScaleY,		0.f,	ScaleY)
-
 private:
 	static		_uint					m_s_uniqueID;
 };

@@ -72,19 +72,22 @@ void CDecoration::Update(void)
 {
 	__super::Update();
 
-	_int curAniIndex = m_aniIndex;
-	for (auto& meshData : m_spMesh->GetMeshDatas())
+	if (m_spMesh->GetMeshDatas()[0]->GetMeshType() == (_int)Engine::EMeshType::Dynamic)
 	{
-		Engine::CDynamicMesh* pDM = static_cast<Engine::CDynamicMesh*>(meshData);
-		if (pDM->IsAnimationEnd())
+		_int curAniIndex = m_aniIndex;
+		for (auto& meshData : m_spMesh->GetMeshDatas())
 		{
-			curAniIndex = m_aniIndex + 1;
-			if (curAniIndex == m_vAnimationIndices.size())
-				curAniIndex = 0;
-			pDM->ChangeAniSet(m_vAnimationIndices[curAniIndex]);
+			Engine::CDynamicMesh* pDM = static_cast<Engine::CDynamicMesh*>(meshData);
+			if (pDM->IsAnimationEnd())
+			{
+				curAniIndex = m_aniIndex + 1;
+				if (curAniIndex == m_vAnimationIndices.size())
+					curAniIndex = 0;
+				pDM->ChangeAniSet(m_vAnimationIndices[curAniIndex]);
+			}
 		}
+		m_aniIndex = curAniIndex;
 	}
-	m_aniIndex = curAniIndex;
 }
 
 void CDecoration::LateUpdate(void)

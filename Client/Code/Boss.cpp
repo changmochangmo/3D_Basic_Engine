@@ -70,12 +70,12 @@ void CBoss::Start(void)
 	m_pPlayerTransform = Engine::GET_CUR_SCENE->FindObjectWithKey(L"Player")->GetTransform().get();
 	//m_spRigidBody->SetUseGravity(false);
 
-	m_pLeftRoller = std::dynamic_pointer_cast<CRollerBlade>(Engine::ADD_CLONE(L"RollerBlade", false)).get();
+	m_pLeftRoller = std::dynamic_pointer_cast<CRollerBlade>(Engine::ADD_CLONE(L"RollerBlade", Engine::GET_CUR_SCENE, false)).get();
 	m_pLeftRoller->SetBoss(this);
 	m_pLeftRoller->SetIsRightHand(false);
 	m_pLeftRoller->SetIsEnabled(false);
 
-	m_pRightRoller = std::dynamic_pointer_cast<CRollerBlade>(Engine::ADD_CLONE(L"RollerBlade", false)).get();
+	m_pRightRoller = std::dynamic_pointer_cast<CRollerBlade>(Engine::ADD_CLONE(L"RollerBlade", Engine::GET_CUR_SCENE, false)).get();
 	m_pRightRoller->SetBoss(this);
 	m_pRightRoller->SetIsEnabled(false);
 	m_pRightRoller->SetIsHoming(true);
@@ -83,7 +83,7 @@ void CBoss::Start(void)
 	for (_int i = 0; i < 20; ++i)
 	{
 		CRollerBlade* pRoller =
-			std::dynamic_pointer_cast<CRollerBlade>(Engine::ADD_CLONE(L"RollerBlade", false)).get();
+			std::dynamic_pointer_cast<CRollerBlade>(Engine::ADD_CLONE(L"RollerBlade", Engine::GET_CUR_SCENE, false)).get();
 
 		pRoller->SetBoss(this);
 		pRoller->SetIsEnabled(false);
@@ -96,7 +96,7 @@ void CBoss::Start(void)
 	for (_int i = 0; i < 5; ++i)
 	{
 		CRollerBlade* pRoller =
-			std::dynamic_pointer_cast<CRollerBlade>(Engine::ADD_CLONE(L"RollerBlade", false)).get();
+			std::dynamic_pointer_cast<CRollerBlade>(Engine::ADD_CLONE(L"RollerBlade", Engine::GET_CUR_SCENE, false)).get();
 
 		pRoller->SetBoss(this);
 		pRoller->SetIsEnabled(false);
@@ -110,7 +110,7 @@ void CBoss::Start(void)
 	for (_int i = 0; i < 20; ++i)
 	{
 		CSandBag* pSandBag =
-			std::dynamic_pointer_cast<CSandBag>(Engine::ADD_CLONE(L"SandBag", false)).get();
+			std::dynamic_pointer_cast<CSandBag>(Engine::ADD_CLONE(L"SandBag", Engine::GET_CUR_SCENE, false)).get();
 
 		pSandBag->SetLaneNumber(i % 10);
 
@@ -205,9 +205,9 @@ void CBoss::LateUpdate(void)
 	
 	std::wstring curStateStr;
 	CurStatusInStr(curStateStr);
-	Engine::REWRITE_TEXT(L"Test0", curStateStr);
-	Engine::REWRITE_TEXT(L"Test1", std::to_wstring(m_phase));
-	Engine::REWRITE_TEXT(L"Test2", std::to_wstring(m_pattern));
+	//Engine::REWRITE_TEXT(L"Test0", curStateStr);
+	//Engine::REWRITE_TEXT(L"Test1", std::to_wstring(m_phase));
+	//Engine::REWRITE_TEXT(L"Test2", std::to_wstring(m_pattern));
 
 	m_lastStatus = m_status;
 	m_onGround = false;

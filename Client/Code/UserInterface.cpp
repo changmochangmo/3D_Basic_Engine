@@ -65,8 +65,10 @@ void CUserInterface::Start(void)
 	_float3 size;
 	Engine::GET_VALUE(false, dataID, m_objectKey, L"size", size);
 
-	m_spTransform->SetPosition(pos);
-	m_spTransform->SetSize(size);
+	if(pos != ZERO_VECTOR)
+		m_spTransform->SetPosition(pos);
+	if(size != ZERO_VECTOR)
+		m_spTransform->SetSize(size);
 }
 
 void CUserInterface::FixedUpdate(void)

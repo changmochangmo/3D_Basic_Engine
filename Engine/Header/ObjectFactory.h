@@ -5,6 +5,7 @@
 
 BEGIN(Engine)
 class CObject;
+class CScene;
 class ENGINE_DLL CObjectFactory final : public CEngine
 {
 	DECLARE_SINGLETON(CObjectFactory)
@@ -19,6 +20,7 @@ public:
 
 			HRESULT			AddPrototype		(SP(CObject) pPrototype);
 			SP(CObject)		AddClone			(const std::wstring& protoObjectKey,
+												 CScene* pScene = nullptr,
 												 _bool isStatic = false,
 												 const std::wstring& name = L"",
 												 _int layerTag = UNDEFINED);

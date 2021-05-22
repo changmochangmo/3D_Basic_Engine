@@ -20,7 +20,7 @@ void CInputManager::Awake(void)
 
 void CInputManager::Start(void)
 {
-	GET_VALUE(true, m_dataID, m_objectKey, L"mouseSensitivity", m_mouseSensitivity);
+	m_mouseSensitivity = _float2(3.5f, 3.5f);
 }
 
 void CInputManager::FixedUpdate(void)
