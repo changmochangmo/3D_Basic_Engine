@@ -43,6 +43,7 @@ private:
 public:
 	static const	EComponentID	m_s_componentID = EComponentID::Collision;
 
+	CObject* m_pObject;
 protected:
 	typedef std::vector<_CollisionInfo> _COLLISIONS;
 	typedef	std::vector<CCollisionC*> _TRIGGERS;

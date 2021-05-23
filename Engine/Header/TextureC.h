@@ -32,7 +32,7 @@ public:
 private:
 	typedef std::vector<std::vector<_TexData*>> _TEXDATAS;
 	GETTOR_SETTOR	(_TEXDATAS,		m_vTexData,			{},						TexData)
-	GETTOR_SETTOR	(_float4,		m_color,			_float4(1, 1, 1, 0.5f),	Color)
+	GETTOR_SETTOR	(D3DXCOLOR,		m_color,			_float4(1, 1, 1, 1),	Color)
 	GETTOR_SETTOR	(_int,			m_numOfTex,			0,						NumOfTex)	
 	
 	GETTOR_SETTOR	(_bool,			m_changeTex,		false,					ChangeTex)

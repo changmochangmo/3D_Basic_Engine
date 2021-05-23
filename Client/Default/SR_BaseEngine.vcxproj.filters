@@ -19,9 +19,6 @@
     <Filter Include="02.Objects\01.Player">
       <UniqueIdentifier>{fb136d06-05de-4244-9b21-c4b8608835ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Objects\01.Player\00.PlayerAttack">
-      <UniqueIdentifier>{611b31c8-985c-44c5-89f3-4f9e77334f80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Objects\02.MapObject">
       <UniqueIdentifier>{e779260b-ade1-4f35-bef5-75d97fde29b5}</UniqueIdentifier>
     </Filter>
@@ -39,9 +36,6 @@
     </Filter>
     <Filter Include="02.Objects\04.Boss\02.MafiaBall">
       <UniqueIdentifier>{d34a0a1b-71a4-4fdd-860e-d8efa3b5c195}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Objects\05.Mafia">
-      <UniqueIdentifier>{9c0a6cd1-a70b-417e-a635-95a8bcbe1e65}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.Objects\05.UserInterface">
       <UniqueIdentifier>{7c0343b6-e53b-4968-80b1-acd86bec3f79}</UniqueIdentifier>
@@ -69,6 +63,24 @@
     </Filter>
     <Filter Include="01.Scene\00.Static">
       <UniqueIdentifier>{2c5f86b9-d149-45db-bce2-0a2adc67aee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\07.Wall">
+      <UniqueIdentifier>{f7c765cc-61db-4ce5-9d5b-aa65436f14f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\08.Mafia">
+      <UniqueIdentifier>{9c0a6cd1-a70b-417e-a635-95a8bcbe1e65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\08.Mafia\00.Basic">
+      <UniqueIdentifier>{d81601d4-fbe4-4f3d-9f26-f9f64ae3e73c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\01.Player\00. JumpHat">
+      <UniqueIdentifier>{db8d685c-bb2d-4a05-91a5-402dff1d487e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\01.Player\01.FireHat">
+      <UniqueIdentifier>{9feb64ac-d629-4917-80c9-4b1b283fc007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Objects\08.Cloud">
+      <UniqueIdentifier>{33682de0-a689-4e3b-8a1d-cdf7f072fda4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +159,21 @@
     <ClInclude Include="..\Header\Loading.h">
       <Filter>01.Scene\99.Loading</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Wall.h" />
+    <ClInclude Include="..\Header\Wall.h">
+      <Filter>02.Objects\07.Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Mafia.h">
+      <Filter>02.Objects\08.Mafia\00.Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\JumpHat.h">
+      <Filter>02.Objects\01.Player\00. JumpHat</Filter>
+    </ClInclude>
+    <ClInclude Include="Cloud.h">
+      <Filter>02.Objects\08.Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FireHat.h">
+      <Filter>02.Objects\01.Player\01.FireHat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -204,7 +230,21 @@
     <ClCompile Include="..\Code\Loading.cpp">
       <Filter>01.Scene\99.Loading</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Wall.cpp" />
+    <ClCompile Include="..\Code\Wall.cpp">
+      <Filter>02.Objects\07.Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Mafia.cpp">
+      <Filter>02.Objects\08.Mafia\00.Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\JumpHat.cpp">
+      <Filter>02.Objects\01.Player\00. JumpHat</Filter>
+    </ClCompile>
+    <ClCompile Include="Cloud.cpp">
+      <Filter>02.Objects\08.Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FireHat.cpp">
+      <Filter>02.Objects\01.Player\01.FireHat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">

@@ -28,11 +28,13 @@ public:
 private:
 					void					InitPrototypes		(void) override;
 
+
 	GETTOR			(_float,				m_timeLeft,			60,			TimeLeft)
 	GETTOR			(SP(CUserInterface),	m_firstDigit,		nullptr,	FirstDigit)
 	GETTOR			(SP(CUserInterface),	m_secondDigit,		nullptr,	SecondDigit)
 	GETTOR			(SP(CUserInterface),	m_thirdDigit,		nullptr,	ThirdDigit)
 	GETTOR			(SP(CUserInterface),	m_fourthDigit,		nullptr,	FourthDigit)
+	GETTOR			(SP(CUserInterface),	m_mouseUI,			nullptr,	MouseUI)
 };
 
 #endif

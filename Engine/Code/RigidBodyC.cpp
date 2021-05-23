@@ -92,9 +92,17 @@ void CRigidBodyC::AddTorque(_float3 torque)
 {
 	m_torque += torque;
 }
+void CRigidBodyC::SetVelocityX(_float num)
+{
+	m_velocity.x = num;
+}
 void CRigidBodyC::SetVelocityY(_float num)
 {
 	m_velocity.y = num;
+}
+void CRigidBodyC::SetVelocityZ(_float num)
+{
+	m_velocity.z = num;
 }
 #pragma endregion
 

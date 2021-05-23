@@ -54,6 +54,7 @@ void CCollisionC::Start(SP(CComponent) spThis)
 	m_spTransform = m_pOwner->GetComponent<CTransformC>();
 	m_spRigidbody = m_pOwner->GetComponent<CRigidBodyC>();
 
+	m_pObject = m_pOwner;
 	CCollisionManager::GetInstance()->AddCollisionToManager(std::dynamic_pointer_cast<CCollisionC>(spThis));
 }
 

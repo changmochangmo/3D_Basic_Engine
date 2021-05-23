@@ -9,6 +9,10 @@
 #include "ObjectFactory.h"
 #include "UserInterface.h"
 #include "SceneManager.h"
+#include "JumpHat.h"
+#include "FireHat.h"
+#include "BossScene.h"
+#include "CameraManager.h"
 
 _uint CPlayer::m_s_uniqueID = 0;
 
@@ -67,19 +71,29 @@ void CPlayer::Start(void)
 	__super::Start();
 	m_spCollision->SetOffsetBS(_float3(0, 0.5f, 0));
 	m_spCollision->SetRadiusBS(1.1f);
-	m_spTransform->AddPositionY(0.2);
+	m_spTransform->AddPositionY(0.2f);
 
 	m_spSCObject = Engine::ADD_CLONE(L"EmptyObject", Engine::GET_CUR_SCENE, true, L"PlayerSC", (_int)ELayerID::Player);
 	m_spSCObject->AddComponent<Engine::CCollisionC>()->
 		AddCollider(Engine::CSphereCollider::Create(0.325f, _float3(0, 0.35f, 0)));
 	m_spSCObject->GetComponent<Engine::CCollisionC>()->SetCollisionID((_int)EColliderID::Player);
 
+	m_spJumpHat =
+		std::dynamic_pointer_cast<CJumpHat>(Engine::ADD_CLONE(L"JumpHat", Engine::GET_CUR_SCENE, false));
+	m_spJumpHat->SetIsEnabled(false);
+	m_spJumpHat->SetPlayer(this);
 
-	//m_spLifeUI = 
-	//	std::dynamic_pointer_cast<CUserInterface>(Engine::ADD_CLONE(L"PlayerLife", Engine::GET_CUR_SCENE, false, L"", (_int)ELayerID::UI));
+	m_spFireHat =
+		std::dynamic_pointer_cast<CFireHat>(Engine::ADD_CLONE(L"FireHat", Engine::GET_CUR_SCENE, false));
+	m_spFireHat->SetIsEnabled(false);
+	m_spFireHat->SetPlayer(this);
+
+	m_spLifeUI = 
+		std::dynamic_pointer_cast<CUserInterface>(Engine::ADD_CLONE(L"PlayerLife", Engine::GET_CUR_SCENE, false, L"", (_int)ELayerID::UI));
 
 
-	//m_spSCObject->AddComponent<Engine::CDebugC>();
+	m_spSCObject->AddComponent<Engine::CDebugC>();
+	m_curCamMode = Engine::ECameraMode::Follower;
 	//m_spRigidBody->SetUseGravity(false);
 }
 
@@ -92,7 +106,11 @@ void CPlayer::Update(void)
 {
 	__super::Update();
 	m_spSCObject->GetTransform()->SetPosition(m_spTransform->GetPosition());
-	//m_spLifeUI->GetTexture()->SetTexIndex(m_life);
+	m_spLifeUI->GetTexture()->SetTexIndex(m_life);
+
+	Engine::REWRITE_TEXT(L"Test0", std::to_wstring(m_spTransform->GetPosition().x) + L", \n" + 
+								   std::to_wstring(m_spTransform->GetPosition().y) + L", \n" +
+								   std::to_wstring(m_spTransform->GetPosition().z));
 }
 
 void CPlayer::LateUpdate(void)
@@ -115,11 +133,33 @@ void CPlayer::LateUpdate(void)
 		}
 	}
 	Fall();
+	Hurt();
 	UpdateAnimation();
 
-	std::wstring curState;
-	CurStatusInStr(curState);
-	Engine::REWRITE_TEXT(L"Test0", curState);
+	//std::wstring curState;
+	//CurStatusInStr(curState);
+	//Engine::REWRITE_TEXT(L"Test1", curState);
+	if (Engine::IMKEY_PRESS(MOUSE_RIGHT))
+	{
+		static_cast<CBossScene*>(Engine::GET_CUR_SCENE)->GetMouseUI()->SetIsEnabled(true);
+		Engine::GET_MAIN_CAM->SetMode(Engine::ECameraMode::Fixed);
+		m_swapHat = true;
+	}
+	else
+	{
+		static_cast<CBossScene*>(Engine::GET_CUR_SCENE)->GetMouseUI()->SetIsEnabled(false);
+		Engine::CInputManager::GetInstance()->MoveMouseToCenter();
+		Engine::GET_MAIN_CAM->SetMode(m_curCamMode);
+		m_swapHat = false;
+	}
+
+	if (m_swapHat)
+	{
+		m_spJumpHat->SetIsEnabled(true);
+		Engine::CFRC::GetInstance()->SetDtCoef(0.5f);
+	}
+	else
+		Engine::CFRC::GetInstance()->SetDtCoef(1.f);
 
 	m_lastStatus = m_status;
 	m_onGround = false;
@@ -153,12 +193,12 @@ void CPlayer::OnCollisionEnter(Engine::_CollisionInfo ci)
 	{
 		m_status = STATUS_IDLE;
 		m_onGround = true;
-		m_spRigidBody->SetVelocityY(0);
+		m_spRigidBody->SetVelocity(ZERO_VECTOR);
 	}
 	else if (ci.normal.y + EPSILON >= 0.7)
 	{
 		m_jumpTimer = m_jumpLimit;
-		m_spRigidBody->SetVelocityY(0);
+		m_spRigidBody->SetVelocity(ZERO_VECTOR);
 	}
 }
 
@@ -237,6 +277,9 @@ void CPlayer::Move(void)
 				m_moveSpeed = m_runSpeed;
 			}
 
+			m_spRigidBody->SetVelocityX(0.f);
+			m_spRigidBody->SetVelocityZ(0.f);
+
 			m_spTransform->AddPosition(m_moveDir * m_moveSpeed * GET_DT);
 		}
 		else
@@ -266,6 +309,8 @@ void CPlayer::Move(void)
 				m_status = STATUS_RUN;
 				m_moveSpeed = m_runSpeed;
 			}
+			m_spRigidBody->SetVelocityX(0.f);
+			m_spRigidBody->SetVelocityZ(0.f);
 
 			m_spTransform->AddPosition(m_moveDir * m_moveSpeed * GET_DT);
 		}
@@ -406,6 +451,44 @@ void CPlayer::Slide(void)
 	}
 	if (m_status == STATUS_SLIDE || m_status == STATUS_SLIDEDONE)
 		m_spTransform->AddPosition(-m_moveDir * m_moveSpeed * GET_DT);
+}
+
+void CPlayer::Hurt(void)
+{
+	_float deltaTime = GET_DT;
+	if (m_isHurt)
+	{
+		if (m_hurtTimer == 0.f)
+		{
+			m_life--;
+
+			_float3 hurtDir = -m_spTransform->GetForward();
+			m_spRigidBody->AddForce(-m_spTransform->GetForward() * 200);
+			m_spRigidBody->AddForce(UP_VECTOR * 200);
+		}
+		else if(m_hurtTimer > m_hurtDuration)
+		{ 
+			m_isHurt = false;
+			m_hurtTimer = 0.f;
+			m_spTexture->SetColor(D3DXCOLOR(1, 1, 1, 1));
+			return;
+		}
+		if (m_alphaTimer <= 0.f)
+		{
+			if (m_spTexture->GetColor().a > 0.6f)
+				m_spTexture->SetColor(D3DXCOLOR(1, 1, 1, 0.5));
+			else
+				m_spTexture->SetColor(D3DXCOLOR(1, 1, 1, 1));
+
+			m_alphaTimer = 0.25f;
+		}
+		m_alphaTimer	-= deltaTime;
+		m_hurtTimer		+= deltaTime;
+	}
+}
+
+void CPlayer::SwapHat(void)
+{
 }
 
 

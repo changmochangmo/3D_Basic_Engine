@@ -3,8 +3,16 @@
 
 #include "Object.h"
 class CUserInterface;
+class CJumpHat;
+class CFireHat;
 class CPlayer final : public Engine::CObject
 {
+	enum EHatType
+	{
+		HT_None,
+		HT_Jump,
+		HT_Fire
+	};
 	enum EAniIndex
 	{
 		ANI_IDLE		= 14,
@@ -69,6 +77,8 @@ private:
 				void				Jump				(void);
 				void				Fall				(void);
 				void				Slide				(void);
+				void				Hurt				(void);
+				void				SwapHat				(void);
 				void				UpdateAnimation		(void);
 
 private:
@@ -84,6 +94,10 @@ private:
 	GETTOR		(SP(Engine::CRigidBodyC),	m_spRigidBody,			nullptr,		RigidBody)
 
 	GETTOR		(SP(Engine::CObject),		m_spSCObject,			nullptr,		SCObject)
+	GETTOR		(SP(CJumpHat),				m_spJumpHat,			nullptr,		JumpHat)
+	GETTOR		(SP(CFireHat),				m_spFireHat,			nullptr,		FireHat)
+
+	GETTOR		(_bool,						m_jumpHatOn,			false,			JumpHatOn)
 
 	GETTOR		(SP(CUserInterface),		m_spLifeUI,				nullptr,		LifeUI)
 
@@ -93,6 +107,9 @@ private:
 	GETTOR_SETTOR	(_int,					m_status,				STATUS_IDLE,	Status)
 
 	GETTOR_SETTOR	(_int,					m_aniIndex,				0,				AniIndex)
+
+	GETTOR_SETTOR	(_int,					m_curHat,				0,				CurHat)
+	GETTOR_SETTOR	(Engine::ECameraMode,	m_curCamMode,			{},				CurCamMode)
 
 	GETTOR_SETTOR	(_float,				m_walkSpeed,			3,				WalkSpeed)
 	GETTOR_SETTOR	(_float,				m_runSpeed,				9,				RunSpeed)
@@ -112,11 +129,18 @@ private:
 	GETTOR_SETTOR	(_float,				m_punchLimit,			0.2f,			PunchLimit)
 	GETTOR_SETTOR	(_int,					m_punchCount,			0,				PunchCount)
 
+	GETTOR_SETTOR	(_bool,					m_isHurt,				false,			IsHurt)
+	GETTOR_SETTOR	(_float,				m_hurtTimer,			0,				HurtTimer)
+	GETTOR_SETTOR	(_float,				m_hurtDuration,			4.f,			HurtDuration)
+	GETTOR_SETTOR	(_float,				m_alphaTimer,			0.25f,			AlphaTimer)
+
 	GETTOR_SETTOR	(_float,				m_slideAmount,			600,			SlideAmount)
 	GETTOR_SETTOR	(_float,				m_slideSpeed,			9,				SlideSpeed)
 
 	GETTOR_SETTOR	(_bool,					m_onGround,				false,			OnGround)
 	GETTOR_SETTOR	(_bool,					m_controllable,			true,			ControlAble)
+
+	GETTOR_SETTOR	(_bool,					m_swapHat,				false,			SwapHat)
 };
 
 #endif

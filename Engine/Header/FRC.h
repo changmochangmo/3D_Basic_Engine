@@ -20,6 +20,7 @@ public:
 
 					void				TimerStart			(void);
 					_float				GetElapsedTime		(void);
+					_float				GetDeltaTime		(void);
 private:
 
 					//cpu의 초당 진동수
@@ -30,12 +31,14 @@ private:
 					LARGE_INTEGER		m_endTime			= {};
 					//한 프레임의 속도 리미트. second per frame limit.
 					_float				m_spfLimit			= 0.f;
+					_float				m_deltaTime			= 0.f;
 
 					LONGLONG			m_timer				= {};
 					
+
 	GETTOR			(_float,			m_fixedDeltaTime,	0.f,		FixedDeltaTime)
-	GETTOR			(_float,			m_deltaTime,		0.f,		DeltaTime)
 	GETTOR			(_float,			m_FPS,				0.f,		FPS)
+	GETTOR_SETTOR	(_float,			m_dtCoef,			1.f,		DtCoef)
 
 };
 END

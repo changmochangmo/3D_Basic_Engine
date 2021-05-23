@@ -5,6 +5,7 @@
 #include "TextManager.h"
 #include "CameraManager.h"
 #include "SceneManager.h"
+#include "InputManager.h"
 #include "FRC.h"
 
 #pragma region ObjectsHeader
@@ -18,6 +19,10 @@
 #include "MafiaBall.h"
 #include "Decoration.h"
 #include "Wall.h"
+#include "Mafia.h"
+#include "Cloud.h"
+#include "JumpHat.h"
+#include "FireHat.h"
 #pragma endregion
 
 CBossScene::CBossScene()
@@ -99,10 +104,13 @@ void CBossScene::Start(void)
 	//spBossClone->AddComponent<Engine::CDebugC>();
 
 	SP(Engine::CObject) spPlayerClone = Engine::ADD_CLONE(L"Player", this, true);
-	spPlayerClone->GetTransform()->SetPosition(-7.7f, 15.f, 33.f);
+	spPlayerClone->GetTransform()->SetPosition(-7.7f, 3.f, 27.f);
 	//spPlayerClone->AddComponent<Engine::CDebugC>();
 	m_spSceneCam->SetTarget(this->FindObjectWithKey(L"Player"));
 
+	
+
+#pragma region mapSetting
 	_int numOfMapObject;
 	Engine::GET_VALUE(false, (_int)EDataID::Scene, L"MapObjects", L"numOfMapObject", numOfMapObject);
 	for (_int i = 0; i < numOfMapObject; ++i)
@@ -522,7 +530,7 @@ void CBossScene::Start(void)
 	spDoor->GetTransform()->SetSizeX(-0.013f);
 	spDoor->GetTransform()->SetPositionX(-6.4f);
 	spDoor->GetTransform()->SetPositionZ(25.1f);
-
+#pragma endregion
 
 	//시계
 	m_firstDigit = 
@@ -546,7 +554,131 @@ void CBossScene::Start(void)
 	m_fourthDigit->GetTransform()->AddRotationZ(PI / 4);
 	m_fourthDigit->GetTransform()->SetPosition(352.5f, -220.f, 0);
 	m_fourthDigit->GetTransform()->SetSize(25, 25, 0);
+
+	m_mouseUI =
+		std::dynamic_pointer_cast<CUserInterface>(Engine::ADD_CLONE(L"Mouse", this, false, L"", (_int)ELayerID::UI));
+	m_mouseUI->GetTransform()->AddRotationZ(-PI / 4);
+	m_mouseUI->GetTransform()->SetSize(25, 25, 0);
+	m_mouseUI->SetIsEnabled(false);
 	
+	SP(Engine::CObject) spMafiaClone = Engine::ADD_CLONE(L"Mafia", this, false);
+	spMafiaClone->GetTransform()->SetPosition(-15, 1.5f, 40);
+	spMafiaClone->GetTransform()->SetSize(0.02f, 0.02f, 0.02f);
+
+	spMafiaClone = Engine::ADD_CLONE(L"Mafia", this, false);
+	spMafiaClone->GetTransform()->SetPosition(-0.36f, 1.5f, 40);
+	spMafiaClone->GetTransform()->SetSize(0.02f, 0.02f, 0.02f);
+
+	//앉아있는 마피아들
+	SP(CDecoration) spRedSuitClone = 
+		std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+	spRedSuitClone->GetTransform()->SetPosition(-11.4f, -0.5f, 41);
+	spRedSuitClone->AddAnimationIndex(2);
+
+	spRedSuitClone =
+		std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+	spRedSuitClone->GetTransform()->SetPosition(-10.3f, -0.5f, 41);
+	spRedSuitClone->AddAnimationIndex(1);
+
+	spRedSuitClone =
+		std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+	spRedSuitClone->GetTransform()->SetPosition(-6.2f, -0.5f, 41);
+	spRedSuitClone->AddAnimationIndex(2);
+
+	spRedSuitClone =
+		std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+	spRedSuitClone->GetTransform()->SetPosition(-8.25f, -0.9f, 42.5f);
+	spRedSuitClone->AddAnimationIndex(1);
+
+	spRedSuitClone =
+		std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+	spRedSuitClone->GetTransform()->SetPosition(-7.225f, -0.9f, 42.5f);
+	spRedSuitClone->AddAnimationIndex(1);
+
+	spRedSuitClone =
+		std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+	spRedSuitClone->GetTransform()->SetPosition(-2.f, -0.9f, 42.5f);
+	spRedSuitClone->AddAnimationIndex(2);
+
+	spRedSuitClone =
+		std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+	spRedSuitClone->GetTransform()->SetPosition(-2.f, -1.9f, 46.2f);
+	spRedSuitClone->AddAnimationIndex(2);
+
+	spRedSuitClone =
+		std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+	spRedSuitClone->GetTransform()->SetPosition(-3.025f, -1.9f, 46.2f);
+	spRedSuitClone->AddAnimationIndex(0);
+
+	spRedSuitClone =
+	std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+	spRedSuitClone->GetTransform()->SetPosition(-11.4f, -1.9f, 46.2f);
+	spRedSuitClone->AddAnimationIndex(2);
+
+	spRedSuitClone =
+		std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+	spRedSuitClone->GetTransform()->SetPosition(-10.3f, -1.9f, 46.2f);
+	spRedSuitClone->AddAnimationIndex(1);
+
+
+
+
+	for (_int i = 0; i < 12; ++i)
+	{
+		spRedSuitClone =
+			std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+		spRedSuitClone->GetTransform()->SetPosition(-13.52f + i * 1.04, -2.5f, 52.0f);
+		spRedSuitClone->AddAnimationIndex(i % 3);
+	}
+
+	for (_int i = 0; i < 12; ++i)
+	{
+		spRedSuitClone =
+			std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
+		spRedSuitClone->GetTransform()->SetPosition(-13.52f + i * 1.04, -2.9f, 53.4f);
+		spRedSuitClone->AddAnimationIndex((i + 1)%3);
+	}
+
+	SP(CCloud) spCloudClone =
+		std::dynamic_pointer_cast<CCloud>(Engine::ADD_CLONE(L"Cloud", this, false));
+	spCloudClone->GetTransform()->SetPosition(-7.7f, 3.f, 40.f);
+
+	spCloudClone =
+		std::dynamic_pointer_cast<CCloud>(Engine::ADD_CLONE(L"Cloud", this, false));
+	spCloudClone->GetTransform()->SetPosition(-4.7f, 6.f, 40.f);
+
+	spCloudClone =
+		std::dynamic_pointer_cast<CCloud>(Engine::ADD_CLONE(L"Cloud", this, false));
+	spCloudClone->GetTransform()->SetPosition(-8.7f, 6.f, 43.f);
+
+	spCloudClone =
+		std::dynamic_pointer_cast<CCloud>(Engine::ADD_CLONE(L"Cloud", this, false));
+	spCloudClone->GetTransform()->SetPosition(-12.7f, 7.f, 43.f);
+
+	spCloudClone =
+		std::dynamic_pointer_cast<CCloud>(Engine::ADD_CLONE(L"Cloud", this, false));
+	spCloudClone->GetTransform()->SetPosition(-12.7f, 7.f, 47.f);
+
+	spCloudClone =
+		std::dynamic_pointer_cast<CCloud>(Engine::ADD_CLONE(L"Cloud", this, false));
+	spCloudClone->GetTransform()->SetPosition(-9.7f, 4.f, 43.f);
+
+	spCloudClone =
+		std::dynamic_pointer_cast<CCloud>(Engine::ADD_CLONE(L"Cloud", this, false));
+	spCloudClone->GetTransform()->SetPosition(-2.7f, 7.f, 46.f);
+
+	spCloudClone =
+		std::dynamic_pointer_cast<CCloud>(Engine::ADD_CLONE(L"Cloud", this, false));
+	spCloudClone->GetTransform()->SetPosition(-14.7f, 4.f, 54.f);
+
+	spCloudClone =
+		std::dynamic_pointer_cast<CCloud>(Engine::ADD_CLONE(L"Cloud", this, false));
+	spCloudClone->GetTransform()->SetPosition(-5.7f, 3.f, 55.f);
+
+	spCloudClone =
+		std::dynamic_pointer_cast<CCloud>(Engine::ADD_CLONE(L"Cloud", this, false));
+	spCloudClone->GetTransform()->SetPosition(0.7f, 3.f, 52.f);
+
 	__super::Start();
 }
 
@@ -574,6 +706,9 @@ void CBossScene::Update(void)
 	m_fourthDigit->GetTexture()->SetTexIndex(fourthDigit);
 	
 	m_timeLeft -= GET_DT;
+
+
+	m_mouseUI->GetTransform()->SetPosition(Engine::CInputManager::GetInstance()->GetMousePos());
 }
 
 void CBossScene::LateUpdate(void)
@@ -610,6 +745,9 @@ void CBossScene::InitPrototypes(void)
 
 		SP(CUserInterface) spNumberUIPrototype(CUserInterface::Create(L"Number"));
 		Engine::ADD_PROTOTYPE(spNumberUIPrototype);
+
+		SP(CUserInterface) spMouseUIPrototype(CUserInterface::Create(L"Mouse"));
+		Engine::ADD_PROTOTYPE(spMouseUIPrototype);
 	}
 
 	SP(Engine::CObject) spBossPrototype(CBoss::Create(false));
@@ -670,11 +808,23 @@ void CBossScene::InitPrototypes(void)
 	spMafiaDecoType4->GetTransform()->SetSize(0.01f, 0.01f, 0.01f);
 	spMafiaDecoType4->GetComponent<Engine::CMeshC>()->AddMeshData(L"Mafia");
 	spMafiaDecoType4->GetComponent<Engine::CTextureC>()->AddTexture(L"mafia_body_texture");
-	spMafiaDecoType4->GetComponent<Engine::CTextureC>()->AddTexture(L"mafia_face2_happy");
+	spMafiaDecoType4->GetComponent<Engine::CTextureC>()->AddTexture(L"mafia_face2_sleepy");
 	spMafiaDecoType4->GetComponent<Engine::CTextureC>()->AddTexture(L"Map__6");
 	spMafiaDecoType4->GetComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::AlphaTest);
 	spMafiaDecoType4->AddAnimationIndex(1);
 	Engine::ADD_PROTOTYPE(spMafiaDecoType4);
+
+	SP(CDecoration) spRedSuitPrototype(CDecoration::Create(false));
+	spRedSuitPrototype->SetObjectKey(L"RedSuit");
+	spRedSuitPrototype->SetLayerID((_int)ELayerID::Map);
+	spRedSuitPrototype->GetTransform()->SetSize(0.01f, 0.01f, 0.01f);
+	spRedSuitPrototype->GetComponent<Engine::CMeshC>()->AddMeshData(L"Mafia_B");
+	spRedSuitPrototype->GetComponent<Engine::CTextureC>()->AddTexture(L"mafia_body_purple");
+	spRedSuitPrototype->GetComponent<Engine::CTextureC>()->AddTexture(L"Map__16");
+	spRedSuitPrototype->GetComponent<Engine::CTextureC>()->AddTexture(L"mafia_face2_sleepy");
+	
+	spRedSuitPrototype->GetComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::AlphaTest);
+	Engine::ADD_PROTOTYPE(spRedSuitPrototype);
 
 
 	SP(CDecoration) spDoorPrototype(CDecoration::Create(false));
@@ -690,4 +840,16 @@ void CBossScene::InitPrototypes(void)
 
 	SP(CWall) spWallPrototype(CWall::Create(false));
 	Engine::ADD_PROTOTYPE(spWallPrototype);
+
+	SP(CMafia) spMafiaPrototype(CMafia::Create(false));
+	Engine::ADD_PROTOTYPE(spMafiaPrototype);
+
+	SP(CCloud) spCloudPrototype(CCloud::Create(false));
+	Engine::ADD_PROTOTYPE(spCloudPrototype);
+
+	SP(CJumpHat) spJumpHat(CJumpHat::Create(false));
+	Engine::ADD_PROTOTYPE(spJumpHat);
+
+	SP(CFireHat) spFireHat(CFireHat::Create(false));
+	Engine::ADD_PROTOTYPE(spFireHat);
 }

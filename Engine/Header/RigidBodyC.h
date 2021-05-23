@@ -31,7 +31,9 @@ public:
 
 				void				AddTorque		(_float3 torque);
 
+				void				SetVelocityX	(_float num);
 				void				SetVelocityY	(_float num);
+				void				SetVelocityZ	(_float num);
 private:
 				void				UpdateLinear	(void);
 				void				UpdateAngular	(void);

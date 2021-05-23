@@ -54,7 +54,6 @@ void CWall::Awake(void)
 void CWall::Start(void)
 {
 	__super::Start();
-	AddComponent<Engine::CDebugC>();
 }
 
 void CWall::FixedUpdate(void)

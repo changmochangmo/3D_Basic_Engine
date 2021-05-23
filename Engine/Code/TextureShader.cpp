@@ -40,22 +40,23 @@ void CTextureShader::Start(void)
 void CTextureShader::PreRender(CGraphicsC* pGC)
 {
 	__super::PreRender(pGC);
-	m_pShader->SetVector("Color", &pGC->GetTexture()->GetColor());
+	//m_pShader->SetVector("Color", &pGC->GetTexture()->GetColor());
+	GET_DEVICE->SetTextureStageState(0, D3DTSS_CONSTANT, pGC->GetTexture()->GetColor());
 }
 
 void CTextureShader::Render(CGraphicsC * pGC)
 {
 	_uint inumPasses = 0;
 
-	if (SUCCEEDED(m_pShader->Begin(&inumPasses, NULL)))
-	{
-		for (_uint i = 0; i < inumPasses; ++i)
-		{
-			if (FAILED(m_pShader->BeginPass(i)))
-			{
-				MSG_BOX(__FILE__, L"Shader BeginPass Failed");
-				ABORT;
-			}
+	//if (SUCCEEDED(m_pShader->Begin(&inumPasses, NULL)))
+	//{
+	//	for (_uint i = 0; i < inumPasses; ++i)
+	//	{
+	//		if (FAILED(m_pShader->BeginPass(i)))
+	//		{
+	//			MSG_BOX(__FILE__, L"Shader BeginPass Failed");
+	//			ABORT;
+	//		}
 
 			const std::vector<CMeshData*>& vMeshData = pGC->GetMesh()->GetMeshDatas();
 			for (_int i = 0; i < (_int)vMeshData.size(); ++i)
@@ -77,11 +78,11 @@ void CTextureShader::Render(CGraphicsC * pGC)
 					break;
 				}
 			}
-			m_pShader->EndPass();
-		}
-
-		m_pShader->End();
-	}
+	//		m_pShader->EndPass();
+	//	}
+	//
+	//	m_pShader->End();
+	//}
 }
 
 

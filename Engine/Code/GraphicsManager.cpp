@@ -20,6 +20,35 @@ void CGraphicsManager::Awake(void)
 
 void CGraphicsManager::Start(void)
 {
+	LPDIRECT3DDEVICE9 pDevice = GET_DEVICE;
+	D3DLIGHT9 light;
+	ZeroMemory(&light, sizeof(D3DLIGHT9));
+
+	light.Type = D3DLIGHT_DIRECTIONAL;
+	light.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	light.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	light.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	light.Direction = _float3(1.f, -1.f, 1.f);
+
+	pDevice->SetLight(0, &light);
+	pDevice->LightEnable(0, TRUE);
+
+	D3DMATERIAL9				tMtrlInfo;
+	ZeroMemory(&tMtrlInfo, sizeof(D3DMATERIAL9));
+
+	tMtrlInfo.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tMtrlInfo.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
+	tMtrlInfo.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tMtrlInfo.Emissive = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
+	tMtrlInfo.Power = 0.f;
+
+	pDevice->SetMaterial(&tMtrlInfo);
+
+
+	//Get the alpha from the texture
+	pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CONSTANT);
 }
 
 void CGraphicsManager::FixedUpdate(void)
@@ -197,6 +226,7 @@ void CGraphicsManager::RenderAlphaTest(void)
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	// 햇키드 얼굴 랜더링 할때 알파테스팅 해줘야됨
+	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 1); // 알파 기준 설정
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 테스팅 수행
@@ -223,7 +253,6 @@ void CGraphicsManager::RenderAlphaTest(void)
 	}
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
 
@@ -231,7 +260,6 @@ void CGraphicsManager::RenderAlphaBlend(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GET_DEVICE;
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
@@ -271,4 +299,5 @@ void CGraphicsManager::RenderUI(void)
 		}
 		spGC.reset();
 	}
+	GET_DEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }

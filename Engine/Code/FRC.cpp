@@ -76,3 +76,8 @@ _float CFRC::GetElapsedTime(void)
 
 	return timeMeasured;
 }
+
+_float CFRC::GetDeltaTime(void)
+{
+	return m_deltaTime * m_dtCoef;
+}
