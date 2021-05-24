@@ -23,6 +23,8 @@ public:
 				void			OnEnable			(void) override;
 				void			OnDisable			(void) override;
 
+				void			SetAlpha			(_float alpha);
+				void			AddAlpha			(_float alpha);
 public:
 				void			AddTexture			(std::wstring const& textureKey, _int index = 0);
 

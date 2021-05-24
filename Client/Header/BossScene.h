@@ -35,6 +35,13 @@ private:
 	GETTOR			(SP(CUserInterface),	m_thirdDigit,		nullptr,	ThirdDigit)
 	GETTOR			(SP(CUserInterface),	m_fourthDigit,		nullptr,	FourthDigit)
 	GETTOR			(SP(CUserInterface),	m_mouseUI,			nullptr,	MouseUI)
+
+	GETTOR			(_bool,					m_bossStart,		false,		BossStart)
+	GETTOR_SETTOR	(_int,					m_bossPhase,		0,			BossPhase)
+
+	GETTOR_SETTOR	(_bool,					m_cannonDie,		false,		CannonDie)
+
+	GETTOR			(Engine::CTransformC*,		m_pPlayerTransform,		nullptr,		PlayerTransform)
 };
 
 #endif

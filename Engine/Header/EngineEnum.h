@@ -30,7 +30,9 @@ namespace Engine
 		Edit			= 1,
 		FPS				= 2,
 		Follower		= 3,
-		NumOfCameraMode	= 4
+		Movie			= 4,
+		Nothing			= 5,
+		NumOfCameraMode	= 6
 	};
 
 	//MeshType
@@ -112,7 +114,8 @@ namespace Engine
 		Camera					= 6,
 		Debug					= 7,
 		Bitmap					= 8,
-		NumOfEngineComponentID	= 9
+		FadeInOut				= 9,
+		NumOfEngineComponentID	= 10
 	};
 
 	enum class EChannelID

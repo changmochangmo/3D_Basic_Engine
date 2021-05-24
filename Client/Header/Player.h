@@ -5,6 +5,7 @@
 class CUserInterface;
 class CJumpHat;
 class CFireHat;
+class CPlayerAttack;
 class CPlayer final : public Engine::CObject
 {
 	enum EHatType
@@ -79,6 +80,7 @@ private:
 				void				Slide				(void);
 				void				Hurt				(void);
 				void				SwapHat				(void);
+				void				Skill				(void);
 				void				UpdateAnimation		(void);
 
 private:
@@ -97,9 +99,13 @@ private:
 	GETTOR		(SP(CJumpHat),				m_spJumpHat,			nullptr,		JumpHat)
 	GETTOR		(SP(CFireHat),				m_spFireHat,			nullptr,		FireHat)
 
+	GETTOR		(SP(CPlayerAttack),			m_spPlayerAttack,		nullptr,		PlayerAttack)
+
 	GETTOR		(_bool,						m_jumpHatOn,			false,			JumpHatOn)
 
 	GETTOR		(SP(CUserInterface),		m_spLifeUI,				nullptr,		LifeUI)
+	GETTOR		(SP(CUserInterface),		m_spJumpHatUI,			nullptr,		JumpHatUI)
+	GETTOR		(SP(CUserInterface),		m_spFireHatUI,			nullptr,		FireHatUI)
 
 	GETTOR_SETTOR	(_int,					m_life,					4,				Life)
 
@@ -140,7 +146,6 @@ private:
 	GETTOR_SETTOR	(_bool,					m_onGround,				false,			OnGround)
 	GETTOR_SETTOR	(_bool,					m_controllable,			true,			ControlAble)
 
-	GETTOR_SETTOR	(_bool,					m_swapHat,				false,			SwapHat)
 };
 
 #endif

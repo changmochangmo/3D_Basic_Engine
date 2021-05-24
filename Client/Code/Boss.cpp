@@ -10,6 +10,8 @@
 #include "RollerBlade.h"
 #include "SandBag.h"
 #include "MafiaBall.h"
+#include "BossScene.h"
+
 _uint CBoss::m_s_uniqueID = 0;
 
 CBoss::CBoss()
@@ -66,6 +68,8 @@ void CBoss::Awake(void)
 void CBoss::Start(void)
 {
 	__super::Start();
+	m_pBossScene = static_cast<CBossScene*>(Engine::GET_CUR_SCENE);
+
 	m_spTransform->SetPosition(-7.7f, 2.25f, 70.f);
 	m_pPlayerTransform = Engine::GET_CUR_SCENE->FindObjectWithKey(L"Player")->GetTransform().get();
 	//m_spRigidBody->SetUseGravity(false);
@@ -117,6 +121,8 @@ void CBoss::Start(void)
 		m_vSandBags.emplace_back(pSandBag);
 	}
 
+	const std::vector<Engine::CMeshData*>& vMeshData = m_spMesh->GetMeshDatas();
+	m_pDynamicMesh = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[0]);
 	//m_pMafiaBall = 
 	//	std::dynamic_pointer_cast<CMafiaBall>(Engine::ADD_CLONE(L"MafiaBall", false)).get();
 	//
@@ -142,12 +148,10 @@ void CBoss::LateUpdate(void)
 	PhaseChange();
 	PatternChange();
 
-	if (Engine::IMKEY_DOWN(MOUSE_LEFT))
-		m_gotHit = true;
 
 	if (Engine::IMKEY_DOWN(KEY_UP))
 	{
-		m_gotHit = true;
+		m_isHurt = true;
 	}
 
 	if (Engine::IMKEY_DOWN(KEY_RIGHT))
@@ -157,6 +161,7 @@ void CBoss::LateUpdate(void)
 		case PHASE_ZERO:
 			m_status = STATUS_DIZZY;
 			Jump(_float3(-7.7f, -1.3f, 65.75f), 1, false, false, 2);
+			m_pBossScene->SetBossPhase(1);
 			break;
 
 		case PHASE_ONE:
@@ -176,11 +181,10 @@ void CBoss::LateUpdate(void)
 
 
 	if (m_onGround)
-	{
 		m_spRigidBody->AddForce(-GRAVITY * m_spRigidBody->GetGravityConstant());
-	}
 
 
+	Hurt();
 
 	
 
@@ -273,18 +277,19 @@ void CBoss::OnCollisionEnter(Engine::_CollisionInfo ci)
 		{
 			if (m_status == STATUS_PATTERN2 && m_stompTimer != 0)
 			{
-				m_status = STATUS_EXHAUSTED;
-				
 				m_spRigidBody->SetVelocity(ZERO_VECTOR);
 				m_spRigidBody->SetForce(ZERO_VECTOR);
-				m_spRigidBody->SetGravityConstant(0);
+				m_spRigidBody->SetGravityConstant(1);
 				m_spTransform->SetRotationZ(0);
 				m_spTransform->SetForward(_float3(0, 0, -1));
 				m_spTransform->SetPositionY(-1.3f);
-
+		
 				m_stompTimer = 0.f;
-			}
 
+				m_spRigidBody->SetUseGravity(true);
+				m_status = STATUS_DIZZY;
+			}
+		
 		}
 		break;
 
@@ -332,11 +337,14 @@ void CBoss::JumpDone(void)
 
 	m_spTransform->SetPosition(m_jumpGoalPos);
 	m_spRigidBody->SetVelocity(ZERO_VECTOR);
+
+	if (m_phase == PHASE_ZERO)
+		m_pBossScene->SetBossPhase(2);
 }
 
 void CBoss::Dizzy(void)
 {
-	if (m_dizzyTimer > 0)
+	if (m_dizzyTimer > 0 && m_status != STATUS_HURT)
 		m_status = STATUS_DIZZY;
 
 	if (m_status == STATUS_DIZZY)
@@ -360,36 +368,33 @@ void CBoss::Dizzy(void)
 
 void CBoss::Exhausted(void)
 {
-	if (m_exhaustedTimer > 0)
-		m_status = STATUS_EXHAUSTED;
-
-	if (m_status == STATUS_EXHAUSTED)
-	{
-		m_exhaustedTimer += GET_DT;
-
-
-		if (m_exhaustedTimer >= m_exhaustedDuration || m_gotHit)
-		{
-			m_gotHit = false;
-			m_exhaustedTimer = 0;
-			m_initNow = true;
-
-			m_status = STATUS_PATTERN1 + m_pattern;
-			m_phaseChange = true;
-			//if (m_gotHit)
-			//	m_exhaustedHitCount++;
-			//
-			//if (m_exhaustedHitCount == 3)
-			//	m_phaseChange = true;
-		}
-	}
+	//if (m_exhaustedTimer > 0)
+	//	m_status = STATUS_EXHAUSTED;
+	//
+	//if (m_status == STATUS_EXHAUSTED)
+	//{
+	//	m_exhaustedTimer += GET_DT;
+	//
+	//
+	//	if (m_exhaustedTimer >= m_exhaustedDuration || m_gotHit)
+	//	{
+	//		m_gotHit = false;
+	//		m_exhaustedTimer = 0;
+	//		m_initNow = true;
+	//
+	//		m_status = STATUS_PATTERN1 + m_pattern;
+	//		m_phaseChange = true;
+	//		//if (m_gotHit)
+	//		//	m_exhaustedHitCount++;
+	//		//
+	//		//if (m_exhaustedHitCount == 3)
+	//		//	m_phaseChange = true;
+	//	}
+	//}
 }
 
 void CBoss::PatternOne(void)
 {
-	const std::vector<Engine::CMeshData*>& vMeshData = m_spMesh->GetMeshDatas();
-	Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[0]);
-	
 	if (m_status != STATUS_PATTERN1)
 		return;
 
@@ -418,19 +423,14 @@ void CBoss::PatternOne(void)
 		_float deltaTIme = GET_DT;
 		if (m_lastStatus == STATUS_PATTERN2)
 		{
-			m_aniIndex = ANI_ANGRY0;
-			break;
-		}
-
-		if (m_aniIndex == ANI_ANGRY0 && pDM->IsAnimationEnd())
-		{
-			m_spTransform->SetForward(FORWARD_VECTOR);
-			_float3 underTheStage(-9.f, -2.3f, 60.75f);
+			m_spTransform->SetForward(-FORWARD_VECTOR);
+			_float3 underTheStage(-7.7f, 2.25f, 70.f);
 			Jump(underTheStage, 1.f, false, false, 1.f);
 			break;
 		}
 
-		if (m_spTransform->GetPosition().z == 60.75f && m_sandBagTimer == 0.f)
+
+		if (m_spTransform->GetPosition().z == 70.f && m_sandBagTimer == 0.f)
 		{
 			m_sandBagTimer += deltaTIme;
 			m_aniIndex = ANI_BRAVO;
@@ -444,9 +444,9 @@ void CBoss::PatternOne(void)
 			{
 				if (m_curWave == m_sandBagWave)
 				{
-					m_status = STATUS_PATTERN2;
-					m_pattern++;
+					m_status = STATUS_DIZZY;
 					Jump(_float3(-7.7f, -1.3f, 65.75f), 2.f, false, false);
+					m_initNow = true;
 					break;
 				}
 
@@ -479,7 +479,7 @@ void CBoss::PatternOne(void)
 			m_aniIndex = ANI_DEAD;
 			break;
 		}
-		if (m_aniIndex == ANI_DEAD && pDM->IsAnimationEnd())
+		if (m_aniIndex == ANI_DEAD && m_pDynamicMesh->IsAnimationEnd())
 			m_deleteThis = true;
 		//if (m_aniIndex == ANI_ANGRY0 && pDM->IsAnimationEnd())
 		//{
@@ -530,6 +530,8 @@ void CBoss::PatternTwo(void)
 				Jump(_float3(-0.7f, -1.3f, 65.75f), 1, false, false, 2);
 			else
 				Jump(_float3(-15.1f, -1.3f, 65.75f), 1, false, false, 2);
+
+			m_pBossScene->SetBossPhase(3);
 		}
 
 		else if (m_lastStatus == STATUS_JUMP && m_status == STATUS_PATTERN2)
@@ -592,9 +594,8 @@ void CBoss::PatternTwo(void)
 	case PHASE_TWO:
 	{
 		_float deltaTime = GET_DT;
-		if (m_lastStatus != STATUS_PATTERN2 || m_initNow)
+		if (m_initNow)
 		{
-			m_spTransform->SetForward(_float3(0, 0, -1));
 			m_aniIndex = ANI_IDLE;
 
 			m_spRigidBody->SetUseGravity(false);
@@ -653,13 +654,55 @@ void CBoss::PatternTwo(void)
 	}
 }
 
+void CBoss::Hurt(void)
+{
+	if (m_isHurt)
+	{
+		_float deltaTime = GET_DT;
+		if (m_status != STATUS_HURT)
+		{
+			m_saveStatus = m_status;
+			m_status = STATUS_HURT;
+			m_aniIndex = ANI_HURT0;
+			--m_hp;
+		}
+		if (m_aniIndex == ANI_HURT0 && m_pDynamicMesh->IsAnimationEnd())
+			m_aniIndex = ANI_HURT1;
+		else if (m_aniIndex == ANI_HURT1 && m_pDynamicMesh->IsAnimationEnd())
+		{
+			m_status = m_saveStatus;
+			m_saveStatus = UNDEFINED;
+
+			m_spGraphics->m_mtrl.Diffuse.g = 1;
+			m_spGraphics->m_mtrl.Diffuse.b = 1;
+
+			m_isHurt = false;
+			m_gotHit = true;
+			m_redTimer = 0.f;
+			return;
+		}
+
+		if (m_redTimer <= 0.f)
+		{
+			m_spGraphics->m_mtrl.Diffuse.g = 0;
+			m_spGraphics->m_mtrl.Diffuse.b = 0;
+			m_redTimer = 0.2f;
+		}
+		else
+		{
+			m_spGraphics->m_mtrl.Diffuse.g = 1;
+			m_spGraphics->m_mtrl.Diffuse.b = 1;
+		}
+
+		
+		m_redTimer -= deltaTime;
+	}
+}
+
 
 void CBoss::UpdateAnimation(void)
 {
-	const std::vector<Engine::CMeshData*>& vMeshData = m_spMesh->GetMeshDatas();
-	Engine::CDynamicMesh* pDM = dynamic_cast<Engine::CDynamicMesh*>(vMeshData[0]);
-
-	if (m_lastStatus != m_status || pDM->IsAnimationEnd())
+	if (m_lastStatus != m_status || m_pDynamicMesh->IsAnimationEnd())
 	{
 		_float	aniSpeed = 1.f;
 		_bool	fixTillEnd = false;
@@ -693,10 +736,11 @@ void CBoss::UpdateAnimation(void)
 			aniSpeed = 1.9f;
 			break;
 		
-		case STATUS_EXHAUSTED:
-			m_aniIndex = ANI_DIZZY;
-			aniSpeed = 1.9f;
-			break;
+		//case STATUS_EXHAUSTED:
+		//	m_aniIndex = ANI_DIZZY;
+		//	aniSpeed = 1.9f;
+		//	break;
+
 		}
 
 		switch (m_aniIndex)
@@ -717,9 +761,9 @@ void CBoss::UpdateAnimation(void)
 			break;
 		}
 
-		pDM->ChangeAniSet(m_aniIndex, fixTillEnd, smoothTime, changeWeight);
-		pDM->GetAniCtrl()->SetSpeed(aniSpeed);
-		pDM->GetAniCtrl()->SetReplay(replay);
+		m_pDynamicMesh->ChangeAniSet(m_aniIndex, fixTillEnd, smoothTime, changeWeight);
+		m_pDynamicMesh->GetAniCtrl()->SetSpeed(aniSpeed);
+		m_pDynamicMesh->GetAniCtrl()->SetReplay(replay);
 	}
 }
 
@@ -772,8 +816,8 @@ void CBoss::CurStatusInStr(std::wstring & out)
 		out = L"Dizzy";
 		break;
 
-	case STATUS_EXHAUSTED:
-		out = L"Exhausted";
-		break;
+	//case STATUS_EXHAUSTED:
+	//	out = L"Exhausted";
+	//	break;
 	}
 }

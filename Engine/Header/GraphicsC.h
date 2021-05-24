@@ -25,6 +25,7 @@ public:
 public:
 	static const	EComponentID	m_s_componentID = EComponentID::Graphics;
 
+	D3DMATERIAL9 m_mtrl;
 private:
 					void				GenerateBV		(void);
 
@@ -37,6 +38,7 @@ private:
 	GETTOR			(_float3,			m_offsetBV,		ZERO_VECTOR,	OffsetBV)
 	GETTOR			(_float3,			m_sizeBV,		ONE_VECTOR,		SizeBV)
 	GETTOR_SETTOR	(_int,				m_renderID,		UNDEFINED,		RenderID)
+
 
 
 };

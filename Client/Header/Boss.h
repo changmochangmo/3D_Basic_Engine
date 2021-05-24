@@ -2,10 +2,13 @@
 #define BOSS_H
 
 #include "Object.h"
+#include "DynamicMesh.h"
 
 class CRollerBlade;
 class CSandBag;
 class CMafiaBall;
+class CBossScene;
+
 class CBoss final : public Engine::CObject
 {
 #define PAHSE_CHANGE_TIME_LIMIT 0.5f
@@ -19,7 +22,9 @@ class CBoss final : public Engine::CObject
 		ANI_CHARGE  = 18,
 		ANI_BRAVO	= 6,
 		ANI_ANGRY0  = 0,
-		ANI_DEAD	= 9
+		ANI_DEAD	= 9,
+		ANI_HURT0	= 0,
+		ANI_HURT1   = 13
 	};
 
 	enum EStatus
@@ -30,7 +35,8 @@ class CBoss final : public Engine::CObject
 		STATUS_PATTERN2,
 		STATUS_JUMP,
 		STATUS_DIZZY,
-		STATUS_EXHAUSTED
+		//STATUS_EXHAUSTED,
+		STATUS_HURT
 	};
 
 	enum EPhase
@@ -82,6 +88,8 @@ private:
 				void				PatternOne			(void);
 				void				PatternTwo			(void);
 
+				void				Hurt				(void);
+
 				void				UpdateAnimation		(void);
 
 				void				PhaseChange			(void);
@@ -96,6 +104,7 @@ private:
 	std::vector<CRollerBlade*>				m_vChargeRoller;
 
 	std::vector<CSandBag*>					m_vSandBags;
+	Engine::CDynamicMesh*					m_pDynamicMesh;
 
 	GETTOR		(SP(Engine::CMeshC),		m_spMesh,				nullptr,		Mesh)
 	GETTOR		(SP(Engine::CTextureC),		m_spTexture,			nullptr,		Texture)
@@ -108,18 +117,23 @@ private:
 	GETTOR		(CRollerBlade*,				m_pRightRoller,			nullptr,		RightRoller)
 	GETTOR		(CMafiaBall*,				m_pMafiaBall,			nullptr,		MafiaBall)
 
+	GETTOR		(CBossScene*,				m_pBossScene,			nullptr,		BossScene)
+
 	GETTOR_SETTOR	(_bool,					m_onGround,				false,			OnGround)
 	GETTOR_SETTOR	(_bool,					m_phaseChange,			false,			PhaseChange)
 	GETTOR_SETTOR	(_bool,					m_patternChange,		false,			PatternChange)
 	GETTOR_SETTOR	(_bool,					m_gotHit,				false,			GotHit)
 	GETTOR_SETTOR	(_bool,					m_fixedDir,				false,			FixedDir)
 	GETTOR_SETTOR	(_bool,					m_initNow,				false,			InitNow)
+	GETTOR_SETTOR	(_bool,					m_isHurt,				false,			IsHurt)
 
 	GETTOR_SETTOR	(_int,					m_phase,				PHASE_ZERO,		Phase)
 	GETTOR_SETTOR	(_int,					m_pattern,				2,				Pattern)
 	GETTOR_SETTOR	(_int,					m_status,				STATUS_IDLE,	Status)
 	GETTOR_SETTOR	(_int,					m_lastStatus,			STATUS_IDLE,	LastStatus)
 	GETTOR_SETTOR	(_int,					m_saveStatus,			UNDEFINED,		SaveStatus)
+
+	GETTOR_SETTOR	(_int,					m_hp,					6,				HP)
 
 	GETTOR_SETTOR	(_float,				m_phaseChangeTimer,		0.f,			PhaseChangeTimer)
 	GETTOR_SETTOR	(_float,				m_dizzyTimer,			0.f,			DizzyTimer)
@@ -135,6 +149,8 @@ private:
 	GETTOR_SETTOR	(_float,				m_stompDuration,		1.5f,			StompDuration)
 	GETTOR_SETTOR	(_float,				m_exhaustedTimer,		0.f,			ExhaustedTimer)
 	GETTOR_SETTOR	(_float,				m_exhaustedDuration,	2.f,			ExhaustedDuration)
+	GETTOR_SETTOR	(_float,				m_hurtTimer,			1.f,			HurtTimer)
+	GETTOR_SETTOR	(_float,				m_redTimer,				0.f,			RedTimer)
 
 	GETTOR_SETTOR	(_int,					m_aniIndex,				0,				AniIndex)
 
@@ -143,7 +159,7 @@ private:
 	GETTOR_SETTOR	(_int,					m_rollerCoef,			1,				RollerCoef)
 
 	GETTOR_SETTOR	(_int,					m_curWave,				0,				CurWave)
-	GETTOR_SETTOR	(_int,					m_sandBagWave,			5,				SandBagWave)
+	GETTOR_SETTOR	(_int,					m_sandBagWave,			1,				SandBagWave)
 	GETTOR_SETTOR	(_int,					m_sandBagExceptLane,	0,				SandBagExceptLane)
 
 	GETTOR_SETTOR	(_int,					m_exhaustedHitCount,	0,				ExHaustedHitCount)

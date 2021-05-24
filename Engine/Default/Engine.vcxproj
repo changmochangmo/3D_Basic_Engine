@@ -42,6 +42,7 @@
     <ClInclude Include="..\Header\EngineComponents.h" />
     <ClInclude Include="..\Header\EngineExtern.h" />
     <ClInclude Include="..\Header\EngineTypedef.h" />
+    <ClInclude Include="..\Header\FadeInOutC.h" />
     <ClInclude Include="..\Header\Frustum.h" />
     <ClInclude Include="..\Header\Grid.h" />
     <ClInclude Include="..\Header\HierarchyLoader.h" />
@@ -105,6 +106,7 @@
     <ClCompile Include="..\Code\DynamicMesh.cpp" />
     <ClCompile Include="..\Code\EmptyObject.cpp" />
     <ClCompile Include="..\Code\Engine.cpp" />
+    <ClCompile Include="..\Code\FadeInOutC.cpp" />
     <ClCompile Include="..\Code\Frustum.cpp" />
     <ClCompile Include="..\Code\Grid.cpp" />
     <ClCompile Include="..\Code\HierarchyLoader.cpp" />

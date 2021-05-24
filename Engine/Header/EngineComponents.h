@@ -11,7 +11,7 @@
 #include "DebugC.h"
 #include "BitmapC.h"
 #include "GraphicsC.h"
-
+#include "FadeInOutC.h"
 
 
 // Physics------------------------------------------
@@ -24,7 +24,6 @@
 #include "SphereCollider.h"
 #include "AabbCollider.h"
 #include "ObbCollider.h"
-
 // Camera-------------------------------------------
 #include "CameraC.h"
 

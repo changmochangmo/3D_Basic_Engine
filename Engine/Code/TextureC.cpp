@@ -100,6 +100,16 @@ void CTextureC::OnDisable(void)
 {
 }
 
+void CTextureC::SetAlpha(_float alpha)
+{
+	m_color.a = alpha;
+}
+
+void CTextureC::AddAlpha(_float alpha)
+{
+	m_color.a += alpha;
+}
+
 
 void CTextureC::AddTexture(std::wstring const & textureKey, _int index)
 {

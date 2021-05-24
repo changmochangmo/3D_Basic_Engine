@@ -21,7 +21,8 @@ enum class EColliderID
 	CameraRay			= 2,
 	Enemy				= 3,
 	Player				= 4,
-	NumOfColliderID		= 5
+	PlayerAttack		= 5,
+	NumOfColliderID		= 6
 };
 
 enum class EDataID

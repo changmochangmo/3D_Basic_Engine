@@ -41,7 +41,10 @@ void CTextureShader::PreRender(CGraphicsC* pGC)
 {
 	__super::PreRender(pGC);
 	//m_pShader->SetVector("Color", &pGC->GetTexture()->GetColor());
+	
 	GET_DEVICE->SetTextureStageState(0, D3DTSS_CONSTANT, pGC->GetTexture()->GetColor());
+	GET_DEVICE->SetMaterial(&pGC->m_mtrl);
+	
 }
 
 void CTextureShader::Render(CGraphicsC * pGC)

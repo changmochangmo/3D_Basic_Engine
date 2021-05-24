@@ -7,6 +7,7 @@
 #include "BossScene.h"
 #include "CameraManager.h"
 #include "SceneManager.h"
+#include "SoundManager.h"
 
 #include "UserInterface.h"
 #include "Loading.h"
@@ -21,6 +22,10 @@ CLogoScene::~CLogoScene()
 
 Engine::CScene * CLogoScene::Create(void)
 {
+	Engine::CSoundManager::GetInstance()->StopAll();
+	Engine::CSoundManager::GetInstance()->PlayBGM(L"BGM.mp3");
+	Engine::CSoundManager::GetInstance()->SetVolume((_uint)Engine::EChannelID::BGM, 0.5f);
+
 	CLogoScene* pInstance = new CLogoScene;
 	pInstance->Awake((_int)ELayerID::NumOfLayerID);
 

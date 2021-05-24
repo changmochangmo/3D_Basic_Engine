@@ -99,7 +99,7 @@ void CCameraC::SetFOV(_float FOV)
 
 void CCameraC::UpdateViewMatrix(void)
 {	
-	if (m_mode == ECameraMode::Follower && m_spTarget != nullptr)
+	if ((m_mode == ECameraMode::Edit || m_mode == ECameraMode::Follower) && m_spTarget != nullptr)
 	{
 		_mat rotationMatrix;
 		SP(CTransformC) spTargetTransform = m_spTarget->GetTransform();
@@ -120,6 +120,8 @@ void CCameraC::UpdateViewMatrix(void)
 						   &m_spTransform->GetPosition(), 
 						   &(m_spTransform->GetPosition() + m_spTransform->GetForward()), 
 						   &UP_VECTOR);
+
+		
 	}
 	else
 	{	// Finally create the view matrix from the three updated vectors.
@@ -128,6 +130,14 @@ void CCameraC::UpdateViewMatrix(void)
 						   &(m_spTransform->GetPosition() + m_spTransform->GetForward()),
 						   &m_spTransform->GetUp());
 	}
+
+	REWRITE_TEXT(L"Test2", std::to_wstring(m_spTransform->GetPosition().x) + L"\n" +
+		std::to_wstring(m_spTransform->GetPosition().y) + L"\n" +
+		std::to_wstring(m_spTransform->GetPosition().z));
+
+	REWRITE_TEXT(L"Test1", std::to_wstring(m_spTransform->GetForward().x) + L"\n" +
+		std::to_wstring(m_spTransform->GetForward().y) + L"\n" +
+		std::to_wstring(m_spTransform->GetForward().z));
 }
 
 void CCameraC::UpdateProjMatrix(void)
@@ -153,17 +163,17 @@ void CCameraC::Translation(void)
 	if (m_moveable)
 	{
 		if (IMKEY_PRESS(KEY_D))
-			m_spTransform->MoveRight(50 * GET_DT);
+			m_spTransform->MoveRight(20 * GET_DT);
 		if (IMKEY_PRESS(KEY_A))
-			m_spTransform->MoveLeft(50 * GET_DT);
+			m_spTransform->MoveLeft(20 * GET_DT);
 		if (IMKEY_PRESS(KEY_W))
-			m_spTransform->MoveForward(50 * GET_DT);
+			m_spTransform->MoveForward(20 * GET_DT);
 		if (IMKEY_PRESS(KEY_S))
-			m_spTransform->MoveBackward(50 * GET_DT);
+			m_spTransform->MoveBackward(20 * GET_DT);
 		if (IMKEY_PRESS(KEY_SPACE))
-			m_spTransform->MoveUp(50 * GET_DT);
+			m_spTransform->MoveUp(20 * GET_DT);
 		if (IMKEY_PRESS(KEY_CONTROL))
-			m_spTransform->MoveDown(50 * GET_DT);
+			m_spTransform->MoveDown(20 * GET_DT);
 	}
 }
 
@@ -171,33 +181,51 @@ void CCameraC::Rotation(void)
 {
 	switch (m_mode)
 	{
+	case ECameraMode::Fixed:
+	{
+		_float playerX = m_spTarget->GetTransform()->GetPosition().x;
+		if (playerX < -12)
+			playerX = -12;
+		else if (playerX > -3.4f)
+			playerX = -3.4f;
+
+		_float3 goalPos;
+		goalPos.x = playerX;
+		goalPos.y = -0.42;
+		goalPos.z = 60.74f;
+
+		m_spTransform->SetGoalPosition(goalPos);
+		m_spTransform->SetLerpOn(true);
+		//m_spTransform->SetPositionX(playerX);
+		break;
+	}
 
 	case ECameraMode::Edit:
 	{
-		if (IMKEY_PRESS(MOUSE_RIGHT))
-		{
-			if (m_rotatable == false)
-				CInputManager::GetInstance()->ResetMousePosDelta();
-
-			m_rotatable = true;
-		}
-		else
-		{
-			m_rotatable = false;
-		}
-
-
-		if (m_rotatable)
-		{
-			CInputManager* pIM = CInputManager::GetInstance();
-
-			_float3 mousePosDelta = pIM->GetMousePosDelta();
-			mousePosDelta.x = D3DXToRadian(mousePosDelta.x * pIM->GetMouseSensitivity().x) * GET_DT;
-			mousePosDelta.y = D3DXToRadian(mousePosDelta.y * pIM->GetMouseSensitivity().y) * GET_DT;
-
-
-			m_spTransform->AddRotation(_float3(mousePosDelta.y, -mousePosDelta.x, 0));
-		}
+		//if (IMKEY_PRESS(MOUSE_RIGHT))
+		//{
+		//	if (m_rotatable == false)
+		//		CInputManager::GetInstance()->ResetMousePosDelta();
+		//
+		//	m_rotatable = true;
+		//}
+		//else
+		//{
+		//	m_rotatable = false;
+		//}
+		//
+		//
+		//if (m_rotatable)
+		//{
+		//	CInputManager* pIM = CInputManager::GetInstance();
+		//
+		//	_float3 mousePosDelta = pIM->GetMousePosDelta();
+		//	mousePosDelta.x = D3DXToRadian(mousePosDelta.x * pIM->GetMouseSensitivity().x) * GET_DT;
+		//	mousePosDelta.y = D3DXToRadian(mousePosDelta.y * pIM->GetMouseSensitivity().y) * GET_DT;
+		//
+		//
+		//	m_spTransform->AddRotation(_float3(mousePosDelta.y, -mousePosDelta.x, 0));
+		//}
 		break;
 	}
 	case ECameraMode::FPS:
@@ -261,6 +289,15 @@ void CCameraC::Rotation(void)
 		}
 
 		break;
+	}
+	
+	case ECameraMode::Movie:
+	{
+		m_spTransform->SetGoalPosition(_float3(-7.37f, 1.87f, 55.7f));
+		m_spTransform->SetGoalForward(FORWARD_VECTOR);
+
+		m_spTransform->SetLerpOn(true);
+		m_spTransform->SetSlerpOn(true);
 	}
 	default:
 		break;

@@ -53,6 +53,14 @@ void CGraphicsC::Start(SP(CComponent) spThis)
 
 	if(m_spMesh != nullptr)
 		GenerateBV();
+
+	
+	  
+	m_mtrl.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	m_mtrl.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
+	m_mtrl.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	m_mtrl.Emissive = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
+	m_mtrl.Power = 0.f;
 }
 
 void CGraphicsC::FixedUpdate(SP(CComponent) spThis)

@@ -16,6 +16,7 @@ void CComponent::InitClone(SP(CComponent) spClone, CObject * pOwner)
 	spClone->SetName(m_name);
 	spClone->SetIsAwaked(m_isAwaked);
 	spClone->SetComponentID(m_componentID);
+	spClone->SetIsEnabled(m_isEnabled);
 }
 
 void CComponent::Awake(void)

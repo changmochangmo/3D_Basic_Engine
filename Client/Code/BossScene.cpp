@@ -23,6 +23,7 @@
 #include "Cloud.h"
 #include "JumpHat.h"
 #include "FireHat.h"
+#include "PlayerAttack.h"
 #pragma endregion
 
 CBossScene::CBossScene()
@@ -65,12 +66,12 @@ void CBossScene::Start(void)
 	for (_int i = 0; i < 6; ++i)
 	{
 		SP(Engine::CObject) spCheeringMafClone = Engine::ADD_CLONE(L"CheeringMaf", this, false);
-		spCheeringMafClone->GetTransform()->SetPosition(-12.7f + 2 * i, -3.8f, 64.f);
+		spCheeringMafClone->GetTransform()->SetPosition(-12.7f + 2 * i, -3.3f, 64.f);
 	}
 	for (_int i = 0; i < 5; ++i)
 	{
 		SP(Engine::CObject) spCheeringMafClone = Engine::ADD_CLONE(L"CheeringMaf1", this, false);
-		spCheeringMafClone->GetTransform()->SetPosition(-11.7f + 2 * i, -3.8f, 64.f);
+		spCheeringMafClone->GetTransform()->SetPosition(-11.7f + 2 * i, -3.3f, 64.f);
 	}
 	for (_int i = 0; i < 6; ++i)
 	{
@@ -104,10 +105,10 @@ void CBossScene::Start(void)
 	//spBossClone->AddComponent<Engine::CDebugC>();
 
 	SP(Engine::CObject) spPlayerClone = Engine::ADD_CLONE(L"Player", this, true);
-	spPlayerClone->GetTransform()->SetPosition(-7.7f, 3.f, 27.f);
+	spPlayerClone->GetTransform()->SetPosition(-7.7f, 3.f, 30.f);
 	//spPlayerClone->AddComponent<Engine::CDebugC>();
 	m_spSceneCam->SetTarget(this->FindObjectWithKey(L"Player"));
-
+	m_pPlayerTransform = spPlayerClone->GetTransform().get();
 	
 
 #pragma region mapSetting
@@ -569,6 +570,12 @@ void CBossScene::Start(void)
 	spMafiaClone->GetTransform()->SetPosition(-0.36f, 1.5f, 40);
 	spMafiaClone->GetTransform()->SetSize(0.02f, 0.02f, 0.02f);
 
+	SP(CMafia) spFightMafiaClone =
+		std::dynamic_pointer_cast<CMafia>(Engine::ADD_CLONE(L"Mafia", this, false));
+	spFightMafiaClone->GetTransform()->SetPosition(-0.36f, 1.5f, 37);
+	spFightMafiaClone->GetTransform()->SetSize(0.01f, 0.01f, 0.01f);
+	spFightMafiaClone->SetFightAble(true);
+
 	//앉아있는 마피아들
 	SP(CDecoration) spRedSuitClone = 
 		std::dynamic_pointer_cast<CDecoration>(Engine::ADD_CLONE(L"RedSuit", this, false));
@@ -690,6 +697,7 @@ void CBossScene::FixedUpdate(void)
 void CBossScene::Update(void)
 {
 	__super::Update();
+	int a = 5;
 
 	if (m_timeLeft >= 99.99f)
 		m_timeLeft = 99.99f;
@@ -709,11 +717,62 @@ void CBossScene::Update(void)
 
 
 	m_mouseUI->GetTransform()->SetPosition(Engine::CInputManager::GetInstance()->GetMousePos());
+
+	
 }
 
 void CBossScene::LateUpdate(void)
 {
 	__super::LateUpdate();
+
+	if (m_pPlayerTransform->GetPosition().z > 55 && m_bossStart == false)
+	{
+		m_bossStart = true;
+		m_pPlayerTransform->SetPosition(-11.7f, -1.3f, 65.75f);
+		Engine::GET_MAIN_CAM->GetTransform()->SetForward(FORWARD_VECTOR);
+		Engine::GET_MAIN_CAM->SetMode(Engine::ECameraMode::Nothing);
+	}
+
+	SP(Engine::CTransformC) spMainCamTransform = Engine::GET_MAIN_CAM->GetOwner()->GetTransform();
+	if (m_bossStart)
+	{
+		switch (m_bossPhase)
+		{
+		case 0:
+		{
+			spMainCamTransform->SetPosition(-7.7f, 2.3f, 66.8f);
+			//++m_bossPhase;
+			break;
+		}
+
+		case 1:
+		{
+
+			spMainCamTransform->SetGoalPosition(_float3(-7.7f, -0.42f, 60.74f));
+			spMainCamTransform->SetGoalForward(_float3(0, -0.03f, 0.999f));
+
+			spMainCamTransform->SetLerpOn(true);
+			spMainCamTransform->SetLerpSpeed(6.f);
+			spMainCamTransform->SetSlerpOn(true);
+			break;
+		}
+
+		case 2:
+		{
+			Engine::GET_MAIN_CAM->SetMode(Engine::ECameraMode::Fixed);
+			break;
+		}
+
+		case 3:
+		{
+			Engine::GET_MAIN_CAM->SetMode(Engine::ECameraMode::Movie);
+			break;
+		}
+
+		}
+
+	}
+
 }
 
 void CBossScene::OnDestroy(void)
@@ -748,6 +807,12 @@ void CBossScene::InitPrototypes(void)
 
 		SP(CUserInterface) spMouseUIPrototype(CUserInterface::Create(L"Mouse"));
 		Engine::ADD_PROTOTYPE(spMouseUIPrototype);
+
+		SP(CUserInterface) spJumpHatUIPrototype(CUserInterface::Create(L"JumpHatUI"));
+		Engine::ADD_PROTOTYPE(spJumpHatUIPrototype);
+
+		SP(CUserInterface) spFireHatUIPrototype(CUserInterface::Create(L"FireHatUI"));
+		Engine::ADD_PROTOTYPE(spFireHatUIPrototype);
 	}
 
 	SP(Engine::CObject) spBossPrototype(CBoss::Create(false));
@@ -759,8 +824,6 @@ void CBossScene::InitPrototypes(void)
 	SP(Engine::CObject) spSandBagPrototype(CSandBag::Create(false));
 	Engine::ADD_PROTOTYPE(spSandBagPrototype);
 
-	SP(Engine::CObject) spMafiaBallPrototype(CMafiaBall::Create(false));
-	Engine::ADD_PROTOTYPE(spMafiaBallPrototype);
 
 	SP(CDecoration) spMafiaDecoType1(CDecoration::Create(false));
 	spMafiaDecoType1->SetObjectKey(L"CheeringMaf");
@@ -852,4 +915,7 @@ void CBossScene::InitPrototypes(void)
 
 	SP(CFireHat) spFireHat(CFireHat::Create(false));
 	Engine::ADD_PROTOTYPE(spFireHat);
+
+	SP(CPlayerAttack) spPlayerAttackPrototype(CPlayerAttack::Create(false));
+	Engine::ADD_PROTOTYPE(spPlayerAttackPrototype);
 }
