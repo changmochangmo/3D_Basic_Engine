@@ -46,7 +46,7 @@ void CMainApp::Awake(void)
 	srand((_uint)time(NULL));
 
 	Engine::CInputManager::GetInstance()->Awake();
-	Engine::CSoundManager::GetInstance()->Awake();
+	//Engine::CSoundManager::GetInstance()->Awake();
 	Engine::CSceneManager::GetInstance()->Awake();
 	Engine::CCameraManager::GetInstance()->Awake();
 	Engine::CObjectFactory::GetInstance()->Awake();
@@ -161,7 +161,7 @@ void CMainApp::OnDestroy(void)
 	Engine::CSceneManager::GetInstance()->DestroyInstance();
 	Engine::CObjectFactory::GetInstance()->DestroyInstance();
 	Engine::CCollisionManager::GetInstance()->DestroyInstance();
-	Engine::CSoundManager::GetInstance()->DestroyInstance();
+	//Engine::CSoundManager::GetInstance()->DestroyInstance();
 	Engine::CCameraManager::GetInstance()->DestroyInstance();
 	Engine::CShaderManager::GetInstance()->DestroyInstance();
 }

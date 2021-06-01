@@ -113,16 +113,26 @@ void CTextureC::AddAlpha(_float alpha)
 
 void CTextureC::AddTexture(std::wstring const & textureKey, _int index)
 {
-	_size numOfMesh = m_pOwner->GetComponent<CMeshC>()->GetMeshDatas().size();
-	if(m_vTexData.size() != numOfMesh)
-		m_vTexData.resize(numOfMesh);
-
-
-	if(index < 0 || index >= numOfMesh)
+	SP(CMeshC) spOwnerMeshC;
+	if ((spOwnerMeshC = m_pOwner->GetComponent<CMeshC>()) != nullptr)
 	{
-		MSG_BOX(__FILE__, L"index is broken in AddTexture");
-		ABORT;
+		_size numOfMesh = spOwnerMeshC->GetMeshDatas().size();
+		if (m_vTexData.size() != numOfMesh)
+			m_vTexData.resize(numOfMesh);
+
+
+		if (index < 0 || index >= numOfMesh)
+		{
+			MSG_BOX(__FILE__, L"index is broken in AddTexture");
+			ABORT;
+		}
 	}
+	else
+	{
+		if (m_vTexData.size() == 0)
+			m_vTexData.resize(1);
+	}
+
 
 	m_vTexData[index].emplace_back(CTextureStore::GetInstance()->GetTextureData(textureKey));
 }

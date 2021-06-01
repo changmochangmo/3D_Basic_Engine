@@ -54,11 +54,11 @@ void CLogoScene::Start(void)
 	Engine::CCameraManager::GetInstance()->AddCamera(L"FreeCamera", spCameraObject->GetComponent<Engine::CCameraC>());
 
 	{
-		SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", this, true, L"", (_int)ELayerID::Map);
-		spBasicClone->AddComponent<Engine::CMeshC>()->AddMeshData(L"Cube");
-		spBasicClone->GetTransform()->SetSize(800, 400, 1);
-		spBasicClone->AddComponent<Engine::CTextureC>()->AddTexture(L"Background");
-		spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
+		//SP(Engine::CObject) spBasicClone = Engine::ADD_CLONE(L"EmptyObject", this, true, L"", (_int)ELayerID::Map);
+		//spBasicClone->AddComponent<Engine::CMeshC>()->AddMeshData(L"Cube");
+		//spBasicClone->GetTransform()->SetSize(800, 400, 1);
+		//spBasicClone->AddComponent<Engine::CTextureC>()->AddTexture(L"Background");
+		//spBasicClone->AddComponent<Engine::CGraphicsC>()->SetRenderID((_int)Engine::ERenderID::NonAlpha);
 	}
 
 	{
